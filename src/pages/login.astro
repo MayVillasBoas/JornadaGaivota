@@ -42,8 +42,19 @@ if (accessToken && refreshToken) {
 
       <div class="divider"></div>
 
-      <!-- Login Form -->
-      <form id="login-form" class="auth-form active">
+      <!-- Gate: Master Password -->
+      <div id="gate" class="gate active">
+        <p class="gate-label">Este espaço é por convite.</p>
+        <div class="field">
+          <label for="gate-password">Código de acesso</label>
+          <input type="password" id="gate-password" placeholder="digite o código" />
+        </div>
+        <button type="button" id="gate-btn" class="btn-primary">continuar</button>
+        <div class="error-msg" id="gate-error"></div>
+      </div>
+
+      <!-- Login Form (hidden until gate passes) -->
+      <form id="login-form" class="auth-form">
         <div class="field">
           <label for="login-email">Email</label>
           <input type="email" id="login-email" name="email" required placeholder="seu@email.com" />
@@ -86,11 +97,17 @@ if (accessToken && refreshToken) {
 <script>
   import { createClient } from '@supabase/supabase-js';
 
+  const MASTER_PASSWORD = 'Amigos';
+
   const supabase = createClient(
     import.meta.env.PUBLIC_SUPABASE_URL,
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY
   );
 
+  const gate = document.getElementById('gate')!;
+  const gateBtn = document.getElementById('gate-btn')!;
+  const gatePassword = document.getElementById('gate-password') as HTMLInputElement;
+  const gateError = document.getElementById('gate-error')!;
   const loginForm = document.getElementById('login-form') as HTMLFormElement;
   const signupForm = document.getElementById('signup-form') as HTMLFormElement;
   const showSignup = document.getElementById('show-signup')!;
@@ -99,7 +116,32 @@ if (accessToken && refreshToken) {
   const signupError = document.getElementById('signup-error')!;
   const signupSuccess = document.getElementById('signup-success')!;
 
-  // Toggle between forms
+  // Check if gate was already passed this session
+  if (sessionStorage.getItem('gate-passed')) {
+    gate.classList.remove('active');
+    loginForm.classList.add('active');
+  }
+
+  // Gate check
+  function tryGate() {
+    if (gatePassword.value === MASTER_PASSWORD) {
+      sessionStorage.setItem('gate-passed', 'true');
+      gate.classList.remove('active');
+      loginForm.classList.add('active');
+      gateError.textContent = '';
+    } else {
+      gateError.textContent = 'Código incorreto';
+      gatePassword.value = '';
+      gatePassword.focus();
+    }
+  }
+
+  gateBtn.addEventListener('click', tryGate);
+  gatePassword.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryGate();
+  });
+
+  // Toggle between login/signup
   showSignup.addEventListener('click', () => {
     loginForm.classList.remove('active');
     signupForm.classList.add('active');
@@ -135,7 +177,6 @@ if (accessToken && refreshToken) {
     }
 
     if (data.session) {
-      // Set cookies via a server endpoint
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -214,6 +255,22 @@ if (accessToken && refreshToken) {
     height: 1px;
     background: var(--border-light);
     margin: 0 auto 2.5rem;
+  }
+
+  .gate {
+    display: none;
+  }
+
+  .gate.active {
+    display: block;
+  }
+
+  .gate-label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
   }
 
   .auth-form {
