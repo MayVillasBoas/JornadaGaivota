@@ -1,80 +1,101 @@
 ---
+const isHome = Astro.url.pathname === '/';
+const prefix = isHome ? '' : '/';
+const sectionLinks = [
+  { href: `${prefix}#lentes`, label: 'lentes' },
+  { href: `${prefix}#mentores`, label: 'mentores' },
+  { href: `${prefix}#ferramentas`, label: 'ferramentas' },
+  { href: `${prefix}#escrita`, label: 'escrita' },
+];
+const pageLinks = [
+  { href: '/sobre', label: 'sobre' },
+  { href: '/agora', label: 'agora' },
+];
+const links = [...sectionLinks, ...pageLinks];
 ---
-<nav>
-  <a href="/" class="logo">
-    <span class="logo-text">May</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="/ferramentas">ferramentas</a></li>
-    <li><a href="/escrita">escrita</a></li>
-    <li><a href="/sobre">sobre</a></li>
-    <li><a href="/agora">agora</a></li>
-    <li><a href="#" class="lang-toggle">en</a></li>
-  </ul>
-  <button class="mobile-menu-btn" aria-label="Menu">
-    <span></span>
-    <span></span>
-  </button>
-</nav>
+
+<header class="site-header">
+  <nav>
+    <a href="/" class="logo">Unfold</a>
+
+    <ul class="nav-links">
+      {links.map(link => (
+        <li><a href={link.href}>{link.label}</a></li>
+      ))}
+      <li><a href="#" class="lang-toggle">en</a></li>
+    </ul>
+
+    <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+</header>
 
 <style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream, #FAFAF7);
+    border-bottom: 1px solid rgba(26, 26, 24, 0.06);
+  }
+
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 4rem;
+    padding: 1.5rem 4rem;
     max-width: 1200px;
     margin: 0 auto;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    color: var(--ink);
-  }
-
-  .logo-img {
-    height: 32px;
-    width: auto;
-    object-fit: contain;
-  }
-
-  .logo-text {
-    font-family: var(--serif);
+    font-family: 'EB Garamond', serif;
     font-size: 1.5rem;
     font-weight: 500;
     letter-spacing: 0.02em;
+    color: var(--ink, #1a1a18);
+    text-decoration: none;
+    flex-shrink: 0;
   }
 
   .nav-links {
     display: flex;
     gap: 2.5rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
   }
 
   .nav-links a {
-    font-family: var(--sans);
+    font-family: var(--sans, Inter, sans-serif);
     font-size: 0.85rem;
     font-weight: 400;
-    color: var(--ink-muted);
+    color: var(--ink-muted, #6b6b68);
     letter-spacing: 0.04em;
     text-transform: lowercase;
+    text-decoration: none;
     transition: color 0.3s;
   }
 
-  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover {
+    color: var(--ink, #1a1a18);
+  }
 
   .lang-toggle {
     font-size: 0.75rem !important;
-    color: var(--ink-muted) !important;
+    color: var(--ink-muted, #6b6b68) !important;
     border: 1px solid #ddd;
     padding: 0.25rem 0.6rem;
     border-radius: 3px;
     transition: all 0.3s;
   }
 
-  .lang-toggle:hover { border-color: var(--ink-muted) !important; }
+  .lang-toggle:hover {
+    border-color: var(--ink-muted, #6b6b68) !important;
+  }
 
   .mobile-menu-btn {
     display: none;
@@ -87,14 +108,67 @@
   }
 
   .mobile-menu-btn span {
+    display: block;
     width: 20px;
     height: 1px;
-    background: var(--ink);
+    background: var(--ink, #1a1a18);
+    transition: transform 0.2s, opacity 0.2s;
   }
 
   @media (max-width: 768px) {
-    nav { padding: 1.5rem; }
-    .nav-links { display: none; }
-    .mobile-menu-btn { display: flex; }
+    nav {
+      padding: 1.25rem 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .mobile-menu-btn {
+      display: flex;
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+      width: 100%;
+      padding: 1.25rem 0 1rem;
+      border-top: 1px solid rgba(26, 26, 24, 0.08);
+      margin-top: 0.75rem;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links a {
+      font-size: 1rem;
+    }
   }
 </style>
+
+<script>
+  // Mobile menu toggle
+  document.querySelector('.mobile-menu-btn')?.addEventListener('click', () => {
+    const menu = document.querySelector('.nav-links');
+    const btn = document.querySelector('.mobile-menu-btn');
+    const isOpen = menu?.classList.toggle('open');
+    btn?.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Smooth scroll for anchor links (closes mobile menu on click)
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        // Close mobile menu if open
+        document.querySelector('.nav-links')?.classList.remove('open');
+        document.querySelector('.mobile-menu-btn')?.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
