@@ -1,0 +1,221 @@
+---
+import { mentors, getMentorColor } from '../data/mentors';
+---
+
+<section class="hero" id="hero">
+  <canvas id="cream-cosmos-canvas"></canvas>
+  <div class="hero-overlay">
+    <h1 class="hero-title">Unfold</h1>
+    <p class="hero-tagline">Explore the mind you live in.</p>
+    <div class="hero-input-wrapper">
+      <input
+        type="text"
+        class="hero-input"
+        placeholder="o que tá na sua cabeça?"
+        disabled
+        aria-hidden="true"
+      />
+      <span class="hero-input-mic" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+        </svg>
+      </span>
+      <span class="hero-input-badge">em breve</span>
+    </div>
+  </div>
+  <div class="mentor-label" id="mentor-hover-label" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: var(--cream, #FAFAF7);
+  }
+
+  #cream-cosmos-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 2rem;
+    pointer-events: none;
+  }
+
+  .hero-title {
+    font-family: var(--serif, 'EB Garamond', Georgia, serif);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ink, #1a1a18);
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: hero-fade-in 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+  }
+
+  .hero-tagline {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    font-weight: 300;
+    color: var(--ink-light, #4a4a45);
+    letter-spacing: 0.01em;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: hero-fade-in 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+  }
+
+  .hero-input-wrapper {
+    position: relative;
+    width: min(420px, 90vw);
+    pointer-events: auto;
+    opacity: 0;
+    animation: hero-fade-in 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards;
+  }
+
+  .hero-input {
+    width: 100%;
+    padding: 0.85rem 3rem 0.85rem 1.25rem;
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--ink-muted, #8a8a82);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border, #e8e8e2);
+    border-radius: 999px;
+    outline: none;
+    cursor: default;
+    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hero-input:hover {
+    border-color: var(--border-light, #d0d0c8);
+  }
+
+  .hero-input-mic {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-muted, #8a8a82);
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-input-badge {
+    position: absolute;
+    right: -0.5rem;
+    top: -0.6rem;
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent, #2B4A3E);
+    background: rgba(43, 74, 62, 0.08);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .mentor-label {
+    position: fixed;
+    z-index: 10;
+    padding: 0.35rem 0.75rem;
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--ink, #1a1a18);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border, #e8e8e2);
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mentor-label.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes hero-fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      min-height: 100svh;
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 10vw, 3.6rem);
+    }
+  }
+</style>
+
+<script>
+  import { CreamCosmos } from '../scripts/cream-cosmos';
+  import { mentors, getMentorColor } from '../data/mentors';
+  import type { MentorPoint } from '../scripts/cream-cosmos';
+
+  const canvas = document.getElementById('cream-cosmos-canvas') as HTMLCanvasElement | null;
+  const label = document.getElementById('mentor-hover-label');
+
+  if (canvas) {
+    const mentorPoints: MentorPoint[] = mentors.map((m) => ({
+      slug: m.slug,
+      name: m.name,
+      color: getMentorColor(m),
+    }));
+
+    const cosmos = new CreamCosmos(canvas, mentorPoints);
+
+    cosmos.onMentorHover((mentor) => {
+      if (!label) return;
+      if (mentor) {
+        label.textContent = mentor.name;
+        label.classList.add('visible');
+      } else {
+        label.classList.remove('visible');
+      }
+    });
+
+    // Follow mouse for label positioning
+    canvas.addEventListener('mousemove', (e) => {
+      if (!label) return;
+      label.style.left = `${e.clientX + 12}px`;
+      label.style.top = `${e.clientY - 8}px`;
+    });
+
+    cosmos.onMentorClick((mentor) => {
+      window.dispatchEvent(
+        new CustomEvent('mentor-click', { detail: { slug: mentor.slug } }),
+      );
+    });
+
+    cosmos.start();
+  }
+</script>
