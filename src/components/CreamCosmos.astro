@@ -71,9 +71,10 @@ import { mentors, getMentorColor } from '../data/mentors';
   }
 
   .hero-tagline {
-    font-family: var(--sans, 'Inter', sans-serif);
+    font-family: var(--serif, 'EB Garamond', Georgia, serif);
+    font-style: italic;
     font-size: clamp(1rem, 2.2vw, 1.35rem);
-    font-weight: 300;
+    font-weight: 400;
     color: var(--ink-light, #4a4a45);
     letter-spacing: 0.01em;
     margin-bottom: 2.5rem;
@@ -103,6 +104,8 @@ import { mentors, getMentorColor } from '../data/mentors';
     border-radius: 999px;
     outline: none;
     cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
     transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 

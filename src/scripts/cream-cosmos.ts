@@ -78,6 +78,13 @@ interface OrbitPointData {
 
 const RING_SPEEDS = [0.0004, 0.0003, 0.0002]; // rad/frame-ms
 
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
 // ---------------------------------------------------------------------------
 // CreamCosmos — main class
 // ---------------------------------------------------------------------------
@@ -228,13 +235,13 @@ export class CreamCosmos {
       // Glow
       this.ctx.beginPath();
       this.ctx.arc(pt.screenX, pt.screenY, r + 6, 0, Math.PI * 2);
-      this.ctx.fillStyle = pt.mentor.color.replace(/[\d.]+\)$/, `${alpha * 0.25})`);
+      this.ctx.fillStyle = hexToRgba(pt.mentor.color, alpha * 0.25);
       this.ctx.fill();
 
       // Dot
       this.ctx.beginPath();
       this.ctx.arc(pt.screenX, pt.screenY, r, 0, Math.PI * 2);
-      this.ctx.fillStyle = pt.mentor.color.replace(/[\d.]+\)$/, `${alpha})`);
+      this.ctx.fillStyle = hexToRgba(pt.mentor.color, alpha);
       this.ctx.fill();
     }
   }
