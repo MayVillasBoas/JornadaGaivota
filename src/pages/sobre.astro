@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Sobre — May">
+  <section class="page-header">
+    <h1>Sobre</h1>
+  </section>
+
+  <section class="content narrow">
+    <p class="lead">
+      Sou a May. Passei os últimos anos organizando sistemas, pessoas, mudanças — e a mim mesma.
+    </p>
+
+    <p>
+      Trabalhei com estratégia, produto e operações. Vivi em cidades diferentes.
+      Saí de relacionamentos que não cabiam mais. Mudei de carreira mais de uma vez.
+      Perdi pessoas. Recomeçei. E em cada transição, fui desenvolvendo uma forma de pensar
+      que me ajudou — e começou a ajudar quem estava à minha volta.
+    </p>
+
+    <p>
+      Juntei modelagem matemática com cinco anos de RH. Vida empreendedora com terapia.
+      Luto com curiosidade. Depressão com frameworks. E percebi que a combinação
+      de profundidade humana com inteligência estratégica é rara — e útil.
+    </p>
+
+    <div class="divider" style="margin: 3rem auto;"></div>
+
+    <h2>No que acredito</h2>
+
+    <ul class="beliefs">
+      <li>Que clareza não vem de ter mais informação, mas de separar sinal de ruído.</li>
+      <li>Que a maioria das decisões difíceis não é sobre lógica — é sobre identidade.</li>
+      <li>Que você não precisa resolver a vida toda de uma vez. Precisa do próximo passo mais verdadeiro.</li>
+      <li>Que medo não é sinal de que algo está errado. Às vezes é sinal de que algo importante está perto.</li>
+      <li>Que pensar melhor é uma habilidade — e pode ser treinada.</li>
+    </ul>
+
+    <div class="divider" style="margin: 3rem auto;"></div>
+
+    <h2>Este espaço</h2>
+
+    <p>
+      Criei esse site como um lugar para organizar o que aprendi e transformar
+      em ferramentas que outras pessoas possam usar. Não é terapia. Não é coaching.
+      É estrutura para pensar melhor sobre o que importa — nos momentos em que
+      a cabeça está mais confusa do que deveria.
+    </p>
+
+    <p>
+      As ferramentas aqui são baseadas em frameworks de pensamento que eu uso na minha
+      própria vida: Fear Setting, Design Your Life, Comunicação Não Violenta, modelos
+      mentais do Farnam Street, e alguns pares de tensão que criei observando meus
+      próprios padrões e os das pessoas ao meu redor.
+    </p>
+
+    <p class="closing">
+      Se algo aqui te ajudar a pensar com mais clareza sobre uma decisão difícil,
+      então esse site cumpriu seu propósito.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-header {
+    max-width: 680px;
+    margin: 5rem auto 3rem;
+    padding: 0 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    padding: 0 2rem;
+    margin-bottom: 6rem;
+  }
+
+  .lead {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .content p {
+    margin-bottom: 1.5rem;
+  }
+
+  .content h2 {
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .beliefs {
+    list-style: none;
+    padding: 0;
+  }
+
+  .beliefs li {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ink-light);
+    padding: 0.6rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .beliefs li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink-muted);
+  }
+
+  .closing {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-top: 2rem;
+  }
+</style>

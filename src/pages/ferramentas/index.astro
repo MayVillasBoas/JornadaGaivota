@@ -1,0 +1,192 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="Ferramentas — May">
+  <section class="page-header">
+    <h1>Ferramentas de clareza</h1>
+    <p class="page-sub">
+      Experiências guiadas para examinar o que você está pensando, sentindo e decidindo.
+      Cada ferramenta é baseada em um framework de pensamento real — e adaptada para o
+      jeito que a vida realmente acontece.
+    </p>
+  </section>
+
+  <section class="tools-content">
+
+    <!-- Decidir -->
+    <div class="tool-category" id="decidir">
+      <h2>Decidir</h2>
+      <p class="category-sub">Para quando você tem opções demais e clareza de menos.</p>
+
+      <div class="tools-grid">
+        <a href="/ferramentas/medo-na-mesa" class="tool-card">
+          <div class="tool-number">01</div>
+          <h3>Botando o medo na mesa</h3>
+          <p>Nomeie o que você está evitando. Separe medo real de medo inflado. Descubra o custo de não agir.</p>
+          <span class="tool-origin">Baseado em Fear Setting — Tim Ferriss</span>
+          <span class="tool-time">~15 min</span>
+        </a>
+
+        <a href="/ferramentas/tres-futuros" class="tool-card">
+          <div class="tool-number">02</div>
+          <h3>3 futuros plausíveis</h3>
+          <p>Imagine três versões honestas do seu próximo capítulo. Não para escolher de cabeça — para sentir qual pede um teste.</p>
+          <span class="tool-origin">Baseado em Odyssey Plan — Design Your Life</span>
+          <span class="tool-time">~20 min</span>
+        </a>
+
+        <a href="/ferramentas/sim-inteiro" class="tool-card">
+          <div class="tool-number">03</div>
+          <h3>Sim de corpo inteiro</h3>
+          <p>Separe o que é um sim verdadeiro do que é um "acho que deveria". Para parar de dizer sim por obrigação.</p>
+          <span class="tool-origin">Baseado em Hell Yes or No — Derek Sivers</span>
+          <span class="tool-time">~10 min</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Se ouvir -->
+    <div class="tool-category" id="se-ouvir">
+      <h2>Se ouvir</h2>
+      <p class="category-sub">Para quando você sente algo mas não sabe nomear.</p>
+
+      <div class="tools-grid">
+        <a href="/ferramentas/bussola-interna" class="tool-card">
+          <div class="tool-number">04</div>
+          <h3>Bússola interna</h3>
+          <p>Use o corpo como guia. Descubra se o que você sente é medo saudável ou desalinhamento real.</p>
+          <span class="tool-origin">Baseado em Martha Beck — Finding Your Own North Star</span>
+          <span class="tool-time">~12 min</span>
+        </a>
+
+        <a href="/ferramentas/auditoria-de-energia" class="tool-card">
+          <div class="tool-number">05</div>
+          <h3>Auditoria de energia</h3>
+          <p>Mapeie o que te drena e o que te devolve. Para reorganizar a vida em torno do que importa de verdade.</p>
+          <span class="tool-origin">Curadoria May</span>
+          <span class="tool-time">~15 min</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Comunicar -->
+    <div class="tool-category" id="comunicar">
+      <h2>Comunicar</h2>
+      <p class="category-sub">Para quando você precisa dizer algo difícil sem atacar nem se anular.</p>
+
+      <div class="tools-grid">
+        <a href="/ferramentas/o-que-quero-dizer" class="tool-card">
+          <div class="tool-number">06</div>
+          <h3>O que eu quero dizer de verdade</h3>
+          <p>Traduza julgamento, raiva e confusão em algo claro e honesto. Para conversas que você está adiando.</p>
+          <span class="tool-origin">Baseado em Comunicação Não Violenta — Marshall Rosenberg</span>
+          <span class="tool-time">~15 min</span>
+        </a>
+
+        <a href="/ferramentas/prototipos-de-futuro" class="tool-card">
+          <div class="tool-number">07</div>
+          <h3>Protótipos de futuro</h3>
+          <p>Em vez de decidir tudo de cabeça, desenhe 3 pequenos testes. Para experimentar uma vida antes de largar tudo.</p>
+          <span class="tool-origin">Baseado em Design Your Life</span>
+          <span class="tool-time">~15 min</span>
+        </a>
+      </div>
+    </div>
+
+  </section>
+</Base>
+
+<style>
+  .page-header {
+    max-width: 680px;
+    margin: 5rem auto 4rem;
+    padding: 0 2rem;
+  }
+
+  .page-header h1 { font-size: 2.4rem; margin-bottom: 1rem; }
+
+  .page-sub {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    max-width: 560px;
+  }
+
+  .tools-content {
+    max-width: 960px;
+    margin: 0 auto 6rem;
+    padding: 0 2rem;
+  }
+
+  .tool-category {
+    margin-bottom: 4rem;
+    padding-top: 1rem;
+  }
+
+  .tool-category h2 {
+    margin-bottom: 0.4rem;
+  }
+
+  .category-sub {
+    font-size: 0.9rem !important;
+    color: var(--ink-muted) !important;
+    margin-bottom: 2rem;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .tool-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.3s;
+    display: block;
+    position: relative;
+  }
+
+  .tool-card:hover {
+    border-color: #c8c8c0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.04);
+  }
+
+  .tool-number {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .tool-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .tool-card p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .tool-origin {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 0.3rem;
+  }
+
+  .tool-time {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.03em;
+  }
+</style>

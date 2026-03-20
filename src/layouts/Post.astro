@@ -1,0 +1,125 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  date: string;
+  description?: string;
+}
+
+const { title, date, description = '' } = Astro.props;
+---
+<Base title={`${title} — Jornada da Gaivota`} description={description}>
+  <article class="post">
+    <header class="post-header">
+      <a href="/escrita" class="back-link">← voltar para escrita</a>
+      <h1>{title}</h1>
+      <time>{date}</time>
+    </header>
+    <div class="post-body">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .post-header {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    display: inline-block;
+    margin-bottom: 2rem;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover { color: var(--ink); }
+
+  .post-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.25;
+  }
+
+  .post-header time {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+  }
+
+  .post-body :global(p) {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.8;
+    color: var(--ink-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .post-body :global(blockquote) {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--ink-light);
+    border-left: 2px solid var(--border-light);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .post-body :global(blockquote cite) {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-style: normal;
+    color: var(--ink-muted);
+    margin-top: 0.5rem;
+  }
+
+  .post-body :global(h2) {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-body :global(ul), .post-body :global(ol) {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.8;
+    color: var(--ink-light);
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .post-body :global(li) {
+    margin-bottom: 0.5rem;
+    list-style: disc;
+  }
+
+  .post-body :global(em) {
+    font-style: italic;
+  }
+
+  .post-body :global(strong) {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .post-body :global(hr) {
+    border: none;
+    width: 40px;
+    height: 1px;
+    background: var(--border-light);
+    margin: 2.5rem auto;
+  }
+</style>

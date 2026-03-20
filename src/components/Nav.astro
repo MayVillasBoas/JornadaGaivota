@@ -1,0 +1,100 @@
+---
+---
+<nav>
+  <a href="/" class="logo">
+    <span class="logo-text">May</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/ferramentas">ferramentas</a></li>
+    <li><a href="/escrita">escrita</a></li>
+    <li><a href="/sobre">sobre</a></li>
+    <li><a href="/agora">agora</a></li>
+    <li><a href="#" class="lang-toggle">en</a></li>
+  </ul>
+  <button class="mobile-menu-btn" aria-label="Menu">
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink);
+  }
+
+  .logo-img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .logo-text {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .lang-toggle {
+    font-size: 0.75rem !important;
+    color: var(--ink-muted) !important;
+    border: 1px solid #ddd;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    transition: all 0.3s;
+  }
+
+  .lang-toggle:hover { border-color: var(--ink-muted) !important; }
+
+  .mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .mobile-menu-btn span {
+    width: 20px;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.5rem; }
+    .nav-links { display: none; }
+    .mobile-menu-btn { display: flex; }
+  }
+</style>

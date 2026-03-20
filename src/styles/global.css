@@ -1,0 +1,116 @@
+/* ─── Design Tokens ─── */
+:root {
+  --cream: #FAFAF7;
+  --warm-white: #F5F4F0;
+  --ink: #1a1a18;
+  --ink-light: #4a4a45;
+  --ink-muted: #8a8a82;
+  --accent: #2B4A3E;
+  --accent-light: #3D6B5A;
+  --border: #e8e8e2;
+  --border-light: #d0d0c8;
+  --serif: 'EB Garamond', Georgia, serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+ul, ol { list-style: none; }
+
+/* ─── Typography ─── */
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+}
+
+h1 { font-size: 3.2rem; line-height: 1.15; letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; line-height: 1.3; }
+h3 { font-size: 1.3rem; font-weight: 500; line-height: 1.3; }
+
+p {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ink-light);
+}
+
+/* ─── Layout ─── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.narrow {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ─── Divider ─── */
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--border-light);
+  margin: 0 auto;
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--cream);
+  background: var(--accent);
+  padding: 0.9rem 2.2rem;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--accent);
+  background: transparent;
+  padding: 0.75rem 1.8rem;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  letter-spacing: 0.03em;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--accent);
+  color: var(--cream);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.35rem; }
+  .container { padding: 0 1.5rem; }
+}

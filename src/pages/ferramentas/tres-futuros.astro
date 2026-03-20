@@ -1,0 +1,305 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/guided-tool.css';
+---
+
+<Base title="3 futuros plausíveis — May">
+
+  <section class="tool-hero">
+    <span class="tool-label">ferramenta 02</span>
+    <h1>3 futuros plausíveis</h1>
+    <p class="tool-intro">
+      Você não precisa escolher uma vida inteira de cabeça. Esta ferramenta te ajuda a imaginar
+      três versões honestas do seu próximo capítulo — para sentir qual pede um teste, não uma decisão definitiva.
+    </p>
+    <p class="tool-origin">Baseado em Odyssey Plan — Design Your Life</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="guided-experience" id="experience">
+
+    <!-- Resume prompt -->
+    <div class="resume-prompt">
+      <p></p>
+      <div class="resume-actions">
+        <button class="btn-primary btn-resume">continuar</button>
+        <button class="btn-secondary btn-restart">começar de novo</button>
+      </div>
+    </div>
+
+    <!-- Visual artifact: Três horizontes -->
+    <div class="tool-visual" id="tool-visual">
+      <div class="tool-visual-header">seus três horizontes</div>
+    </div>
+
+    <!-- Transition screen -->
+    <div class="transition-screen">
+      <div class="transition-dots"><span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <!-- Completion breath -->
+    <div class="completion-breath">
+      <div class="breath-text"></div>
+    </div>
+
+    <!-- Step 0: Intro -->
+    <div class="step active" data-step="0">
+      <div class="step-content">
+        <p class="step-context">
+          O Odyssey Plan parte de uma premissa simples: você não tem uma vida possível.
+          Tem várias. E a melhor forma de escolher não é analisar — é imaginar com honestidade
+          e depois testar.
+        </p>
+        <p class="step-context">
+          Aqui você vai desenhar três versões do seu próximo ano. Não precisa ser perfeito.
+          Precisa ser honesto.
+        </p>
+        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- Step 1: Vida 1 -->
+    <div class="step" data-step="1">
+      <div class="step-header">
+        <span class="step-number">1 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Vida 1 — O caminho atual</h2>
+        <p class="step-guide">
+          Se você continuar no caminho que está, como fica sua vida daqui a um ano?
+          Onde você mora, o que faz, com quem convive, como se sente?
+          Sem julgamento — só descreva.
+        </p>
+        <textarea id="q1" placeholder="Daqui a um ano, se eu continuar no caminho atual..." rows="6"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Vida 2 -->
+    <div class="step" data-step="2">
+      <div class="step-header">
+        <span class="step-number">2 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Vida 2 — A reinvenção</h2>
+        <p class="step-guide">
+          Se você mudasse mais radicalmente — carreira, cidade, relação, estilo de vida —
+          como seria? Essa é a vida que você fantasia quando está insatisfeita.
+          Deixe ela existir no papel.
+        </p>
+        <textarea id="q2" placeholder="Se eu reinventasse minha vida de forma mais radical..." rows="6"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Vida 3 -->
+    <div class="step" data-step="3">
+      <div class="step-header">
+        <span class="step-number">3 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Vida 3 — Sem medo do julgamento</h2>
+        <p class="step-guide">
+          Se dinheiro, status e opinião dos outros não fossem variáveis — como seria?
+          Essa é a vida que talvez você nem se permita imaginar. Escreva sem censura.
+        </p>
+        <textarea id="q3" placeholder="Se nada externo me limitasse, eu..." rows="6"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: O que anima / pesa -->
+    <div class="step" data-step="4">
+      <div class="step-header">
+        <span class="step-number">4 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que te anima e o que te pesa em cada uma?</h2>
+        <p class="step-guide">
+          Releia suas três vidas. Para cada uma, anote o que te dá energia e o que te drena.
+          Não precisa ser lógico — confie na reação.
+        </p>
+        <label class="textarea-label">Vida 1 — o que anima / o que pesa</label>
+        <textarea id="q4a" placeholder="Anima: ... / Pesa: ..." rows="3"></textarea>
+        <label class="textarea-label">Vida 2 — o que anima / o que pesa</label>
+        <textarea id="q4b" placeholder="Anima: ... / Pesa: ..." rows="3"></textarea>
+        <label class="textarea-label">Vida 3 — o que anima / o que pesa</label>
+        <textarea id="q4c" placeholder="Anima: ... / Pesa: ..." rows="3"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" data-step="5">
+      <div class="step-header">
+        <span class="step-number">5 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Qual delas pede um teste — não uma decisão?</h2>
+        <p class="step-guide">
+          Você não precisa escolher agora. Precisa testar. Qual dessas vidas você conseguiria
+          experimentar em pequena escala? Uma conversa, uma semana, um projeto piloto.
+        </p>
+        <textarea id="q5" placeholder="A vida que eu mais quero testar é a... porque..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step" data-step="6">
+      <div class="step-header">
+        <span class="step-number">6 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Qual é o menor teste possível?</h2>
+        <p class="step-guide">
+          Não precisa largar tudo. Qual é o protótipo mais barato, mais rápido, mais seguro
+          que te daria um gostinho dessa vida? Uma conversa com alguém que já vive assim?
+          Uma semana experimentando? Um projeto paralelo?
+        </p>
+        <textarea id="q6" placeholder="O menor teste que eu poderia fazer nos próximos 14 dias é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary" id="finish-btn">ver meu mapa <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="step" data-step="result">
+      <div class="step-content result-content">
+        <h2>Seus 3 futuros</h2>
+        <p class="result-intro">Três versões honestas do seu próximo capítulo.</p>
+
+        <div class="result-block"><h3>Vida 1 — Caminho atual</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>Vida 2 — Reinvenção</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>Vida 3 — Sem limites</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>O que anima e pesa</h3>
+          <p id="r4a"></p><p id="r4b"></p><p id="r4c"></p>
+        </div>
+        <div class="result-block"><h3>A vida que quero testar</h3><p id="r5"></p></div>
+        <div class="result-block closing-block"><h3>Meu próximo teste</h3><p id="r6"></p></div>
+
+        <div class="reflection-prompt">
+          <span class="reflection-label">uma pergunta para levar</span>
+          <p class="reflection-text">Se nenhuma das três vidas te anima, o que isso diz sobre o que você realmente quer?</p>
+        </div>
+
+        <div class="reflection-counter"></div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="copy-btn">copiar texto</button>
+          <button class="btn-secondary" id="download-btn">salvar como texto</button>
+          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
+          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .textarea-label { font-family: var(--sans); font-size: 0.82rem; color: var(--ink-muted); display: block; margin-top: 1.2rem; margin-bottom: 0.4rem; }
+</style>
+
+<script>
+  import { GuidedTool } from '../../scripts/guided-tool';
+
+  if (!(window as any).__guidedToolInit) {
+    (window as any).__guidedToolInit = true;
+
+  const config = {
+    slug: 'tres-futuros',
+    totalSteps: 6,
+    fields: [
+      { input: 'q1', output: 'r1' },
+      { input: 'q2', output: 'r2' },
+      { input: 'q3', output: 'r3' },
+      { input: 'q4a', output: 'r4a' },
+      { input: 'q4b', output: 'r4b' },
+      { input: 'q4c', output: 'r4c' },
+      { input: 'q5', output: 'r5' },
+      { input: 'q6', output: 'r6' },
+    ],
+    encouragements: [
+      '',
+      'A vida que você tem agora também foi uma escolha — mesmo que não parecesse.',
+      'A reinvenção não precisa ser tudo ou nada. Mas precisa existir no papel.',
+      'Essa vida que você escondeu? Ela tem algo importante pra dizer.',
+      'Sentir o que anima e o que pesa é mais honesto do que listar prós e contras.',
+      'Testar é mais corajoso do que decidir. E mais gentil também.',
+      'O menor teste possível é o que separa sonho de possibilidade.',
+    ],
+    closingReflection: 'Se nenhuma das três vidas te anima, o que isso diz sobre o que você realmente quer?',
+    resultTitle: '3 futuros plausíveis',
+    visualConfig: {
+      type: 'three-paths',
+      sections: [
+        { id: 'vida-atual', label: 'vida 1', stepRange: [1], wordClass: 'neutral' },
+        { id: 'reinvencao', label: 'vida 2', stepRange: [2], wordClass: 'genuine' },
+        { id: 'sem-medo', label: 'vida 3', stepRange: [3], wordClass: 'strategy' },
+        { id: 'comparacao', label: 'anima / pesa', stepRange: [4], wordClass: 'neutral' },
+        { id: 'teste', label: 'testar', stepRange: [5], wordClass: 'genuine' },
+        { id: 'proximo-passo', label: 'próximo teste', stepRange: [6], wordClass: 'genuine' },
+      ],
+    },
+  };
+
+  const tool = new GuidedTool(config);
+  tool.init();
+  GuidedTool.wireExport(config);
+
+  }
+</script>

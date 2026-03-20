@@ -1,0 +1,304 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/guided-tool.css';
+---
+
+<Base title="O que eu quero dizer de verdade — May">
+
+  <section class="tool-hero">
+    <span class="tool-label">ferramenta 06</span>
+    <h1>O que eu quero dizer de verdade</h1>
+    <p class="tool-intro">
+      Traduza julgamento, raiva e confusão em algo claro e honesto.
+      Para aquelas conversas que você está adiando — porque não sabe como dizer sem atacar nem se anular.
+    </p>
+    <p class="tool-origin">Baseado em Comunicação Não Violenta — Marshall Rosenberg</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="guided-experience" id="experience">
+
+    <!-- Resume prompt -->
+    <div class="resume-prompt">
+      <p></p>
+      <div class="resume-actions">
+        <button class="btn-primary btn-resume">continuar</button>
+        <button class="btn-secondary btn-restart">começar de novo</button>
+      </div>
+    </div>
+
+    <!-- Visual artifact: Descascando a cebola -->
+    <div class="tool-visual" id="tool-visual">
+      <div class="tool-visual-header">suas camadas</div>
+    </div>
+
+    <!-- Transition screen -->
+    <div class="transition-screen">
+      <div class="transition-dots"><span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <!-- Completion breath -->
+    <div class="completion-breath">
+      <div class="breath-text"></div>
+    </div>
+
+    <!-- Step 0: Intro -->
+    <div class="step active" data-step="0">
+      <div class="step-content">
+        <p class="step-context">
+          A Comunicação Não Violenta parte de uma ideia simples: por trás de todo julgamento
+          existe um sentimento, e por trás de todo sentimento existe uma necessidade.
+          Quando você descobre a necessidade, a conversa muda completamente.
+        </p>
+        <p class="step-context">
+          Aqui você vai traduzir o que está sentindo em algo que dá pra dizer de verdade.
+        </p>
+        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" data-step="1">
+      <div class="step-header">
+        <span class="step-number">1 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que aconteceu?</h2>
+        <p class="step-guide">
+          Descreva a situação concreta — sem julgamento, sem interpretação.
+          O que a pessoa fez ou disse? Fatos, não rótulos.
+          Em vez de "ela foi grossa", tente "ela disse X quando eu estava falando".
+        </p>
+        <textarea id="q1" placeholder="O que aconteceu foi que..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="step-header">
+        <span class="step-number">2 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que você está sentindo?</h2>
+        <p class="step-guide">
+          Não o que você acha da pessoa — o que você sente no corpo.
+          Raiva? Tristeza? Frustração? Medo? Solidão? Confusão?
+          Sentimentos são sinais, não problemas.
+        </p>
+        <textarea id="q2" placeholder="Eu estou sentindo..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="step-header">
+        <span class="step-number">3 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Qual necessidade não está sendo atendida?</h2>
+        <p class="step-guide">
+          Todo sentimento aponta para uma necessidade. Se você está com raiva, talvez precise
+          de respeito. Se está triste, talvez precise de conexão. Se está frustrada, talvez
+          precise de autonomia. O que está faltando?
+        </p>
+        <div class="needs-examples">
+          <span>respeito</span><span>conexão</span><span>autonomia</span><span>segurança</span>
+          <span>honestidade</span><span>reconhecimento</span><span>espaço</span><span>pertencimento</span>
+          <span>confiança</span><span>empatia</span><span>liberdade</span><span>consideração</span>
+        </div>
+        <textarea id="q3" placeholder="O que eu preciso é de..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" data-step="4">
+      <div class="step-header">
+        <span class="step-number">4 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que você gostaria de pedir?</h2>
+        <p class="step-guide">
+          Não uma exigência — um pedido concreto e realizável. Em vez de "quero que você mude",
+          tente "gostaria que quando X acontecer, você pudesse Y". Um pedido específico,
+          não uma transformação impossível.
+        </p>
+        <textarea id="q4" placeholder="O que eu gostaria de pedir é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" data-step="5">
+      <div class="step-header">
+        <span class="step-number">5 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Juntando tudo</h2>
+        <p class="step-guide">
+          Agora tente montar a frase completa, no formato:
+          "Quando [fato], eu me sinto [sentimento], porque preciso de [necessidade].
+          Gostaria de [pedido]." Pode adaptar com suas palavras — o importante é que seja honesto e sem ataque.
+        </p>
+        <textarea id="q5" placeholder="O que eu quero dizer de verdade é..." rows="6"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step" data-step="6">
+      <div class="step-header">
+        <span class="step-number">6 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Quando e como você vai dizer?</h2>
+        <p class="step-guide">
+          Ter clareza do que dizer é metade do caminho. A outra metade é escolher o momento.
+          Quando você quer ter essa conversa? Em que contexto? Presencial, por escrito?
+          Com que energia? Planeje o como.
+        </p>
+        <textarea id="q6" placeholder="Vou ter essa conversa..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary" id="finish-btn">ver o que eu quero dizer <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="step" data-step="result">
+      <div class="step-content result-content">
+        <h2>O que você quer dizer de verdade</h2>
+        <p class="result-intro">Da reação crua à fala honesta — sem atacar, sem se anular.</p>
+
+        <div class="result-block"><h3>O que aconteceu</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>O que eu sinto</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>O que eu preciso</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>Meu pedido</h3><p id="r4"></p></div>
+        <div class="result-block closing-block"><h3>O que eu quero dizer de verdade</h3><p id="r5"></p></div>
+        <div class="result-block"><h3>Quando e como</h3><p id="r6"></p></div>
+
+        <div class="reflection-prompt">
+          <span class="reflection-label">uma pergunta para levar</span>
+          <p class="reflection-text">O que muda quando você troca "você sempre faz isso" por "eu preciso de..."?</p>
+        </div>
+
+        <div class="reflection-counter"></div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="copy-btn">copiar texto</button>
+          <button class="btn-secondary" id="download-btn">salvar como texto</button>
+          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
+          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .needs-examples { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .needs-examples span { font-family: var(--sans); font-size: 0.78rem; color: var(--ink-muted); background: var(--warm-white); padding: 0.3rem 0.7rem; border-radius: 20px; border: 1px solid var(--border); }
+</style>
+
+<script>
+  import { GuidedTool } from '../../scripts/guided-tool';
+
+  if (!(window as any).__guidedToolInit) {
+    (window as any).__guidedToolInit = true;
+
+  const config = {
+    slug: 'o-que-quero-dizer',
+    totalSteps: 6,
+    fields: [
+      { input: 'q1', output: 'r1' },
+      { input: 'q2', output: 'r2' },
+      { input: 'q3', output: 'r3' },
+      { input: 'q4', output: 'r4' },
+      { input: 'q5', output: 'r5' },
+      { input: 'q6', output: 'r6' },
+    ],
+    encouragements: [
+      '',
+      'Separar o fato do julgamento já muda tudo.',
+      'Nomear o sentimento é o primeiro passo pra não explodir.',
+      'Achar a necessidade é onde a mágica da CNV acontece.',
+      'Um pedido concreto tem muito mais chance de ser ouvido.',
+      'Você acabou de traduzir raiva em clareza. Isso é raro.',
+      'Escolher o momento certo é tão importante quanto as palavras certas.',
+    ],
+    closingReflection: 'O que muda quando você troca "você sempre faz isso" por "eu preciso de..."?',
+    resultTitle: 'O que eu quero dizer de verdade',
+    visualConfig: {
+      type: 'onion-layers',
+      sections: [
+        { id: 'fato', label: 'o fato', stepRange: [1], wordClass: 'neutral' },
+        { id: 'sentimento', label: 'sentimento', stepRange: [2], wordClass: 'fear' },
+        { id: 'necessidade', label: 'necessidade', stepRange: [3], wordClass: 'genuine' },
+        { id: 'pedido', label: 'pedido', stepRange: [4], wordClass: 'strategy' },
+        { id: 'frase-completa', label: 'frase completa', stepRange: [5], wordClass: 'genuine' },
+        { id: 'momento', label: 'quando e como', stepRange: [6], wordClass: 'genuine' },
+      ],
+    },
+  };
+
+  const tool = new GuidedTool(config);
+  tool.init();
+  GuidedTool.wireExport(config);
+
+  }
+</script>

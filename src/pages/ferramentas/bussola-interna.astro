@@ -1,0 +1,292 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/guided-tool.css';
+---
+
+<Base title="Bússola interna — May">
+
+  <section class="tool-hero">
+    <span class="tool-label">ferramenta 04</span>
+    <h1>Bússola interna</h1>
+    <p class="tool-intro">
+      Seu corpo sabe coisas que sua cabeça ainda não entendeu. Esta ferramenta te ajuda a usar
+      o corpo como guia — para separar medo saudável de desalinhamento real.
+    </p>
+    <p class="tool-origin">Baseado em Martha Beck — Finding Your Own North Star</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="guided-experience" id="experience">
+
+    <!-- Resume prompt -->
+    <div class="resume-prompt">
+      <p></p>
+      <div class="resume-actions">
+        <button class="btn-primary btn-resume">continuar</button>
+        <button class="btn-secondary btn-restart">começar de novo</button>
+      </div>
+    </div>
+
+    <!-- Visual artifact: Bússola com vozes -->
+    <div class="tool-visual" id="tool-visual">
+      <div class="tool-visual-header">sua bússola</div>
+    </div>
+
+    <!-- Transition screen -->
+    <div class="transition-screen">
+      <div class="transition-dots"><span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <!-- Completion breath -->
+    <div class="completion-breath">
+      <div class="breath-text"></div>
+    </div>
+
+    <!-- Step 0: Intro -->
+    <div class="step active" data-step="0">
+      <div class="step-content">
+        <p class="step-context">
+          Martha Beck chama de "eu essencial" a parte de você que sabe, antes de pensar.
+          É o que aperta o estômago quando algo está errado e o que expande o peito
+          quando algo é certo — mesmo que a lógica diga o contrário.
+        </p>
+        <p class="step-context">
+          Aqui você vai escutar esse sinal. Não é misticismo — é atenção ao corpo.
+        </p>
+        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" data-step="1">
+      <div class="step-header">
+        <span class="step-number">1 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que está te inquietando?</h2>
+        <p class="step-guide">
+          Descreva a situação que você está vivendo — uma decisão, uma relação, um trabalho,
+          uma fase da vida. Sem tentar resolver. Só coloque na mesa o que está aí.
+        </p>
+        <textarea id="q1" placeholder="O que está me inquietando agora é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="step-header">
+        <span class="step-number">2 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que sua cabeça diz?</h2>
+        <p class="step-guide">
+          Anote os argumentos racionais. O que "faz sentido"? O que os outros diriam?
+          O que a versão "responsável" de você decidiria? Essa é a voz do eu social.
+        </p>
+        <textarea id="q2" placeholder="Racionalmente, eu deveria..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="step-header">
+        <span class="step-number">3 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que seu corpo diz?</h2>
+        <p class="step-guide">
+          Pare. Respire fundo três vezes. Pense na situação e preste atenção:
+          onde no corpo você sente algo? Peito, estômago, garganta, ombros?
+          É contração ou expansão? Peso ou leveza? Descreva sem interpretar.
+        </p>
+        <textarea id="q3" placeholder="No meu corpo, eu sinto..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" data-step="4">
+      <div class="step-header">
+        <span class="step-number">4 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Medo ou desalinhamento?</h2>
+        <p class="step-guide">
+          Nem todo desconforto é sinal de perigo. Às vezes é medo de crescer — e aí o caminho é avançar.
+          Às vezes é o corpo dizendo "isso não é pra mim" — e aí o caminho é recuar.
+          Olhando pra o que você escreveu: o desconforto parece medo saudável (de algo que importa)
+          ou desalinhamento real (de algo que não é seu)?
+        </p>
+        <textarea id="q4" placeholder="Acho que esse desconforto é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" data-step="5">
+      <div class="step-header">
+        <span class="step-number">5 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que seu eu essencial quer?</h2>
+        <p class="step-guide">
+          Se você tirasse todas as expectativas — família, carreira, status, o que "deveria" fazer —
+          o que sobraria? O que você faria se só precisasse responder a si mesma?
+        </p>
+        <textarea id="q5" placeholder="Se eu só precisasse responder a mim mesma..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step" data-step="6">
+      <div class="step-header">
+        <span class="step-number">6 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Um passo na direção certa</h2>
+        <p class="step-guide">
+          Você não precisa resolver tudo agora. Mas pode dar um passo pequeno na direção
+          que o corpo apontou. Qual seria esse passo? Pode ser uma conversa, uma pausa,
+          um "não", ou simplesmente prestar mais atenção.
+        </p>
+        <textarea id="q6" placeholder="Um passo que eu posso dar é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary" id="finish-btn">ver minha bússola <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="step" data-step="result">
+      <div class="step-content result-content">
+        <h2>Sua bússola</h2>
+        <p class="result-intro">O que apareceu quando você parou de pensar e começou a sentir.</p>
+
+        <div class="result-block"><h3>O que me inquieta</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>O que a cabeça diz</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>O que o corpo diz</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>Medo ou desalinhamento</h3><p id="r4"></p></div>
+        <div class="result-block"><h3>O que meu eu essencial quer</h3><p id="r5"></p></div>
+        <div class="result-block closing-block"><h3>Meu próximo passo</h3><p id="r6"></p></div>
+
+        <div class="reflection-prompt">
+          <span class="reflection-label">uma pergunta para levar</span>
+          <p class="reflection-text">Quando cabeça e corpo discordam, qual você costuma obedecer — e o que muda se inverter?</p>
+        </div>
+
+        <div class="reflection-counter"></div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="copy-btn">copiar texto</button>
+          <button class="btn-secondary" id="download-btn">salvar como texto</button>
+          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
+          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { GuidedTool } from '../../scripts/guided-tool';
+
+  if (!(window as any).__guidedToolInit) {
+    (window as any).__guidedToolInit = true;
+
+  const config = {
+    slug: 'bussola-interna',
+    totalSteps: 6,
+    fields: [
+      { input: 'q1', output: 'r1' },
+      { input: 'q2', output: 'r2' },
+      { input: 'q3', output: 'r3' },
+      { input: 'q4', output: 'r4' },
+      { input: 'q5', output: 'r5' },
+      { input: 'q6', output: 'r6' },
+    ],
+    encouragements: [
+      '',
+      'Nomear a inquietação já é metade do caminho.',
+      'A cabeça tem seus argumentos. Agora vamos ouvir outro lado.',
+      'O corpo não mente. Confie no que ele diz.',
+      'Saber separar medo de desalinhamento é uma superpotência.',
+      'Seu eu essencial sabe. Às vezes é só parar de abafar.',
+      'Um passo pequeno na direção certa vale mais que um plano perfeito.',
+    ],
+    closingReflection: 'Quando cabeça e corpo discordam, qual você costuma obedecer — e o que muda se inverter?',
+    resultTitle: 'Bússola interna',
+    visualConfig: {
+      type: 'compass-voices',
+      sections: [
+        { id: 'inquietacao', label: 'inquietação', stepRange: [1], wordClass: 'neutral' },
+        { id: 'cabeca', label: 'a cabeça diz', stepRange: [2], wordClass: 'fear' },
+        { id: 'corpo', label: 'o corpo diz', stepRange: [3], wordClass: 'genuine' },
+        { id: 'diagnostico', label: 'diagnóstico', stepRange: [4], wordClass: 'strategy' },
+        { id: 'eu-essencial', label: 'eu essencial', stepRange: [5], wordClass: 'genuine' },
+        { id: 'proximo-passo', label: 'próximo passo', stepRange: [6], wordClass: 'genuine' },
+      ],
+    },
+  };
+
+  const tool = new GuidedTool(config);
+  tool.init();
+  GuidedTool.wireExport(config);
+
+  }
+</script>

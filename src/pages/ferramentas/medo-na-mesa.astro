@@ -1,0 +1,360 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/guided-tool.css';
+---
+
+<Base title="Botando o medo na mesa — May">
+
+  <section class="tool-hero">
+    <span class="tool-label">ferramenta 01</span>
+    <h1>Botando o medo<br>na mesa</h1>
+    <p class="tool-intro">
+      Você está evitando algo. Talvez uma decisão, uma conversa, uma mudança.
+      Esta ferramenta te ajuda a nomear o medo, medir seu tamanho real,
+      e descobrir o que acontece se você não agir.
+    </p>
+    <p class="tool-origin">Baseado em Fear Setting — Tim Ferriss</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="guided-experience" id="experience">
+
+    <!-- Resume prompt -->
+    <div class="resume-prompt">
+      <p></p>
+      <div class="resume-actions">
+        <button class="btn-primary btn-resume">continuar</button>
+        <button class="btn-secondary btn-restart">começar de novo</button>
+      </div>
+    </div>
+
+    <!-- Visual artifact: Mapa do medo -->
+    <div class="tool-visual" id="tool-visual">
+      <div class="tool-visual-header">seu mapa do medo</div>
+    </div>
+
+    <!-- Transition screen -->
+    <div class="transition-screen">
+      <div class="transition-dots"><span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <!-- Completion breath -->
+    <div class="completion-breath">
+      <div class="breath-text"></div>
+    </div>
+
+    <!-- Step 0: Context -->
+    <div class="step active" data-step="0">
+      <div class="step-content">
+        <p class="step-context">
+          A maioria das decisões difíceis não trava por falta de informação.
+          Trava por medo — medo que muitas vezes é maior na cabeça
+          do que seria na realidade.
+        </p>
+        <p class="step-context">
+          Tim Ferriss criou o Fear Setting como uma forma de olhar pro medo
+          de frente: nomear exatamente o que você teme, pensar no que faria
+          se acontecesse, e calcular o custo real de não agir.
+        </p>
+        <p class="step-context">
+          Essa versão te guia por cada passo. Não precisa ter as respostas certas.
+          Só precisa ser honesta.
+        </p>
+        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" data-step="1">
+      <div class="step-header">
+        <span class="step-number">1 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que você está evitando?</h2>
+        <p class="step-guide">
+          Pode ser uma decisão, uma conversa, uma mudança. Algo que você sabe que precisa
+          encarar, mas continua adiando. Escreva sem filtro.
+        </p>
+        <textarea id="q1" placeholder="Escreva aqui o que está evitando..." rows="4"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="step-header">
+        <span class="step-number">2 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que exatamente você teme que aconteça?</h2>
+        <p class="step-guide">
+          Nomeie os piores cenários. Seja específica.
+          "Dar errado" é vago demais. O que <em>exatamente</em> daria errado?
+        </p>
+        <textarea id="q2" placeholder="Se eu fizesse isso, o pior que poderia acontecer é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="step-header">
+        <span class="step-number">3 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Como você poderia prevenir isso?</h2>
+        <p class="step-guide">
+          Olhe para cada cenário que você escreveu acima. Que ações diminuiriam
+          a chance de acontecer? Muitas vezes o medo fica enorme porque a gente
+          não para pra pensar em prevenção.
+        </p>
+        <textarea id="q3" placeholder="Para reduzir as chances de cada cenário, eu poderia..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" data-step="4">
+      <div class="step-header">
+        <span class="step-number">4 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Se acontecesse, como você repararia?</h2>
+        <p class="step-guide">
+          Mesmo no pior cenário — o que você faria para reconstruir?
+          Quem poderia ajudar? Que recursos você teria? A maioria
+          das coisas que tememos são reparáveis. Quase nada é realmente irreversível.
+        </p>
+        <textarea id="q4" placeholder="Se o pior acontecesse, eu poderia..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" data-step="5">
+      <div class="step-header">
+        <span class="step-number">5 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Qual é o custo real de agir?</h2>
+        <p class="step-guide">
+          Tempo, dinheiro, desconforto emocional, risco social. Seja concreta.
+          Quanto realmente custaria tentar? Às vezes o custo é bem menor
+          do que o medo faz parecer.
+        </p>
+        <textarea id="q5" placeholder="Se eu agir, o custo real seria..." rows="4"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step" data-step="6">
+      <div class="step-header">
+        <span class="step-number">6 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Qual é o custo de não agir por 6 meses?</h2>
+        <p class="step-guide">
+          Esse é o passo que muda tudo. A gente calcula obsessivamente
+          o risco de agir — mas quase nunca mede o preço de ficar parada.
+          Como fica sua vida, sua energia, sua saúde, seu crescimento
+          se nada mudar nos próximos 6 meses?
+        </p>
+        <textarea id="q6" placeholder="Se eu não fizer nada por mais 6 meses, o custo será..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step" data-step="7">
+      <div class="step-header">
+        <span class="step-number">7 de 7</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que talvez esteja morrendo<br>por você adiar isso?</h2>
+        <p class="step-guide">
+          Essa pergunta é mais pessoal. Além do prático — que parte de você,
+          que possibilidade, que versão da sua vida está ficando menor
+          enquanto você espera?
+        </p>
+        <textarea id="q7" placeholder="O que está morrendo por eu adiar é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary" id="finish-btn">ver meu mapa <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="step" data-step="result">
+      <div class="step-content result-content">
+        <h2>Seu mapa do medo</h2>
+        <p class="result-intro">Aqui está o que ficou claro. Releia com calma.</p>
+
+        <div class="result-block"><h3>O que estou evitando</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>O que temo que aconteça</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>Como prevenir</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>Como reparar</h3><p id="r4"></p></div>
+
+        <div class="result-columns">
+          <div class="result-block">
+            <h3>Custo de agir</h3>
+            <p id="r5"></p>
+          </div>
+          <div class="result-block highlight">
+            <h3>Custo de não agir</h3>
+            <p id="r6"></p>
+          </div>
+        </div>
+
+        <div class="result-block closing-block">
+          <h3>O que está morrendo por eu adiar</h3>
+          <p id="r7"></p>
+        </div>
+
+        <div class="reflection-prompt">
+          <span class="reflection-label">uma pergunta para levar</span>
+          <p class="reflection-text">Qual medo você descobriu que é menor do que parecia — e qual decisão isso libera?</p>
+        </div>
+
+        <div class="reflection-counter"></div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="copy-btn">copiar texto</button>
+          <button class="btn-secondary" id="download-btn">salvar como texto</button>
+          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
+          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .result-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .result-block.highlight {
+    background: var(--warm-white);
+    padding: 1.5rem;
+    border-radius: 6px;
+    border-bottom: none;
+  }
+  @media (max-width: 768px) {
+    .result-columns { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  import { GuidedTool } from '../../scripts/guided-tool';
+
+  if (!(window as any).__guidedToolInit) {
+    (window as any).__guidedToolInit = true;
+
+  const config = {
+    slug: 'medo-na-mesa',
+    totalSteps: 7,
+    fields: [
+      { input: 'q1', output: 'r1' },
+      { input: 'q2', output: 'r2' },
+      { input: 'q3', output: 'r3' },
+      { input: 'q4', output: 'r4' },
+      { input: 'q5', output: 'r5' },
+      { input: 'q6', output: 'r6' },
+      { input: 'q7', output: 'r7' },
+    ],
+    encouragements: [
+      '',
+      'Nomear o que você evita já é um ato de coragem.',
+      'Quanto mais específico o medo, menor ele fica.',
+      'A maioria dos medos tem prevenção. Isso muda tudo.',
+      'Quase nada é irreversível. Você tem mais recursos do que imagina.',
+      'O custo de agir geralmente é menor do que o medo faz parecer.',
+      'Esse é o passo que poucas pessoas fazem — medir o custo de não agir.',
+      'Essa pergunta vai além do prático. Escute o que vier.',
+    ],
+    closingReflection: 'Qual medo você descobriu que é menor do que parecia — e qual decisão isso libera?',
+    resultTitle: 'Botando o medo na mesa',
+    visualConfig: {
+      type: 'fear-map',
+      sections: [
+        { id: 'evitando', label: 'evitando', stepRange: [1], wordClass: 'fear' },
+        { id: 'medos', label: 'medos', stepRange: [2], wordClass: 'fear' },
+        { id: 'prevencao', label: 'prevenção', stepRange: [3], wordClass: 'strategy' },
+        { id: 'reparacao', label: 'reparação', stepRange: [4], wordClass: 'strategy' },
+        { id: 'custo-agir', label: 'custo de agir', stepRange: [5], wordClass: 'neutral' },
+        { id: 'custo-inacao', label: 'custo de não agir', stepRange: [6], wordClass: 'obligation' },
+        { id: 'veredicto', label: 'veredicto', stepRange: [7], wordClass: 'genuine' },
+      ],
+    },
+  };
+
+  const tool = new GuidedTool(config);
+  tool.init();
+  GuidedTool.wireExport(config);
+
+  }
+</script>

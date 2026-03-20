@@ -1,0 +1,292 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/guided-tool.css';
+---
+
+<Base title="Protótipos de futuro — May">
+
+  <section class="tool-hero">
+    <span class="tool-label">ferramenta 07</span>
+    <h1>Protótipos de futuro</h1>
+    <p class="tool-intro">
+      Em vez de decidir tudo de cabeça, desenhe 3 pequenos testes.
+      Para experimentar uma vida antes de largar tudo — porque a melhor forma de escolher é vivendo.
+    </p>
+    <p class="tool-origin">Baseado em Design Your Life — Bill Burnett & Dave Evans</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="guided-experience" id="experience">
+
+    <!-- Resume prompt -->
+    <div class="resume-prompt">
+      <p></p>
+      <div class="resume-actions">
+        <button class="btn-primary btn-resume">continuar</button>
+        <button class="btn-secondary btn-restart">começar de novo</button>
+      </div>
+    </div>
+
+    <!-- Visual artifact: Bancada de protótipos -->
+    <div class="tool-visual" id="tool-visual">
+      <div class="tool-visual-header">sua bancada</div>
+    </div>
+
+    <!-- Transition screen -->
+    <div class="transition-screen">
+      <div class="transition-dots"><span>.</span><span>.</span><span>.</span></div>
+    </div>
+
+    <!-- Completion breath -->
+    <div class="completion-breath">
+      <div class="breath-text"></div>
+    </div>
+
+    <!-- Step 0: Intro -->
+    <div class="step active" data-step="0">
+      <div class="step-content">
+        <p class="step-context">
+          O Design Your Life propõe que a gente trate a vida como um projeto de design:
+          em vez de tentar acertar de primeira, você cria protótipos — versões pequenas, baratas
+          e reversíveis — para testar se algo faz sentido antes de se comprometer.
+        </p>
+        <p class="step-context">
+          Aqui você vai sair do "eu deveria fazer X" e entrar no "como eu testo X sem largar tudo".
+        </p>
+        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" data-step="1">
+      <div class="step-header">
+        <span class="step-number">1 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>O que você quer explorar?</h2>
+        <p class="step-guide">
+          Descreva a mudança, ideia ou caminho que você está considerando.
+          Pode ser uma carreira, um estilo de vida, um projeto, uma relação diferente com o trabalho.
+          O que está na sua cabeça querendo sair?
+        </p>
+        <textarea id="q1" placeholder="O que eu quero explorar é..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="step-header">
+        <span class="step-number">2 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Por que você ainda não testou?</h2>
+        <p class="step-guide">
+          O que te impede? Medo? Falta de tempo? Não saber por onde começar?
+          O que precisaria ser verdade para você se sentir segura o suficiente para tentar?
+        </p>
+        <textarea id="q2" placeholder="Eu ainda não testei porque..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="step-header">
+        <span class="step-number">3 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Protótipo 1 — A conversa</h2>
+        <p class="step-guide">
+          O protótipo mais simples é uma conversa. Quem já vive algo parecido com o que você quer?
+          Quem poderia te dar uma perspectiva real — não idealizada? Descreva quem você procuraria
+          e o que perguntaria.
+        </p>
+        <textarea id="q3" placeholder="Eu conversaria com... e perguntaria..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" data-step="4">
+      <div class="step-header">
+        <span class="step-number">4 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Protótipo 2 — A experiência</h2>
+        <p class="step-guide">
+          Como você poderia viver um pedaço dessa vida por um período curto?
+          Uma semana trabalhando diferente, um dia num lugar novo, um projeto paralelo,
+          um voluntariado, um curso intensivo. Qual experiência te daria um gostinho real?
+        </p>
+        <textarea id="q4" placeholder="Eu poderia experimentar..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" data-step="5">
+      <div class="step-header">
+        <span class="step-number">5 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Protótipo 3 — O projeto piloto</h2>
+        <p class="step-guide">
+          Se você pudesse criar algo pequeno — um projeto, um serviço, uma oferta, um experimento —
+          que testasse essa ideia de verdade, o que seria? Algo que você pode começar
+          nos próximos 30 dias, sem pedir permissão.
+        </p>
+        <textarea id="q5" placeholder="Meu projeto piloto seria..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step" data-step="6">
+      <div class="step-header">
+        <span class="step-number">6 de 6</span>
+        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
+      </div>
+      <div class="step-content">
+        <div class="ai-insight">
+          <span class="ai-insight-marker">✦ reflexão</span>
+          <p class="ai-insight-text"></p>
+        </div>
+        <div class="step-encouragement"></div>
+        <h2>Qual protótipo você faz primeiro?</h2>
+        <p class="step-guide">
+          Dos três protótipos — conversa, experiência, projeto piloto — qual é o mais viável agora?
+          Qual te dá mais informação pelo menor custo? Escolha um e defina quando começa.
+        </p>
+        <textarea id="q6" placeholder="Vou começar pelo protótipo... porque... e começo..." rows="5"></textarea>
+        <div class="step-nav">
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
+          <button class="btn-primary" id="finish-btn">ver meus protótipos <span class="arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="step" data-step="result">
+      <div class="step-content result-content">
+        <h2>Seus protótipos</h2>
+        <p class="result-intro">Três formas de testar sua ideia — sem largar tudo, sem decidir de cabeça.</p>
+
+        <div class="result-block"><h3>O que quero explorar</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>O que me impede</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>Protótipo 1 — A conversa</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>Protótipo 2 — A experiência</h3><p id="r4"></p></div>
+        <div class="result-block"><h3>Protótipo 3 — O projeto piloto</h3><p id="r5"></p></div>
+        <div class="result-block closing-block"><h3>Meu primeiro protótipo</h3><p id="r6"></p></div>
+
+        <div class="reflection-prompt">
+          <span class="reflection-label">uma pergunta para levar</span>
+          <p class="reflection-text">Qual é a menor ação que transforma "quero fazer" em "estou fazendo"?</p>
+        </div>
+
+        <div class="reflection-counter"></div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="copy-btn">copiar texto</button>
+          <button class="btn-secondary" id="download-btn">salvar como texto</button>
+          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
+          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { GuidedTool } from '../../scripts/guided-tool';
+
+  if (!(window as any).__guidedToolInit) {
+    (window as any).__guidedToolInit = true;
+
+  const config = {
+    slug: 'prototipos-de-futuro',
+    totalSteps: 6,
+    fields: [
+      { input: 'q1', output: 'r1' },
+      { input: 'q2', output: 'r2' },
+      { input: 'q3', output: 'r3' },
+      { input: 'q4', output: 'r4' },
+      { input: 'q5', output: 'r5' },
+      { input: 'q6', output: 'r6' },
+    ],
+    encouragements: [
+      '',
+      'Colocar o desejo em palavras já é um ato de coragem.',
+      'Entender o que te trava é o primeiro passo pra destravar.',
+      'Uma conversa certa pode mudar toda a perspectiva.',
+      'Experimentar de verdade vale mais que imaginar de cabeça.',
+      'Um projeto piloto é a forma mais segura de testar uma vida.',
+      'Escolher o primeiro passo é mais importante que ter o plano perfeito.',
+    ],
+    closingReflection: 'Qual é a menor ação que transforma "quero fazer" em "estou fazendo"?',
+    resultTitle: 'Protótipos de futuro',
+    visualConfig: {
+      type: 'prototype-bench',
+      sections: [
+        { id: 'tema', label: 'tema', stepRange: [1], wordClass: 'genuine' },
+        { id: 'obstaculo', label: 'obstáculo', stepRange: [2], wordClass: 'fear' },
+        { id: 'prototipo-conversa', label: 'protótipo 1', stepRange: [3], wordClass: 'strategy' },
+        { id: 'prototipo-experiencia', label: 'protótipo 2', stepRange: [4], wordClass: 'strategy' },
+        { id: 'prototipo-piloto', label: 'protótipo 3', stepRange: [5], wordClass: 'strategy' },
+        { id: 'escolha', label: 'escolha', stepRange: [6], wordClass: 'genuine' },
+      ],
+    },
+  };
+
+  const tool = new GuidedTool(config);
+  tool.init();
+  GuidedTool.wireExport(config);
+
+  }
+</script>
