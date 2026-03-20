@@ -11,6 +11,14 @@
   --border-light: #d0d0c8;
   --serif: 'EB Garamond', Georgia, serif;
   --sans: 'Inter', -apple-system, sans-serif;
+
+  /* Category colors */
+  --cat-decisions: #4a7aad;
+  --cat-thinking: #8b6aad;
+  --cat-action: #4aad6a;
+  --cat-relationships: #c27a5a;
+  --cat-energy: #2B4A3E;
+  --cat-perspective: #ada45a;
 }
 
 /* ─── Reset ─── */
