@@ -51,7 +51,7 @@
 .copilot-header .layer-dot.act { background: var(--act-color); }
 
 .copilot-header .layer-label {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--ink-muted);
@@ -80,7 +80,7 @@
 
 .copilot-question .speaker {
   font-family: var(--sans);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--accent);
@@ -90,17 +90,17 @@
 
 .copilot-question p {
   font-family: var(--serif);
-  font-size: 1.15rem;
-  line-height: 1.55;
+  font-size: 1.2rem;
+  line-height: 1.6;
   color: var(--ink);
 }
 
 .copilot-question .guidance {
   font-family: var(--serif);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-style: italic;
   color: var(--ink-muted);
-  line-height: 1.5;
+  line-height: 1.55;
   margin-top: 0.4rem;
 }
 
@@ -115,8 +115,8 @@
 
 .copilot-response p {
   font-family: var(--sans);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.65;
   color: var(--ink-light);
   white-space: pre-line;
 }
@@ -147,7 +147,7 @@
 
 .copilot-reflection .marker {
   font-family: var(--sans);
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--accent);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -156,8 +156,8 @@
 
 .copilot-reflection p {
   font-family: var(--serif);
-  font-size: 1.05rem;
-  line-height: 1.6;
+  font-size: 1.15rem;
+  line-height: 1.65;
   color: var(--ink);
 }
 
@@ -172,8 +172,8 @@
 
 .theme-tag {
   font-family: var(--sans);
-  font-size: 0.7rem;
-  padding: 2px 8px;
+  font-size: 0.8rem;
+  padding: 3px 10px;
   border-radius: 10px;
   background: rgba(43, 74, 62, 0.08);
   color: var(--accent);
@@ -263,7 +263,7 @@
   flex: 1;
   padding: 0.75rem 1rem;
   font-family: var(--sans);
-  font-size: 0.9rem;
+  font-size: 1rem;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--warm-white);
@@ -399,7 +399,7 @@
 
 .memo-section h3 {
   font-family: var(--sans);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -409,8 +409,8 @@
 
 .memo-section p {
   font-family: var(--serif);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  line-height: 1.65;
   color: var(--ink);
   white-space: pre-line;
 }
@@ -476,7 +476,7 @@
 /* Mobile */
 @media (max-width: 640px) {
   .copilot-timeline { padding-left: 1rem; padding-right: 1rem; }
-  .copilot-question p { font-size: 1.05rem; }
+  .copilot-question p { font-size: 1.1rem; }
   .copilot-input-inner { gap: 0.5rem; }
   .copilot-memo-actions { flex-wrap: wrap; }
 }
