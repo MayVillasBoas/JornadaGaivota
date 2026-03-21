@@ -116,13 +116,13 @@ function initLensesFilter() {
     let text = '';
 
     if (!catLabel && !searchTerm) {
-      text = `Mostrando ${count} lentes`;
+      text = `Showing ${count} lenses`;
     } else if (catLabel && !searchTerm) {
-      text = `Mostrando ${count} lentes em ${catLabel}`;
+      text = `Showing ${count} lenses in ${catLabel}`;
     } else if (!catLabel && searchTerm) {
-      text = `Mostrando ${count} lentes para '${searchTerm}'`;
+      text = `Showing ${count} lenses for '${searchTerm}'`;
     } else {
-      text = `Mostrando ${count} lentes em ${catLabel} para '${searchTerm}'`;
+      text = `Showing ${count} lenses in ${catLabel} for '${searchTerm}'`;
     }
 
     countEl!.textContent = text;

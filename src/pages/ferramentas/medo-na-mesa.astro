@@ -3,17 +3,17 @@ import Base from '../../layouts/Base.astro';
 import '../../styles/guided-tool.css';
 ---
 
-<Base title="Botando o medo na mesa — May">
+<Base title="Fear Setting — May">
 
   <section class="tool-hero">
-    <span class="tool-label">ferramenta 01</span>
-    <h1>Botando o medo<br>na mesa</h1>
+    <span class="tool-label">tool 01</span>
+    <h1>Fear Setting</h1>
     <p class="tool-intro">
-      Você está evitando algo. Talvez uma decisão, uma conversa, uma mudança.
-      Esta ferramenta te ajuda a nomear o medo, medir seu tamanho real,
-      e descobrir o que acontece se você não agir.
+      You're avoiding something. Maybe a decision, a conversation, a change.
+      This tool helps you name the fear, measure its real size,
+      and discover what happens if you don't act.
     </p>
-    <p class="tool-origin">Baseado em Fear Setting — Tim Ferriss</p>
+    <p class="tool-origin">Based on Fear Setting — Tim Ferriss</p>
   </section>
 
   <div class="divider"></div>
@@ -24,15 +24,13 @@ import '../../styles/guided-tool.css';
     <div class="resume-prompt">
       <p></p>
       <div class="resume-actions">
-        <button class="btn-primary btn-resume">continuar</button>
-        <button class="btn-secondary btn-restart">começar de novo</button>
+        <button class="btn-primary btn-resume">continue</button>
+        <button class="btn-secondary btn-restart">start over</button>
       </div>
     </div>
 
-    <!-- Visual artifact: Mapa do medo -->
-    <div class="tool-visual" id="tool-visual">
-      <div class="tool-visual-header">seu mapa do medo</div>
-    </div>
+    <!-- Unified fractal visualization -->
+    <div class="fractal-viz" id="fractal-viz"></div>
 
     <!-- Transition screen -->
     <div class="transition-screen">
@@ -48,20 +46,20 @@ import '../../styles/guided-tool.css';
     <div class="step active" data-step="0">
       <div class="step-content">
         <p class="step-context">
-          A maioria das decisões difíceis não trava por falta de informação.
-          Trava por medo — medo que muitas vezes é maior na cabeça
-          do que seria na realidade.
+          Most hard decisions don't stall from lack of information.
+          They stall from fear — fear that's often bigger in your head
+          than it would be in reality.
         </p>
         <p class="step-context">
-          Tim Ferriss criou o Fear Setting como uma forma de olhar pro medo
-          de frente: nomear exatamente o que você teme, pensar no que faria
-          se acontecesse, e calcular o custo real de não agir.
+          Tim Ferriss created Fear Setting as a way to look fear
+          in the face: name exactly what you're afraid of, think about what you'd do
+          if it happened, and calculate the real cost of not acting.
         </p>
         <p class="step-context">
-          Essa versão te guia por cada passo. Não precisa ter as respostas certas.
-          Só precisa ser honesta.
+          This version guides you through each step. You don't need the right answers.
+          You just need to be honest.
         </p>
-        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+        <button class="btn-primary step-next">begin <span class="arrow">→</span></button>
       </div>
     </div>
 
@@ -69,23 +67,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="1">
       <div class="step-header">
         <span class="step-number">1 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que você está evitando?</h2>
+        <h2>What are you avoiding?</h2>
         <p class="step-guide">
-          Pode ser uma decisão, uma conversa, uma mudança. Algo que você sabe que precisa
-          encarar, mas continua adiando. Escreva sem filtro.
+          It could be a decision, a conversation, a change. Something you know you need
+          to face, but keep putting off. Write without filtering.
         </p>
-        <textarea id="q1" placeholder="Escreva aqui o que está evitando..." rows="4"></textarea>
+        <textarea id="q1" placeholder="What I'm avoiding is..." rows="4"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -94,23 +91,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="2">
       <div class="step-header">
         <span class="step-number">2 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que exatamente você teme que aconteça?</h2>
+        <h2>What exactly do you fear will happen?</h2>
         <p class="step-guide">
-          Nomeie os piores cenários. Seja específica.
-          "Dar errado" é vago demais. O que <em>exatamente</em> daria errado?
+          Name the worst-case scenarios. Be specific.
+          "It could go wrong" is too vague. What <em>exactly</em> would go wrong?
         </p>
-        <textarea id="q2" placeholder="Se eu fizesse isso, o pior que poderia acontecer é..." rows="5"></textarea>
+        <textarea id="q2" placeholder="If I did this, the worst that could happen is..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -119,24 +115,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="3">
       <div class="step-header">
         <span class="step-number">3 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Como você poderia prevenir isso?</h2>
+        <h2>How could you prevent it?</h2>
         <p class="step-guide">
-          Olhe para cada cenário que você escreveu acima. Que ações diminuiriam
-          a chance de acontecer? Muitas vezes o medo fica enorme porque a gente
-          não para pra pensar em prevenção.
+          Look at each scenario you wrote above. What actions would reduce
+          the chances of it happening? Fear often grows huge because we
+          don't stop to think about prevention.
         </p>
-        <textarea id="q3" placeholder="Para reduzir as chances de cada cenário, eu poderia..." rows="5"></textarea>
+        <textarea id="q3" placeholder="To reduce the chances of each scenario, I could..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -145,24 +140,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="4">
       <div class="step-header">
         <span class="step-number">4 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Se acontecesse, como você repararia?</h2>
+        <h2>If it happened, how would you repair it?</h2>
         <p class="step-guide">
-          Mesmo no pior cenário — o que você faria para reconstruir?
-          Quem poderia ajudar? Que recursos você teria? A maioria
-          das coisas que tememos são reparáveis. Quase nada é realmente irreversível.
+          Even in the worst case — what would you do to rebuild?
+          Who could help? What resources would you have? Most
+          things we fear are repairable. Almost nothing is truly irreversible.
         </p>
-        <textarea id="q4" placeholder="Se o pior acontecesse, eu poderia..." rows="5"></textarea>
+        <textarea id="q4" placeholder="If the worst happened, I could..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -171,24 +165,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="5">
       <div class="step-header">
         <span class="step-number">5 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Qual é o custo real de agir?</h2>
+        <h2>What is the real cost of acting?</h2>
         <p class="step-guide">
-          Tempo, dinheiro, desconforto emocional, risco social. Seja concreta.
-          Quanto realmente custaria tentar? Às vezes o custo é bem menor
-          do que o medo faz parecer.
+          Time, money, emotional discomfort, social risk. Be concrete.
+          How much would it really cost to try? Sometimes the cost is much smaller
+          than fear makes it seem.
         </p>
-        <textarea id="q5" placeholder="Se eu agir, o custo real seria..." rows="4"></textarea>
+        <textarea id="q5" placeholder="If I act, the real cost would be..." rows="4"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -197,25 +190,24 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="6">
       <div class="step-header">
         <span class="step-number">6 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Qual é o custo de não agir por 6 meses?</h2>
+        <h2>What is the cost of not acting for 6 months?</h2>
         <p class="step-guide">
-          Esse é o passo que muda tudo. A gente calcula obsessivamente
-          o risco de agir — mas quase nunca mede o preço de ficar parada.
-          Como fica sua vida, sua energia, sua saúde, seu crescimento
-          se nada mudar nos próximos 6 meses?
+          This is the step that changes everything. We obsessively calculate
+          the risk of acting — but almost never measure the price of staying still.
+          What happens to your life, energy, health, and growth
+          if nothing changes in the next 6 months?
         </p>
-        <textarea id="q6" placeholder="Se eu não fizer nada por mais 6 meses, o custo será..." rows="5"></textarea>
+        <textarea id="q6" placeholder="If I do nothing for 6 more months, the cost will be..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -224,24 +216,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="7">
       <div class="step-header">
         <span class="step-number">7 de 7</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que talvez esteja morrendo<br>por você adiar isso?</h2>
+        <h2>What might be dying<br>because you're postponing this?</h2>
         <p class="step-guide">
-          Essa pergunta é mais pessoal. Além do prático — que parte de você,
-          que possibilidade, que versão da sua vida está ficando menor
-          enquanto você espera?
+          This question is more personal. Beyond the practical — what part of you,
+          what possibility, what version of your life is shrinking
+          while you wait?
         </p>
-        <textarea id="q7" placeholder="O que está morrendo por eu adiar é..." rows="5"></textarea>
+        <textarea id="q7" placeholder="What's dying because I'm postponing is..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary" id="finish-btn">ver meu mapa <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary" id="finish-btn">see my map <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -249,42 +240,42 @@ import '../../styles/guided-tool.css';
     <!-- Result -->
     <div class="step" data-step="result">
       <div class="step-content result-content">
-        <h2>Seu mapa do medo</h2>
-        <p class="result-intro">Aqui está o que ficou claro. Releia com calma.</p>
+        <h2>Your fear map</h2>
+        <p class="result-intro">Here's what became clear. Reread slowly.</p>
 
-        <div class="result-block"><h3>O que estou evitando</h3><p id="r1"></p></div>
-        <div class="result-block"><h3>O que temo que aconteça</h3><p id="r2"></p></div>
-        <div class="result-block"><h3>Como prevenir</h3><p id="r3"></p></div>
-        <div class="result-block"><h3>Como reparar</h3><p id="r4"></p></div>
+        <div class="result-block"><h3>What I'm avoiding</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>What I fear will happen</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>How to prevent</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>How to repair</h3><p id="r4"></p></div>
 
         <div class="result-columns">
           <div class="result-block">
-            <h3>Custo de agir</h3>
+            <h3>Cost of acting</h3>
             <p id="r5"></p>
           </div>
           <div class="result-block highlight">
-            <h3>Custo de não agir</h3>
+            <h3>Cost of not acting</h3>
             <p id="r6"></p>
           </div>
         </div>
 
         <div class="result-block closing-block">
-          <h3>O que está morrendo por eu adiar</h3>
+          <h3>What's dying because I'm postponing</h3>
           <p id="r7"></p>
         </div>
 
         <div class="reflection-prompt">
-          <span class="reflection-label">uma pergunta para levar</span>
-          <p class="reflection-text">Qual medo você descobriu que é menor do que parecia — e qual decisão isso libera?</p>
+          <span class="reflection-label">a question to take with you</span>
+          <p class="reflection-text">Which fear did you discover is smaller than it seemed — and what decision does that unlock?</p>
         </div>
 
         <div class="reflection-counter"></div>
 
         <div class="result-actions">
-          <button class="btn-secondary" id="copy-btn">copiar texto</button>
-          <button class="btn-secondary" id="download-btn">salvar como texto</button>
-          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
-          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+          <button class="btn-secondary" id="copy-btn">copy text</button>
+          <button class="btn-secondary" id="download-btn">save as text</button>
+          <button class="btn-secondary" id="save-journal-btn">save to journal</button>
+          <button class="btn-secondary" id="restart-btn">redo ↺</button>
         </div>
       </div>
     </div>
@@ -310,6 +301,7 @@ import '../../styles/guided-tool.css';
 
 <script>
   import { GuidedTool } from '../../scripts/guided-tool';
+  import { initToolVisuals } from '../../scripts/tool-visuals';
 
   if (!(window as any).__guidedToolInit) {
     (window as any).__guidedToolInit = true;
@@ -328,26 +320,26 @@ import '../../styles/guided-tool.css';
     ],
     encouragements: [
       '',
-      'Nomear o que você evita já é um ato de coragem.',
-      'Quanto mais específico o medo, menor ele fica.',
-      'A maioria dos medos tem prevenção. Isso muda tudo.',
-      'Quase nada é irreversível. Você tem mais recursos do que imagina.',
-      'O custo de agir geralmente é menor do que o medo faz parecer.',
-      'Esse é o passo que poucas pessoas fazem — medir o custo de não agir.',
-      'Essa pergunta vai além do prático. Escute o que vier.',
+      'Naming what you avoid is already an act of courage.',
+      'The more specific the fear, the smaller it gets.',
+      'Most fears have prevention. That changes everything.',
+      'Almost nothing is irreversible. You have more resources than you think.',
+      'The cost of acting is usually smaller than fear makes it seem.',
+      'This is the step few people take — measuring the cost of not acting.',
+      'This question goes beyond the practical. Listen to what comes.',
     ],
-    closingReflection: 'Qual medo você descobriu que é menor do que parecia — e qual decisão isso libera?',
-    resultTitle: 'Botando o medo na mesa',
+    closingReflection: 'Which fear did you discover is smaller than it seemed — and what decision does that unlock?',
+    resultTitle: 'Fear Setting',
     visualConfig: {
       type: 'fear-map',
       sections: [
-        { id: 'evitando', label: 'evitando', stepRange: [1], wordClass: 'fear' },
-        { id: 'medos', label: 'medos', stepRange: [2], wordClass: 'fear' },
-        { id: 'prevencao', label: 'prevenção', stepRange: [3], wordClass: 'strategy' },
-        { id: 'reparacao', label: 'reparação', stepRange: [4], wordClass: 'strategy' },
-        { id: 'custo-agir', label: 'custo de agir', stepRange: [5], wordClass: 'neutral' },
-        { id: 'custo-inacao', label: 'custo de não agir', stepRange: [6], wordClass: 'obligation' },
-        { id: 'veredicto', label: 'veredicto', stepRange: [7], wordClass: 'genuine' },
+        { id: 'evitando', label: 'avoiding', stepRange: [1], wordClass: 'fear' },
+        { id: 'medos', label: 'fears', stepRange: [2], wordClass: 'fear' },
+        { id: 'prevencao', label: 'prevention', stepRange: [3], wordClass: 'strategy' },
+        { id: 'reparacao', label: 'repair', stepRange: [4], wordClass: 'strategy' },
+        { id: 'custo-agir', label: 'cost of acting', stepRange: [5], wordClass: 'neutral' },
+        { id: 'custo-inacao', label: 'cost of not acting', stepRange: [6], wordClass: 'obligation' },
+        { id: 'veredicto', label: 'verdict', stepRange: [7], wordClass: 'genuine' },
       ],
     },
   };
@@ -355,6 +347,7 @@ import '../../styles/guided-tool.css';
   const tool = new GuidedTool(config);
   tool.init();
   GuidedTool.wireExport(config);
+  initToolVisuals(config.slug);
 
   }
 </script>

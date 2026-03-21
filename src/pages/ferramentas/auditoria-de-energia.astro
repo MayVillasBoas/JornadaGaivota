@@ -3,16 +3,16 @@ import Base from '../../layouts/Base.astro';
 import '../../styles/guided-tool.css';
 ---
 
-<Base title="Auditoria de energia — May">
+<Base title="Energy Audit — May">
 
   <section class="tool-hero">
-    <span class="tool-label">ferramenta 05</span>
-    <h1>Auditoria de energia</h1>
+    <span class="tool-label">tool 05</span>
+    <h1>Energy Audit</h1>
     <p class="tool-intro">
-      Mapeie o que te drena e o que te devolve. Porque reorganizar a vida começa por
-      enxergar com honestidade onde você está gastando sua energia — e onde ela está voltando.
+      Map what drains you and what restores you. Because reorganizing your life starts by
+      honestly seeing where you're spending your energy — and where it's coming back.
     </p>
-    <p class="tool-origin">Curadoria May</p>
+    <p class="tool-origin">May curation</p>
   </section>
 
   <div class="divider"></div>
@@ -23,15 +23,13 @@ import '../../styles/guided-tool.css';
     <div class="resume-prompt">
       <p></p>
       <div class="resume-actions">
-        <button class="btn-primary btn-resume">continuar</button>
-        <button class="btn-secondary btn-restart">começar de novo</button>
+        <button class="btn-primary btn-resume">continue</button>
+        <button class="btn-secondary btn-restart">start over</button>
       </div>
     </div>
 
-    <!-- Visual artifact: Balanço de energia -->
-    <div class="tool-visual" id="tool-visual">
-      <div class="tool-visual-header">seu balanço</div>
-    </div>
+    <!-- Unified fractal visualization -->
+    <div class="fractal-viz" id="fractal-viz"></div>
 
     <!-- Transition screen -->
     <div class="transition-screen">
@@ -47,14 +45,14 @@ import '../../styles/guided-tool.css';
     <div class="step active" data-step="0">
       <div class="step-content">
         <p class="step-context">
-          A gente sabe intuitivamente o que drena e o que energiza. Mas raramente para pra
-          mapear isso com honestidade. Quando você olha de verdade, padrões aparecem —
-          e fica mais fácil tomar decisões que protejam a sua energia.
+          We intuitively know what drains us and what energizes us. But we rarely stop to
+          map it honestly. When you truly look, patterns emerge —
+          and it becomes easier to make decisions that protect your energy.
         </p>
         <p class="step-context">
-          Aqui você vai fazer um inventário real da sua semana. Sem julgamento, sem otimismo forçado.
+          Here you'll take a real inventory of your week. No judgment, no forced optimism.
         </p>
-        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+        <button class="btn-primary step-next">begin <span class="arrow">→</span></button>
       </div>
     </div>
 
@@ -62,23 +60,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="1">
       <div class="step-header">
         <span class="step-number">1 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que te drena?</h2>
+        <h2>What drains you?</h2>
         <p class="step-guide">
-          Pense na sua semana típica. Que atividades, pessoas, compromissos ou hábitos te deixam
-          mais cansada do que antes? Liste tudo — trabalho, relações, rotina, obrigações sociais.
+          Think about your typical week. What activities, people, commitments, or habits leave you
+          more tired than before? List everything — work, relationships, routine, social obligations.
         </p>
-        <textarea id="q1" placeholder="O que me drena energia é..." rows="6"></textarea>
+        <textarea id="q1" placeholder="What drains my energy is..." rows="6"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -87,24 +84,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="2">
       <div class="step-header">
         <span class="step-number">2 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que te devolve?</h2>
+        <h2>What restores you?</h2>
         <p class="step-guide">
-          Agora o outro lado. O que te faz sentir mais viva, presente, com energia?
-          Pode ser uma atividade, uma pessoa, um lugar, um momento do dia.
-          Inclua as coisas pequenas também.
+          Now the other side. What makes you feel more alive, present, energized?
+          It could be an activity, a person, a place, a time of day.
+          Include the small things too.
         </p>
-        <textarea id="q2" placeholder="O que me devolve energia é..." rows="6"></textarea>
+        <textarea id="q2" placeholder="What restores my energy is..." rows="6"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -113,23 +109,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="3">
       <div class="step-header">
         <span class="step-number">3 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O balanço está positivo ou negativo?</h2>
+        <h2>Is the balance positive or negative?</h2>
         <p class="step-guide">
-          Olhe para as duas listas. Se sua semana fosse uma conta bancária de energia,
-          você estaria no azul ou no vermelho? O que predomina? Há quanto tempo?
+          Look at both lists. If your week were an energy bank account,
+          would you be in the black or in the red? What dominates? For how long?
         </p>
-        <textarea id="q3" placeholder="Meu balanço de energia está..." rows="5"></textarea>
+        <textarea id="q3" placeholder="My energy balance is..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -138,24 +133,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="4">
       <div class="step-header">
         <span class="step-number">4 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que você pode eliminar ou reduzir?</h2>
+        <h2>What can you eliminate or reduce?</h2>
         <p class="step-guide">
-          Na lista do que drena, o que está no seu controle mudar?
-          Não precisa ser tudo de uma vez. Qual o item mais drenante que você
-          poderia eliminar, delegar, reduzir ou transformar?
+          In the list of what drains you, what's within your control to change?
+          It doesn't have to be everything at once. What's the most draining item you
+          could eliminate, delegate, reduce, or transform?
         </p>
-        <textarea id="q4" placeholder="Eu poderia eliminar ou reduzir..." rows="5"></textarea>
+        <textarea id="q4" placeholder="I could eliminate or reduce..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -164,23 +158,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="5">
       <div class="step-header">
         <span class="step-number">5 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que você pode ampliar?</h2>
+        <h2>What can you amplify?</h2>
         <p class="step-guide">
-          Na lista do que te devolve, o que poderia ganhar mais espaço na sua semana?
-          Como você poderia proteger esse tempo ou criar mais dele?
+          In the list of what restores you, what could get more space in your week?
+          How could you protect that time or create more of it?
         </p>
-        <textarea id="q5" placeholder="Eu poderia ampliar ou proteger..." rows="5"></textarea>
+        <textarea id="q5" placeholder="I could amplify or protect..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -189,24 +182,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="6">
       <div class="step-header">
         <span class="step-number">6 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Uma mudança para esta semana</h2>
+        <h2>One change for this week</h2>
         <p class="step-guide">
-          Você não precisa redesenhar toda a sua vida agora.
-          Escolha uma coisa para mudar nesta semana — uma coisa para tirar ou uma para adicionar.
-          Pequeno o suficiente para ser real. Concreto o suficiente para acontecer.
+          You don't need to redesign your entire life right now.
+          Choose one thing to change this week — one thing to remove or one to add.
+          Small enough to be real. Concrete enough to happen.
         </p>
-        <textarea id="q6" placeholder="Esta semana, vou..." rows="5"></textarea>
+        <textarea id="q6" placeholder="This week, I will..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary" id="finish-btn">ver minha auditoria <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary" id="finish-btn">see my audit <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -214,28 +206,28 @@ import '../../styles/guided-tool.css';
     <!-- Result -->
     <div class="step" data-step="result">
       <div class="step-content result-content">
-        <h2>Sua auditoria de energia</h2>
-        <p class="result-intro">Um mapa honesto de onde sua energia está indo — e de onde ela pode voltar.</p>
+        <h2>Your energy audit</h2>
+        <p class="result-intro">An honest map of where your energy is going — and where it can come back from.</p>
 
-        <div class="result-block"><h3>O que me drena</h3><p id="r1"></p></div>
-        <div class="result-block"><h3>O que me devolve</h3><p id="r2"></p></div>
-        <div class="result-block"><h3>Meu balanço</h3><p id="r3"></p></div>
-        <div class="result-block"><h3>O que posso eliminar ou reduzir</h3><p id="r4"></p></div>
-        <div class="result-block"><h3>O que posso ampliar</h3><p id="r5"></p></div>
-        <div class="result-block closing-block"><h3>Minha mudança desta semana</h3><p id="r6"></p></div>
+        <div class="result-block"><h3>What drains me</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>What restores me</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>My balance</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>What I can eliminate or reduce</h3><p id="r4"></p></div>
+        <div class="result-block"><h3>What I can amplify</h3><p id="r5"></p></div>
+        <div class="result-block closing-block"><h3>My change for this week</h3><p id="r6"></p></div>
 
         <div class="reflection-prompt">
-          <span class="reflection-label">uma pergunta para levar</span>
-          <p class="reflection-text">Se energia é moeda, no que você está gastando a sua — e no que quer investir?</p>
+          <span class="reflection-label">a question to take with you</span>
+          <p class="reflection-text">If energy is currency, what are you spending yours on — and what do you want to invest in?</p>
         </div>
 
         <div class="reflection-counter"></div>
 
         <div class="result-actions">
-          <button class="btn-secondary" id="copy-btn">copiar texto</button>
-          <button class="btn-secondary" id="download-btn">salvar como texto</button>
-          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
-          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+          <button class="btn-secondary" id="copy-btn">copy text</button>
+          <button class="btn-secondary" id="download-btn">save as text</button>
+          <button class="btn-secondary" id="save-journal-btn">save to journal</button>
+          <button class="btn-secondary" id="restart-btn">redo ↺</button>
         </div>
       </div>
     </div>
@@ -244,6 +236,7 @@ import '../../styles/guided-tool.css';
 
 <script>
   import { GuidedTool } from '../../scripts/guided-tool';
+  import { initToolVisuals } from '../../scripts/tool-visuals';
 
   if (!(window as any).__guidedToolInit) {
     (window as any).__guidedToolInit = true;
@@ -261,24 +254,24 @@ import '../../styles/guided-tool.css';
     ],
     encouragements: [
       '',
-      'Ver o que drena já é um ato de proteção.',
-      'Agora o outro lado. Energia boa existe — às vezes só precisa de espaço.',
-      'Ver o balanço com honestidade é o primeiro passo pra mudar.',
-      'Eliminar um dreno já libera espaço pra algo melhor.',
-      'Ampliar o que te devolve é tão importante quanto cortar o que drena.',
-      'Uma mudança pequena e real vale mais que um plano grande e vago.',
+      'Seeing what drains you is already an act of self-protection.',
+      'Now the other side. Good energy exists — sometimes it just needs space.',
+      'Seeing the balance honestly is the first step to change.',
+      'Eliminating one drain already frees space for something better.',
+      'Amplifying what restores you is as important as cutting what drains.',
+      'A small, real change is worth more than a big, vague plan.',
     ],
-    closingReflection: 'Se energia é moeda, no que você está gastando a sua — e no que quer investir?',
-    resultTitle: 'Auditoria de energia',
+    closingReflection: 'If energy is currency, what are you spending yours on — and what do you want to invest in?',
+    resultTitle: 'Energy Audit',
     visualConfig: {
       type: 'energy-balance',
       sections: [
-        { id: 'drena', label: 'drena', stepRange: [1], wordClass: 'drains' },
-        { id: 'devolve', label: 'devolve', stepRange: [2], wordClass: 'restores' },
-        { id: 'balanco', label: 'balanço', stepRange: [3], wordClass: 'neutral' },
-        { id: 'eliminar', label: 'eliminar', stepRange: [4], wordClass: 'strategy' },
-        { id: 'ampliar', label: 'ampliar', stepRange: [5], wordClass: 'strategy' },
-        { id: 'mudanca', label: 'mudança', stepRange: [6], wordClass: 'genuine' },
+        { id: 'drena', label: 'drains', stepRange: [1], wordClass: 'drains' },
+        { id: 'devolve', label: 'restores', stepRange: [2], wordClass: 'restores' },
+        { id: 'balanco', label: 'balance', stepRange: [3], wordClass: 'neutral' },
+        { id: 'eliminar', label: 'eliminate', stepRange: [4], wordClass: 'strategy' },
+        { id: 'ampliar', label: 'amplify', stepRange: [5], wordClass: 'strategy' },
+        { id: 'mudanca', label: 'change', stepRange: [6], wordClass: 'genuine' },
       ],
     },
   };
@@ -286,6 +279,7 @@ import '../../styles/guided-tool.css';
   const tool = new GuidedTool(config);
   tool.init();
   GuidedTool.wireExport(config);
+  initToolVisuals(config.slug);
 
   }
 </script>

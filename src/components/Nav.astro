@@ -2,14 +2,16 @@
 const isHome = Astro.url.pathname === '/';
 const prefix = isHome ? '' : '/';
 const sectionLinks = [
-  { href: `${prefix}#lentes`, label: 'lentes' },
-  { href: `${prefix}#mentores`, label: 'mentores' },
-  { href: `${prefix}#ferramentas`, label: 'ferramentas' },
-  { href: `${prefix}#escrita`, label: 'escrita' },
+  { href: `${prefix}#lenses`, label: 'lenses' },
+  { href: `${prefix}#mentors`, label: 'mentors' },
+  { href: `${prefix}#tools`, label: 'tools' },
+  { href: `${prefix}#writing`, label: 'writing' },
 ];
 const pageLinks = [
-  { href: '/sobre', label: 'sobre' },
-  { href: '/agora', label: 'agora' },
+  { href: '/diario', label: 'journal' },
+  { href: '/lab', label: 'lab' },
+  { href: '/sobre', label: 'about' },
+  { href: '/agora', label: 'now' },
 ];
 const links = [...sectionLinks, ...pageLinks];
 ---
@@ -22,7 +24,7 @@ const links = [...sectionLinks, ...pageLinks];
       {links.map(link => (
         <li><a href={link.href}>{link.label}</a></li>
       ))}
-      <li><a href="#" class="lang-toggle">en</a></li>
+      <li><a href="#" class="lang-toggle">pt</a></li>
     </ul>
 
     <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false">

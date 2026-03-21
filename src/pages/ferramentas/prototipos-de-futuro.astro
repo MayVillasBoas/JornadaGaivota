@@ -3,16 +3,16 @@ import Base from '../../layouts/Base.astro';
 import '../../styles/guided-tool.css';
 ---
 
-<Base title="Protótipos de futuro — May">
+<Base title="Future Prototypes — May">
 
   <section class="tool-hero">
-    <span class="tool-label">ferramenta 07</span>
-    <h1>Protótipos de futuro</h1>
+    <span class="tool-label">tool 07</span>
+    <h1>Future Prototypes</h1>
     <p class="tool-intro">
-      Em vez de decidir tudo de cabeça, desenhe 3 pequenos testes.
-      Para experimentar uma vida antes de largar tudo — porque a melhor forma de escolher é vivendo.
+      Instead of deciding everything in your head, design 3 small tests.
+      To experience a life before quitting everything — because the best way to choose is by living.
     </p>
-    <p class="tool-origin">Baseado em Design Your Life — Bill Burnett & Dave Evans</p>
+    <p class="tool-origin">Based on Design Your Life — Bill Burnett & Dave Evans</p>
   </section>
 
   <div class="divider"></div>
@@ -23,15 +23,13 @@ import '../../styles/guided-tool.css';
     <div class="resume-prompt">
       <p></p>
       <div class="resume-actions">
-        <button class="btn-primary btn-resume">continuar</button>
-        <button class="btn-secondary btn-restart">começar de novo</button>
+        <button class="btn-primary btn-resume">continue</button>
+        <button class="btn-secondary btn-restart">start over</button>
       </div>
     </div>
 
-    <!-- Visual artifact: Bancada de protótipos -->
-    <div class="tool-visual" id="tool-visual">
-      <div class="tool-visual-header">sua bancada</div>
-    </div>
+    <!-- Unified fractal visualization -->
+    <div class="fractal-viz" id="fractal-viz"></div>
 
     <!-- Transition screen -->
     <div class="transition-screen">
@@ -47,14 +45,14 @@ import '../../styles/guided-tool.css';
     <div class="step active" data-step="0">
       <div class="step-content">
         <p class="step-context">
-          O Design Your Life propõe que a gente trate a vida como um projeto de design:
-          em vez de tentar acertar de primeira, você cria protótipos — versões pequenas, baratas
-          e reversíveis — para testar se algo faz sentido antes de se comprometer.
+          Design Your Life proposes that we treat life as a design project:
+          instead of trying to get it right the first time, you create prototypes — small, cheap,
+          and reversible versions — to test if something makes sense before committing.
         </p>
         <p class="step-context">
-          Aqui você vai sair do "eu deveria fazer X" e entrar no "como eu testo X sem largar tudo".
+          Here you'll move from "I should do X" to "how do I test X without quitting everything."
         </p>
-        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+        <button class="btn-primary step-next">begin <span class="arrow">→</span></button>
       </div>
     </div>
 
@@ -62,24 +60,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="1">
       <div class="step-header">
         <span class="step-number">1 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que você quer explorar?</h2>
+        <h2>What do you want to explore?</h2>
         <p class="step-guide">
-          Descreva a mudança, ideia ou caminho que você está considerando.
-          Pode ser uma carreira, um estilo de vida, um projeto, uma relação diferente com o trabalho.
-          O que está na sua cabeça querendo sair?
+          Describe the change, idea, or path you're considering.
+          It could be a career, a lifestyle, a project, a different relationship with work.
+          What's in your head wanting to come out?
         </p>
-        <textarea id="q1" placeholder="O que eu quero explorar é..." rows="5"></textarea>
+        <textarea id="q1" placeholder="What I want to explore is..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -88,23 +85,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="2">
       <div class="step-header">
         <span class="step-number">2 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Por que você ainda não testou?</h2>
+        <h2>Why haven't you tested it yet?</h2>
         <p class="step-guide">
-          O que te impede? Medo? Falta de tempo? Não saber por onde começar?
-          O que precisaria ser verdade para você se sentir segura o suficiente para tentar?
+          What's stopping you? Fear? Lack of time? Not knowing where to start?
+          What would need to be true for you to feel safe enough to try?
         </p>
-        <textarea id="q2" placeholder="Eu ainda não testei porque..." rows="5"></textarea>
+        <textarea id="q2" placeholder="I haven't tested it yet because..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -113,24 +109,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="3">
       <div class="step-header">
         <span class="step-number">3 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Protótipo 1 — A conversa</h2>
+        <h2>Prototype 1 — The conversation</h2>
         <p class="step-guide">
-          O protótipo mais simples é uma conversa. Quem já vive algo parecido com o que você quer?
-          Quem poderia te dar uma perspectiva real — não idealizada? Descreva quem você procuraria
-          e o que perguntaria.
+          The simplest prototype is a conversation. Who already lives something similar to what you want?
+          Who could give you a real perspective — not an idealized one? Describe who you'd seek out
+          and what you'd ask.
         </p>
-        <textarea id="q3" placeholder="Eu conversaria com... e perguntaria..." rows="5"></textarea>
+        <textarea id="q3" placeholder="I'd talk to... and ask..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -139,24 +134,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="4">
       <div class="step-header">
         <span class="step-number">4 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Protótipo 2 — A experiência</h2>
+        <h2>Prototype 2 — The experience</h2>
         <p class="step-guide">
-          Como você poderia viver um pedaço dessa vida por um período curto?
-          Uma semana trabalhando diferente, um dia num lugar novo, um projeto paralelo,
-          um voluntariado, um curso intensivo. Qual experiência te daria um gostinho real?
+          How could you live a piece of that life for a short period?
+          A week working differently, a day in a new place, a side project,
+          volunteering, an intensive course. What experience would give you a real taste?
         </p>
-        <textarea id="q4" placeholder="Eu poderia experimentar..." rows="5"></textarea>
+        <textarea id="q4" placeholder="I could try..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -165,24 +159,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="5">
       <div class="step-header">
         <span class="step-number">5 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Protótipo 3 — O projeto piloto</h2>
+        <h2>Prototype 3 — The pilot project</h2>
         <p class="step-guide">
-          Se você pudesse criar algo pequeno — um projeto, um serviço, uma oferta, um experimento —
-          que testasse essa ideia de verdade, o que seria? Algo que você pode começar
-          nos próximos 30 dias, sem pedir permissão.
+          If you could create something small — a project, a service, an offer, an experiment —
+          that would truly test this idea, what would it be? Something you can start
+          in the next 30 days, without asking permission.
         </p>
-        <textarea id="q5" placeholder="Meu projeto piloto seria..." rows="5"></textarea>
+        <textarea id="q5" placeholder="My pilot project would be..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -191,23 +184,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="6">
       <div class="step-header">
         <span class="step-number">6 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Qual protótipo você faz primeiro?</h2>
+        <h2>Which prototype do you do first?</h2>
         <p class="step-guide">
-          Dos três protótipos — conversa, experiência, projeto piloto — qual é o mais viável agora?
-          Qual te dá mais informação pelo menor custo? Escolha um e defina quando começa.
+          Of the three prototypes — conversation, experience, pilot project — which is most feasible now?
+          Which gives you the most information for the lowest cost? Choose one and set a start date.
         </p>
-        <textarea id="q6" placeholder="Vou começar pelo protótipo... porque... e começo..." rows="5"></textarea>
+        <textarea id="q6" placeholder="I'll start with the prototype... because... and I'll begin..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary" id="finish-btn">ver meus protótipos <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary" id="finish-btn">see my prototypes <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -215,28 +207,28 @@ import '../../styles/guided-tool.css';
     <!-- Result -->
     <div class="step" data-step="result">
       <div class="step-content result-content">
-        <h2>Seus protótipos</h2>
-        <p class="result-intro">Três formas de testar sua ideia — sem largar tudo, sem decidir de cabeça.</p>
+        <h2>Your prototypes</h2>
+        <p class="result-intro">Three ways to test your idea — without quitting everything, without deciding in your head.</p>
 
-        <div class="result-block"><h3>O que quero explorar</h3><p id="r1"></p></div>
-        <div class="result-block"><h3>O que me impede</h3><p id="r2"></p></div>
-        <div class="result-block"><h3>Protótipo 1 — A conversa</h3><p id="r3"></p></div>
-        <div class="result-block"><h3>Protótipo 2 — A experiência</h3><p id="r4"></p></div>
-        <div class="result-block"><h3>Protótipo 3 — O projeto piloto</h3><p id="r5"></p></div>
-        <div class="result-block closing-block"><h3>Meu primeiro protótipo</h3><p id="r6"></p></div>
+        <div class="result-block"><h3>What I want to explore</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>What's stopping me</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>Prototype 1 — The conversation</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>Prototype 2 — The experience</h3><p id="r4"></p></div>
+        <div class="result-block"><h3>Prototype 3 — The pilot project</h3><p id="r5"></p></div>
+        <div class="result-block closing-block"><h3>My first prototype</h3><p id="r6"></p></div>
 
         <div class="reflection-prompt">
-          <span class="reflection-label">uma pergunta para levar</span>
-          <p class="reflection-text">Qual é a menor ação que transforma "quero fazer" em "estou fazendo"?</p>
+          <span class="reflection-label">a question to take with you</span>
+          <p class="reflection-text">What's the smallest action that turns "I want to do" into "I'm doing"?</p>
         </div>
 
         <div class="reflection-counter"></div>
 
         <div class="result-actions">
-          <button class="btn-secondary" id="copy-btn">copiar texto</button>
-          <button class="btn-secondary" id="download-btn">salvar como texto</button>
-          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
-          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+          <button class="btn-secondary" id="copy-btn">copy text</button>
+          <button class="btn-secondary" id="download-btn">save as text</button>
+          <button class="btn-secondary" id="save-journal-btn">save to journal</button>
+          <button class="btn-secondary" id="restart-btn">redo ↺</button>
         </div>
       </div>
     </div>
@@ -245,6 +237,7 @@ import '../../styles/guided-tool.css';
 
 <script>
   import { GuidedTool } from '../../scripts/guided-tool';
+  import { initToolVisuals } from '../../scripts/tool-visuals';
 
   if (!(window as any).__guidedToolInit) {
     (window as any).__guidedToolInit = true;
@@ -262,24 +255,24 @@ import '../../styles/guided-tool.css';
     ],
     encouragements: [
       '',
-      'Colocar o desejo em palavras já é um ato de coragem.',
-      'Entender o que te trava é o primeiro passo pra destravar.',
-      'Uma conversa certa pode mudar toda a perspectiva.',
-      'Experimentar de verdade vale mais que imaginar de cabeça.',
-      'Um projeto piloto é a forma mais segura de testar uma vida.',
-      'Escolher o primeiro passo é mais importante que ter o plano perfeito.',
+      'Putting desire into words is already an act of courage.',
+      'Understanding what blocks you is the first step to unblocking.',
+      'The right conversation can change the entire perspective.',
+      'Actually trying is worth more than imagining in your head.',
+      'A pilot project is the safest way to test a life.',
+      'Choosing the first step is more important than having the perfect plan.',
     ],
-    closingReflection: 'Qual é a menor ação que transforma "quero fazer" em "estou fazendo"?',
-    resultTitle: 'Protótipos de futuro',
+    closingReflection: 'What's the smallest action that turns "I want to do" into "I'm doing"?',
+    resultTitle: 'Future Prototypes',
     visualConfig: {
       type: 'prototype-bench',
       sections: [
-        { id: 'tema', label: 'tema', stepRange: [1], wordClass: 'genuine' },
-        { id: 'obstaculo', label: 'obstáculo', stepRange: [2], wordClass: 'fear' },
-        { id: 'prototipo-conversa', label: 'protótipo 1', stepRange: [3], wordClass: 'strategy' },
-        { id: 'prototipo-experiencia', label: 'protótipo 2', stepRange: [4], wordClass: 'strategy' },
-        { id: 'prototipo-piloto', label: 'protótipo 3', stepRange: [5], wordClass: 'strategy' },
-        { id: 'escolha', label: 'escolha', stepRange: [6], wordClass: 'genuine' },
+        { id: 'tema', label: 'theme', stepRange: [1], wordClass: 'genuine' },
+        { id: 'obstaculo', label: 'obstacle', stepRange: [2], wordClass: 'fear' },
+        { id: 'prototipo-conversa', label: 'prototype 1', stepRange: [3], wordClass: 'strategy' },
+        { id: 'prototipo-experiencia', label: 'prototype 2', stepRange: [4], wordClass: 'strategy' },
+        { id: 'prototipo-piloto', label: 'prototype 3', stepRange: [5], wordClass: 'strategy' },
+        { id: 'escolha', label: 'choice', stepRange: [6], wordClass: 'genuine' },
       ],
     },
   };
@@ -287,6 +280,7 @@ import '../../styles/guided-tool.css';
   const tool = new GuidedTool(config);
   tool.init();
   GuidedTool.wireExport(config);
+  initToolVisuals(config.slug);
 
   }
 </script>

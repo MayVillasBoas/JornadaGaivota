@@ -3,16 +3,16 @@ import Base from '../../layouts/Base.astro';
 import '../../styles/guided-tool.css';
 ---
 
-<Base title="O que eu quero dizer de verdade — May">
+<Base title="What I Really Want to Say — May">
 
   <section class="tool-hero">
-    <span class="tool-label">ferramenta 06</span>
-    <h1>O que eu quero dizer de verdade</h1>
+    <span class="tool-label">tool 06</span>
+    <h1>What I Really Want to Say</h1>
     <p class="tool-intro">
-      Traduza julgamento, raiva e confusão em algo claro e honesto.
-      Para aquelas conversas que você está adiando — porque não sabe como dizer sem atacar nem se anular.
+      Translate judgment, anger, and confusion into something clear and honest.
+      For those conversations you've been putting off — because you don't know how to say it without attacking or shutting down.
     </p>
-    <p class="tool-origin">Baseado em Comunicação Não Violenta — Marshall Rosenberg</p>
+    <p class="tool-origin">Based on Nonviolent Communication — Marshall Rosenberg</p>
   </section>
 
   <div class="divider"></div>
@@ -23,15 +23,13 @@ import '../../styles/guided-tool.css';
     <div class="resume-prompt">
       <p></p>
       <div class="resume-actions">
-        <button class="btn-primary btn-resume">continuar</button>
-        <button class="btn-secondary btn-restart">começar de novo</button>
+        <button class="btn-primary btn-resume">continue</button>
+        <button class="btn-secondary btn-restart">start over</button>
       </div>
     </div>
 
-    <!-- Visual artifact: Descascando a cebola -->
-    <div class="tool-visual" id="tool-visual">
-      <div class="tool-visual-header">suas camadas</div>
-    </div>
+    <!-- Unified fractal visualization -->
+    <div class="fractal-viz" id="fractal-viz"></div>
 
     <!-- Transition screen -->
     <div class="transition-screen">
@@ -47,14 +45,14 @@ import '../../styles/guided-tool.css';
     <div class="step active" data-step="0">
       <div class="step-content">
         <p class="step-context">
-          A Comunicação Não Violenta parte de uma ideia simples: por trás de todo julgamento
-          existe um sentimento, e por trás de todo sentimento existe uma necessidade.
-          Quando você descobre a necessidade, a conversa muda completamente.
+          Nonviolent Communication starts from a simple idea: behind every judgment
+          there is a feeling, and behind every feeling there is a need.
+          When you discover the need, the conversation changes completely.
         </p>
         <p class="step-context">
-          Aqui você vai traduzir o que está sentindo em algo que dá pra dizer de verdade.
+          Here you'll translate what you're feeling into something you can actually say.
         </p>
-        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+        <button class="btn-primary step-next">begin <span class="arrow">→</span></button>
       </div>
     </div>
 
@@ -62,24 +60,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="1">
       <div class="step-header">
         <span class="step-number">1 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que aconteceu?</h2>
+        <h2>What happened?</h2>
         <p class="step-guide">
-          Descreva a situação concreta — sem julgamento, sem interpretação.
-          O que a pessoa fez ou disse? Fatos, não rótulos.
-          Em vez de "ela foi grossa", tente "ela disse X quando eu estava falando".
+          Describe the concrete situation — without judgment, without interpretation.
+          What did the person do or say? Facts, not labels.
+          Instead of "she was rude," try "she said X while I was talking."
         </p>
-        <textarea id="q1" placeholder="O que aconteceu foi que..." rows="5"></textarea>
+        <textarea id="q1" placeholder="What happened was..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -88,24 +85,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="2">
       <div class="step-header">
         <span class="step-number">2 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que você está sentindo?</h2>
+        <h2>What are you feeling?</h2>
         <p class="step-guide">
-          Não o que você acha da pessoa — o que você sente no corpo.
-          Raiva? Tristeza? Frustração? Medo? Solidão? Confusão?
-          Sentimentos são sinais, não problemas.
+          Not what you think about the person — what you feel in your body.
+          Anger? Sadness? Frustration? Fear? Loneliness? Confusion?
+          Feelings are signals, not problems.
         </p>
-        <textarea id="q2" placeholder="Eu estou sentindo..." rows="5"></textarea>
+        <textarea id="q2" placeholder="I'm feeling..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -114,29 +110,28 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="3">
       <div class="step-header">
         <span class="step-number">3 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Qual necessidade não está sendo atendida?</h2>
+        <h2>What need isn't being met?</h2>
         <p class="step-guide">
-          Todo sentimento aponta para uma necessidade. Se você está com raiva, talvez precise
-          de respeito. Se está triste, talvez precise de conexão. Se está frustrada, talvez
-          precise de autonomia. O que está faltando?
+          Every feeling points to a need. If you're angry, maybe you need
+          respect. If you're sad, maybe you need connection. If you're frustrated, maybe you
+          need autonomy. What's missing?
         </p>
         <div class="needs-examples">
-          <span>respeito</span><span>conexão</span><span>autonomia</span><span>segurança</span>
-          <span>honestidade</span><span>reconhecimento</span><span>espaço</span><span>pertencimento</span>
-          <span>confiança</span><span>empatia</span><span>liberdade</span><span>consideração</span>
+          <span>respect</span><span>connection</span><span>autonomy</span><span>safety</span>
+          <span>honesty</span><span>recognition</span><span>space</span><span>belonging</span>
+          <span>trust</span><span>empathy</span><span>freedom</span><span>consideration</span>
         </div>
-        <textarea id="q3" placeholder="O que eu preciso é de..." rows="5"></textarea>
+        <textarea id="q3" placeholder="What I need is..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -145,24 +140,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="4">
       <div class="step-header">
         <span class="step-number">4 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que você gostaria de pedir?</h2>
+        <h2>What would you like to ask for?</h2>
         <p class="step-guide">
-          Não uma exigência — um pedido concreto e realizável. Em vez de "quero que você mude",
-          tente "gostaria que quando X acontecer, você pudesse Y". Um pedido específico,
-          não uma transformação impossível.
+          Not a demand — a concrete, doable request. Instead of "I want you to change,"
+          try "I'd like that when X happens, you could Y." A specific request,
+          not an impossible transformation.
         </p>
-        <textarea id="q4" placeholder="O que eu gostaria de pedir é..." rows="5"></textarea>
+        <textarea id="q4" placeholder="What I'd like to ask for is..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -171,24 +165,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="5">
       <div class="step-header">
         <span class="step-number">5 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Juntando tudo</h2>
+        <h2>Putting it all together</h2>
         <p class="step-guide">
-          Agora tente montar a frase completa, no formato:
-          "Quando [fato], eu me sinto [sentimento], porque preciso de [necessidade].
-          Gostaria de [pedido]." Pode adaptar com suas palavras — o importante é que seja honesto e sem ataque.
+          Now try to build the full sentence, in the format:
+          "When [fact], I feel [feeling], because I need [need].
+          I'd like [request]." You can adapt with your own words — what matters is that it's honest and non-attacking.
         </p>
-        <textarea id="q5" placeholder="O que eu quero dizer de verdade é..." rows="6"></textarea>
+        <textarea id="q5" placeholder="What I really want to say is..." rows="6"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -197,24 +190,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="6">
       <div class="step-header">
         <span class="step-number">6 de 6</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Quando e como você vai dizer?</h2>
+        <h2>When and how will you say it?</h2>
         <p class="step-guide">
-          Ter clareza do que dizer é metade do caminho. A outra metade é escolher o momento.
-          Quando você quer ter essa conversa? Em que contexto? Presencial, por escrito?
-          Com que energia? Planeje o como.
+          Having clarity on what to say is half the battle. The other half is choosing the moment.
+          When do you want to have this conversation? In what context? In person, in writing?
+          With what energy? Plan the how.
         </p>
-        <textarea id="q6" placeholder="Vou ter essa conversa..." rows="5"></textarea>
+        <textarea id="q6" placeholder="I'll have this conversation..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary" id="finish-btn">ver o que eu quero dizer <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary" id="finish-btn">see what I want to say <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -222,28 +214,28 @@ import '../../styles/guided-tool.css';
     <!-- Result -->
     <div class="step" data-step="result">
       <div class="step-content result-content">
-        <h2>O que você quer dizer de verdade</h2>
-        <p class="result-intro">Da reação crua à fala honesta — sem atacar, sem se anular.</p>
+        <h2>What you really want to say</h2>
+        <p class="result-intro">From raw reaction to honest speech — without attacking, without shutting down.</p>
 
-        <div class="result-block"><h3>O que aconteceu</h3><p id="r1"></p></div>
-        <div class="result-block"><h3>O que eu sinto</h3><p id="r2"></p></div>
-        <div class="result-block"><h3>O que eu preciso</h3><p id="r3"></p></div>
-        <div class="result-block"><h3>Meu pedido</h3><p id="r4"></p></div>
-        <div class="result-block closing-block"><h3>O que eu quero dizer de verdade</h3><p id="r5"></p></div>
-        <div class="result-block"><h3>Quando e como</h3><p id="r6"></p></div>
+        <div class="result-block"><h3>What happened</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>What I feel</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>What I need</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>My request</h3><p id="r4"></p></div>
+        <div class="result-block closing-block"><h3>What I really want to say</h3><p id="r5"></p></div>
+        <div class="result-block"><h3>When and how</h3><p id="r6"></p></div>
 
         <div class="reflection-prompt">
-          <span class="reflection-label">uma pergunta para levar</span>
-          <p class="reflection-text">O que muda quando você troca "você sempre faz isso" por "eu preciso de..."?</p>
+          <span class="reflection-label">a question to take with you</span>
+          <p class="reflection-text">What changes when you swap "you always do this" for "I need..."?</p>
         </div>
 
         <div class="reflection-counter"></div>
 
         <div class="result-actions">
-          <button class="btn-secondary" id="copy-btn">copiar texto</button>
-          <button class="btn-secondary" id="download-btn">salvar como texto</button>
-          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
-          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+          <button class="btn-secondary" id="copy-btn">copy text</button>
+          <button class="btn-secondary" id="download-btn">save as text</button>
+          <button class="btn-secondary" id="save-journal-btn">save to journal</button>
+          <button class="btn-secondary" id="restart-btn">redo ↺</button>
         </div>
       </div>
     </div>
@@ -257,6 +249,7 @@ import '../../styles/guided-tool.css';
 
 <script>
   import { GuidedTool } from '../../scripts/guided-tool';
+  import { initToolVisuals } from '../../scripts/tool-visuals';
 
   if (!(window as any).__guidedToolInit) {
     (window as any).__guidedToolInit = true;
@@ -274,24 +267,24 @@ import '../../styles/guided-tool.css';
     ],
     encouragements: [
       '',
-      'Separar o fato do julgamento já muda tudo.',
-      'Nomear o sentimento é o primeiro passo pra não explodir.',
-      'Achar a necessidade é onde a mágica da CNV acontece.',
-      'Um pedido concreto tem muito mais chance de ser ouvido.',
-      'Você acabou de traduzir raiva em clareza. Isso é raro.',
-      'Escolher o momento certo é tão importante quanto as palavras certas.',
+      'Separating fact from judgment already changes everything.',
+      'Naming the feeling is the first step to not exploding.',
+      'Finding the need is where the magic of NVC happens.',
+      'A concrete request has a much better chance of being heard.',
+      'You just translated anger into clarity. That\'s rare.',
+      'Choosing the right moment is as important as the right words.',
     ],
-    closingReflection: 'O que muda quando você troca "você sempre faz isso" por "eu preciso de..."?',
-    resultTitle: 'O que eu quero dizer de verdade',
+    closingReflection: 'What changes when you swap "you always do this" for "I need..."?',
+    resultTitle: 'What I Really Want to Say',
     visualConfig: {
       type: 'onion-layers',
       sections: [
-        { id: 'fato', label: 'o fato', stepRange: [1], wordClass: 'neutral' },
-        { id: 'sentimento', label: 'sentimento', stepRange: [2], wordClass: 'fear' },
-        { id: 'necessidade', label: 'necessidade', stepRange: [3], wordClass: 'genuine' },
-        { id: 'pedido', label: 'pedido', stepRange: [4], wordClass: 'strategy' },
-        { id: 'frase-completa', label: 'frase completa', stepRange: [5], wordClass: 'genuine' },
-        { id: 'momento', label: 'quando e como', stepRange: [6], wordClass: 'genuine' },
+        { id: 'fato', label: 'the fact', stepRange: [1], wordClass: 'neutral' },
+        { id: 'sentimento', label: 'feeling', stepRange: [2], wordClass: 'fear' },
+        { id: 'necessidade', label: 'need', stepRange: [3], wordClass: 'genuine' },
+        { id: 'pedido', label: 'request', stepRange: [4], wordClass: 'strategy' },
+        { id: 'frase-completa', label: 'full sentence', stepRange: [5], wordClass: 'genuine' },
+        { id: 'momento', label: 'when and how', stepRange: [6], wordClass: 'genuine' },
       ],
     },
   };
@@ -299,6 +292,7 @@ import '../../styles/guided-tool.css';
   const tool = new GuidedTool(config);
   tool.init();
   GuidedTool.wireExport(config);
+  initToolVisuals(config.slug);
 
   }
 </script>

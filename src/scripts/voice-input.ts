@@ -32,10 +32,10 @@ export function initVoiceInput(
     button.classList.add(`voice-btn--${next}`);
 
     if (next === 'recording') {
-      button.setAttribute('aria-label', 'Parar gravação de voz');
+      button.setAttribute('aria-label', 'Stop voice recording');
       button.setAttribute('aria-pressed', 'true');
     } else {
-      button.setAttribute('aria-label', 'Iniciar gravação de voz');
+      button.setAttribute('aria-label', 'Start voice recording');
       button.setAttribute('aria-pressed', 'false');
     }
   }
@@ -50,7 +50,6 @@ export function initVoiceInput(
 
   function startRecognition(): void {
     recognition = new SpeechRecognitionAPI();
-    recognition.lang = 'pt-BR';
     recognition.continuous = true;
     recognition.interimResults = true;
 

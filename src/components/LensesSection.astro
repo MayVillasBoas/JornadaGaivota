@@ -6,7 +6,7 @@ const categories = Object.keys(categoryLabels) as Category[];
 ---
 
 <section class="section lenses-section" id="lentes">
-  <h2 class="section-title">Lentes</h2>
+  <h2 class="section-title">Lenses</h2>
 
   <div class="filter-row">
     <div class="filter-pills-wrap">
@@ -16,7 +16,7 @@ const categories = Object.keys(categoryLabels) as Category[];
         data-color=""
         style="background: var(--ink); color: #fff; border-color: var(--ink);"
       >
-        Todas
+        All
       </button>
       {categories.map((cat) => (
         <button
@@ -32,12 +32,12 @@ const categories = Object.keys(categoryLabels) as Category[];
       type="text"
       class="search-box"
       id="lenses-search"
-      placeholder="Buscar lente..."
+      placeholder="Search lens..."
     />
   </div>
 
   <p class="result-count" id="lenses-count">
-    Mostrando {principles.length} lentes
+    Showing {principles.length} lenses
   </p>
 
   <div class="card-grid" id="lenses-grid">
@@ -65,11 +65,11 @@ const categories = Object.keys(categoryLabels) as Category[];
             ))}
           </div>
           <div class="expanded-content">
-            <button class="close-btn" aria-label="Fechar">&times;</button>
+            <button class="close-btn" aria-label="Close">&times;</button>
             <p class="full-desc">{p.description}</p>
             {mentor && (
               <a class="mentor-link" href={`/mentores/${mentor.slug}`}>
-                Ver perfil de {mentor.name} &rarr;
+                See {mentor.name}'s profile &rarr;
               </a>
             )}
           </div>

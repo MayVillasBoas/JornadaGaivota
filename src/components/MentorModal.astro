@@ -10,7 +10,7 @@ import { mentors } from '../data/mentors';
     aria-modal="true"
     aria-labelledby="mentor-modal-name"
   >
-    <button id="mentor-modal-close" class="close-btn" aria-label="Fechar">
+    <button id="mentor-modal-close" class="close-btn" aria-label="Close">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
         <line x1="2" y1="2" x2="16" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
         <line x1="16" y1="2" x2="2" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -31,7 +31,7 @@ import { mentors } from '../data/mentors';
             <p class="mentor-book">{highlightBook.title}</p>
           )}
 
-          <ul class="principles-list" aria-label="Princípios principais">
+          <ul class="principles-list" aria-label="Key principles">
             {top3.map((principle) => (
               <li class="principle-item">
                 <span class="principle-name">{principle.name}</span>
@@ -41,7 +41,7 @@ import { mentors } from '../data/mentors';
           </ul>
 
           <a href={`/mentores/${mentor.slug}`} class="profile-link">
-            ver perfil completo &rarr;
+            see full profile &rarr;
           </a>
         </div>
       );

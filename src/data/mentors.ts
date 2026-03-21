@@ -3,12 +3,12 @@
 export type Category = 'decisions' | 'thinking' | 'action' | 'relationships' | 'energy' | 'perspective';
 
 export const categoryLabels: Record<Category, string> = {
-  decisions: 'Decisoes',
-  thinking: 'Pensamento',
-  action: 'Acao',
-  relationships: 'Relacoes',
-  energy: 'Energia',
-  perspective: 'Perspectiva',
+  decisions: 'Decisions',
+  thinking: 'Thinking',
+  action: 'Action',
+  relationships: 'Relationships',
+  energy: 'Energy',
+  perspective: 'Perspective',
 };
 
 export const categoryColors: Record<Category, string> = {
@@ -53,10 +53,10 @@ export const mentors: Mentor[] = [
   {
     slug: 'derek-sivers',
     name: 'Derek Sivers',
-    tagline: 'Simplicidade radical para decisoes que importam',
-    bio: `Derek Sivers e empreendedor, escritor e programador, mais conhecido por ter fundado o CD Baby, que se tornou o maior vendedor online de musica independente. Depois de vender a empresa por 22 milhoes de dolares e doar o valor para caridade, passou a se dedicar a escrever e compartilhar ideias sobre decisoes, prioridades e filosofia de vida.
+    tagline: 'Radical simplicity for decisions that matter',
+    bio: `Derek Sivers is an entrepreneur, writer, and programmer, best known for founding CD Baby, which became the largest online seller of independent music. After selling the company for $22 million and donating the proceeds to charity, he dedicated himself to writing and sharing ideas about decisions, priorities, and life philosophy.
 
-Seus livros — Hell Yeah or No, Anything You Want, Useful Not True e How to Live — sao guias curtos e densos sobre como pensar com clareza e viver com intencionalidade. Sivers e conhecido por seu estilo direto, quase aforistico, e pela capacidade de destilar ideias complexas em principios simples e acionaveis.`,
+His books — Hell Yeah or No, Anything You Want, Useful Not True, and How to Live — are short, dense guides on thinking clearly and living with intentionality. Sivers is known for his direct, almost aphoristic style and his ability to distill complex ideas into simple, actionable principles.`,
     books: [
       { title: 'Hell Yeah or No', highlight: true },
       { title: 'Anything You Want' },
@@ -73,36 +73,36 @@ Seus livros — Hell Yeah or No, Anything You Want, Useful Not True e How to Liv
       {
         id: 'hell-yeah-or-no',
         name: 'Hell Yeah or No',
-        shortDescription: 'Se nao e um SIM INTEIRO, e nao.',
+        shortDescription: 'If it\'s not a HELL YEAH, it\'s a no.',
         description:
-          'Quando voce sente algo menos que entusiasmo genuino — "Uau, isso seria incrivel!" — a resposta e nao. Dizer nao para quase tudo libera espaco para dar atencao total ao que realmente importa.',
+          'When you feel anything less than genuine enthusiasm — "Wow, that would be amazing!" — the answer is no. Saying no to almost everything frees up space to give your full attention to what truly matters.',
         mentorSlug: 'derek-sivers',
         categories: ['decisions'],
         relatedToolSlug: 'sim-inteiro',
       },
       {
         id: 'useful-not-true',
-        name: 'Util, Nao Verdadeiro',
-        shortDescription: 'Crencas sao ferramentas — use as que funcionam.',
+        name: 'Useful, Not True',
+        shortDescription: 'Beliefs are tools — use the ones that work.',
         description:
-          'Em vez de debater se uma ideia e objetivamente verdadeira, pergunte se ela e util para voce agora. Crencas sao lentes: troque-as quando pararem de ajudar.',
+          'Instead of debating whether an idea is objectively true, ask whether it\'s useful to you right now. Beliefs are lenses: swap them out when they stop helping.',
         mentorSlug: 'derek-sivers',
         categories: ['thinking', 'decisions'],
       },
       {
         id: 'do-this-not-that',
-        name: 'Faca Isso, Nao Aquilo',
-        shortDescription: 'Clareza vem de contrastes, nao de listas.',
+        name: 'Do This, Not That',
+        shortDescription: 'Clarity comes from contrasts, not lists.',
         description:
-          'Definir o que voce NAO quer e tao importante quanto definir o que quer. Contrastes criam bordas nitidas que facilitam decisoes no dia a dia.',
+          'Defining what you DON\'T want is as important as defining what you do. Contrasts create sharp edges that make everyday decisions easier.',
         mentorSlug: 'derek-sivers',
         categories: ['decisions', 'action'],
       },
     ],
     connections: [
-      { mentorSlug: 'tim-ferriss', reason: 'Ambos focam em eliminacao como estrategia: Sivers elimina compromissos, Ferriss elimina medos.' },
-      { mentorSlug: 'marcus-aurelius', reason: 'Compartilham a busca por clareza interior e o desapego de opinioes alheias.' },
-      { mentorSlug: 'tim-urban', reason: 'Ambos usam frames simples para decisoes de vida — Sivers com "Hell Yeah", Urban com "The Tail End".' },
+      { mentorSlug: 'tim-ferriss', reason: 'Both focus on elimination as strategy: Sivers eliminates commitments, Ferriss eliminates fears.' },
+      { mentorSlug: 'marcus-aurelius', reason: 'Both seek inner clarity and detachment from others\' opinions.' },
+      { mentorSlug: 'tim-urban', reason: 'Both use simple frames for life decisions — Sivers with "Hell Yeah", Urban with "The Tail End".' },
     ],
   },
 
@@ -112,10 +112,10 @@ Seus livros — Hell Yeah or No, Anything You Want, Useful Not True e How to Liv
   {
     slug: 'tim-ferriss',
     name: 'Tim Ferriss',
-    tagline: 'Desconstruir o medo para liberar a acao',
-    bio: `Tim Ferriss e autor, investidor e apresentador do podcast The Tim Ferriss Show, um dos mais ouvidos do mundo. Ficou conhecido com o best-seller The 4-Hour Workweek, onde apresentou a ideia de lifestyle design — projetar ativamente a vida que voce quer em vez de seguir o roteiro padrao.
+    tagline: 'Deconstruct fear to unlock action',
+    bio: `Tim Ferriss is an author, investor, and host of The Tim Ferriss Show, one of the most listened-to podcasts in the world. He became known with the best-seller The 4-Hour Workweek, where he introduced the idea of lifestyle design — actively designing the life you want instead of following the default script.
 
-Ferriss e um sistematizador: ele decupa processos complexos em passos replicaveis, do aprendizado de linguas a investimentos. Seu framework de Fear Setting — inspirado no estoicismo de Seneca — se tornou uma das ferramentas mais populares para superar a paralisia por medo.`,
+Ferriss is a systematizer: he breaks down complex processes into replicable steps, from language learning to investing. His Fear Setting framework — inspired by Seneca's Stoicism — has become one of the most popular tools for overcoming fear-based paralysis.`,
     books: [
       { title: 'The 4-Hour Workweek', highlight: true },
       { title: 'Tools of Titans' },
@@ -132,36 +132,36 @@ Ferriss e um sistematizador: ele decupa processos complexos em passos replicavei
       {
         id: 'fear-setting',
         name: 'Fear Setting',
-        shortDescription: 'Defina seus medos em vez de seus objetivos.',
+        shortDescription: 'Define your fears instead of your goals.',
         description:
-          'Inspirado na premeditatio malorum de Seneca, Fear Setting e um exercicio onde voce lista o pior cenario possivel, as acoes para preveni-lo e o custo de nao agir. Ferriss o faz ao menos uma vez por mes.',
+          'Inspired by Seneca\'s premeditatio malorum, Fear Setting is an exercise where you list the worst-case scenario, the actions to prevent it, and the cost of inaction. Ferriss does it at least once a month.',
         mentorSlug: 'tim-ferriss',
         categories: ['decisions', 'action'],
         relatedToolSlug: 'medo-na-mesa',
       },
       {
         id: '80-20-principle',
-        name: 'Principio 80/20',
-        shortDescription: '20% dos esforcos geram 80% dos resultados.',
+        name: '80/20 Principle',
+        shortDescription: '20% of efforts generate 80% of results.',
         description:
-          'Identifique os poucos fatores vitais que produzem a maioria dos resultados — e elimine ou delegue o resto. Aplica-se a trabalho, relacionamentos, aprendizado e saude.',
+          'Identify the vital few factors that produce most results — and eliminate or delegate the rest. Applies to work, relationships, learning, and health.',
         mentorSlug: 'tim-ferriss',
         categories: ['action', 'decisions'],
       },
       {
         id: 'lifestyle-design',
         name: 'Lifestyle Design',
-        shortDescription: 'Projete sua vida em vez de aceitar o padrao.',
+        shortDescription: 'Design your life instead of accepting the default.',
         description:
-          'Em vez de trabalhar 40 anos para "curtir depois", redistribua mini-aposentadorias ao longo da vida. Questione premissas sobre trabalho, localizacao e cronograma.',
+          'Instead of working 40 years to "enjoy later," redistribute mini-retirements throughout life. Question assumptions about work, location, and schedule.',
         mentorSlug: 'tim-ferriss',
         categories: ['decisions', 'perspective'],
       },
     ],
     connections: [
-      { mentorSlug: 'derek-sivers', reason: 'Sivers apareceu no podcast de Ferriss varias vezes; ambos pensam em termos de sistemas para decisoes.' },
-      { mentorSlug: 'marcus-aurelius', reason: 'Ferriss e estudioso do estoicismo e cita Seneca e Marco Aurelio como influencias diretas do Fear Setting.' },
-      { mentorSlug: 'andrew-huberman', reason: 'Ambos traduzem ciencia em protocolos praticos — Ferriss para produtividade, Huberman para neurociencia.' },
+      { mentorSlug: 'derek-sivers', reason: 'Sivers has appeared on Ferriss\'s podcast multiple times; both think in terms of systems for decisions.' },
+      { mentorSlug: 'marcus-aurelius', reason: 'Ferriss is a student of Stoicism and credits Seneca and Marcus Aurelius as direct inspirations for Fear Setting.' },
+      { mentorSlug: 'andrew-huberman', reason: 'Both translate science into practical protocols — Ferriss for productivity, Huberman for neuroscience.' },
     ],
   },
 
@@ -171,10 +171,10 @@ Ferriss e um sistematizador: ele decupa processos complexos em passos replicavei
   {
     slug: 'sam-harris',
     name: 'Sam Harris',
-    tagline: 'Investigar a mente com honestidade radical',
-    bio: `Sam Harris e neurocientista, filosofo e criador do app de meditacao Waking Up. PhD em neurociencia cognitiva pela UCLA, ele se dedica a explorar consciencia, livre-arbitrio e etica a partir de uma perspectiva secular e cientifica.
+    tagline: 'Investigate the mind with radical honesty',
+    bio: `Sam Harris is a neuroscientist, philosopher, and creator of the meditation app Waking Up. With a PhD in cognitive neuroscience from UCLA, he explores consciousness, free will, and ethics from a secular, scientific perspective.
 
-Harris argumenta que a meditacao nao e relaxamento, mas investigacao direta da natureza da mente. Em seus livros e no app, ele guia praticantes a perceber que o "eu" que parece estar no centro da experiencia e, na verdade, uma construcao — e que reconhecer isso pode ser profundamente libertador.`,
+Harris argues that meditation is not relaxation but a direct investigation of the nature of the mind. In his books and app, he guides practitioners to notice that the "self" that seems to be at the center of experience is actually a construction — and that recognizing this can be profoundly liberating.`,
     books: [
       { title: 'Waking Up', highlight: true },
       { title: 'Free Will' },
@@ -190,36 +190,36 @@ Harris argumenta que a meditacao nao e relaxamento, mas investigacao direta da n
     principles: [
       {
         id: 'mindfulness-investigation',
-        name: 'Mindfulness como Investigacao',
-        shortDescription: 'Meditacao nao e relaxar — e olhar de perto.',
+        name: 'Mindfulness as Investigation',
+        shortDescription: 'Meditation isn\'t relaxation — it\'s looking closely.',
         description:
-          'A pratica de mindfulness, para Harris, e uma investigacao rigorosa da experiencia momento a momento. O objetivo nao e esvaziar a mente, mas observar como pensamentos surgem sem autor aparente.',
+          'For Harris, mindfulness practice is a rigorous investigation of moment-to-moment experience. The goal isn\'t to empty the mind but to observe how thoughts arise without an apparent author.',
         mentorSlug: 'sam-harris',
         categories: ['thinking', 'perspective'],
       },
       {
         id: 'no-self',
-        name: 'A Ilusao do Eu',
-        shortDescription: 'O senso de ser um "eu" separado e uma construcao.',
+        name: 'The Illusion of Self',
+        shortDescription: 'The sense of being a separate "self" is a construction.',
         description:
-          'Se voce prestar atencao, vera que pensamentos aparecem na consciencia sem que voce saiba o proximo. Nao ha um pensador a ser encontrado — apenas pensamentos. Reconhecer isso dissolve muito sofrimento desnecessario.',
+          'If you pay attention, you\'ll notice that thoughts appear in consciousness without you knowing the next one. There is no thinker to be found — only thoughts. Recognizing this dissolves much unnecessary suffering.',
         mentorSlug: 'sam-harris',
         categories: ['thinking', 'perspective'],
       },
       {
         id: 'free-will-skepticism',
-        name: 'Ceticismo sobre Livre-Arbitrio',
-        shortDescription: 'Voce nao escolhe seus pensamentos — eles aparecem.',
+        name: 'Free Will Skepticism',
+        shortDescription: 'You don\'t choose your thoughts — they just appear.',
         description:
-          'Harris argumenta que perder a crenca no livre-arbitrio nao leva ao fatalismo, mas aumenta a sensacao de liberdade. Uma mudanca criativa de inputs — novos habitos, novas habilidades — pode transformar radicalmente sua vida.',
+          'Harris argues that losing the belief in free will doesn\'t lead to fatalism but increases the feeling of freedom. A creative change of inputs — new habits, new skills — can radically transform your life.',
         mentorSlug: 'sam-harris',
         categories: ['thinking'],
       },
     ],
     connections: [
-      { mentorSlug: 'henry-shukman', reason: 'Shukman e professor de meditacao no app Waking Up de Harris; ambos exploram a dissolucao do eu.' },
-      { mentorSlug: 'marcus-aurelius', reason: 'Ambos praticam observacao dos proprios pensamentos como caminho para liberdade interior.' },
-      { mentorSlug: 'bruce-tift', reason: 'Harris e Tift convergem na intersecao entre meditacao e psicologia — a mente que observa a si mesma.' },
+      { mentorSlug: 'henry-shukman', reason: 'Shukman is a meditation teacher on Harris\'s Waking Up app; both explore the dissolution of self.' },
+      { mentorSlug: 'marcus-aurelius', reason: 'Both practice observing one\'s own thoughts as a path to inner freedom.' },
+      { mentorSlug: 'bruce-tift', reason: 'Harris and Tift converge at the intersection of meditation and psychology — the mind observing itself.' },
     ],
   },
 
@@ -229,10 +229,10 @@ Harris argumenta que a meditacao nao e relaxamento, mas investigacao direta da n
   {
     slug: 'henry-shukman',
     name: 'Henry Shukman',
-    tagline: 'Despertar e simples — e ja esta aqui',
-    bio: `Henry Shukman e mestre zen, poeta e escritor britanico. Formado em literatura pela Universidade de Oxford, ele descobriu a meditacao zen aos 19 anos durante uma viagem ao Japao, e desde entao se tornou um dos professores zen mais acessiveis do Ocidente. E co-fundador do app The Way e professor guia no Waking Up de Sam Harris.
+    tagline: 'Awakening is simple — and already here',
+    bio: `Henry Shukman is a Zen master, poet, and British writer. Educated in literature at Oxford University, he discovered Zen meditation at 19 during a trip to Japan, and has since become one of the most accessible Zen teachers in the West. He is co-founder of the app The Way and a guiding teacher on Sam Harris's Waking Up.
 
-Shukman ensina que o despertar nao e um evento grandioso reservado a monges — e algo ordinario, acessivel e profundamente amoroso. Seu conceito de "Original Love" propoe que, debaixo de todas as camadas de condicionamento, existe um pertencimento fundamental que pode ser redescoberto.`,
+Shukman teaches that awakening is not a grand event reserved for monks — it is ordinary, accessible, and profoundly loving. His concept of "Original Love" proposes that beneath all layers of conditioning, there is a fundamental belonging that can be rediscovered.`,
     books: [
       { title: 'Original Love', highlight: true },
       { title: 'One Blade of Grass' },
@@ -248,35 +248,35 @@ Shukman ensina que o despertar nao e um evento grandioso reservado a monges — 
       {
         id: 'original-love',
         name: 'Original Love',
-        shortDescription: 'Debaixo de tudo, existe um pertencimento fundamental.',
+        shortDescription: 'Beneath everything, there is a fundamental belonging.',
         description:
-          'Original Love e a descoberta de que, antes de qualquer condicionamento, existe um amor e bem-estar intrinsecos a nossa natureza original. Nao e algo a construir, mas a redescobrir.',
+          'Original Love is the discovery that before any conditioning, there is an intrinsic love and well-being native to our original nature. It\'s not something to build, but to rediscover.',
         mentorSlug: 'henry-shukman',
         categories: ['perspective', 'relationships'],
       },
       {
         id: 'ordinary-awakening',
-        name: 'Despertar Ordinario',
-        shortDescription: 'Despertar nao e mistico — e ver o que ja esta aqui.',
+        name: 'Ordinary Awakening',
+        shortDescription: 'Awakening isn\'t mystical — it\'s seeing what\'s already here.',
         description:
-          'Shukman ensina que o despertar nao exige anos em retiros. Pode acontecer em momentos simples: o eu separado se dissolve e o que estava sendo ocultado — presenca, conexao, abertura — aparece naturalmente.',
+          'Shukman teaches that awakening doesn\'t require years on retreat. It can happen in simple moments: the separate self dissolves and what was being hidden — presence, connection, openness — appears naturally.',
         mentorSlug: 'henry-shukman',
         categories: ['perspective', 'thinking'],
       },
       {
         id: 'koan-practice',
-        name: 'Pratica de Koans',
-        shortDescription: 'Perguntas impossiveis que abrem a mente.',
+        name: 'Koan Practice',
+        shortDescription: 'Impossible questions that open the mind.',
         description:
-          'Koans sao perguntas ou historias zen que nao podem ser "resolvidas" pelo intelecto. A pratica de koans convida a mente a soltar suas certezas e encontrar uma forma mais direta de conhecer.',
+          'Koans are Zen questions or stories that can\'t be "solved" by the intellect. Koan practice invites the mind to release its certainties and find a more direct way of knowing.',
         mentorSlug: 'henry-shukman',
         categories: ['thinking', 'perspective'],
       },
     ],
     connections: [
-      { mentorSlug: 'sam-harris', reason: 'Shukman e professor convidado no app Waking Up; ambos exploram consciencia e dissolucao do eu.' },
-      { mentorSlug: 'bruce-tift', reason: 'Ambos integram pratica contemplativa com psicologia — Shukman pelo zen, Tift pela terapia.' },
-      { mentorSlug: 'brene-brown', reason: 'Ambos veem feridas emocionais como portas para algo mais profundo — Shukman para o despertar, Brown para a vulnerabilidade.' },
+      { mentorSlug: 'sam-harris', reason: 'Shukman is a guest teacher on the Waking Up app; both explore consciousness and the dissolution of self.' },
+      { mentorSlug: 'bruce-tift', reason: 'Both integrate contemplative practice with psychology — Shukman through Zen, Tift through therapy.' },
+      { mentorSlug: 'brene-brown', reason: 'Both see emotional wounds as doorways to something deeper — Shukman to awakening, Brown to vulnerability.' },
     ],
   },
 
@@ -286,10 +286,10 @@ Shukman ensina que o despertar nao e um evento grandioso reservado a monges — 
   {
     slug: 'andrew-huberman',
     name: 'Andrew Huberman',
-    tagline: 'Neurociencia aplicada para otimizar corpo e mente',
-    bio: `Andrew Huberman e neurocientista e professor de neurobiologia na Stanford School of Medicine. Seu podcast, Huberman Lab, se tornou uma referencia global para quem quer entender a ciencia por tras de sono, foco, motivacao e regulacao emocional.
+    tagline: 'Applied neuroscience to optimize body and mind',
+    bio: `Andrew Huberman is a neuroscientist and professor of neurobiology at Stanford School of Medicine. His podcast, Huberman Lab, has become a global reference for understanding the science behind sleep, focus, motivation, and emotional regulation.
 
-Huberman traduz pesquisa neurocientifica em protocolos praticos e acessiveis. Seus episodios sobre dopamina, estresse e ritmos circadianos mudaram a forma como milhoes de pessoas pensam sobre seus habitos diarios e sua biologia.`,
+Huberman translates neuroscience research into practical, accessible protocols. His episodes on dopamine, stress, and circadian rhythms have changed how millions of people think about their daily habits and biology.`,
     books: [
       { title: 'Huberman Lab Podcast', highlight: true },
     ],
@@ -302,36 +302,36 @@ Huberman traduz pesquisa neurocientifica em protocolos praticos e acessiveis. Se
     principles: [
       {
         id: 'dopamine-protocols',
-        name: 'Protocolos de Dopamina',
-        shortDescription: 'Conecte dopamina ao esforco, nao a recompensa.',
+        name: 'Dopamine Protocols',
+        shortDescription: 'Attach dopamine to effort, not reward.',
         description:
-          'Huberman ensina que dopamina e sobre motivacao e busca, nao sobre prazer. A chave e vincular seu sistema dopaminergico ao processo de esforco, nao a recompensas externas — evitando picos artificiais que levam a quedas.',
+          'Huberman teaches that dopamine is about motivation and pursuit, not pleasure. The key is linking your dopamine system to the effort process, not to external rewards — avoiding artificial spikes that lead to crashes.',
         mentorSlug: 'andrew-huberman',
         categories: ['energy', 'action'],
       },
       {
         id: 'stress-as-enhancer',
-        name: 'Estresse como Potencializador',
-        shortDescription: 'O estresse certo, na dose certa, melhora performance.',
+        name: 'Stress as Enhancer',
+        shortDescription: 'The right stress, in the right dose, improves performance.',
         description:
-          'Nem todo estresse e ruim. Huberman explica como estresse agudo e pontual (como banho frio ou exercicio intenso) ativa respostas neurobiologicas que aumentam foco, resiliencia e capacidade de aprendizado.',
+          'Not all stress is bad. Huberman explains how acute, short-term stress (like cold exposure or intense exercise) activates neurobiological responses that enhance focus, resilience, and learning capacity.',
         mentorSlug: 'andrew-huberman',
         categories: ['energy', 'action'],
       },
       {
         id: 'sleep-hygiene',
-        name: 'Higiene do Sono',
-        shortDescription: 'Sono e o alicerce de tudo — otimize-o primeiro.',
+        name: 'Sleep Hygiene',
+        shortDescription: 'Sleep is the foundation of everything — optimize it first.',
         description:
-          'Antes de otimizar qualquer outra coisa, otimize o sono. Huberman ensina protocolos baseados em luz, temperatura e timing para regular ritmos circadianos e maximizar a qualidade do sono.',
+          'Before optimizing anything else, optimize sleep. Huberman teaches protocols based on light, temperature, and timing to regulate circadian rhythms and maximize sleep quality.',
         mentorSlug: 'andrew-huberman',
         categories: ['energy'],
       },
     ],
     connections: [
-      { mentorSlug: 'peter-attia', reason: 'Ambos traduzem ciencia em protocolos de saude; frequentemente colaboram e se citam mutuamente.' },
-      { mentorSlug: 'tim-ferriss', reason: 'Ferriss populariza as ideias de Huberman; ambos pensam em termos de protocolos e experimentos pessoais.' },
-      { mentorSlug: 'sam-harris', reason: 'Ambos exploram neurociencia da consciencia — Huberman pelo lado fisiologico, Harris pelo meditativo.' },
+      { mentorSlug: 'peter-attia', reason: 'Both translate science into health protocols; they frequently collaborate and cite each other.' },
+      { mentorSlug: 'tim-ferriss', reason: 'Ferriss popularizes Huberman\'s ideas; both think in terms of protocols and personal experiments.' },
+      { mentorSlug: 'sam-harris', reason: 'Both explore the neuroscience of consciousness — Huberman from the physiological side, Harris from the meditative.' },
     ],
   },
 
@@ -341,10 +341,10 @@ Huberman traduz pesquisa neurocientifica em protocolos praticos e acessiveis. Se
   {
     slug: 'peter-attia',
     name: 'Peter Attia',
-    tagline: 'Longevidade com qualidade — corpo, mente e emocao',
-    bio: `Peter Attia e medico especializado em longevidade e fundador da Early Medical, uma clinica que aplica o que ele chama de "Medicina 3.0" — uma abordagem proativa e personalizada para prevenir doencas cronicas antes que aparecam.
+    tagline: 'Longevity with quality — body, mind, and emotion',
+    bio: `Peter Attia is a physician specializing in longevity and founder of Early Medical, a clinic that applies what he calls "Medicine 3.0" — a proactive, personalized approach to preventing chronic diseases before they appear.
 
-Seu livro Outlive se tornou um best-seller ao propor que longevidade nao e sobre viver mais, mas sobre viver melhor por mais tempo. Attia enfatiza que saude emocional e tao critica quanto exercicio e nutricao — se a "casa emocional" nao esta em ordem, nenhuma otimizacao fisica resolve.`,
+His book Outlive became a best-seller by proposing that longevity isn't about living longer, but about living better for longer. Attia emphasizes that emotional health is as critical as exercise and nutrition — if the "emotional house" isn't in order, no amount of physical optimization will help.`,
     books: [
       { title: 'Outlive: The Science and Art of Longevity', highlight: true },
     ],
@@ -356,36 +356,36 @@ Seu livro Outlive se tornou um best-seller ao propor que longevidade nao e sobre
     principles: [
       {
         id: 'four-pillars-exercise',
-        name: 'Quatro Pilares do Exercicio',
-        shortDescription: 'Estabilidade, forca, zona 2 e VO2max.',
+        name: 'Four Pillars of Exercise',
+        shortDescription: 'Stability, strength, zone 2, and VO2max.',
         description:
-          'Attia organiza exercicio em quatro pilares: estabilidade (a base), forca, cardio de zona 2 (eficiencia metabolica) e VO2max (capacidade aerobica maxima). Juntos, formam o alicerce da longevidade fisica.',
+          'Attia organizes exercise into four pillars: stability (the foundation), strength, zone 2 cardio (metabolic efficiency), and VO2max (peak aerobic capacity). Together, they form the bedrock of physical longevity.',
         mentorSlug: 'peter-attia',
         categories: ['energy', 'action'],
       },
       {
         id: 'emotional-health',
-        name: 'Saude Emocional',
-        shortDescription: 'Sem saude emocional, longevidade e uma maldicao.',
+        name: 'Emotional Health',
+        shortDescription: 'Without emotional health, longevity is a curse.',
         description:
-          'Attia defende que saude emocional e o pilar mais negligenciado da longevidade. Se voce chegar aos 90 sem conseguir se conectar com as pessoas que ama, toda a otimizacao foi em vao.',
+          'Attia argues that emotional health is the most neglected pillar of longevity. If you reach 90 without being able to connect with the people you love, all the optimization was in vain.',
         mentorSlug: 'peter-attia',
         categories: ['energy', 'relationships'],
       },
       {
         id: 'centenarian-decathlon',
-        name: 'Decatlo do Centenario',
-        shortDescription: 'O que voce quer ser capaz de fazer aos 90?',
+        name: 'Centenarian Decathlon',
+        shortDescription: 'What do you want to be able to do at 90?',
         description:
-          'O Decatlo do Centenario e um framework onde voce define 10 atividades fisicas que quer realizar na ultima decada de vida — e treina agora para garanti-las. Redefine o que e possivel na velhice.',
+          'The Centenarian Decathlon is a framework where you define 10 physical activities you want to perform in your last decade of life — and train now to ensure them. It redefines what\'s possible in old age.',
         mentorSlug: 'peter-attia',
         categories: ['energy', 'perspective'],
       },
     ],
     connections: [
-      { mentorSlug: 'andrew-huberman', reason: 'Parceiros frequentes em conversas sobre ciencia aplicada; compartilham foco em protocolos baseados em evidencia.' },
-      { mentorSlug: 'tim-urban', reason: 'Ambos usam visualizacoes de tempo para criar urgencia — Attia com o Decatlo, Urban com o Life Calendar.' },
-      { mentorSlug: 'brene-brown', reason: 'Attia credita a terapia emocional como a mudanca mais importante de sua vida, ecoando o trabalho de Brown sobre vulnerabilidade.' },
+      { mentorSlug: 'andrew-huberman', reason: 'Frequent partners in conversations about applied science; both focus on evidence-based protocols.' },
+      { mentorSlug: 'tim-urban', reason: 'Both use time visualizations to create urgency — Attia with the Decathlon, Urban with the Life Calendar.' },
+      { mentorSlug: 'brene-brown', reason: 'Attia credits emotional therapy as the most important change in his life, echoing Brown\'s work on vulnerability.' },
     ],
   },
 
@@ -395,10 +395,10 @@ Seu livro Outlive se tornou um best-seller ao propor que longevidade nao e sobre
   {
     slug: 'bruce-tift',
     name: 'Bruce Tift',
-    tagline: 'Ja estamos livres — e tudo bem nao parecer assim',
-    bio: `Bruce Tift e psicoterapeuta com mais de 45 anos de pratica clinica e praticante de longa data do budismo Vajrayana. Seu trabalho pioneiro integra psicoterapia ocidental com praticas contemplativas orientais de uma forma genuinamente dialoga, sem simplificar nenhum dos lados.
+    tagline: 'We\'re already free — and it\'s okay if it doesn\'t feel that way',
+    bio: `Bruce Tift is a psychotherapist with over 45 years of clinical practice and a long-time practitioner of Vajrayana Buddhism. His pioneering work integrates Western psychotherapy with Eastern contemplative practices in a genuinely dialogical way, without oversimplifying either side.
 
-Em seu livro Already Free, Tift apresenta dois caminhos aparentemente contraditorios: o "desenvolvimental" (da terapia, que busca resolver feridas do passado) e o "fruicional" (do budismo, que reconhece que ja somos inteiros). Sua proposta e que ambos sao verdadeiros ao mesmo tempo — e que viver nessa tensao e, em si, libertador.`,
+In his book Already Free, Tift presents two seemingly contradictory paths: the "developmental" (from therapy, which seeks to resolve past wounds) and the "fruitional" (from Buddhism, which recognizes that we are already whole). His proposition is that both are true at the same time — and that living in this tension is, in itself, liberating.`,
     books: [
       { title: 'Already Free', highlight: true },
     ],
@@ -411,36 +411,36 @@ Em seu livro Already Free, Tift apresenta dois caminhos aparentemente contradito
     principles: [
       {
         id: 'developmental-vs-fruitional',
-        name: 'Desenvolvimental vs Fruicional',
-        shortDescription: 'Dois caminhos validos que se contradizem — e tudo bem.',
+        name: 'Developmental vs Fruitional',
+        shortDescription: 'Two valid paths that contradict each other — and that\'s okay.',
         description:
-          'A visao desenvolvimental (terapia) diz que precisamos resolver nosso passado para viver plenamente. A visao fruicional (budismo) diz que ja somos inteiros agora. Tift propoe que manter ambas — sem resolver a tensao — e o caminho mais honesto.',
+          'The developmental view (therapy) says we need to resolve our past to live fully. The fruitional view (Buddhism) says we are already whole right now. Tift proposes that holding both — without resolving the tension — is the most honest path.',
         mentorSlug: 'bruce-tift',
         categories: ['thinking', 'perspective'],
       },
       {
         id: 'already-whole',
-        name: 'Ja Inteiro',
-        shortDescription: 'Voce nao precisa se consertar para estar presente.',
+        name: 'Already Whole',
+        shortDescription: 'You don\'t need to fix yourself to be present.',
         description:
-          'A perspectiva fruicional convida a presenca, embodiment e aceitacao de qualquer coisa que surja na experiencia imediata — sem a exigencia de "limpar" o passado como pre-requisito para viver plenamente.',
+          'The fruitional perspective invites presence, embodiment, and acceptance of whatever arises in immediate experience — without the requirement of "cleaning up" the past as a prerequisite for living fully.',
         mentorSlug: 'bruce-tift',
         categories: ['perspective', 'thinking'],
       },
       {
         id: 'neurotic-intelligence',
-        name: 'Inteligencia Neurotica',
-        shortDescription: 'Seus padroes "problematicos" foram solucoes inteligentes.',
+        name: 'Neurotic Intelligence',
+        shortDescription: 'Your "problematic" patterns were intelligent solutions.',
         description:
-          'O que chamamos de neurose foi, em algum momento, uma tentativa inteligente de nos proteger. Tift propoe que, em vez de combater esses padroes, os reconhecamos como formas de intensidade experiencial — e nos abramos a essa intensidade diretamente.',
+          'What we call neurosis was, at some point, an intelligent attempt to protect ourselves. Tift proposes that instead of fighting these patterns, we recognize them as forms of experiential intensity — and open ourselves to that intensity directly.',
         mentorSlug: 'bruce-tift',
         categories: ['thinking', 'relationships'],
       },
     ],
     connections: [
-      { mentorSlug: 'henry-shukman', reason: 'Ambos navegam entre pratica contemplativa e experiencia humana comum — Tift pela terapia, Shukman pelo zen.' },
-      { mentorSlug: 'sam-harris', reason: 'Convergem na investigacao da mente — Harris como neurocientista meditador, Tift como terapeuta contemplativo.' },
-      { mentorSlug: 'brene-brown', reason: 'Ambos trabalham com a coragem de ficar com o desconforto — Brown chama de vulnerabilidade, Tift de intensidade experiencial.' },
+      { mentorSlug: 'henry-shukman', reason: 'Both navigate between contemplative practice and ordinary human experience — Tift through therapy, Shukman through Zen.' },
+      { mentorSlug: 'sam-harris', reason: 'They converge on investigating the mind — Harris as a meditating neuroscientist, Tift as a contemplative therapist.' },
+      { mentorSlug: 'brene-brown', reason: 'Both work with the courage to stay with discomfort — Brown calls it vulnerability, Tift calls it experiential intensity.' },
     ],
   },
 
@@ -450,10 +450,10 @@ Em seu livro Already Free, Tift apresenta dois caminhos aparentemente contradito
   {
     slug: 'adam-grant',
     name: 'Adam Grant',
-    tagline: 'Repensar e a habilidade mais subestimada',
-    bio: `Adam Grant e psicologo organizacional e o professor mais jovem a receber tenure na Wharton School da University of Pennsylvania. Seus livros — Think Again, Give and Take, Originals — exploram como pensamos, colaboramos e inovamos, combinando pesquisa rigorosa com historias envolventes.
+    tagline: 'Rethinking is the most underrated skill',
+    bio: `Adam Grant is an organizational psychologist and the youngest professor to earn tenure at the Wharton School of the University of Pennsylvania. His books — Think Again, Give and Take, Originals — explore how we think, collaborate, and innovate, combining rigorous research with engaging stories.
 
-Grant defende que a capacidade de repensar e desaprender e mais valiosa do que a inteligencia bruta. Ele ensina que os melhores pensadores operam como cientistas: formam hipoteses, testam, e mudam de ideia quando os dados exigem.`,
+Grant argues that the ability to rethink and unlearn is more valuable than raw intelligence. He teaches that the best thinkers operate like scientists: they form hypotheses, test them, and change their minds when the data demands it.`,
     books: [
       { title: 'Think Again', highlight: true },
       { title: 'Give and Take' },
@@ -469,36 +469,36 @@ Grant defende que a capacidade de repensar e desaprender e mais valiosa do que a
     principles: [
       {
         id: 'think-again',
-        name: 'Think Again (Repense)',
-        shortDescription: 'A marca de inteligencia e a disposicao de mudar de ideia.',
+        name: 'Think Again',
+        shortDescription: 'The hallmark of intelligence is the willingness to change your mind.',
         description:
-          'Grant propoe que operemos como cientistas: formulando hipoteses, testando-as e revisando nossas visoes com base no que aprendemos. Quando voce esta errado, nao e motivo de tristeza — e uma descoberta.',
+          'Grant proposes that we operate like scientists: forming hypotheses, testing them, and revising our views based on what we learn. When you\'re wrong, it\'s not cause for sadness — it\'s a discovery.',
         mentorSlug: 'adam-grant',
         categories: ['thinking'],
       },
       {
         id: 'give-and-take',
-        name: 'Dar e Receber',
-        shortDescription: 'Generosidade estrategica e a forma mais sustentavel de sucesso.',
+        name: 'Give and Take',
+        shortDescription: 'Strategic generosity is the most sustainable form of success.',
         description:
-          'Em Give and Take, Grant mostra que "doadores" — pessoas que contribuem sem esperar retorno imediato — tendem a ocupar tanto o topo quanto a base do sucesso. A diferenca esta em doar com limites saudaveis.',
+          'In Give and Take, Grant shows that "givers" — people who contribute without expecting immediate return — tend to occupy both the top and the bottom of the success ladder. The difference lies in giving with healthy boundaries.',
         mentorSlug: 'adam-grant',
         categories: ['relationships', 'action'],
       },
       {
         id: 'originals',
         name: 'Originals',
-        shortDescription: 'Pessoas originais agem apesar do medo, nao sem ele.',
+        shortDescription: 'Original people act despite fear, not without it.',
         description:
-          'Ser original nao exige audacia sobrenatural. Grant mostra que inovadores bem-sucedidos frequentemente sentem tanto medo quanto os outros — mas agem assim mesmo, e geram muitas ideias para encontrar as poucas que funcionam.',
+          'Being original doesn\'t require supernatural boldness. Grant shows that successful innovators often feel just as much fear as everyone else — but they act anyway, and generate many ideas to find the few that work.',
         mentorSlug: 'adam-grant',
         categories: ['action', 'thinking'],
       },
     ],
     connections: [
-      { mentorSlug: 'brene-brown', reason: 'Brown e Grant sao amigos e colaboradores; ambos estudam coragem — Brown no campo emocional, Grant no intelectual.' },
-      { mentorSlug: 'tim-ferriss', reason: 'Ambos sistematizam principios de alta performance, mas Grant traz a lente da psicologia organizacional.' },
-      { mentorSlug: 'maria-popova', reason: 'Ambos sao curadores de ideias que conectam campos distintos — Grant via pesquisa, Popova via literatura.' },
+      { mentorSlug: 'brene-brown', reason: 'Brown and Grant are friends and collaborators; both study courage — Brown in the emotional field, Grant in the intellectual.' },
+      { mentorSlug: 'tim-ferriss', reason: 'Both systematize high-performance principles, but Grant brings the lens of organizational psychology.' },
+      { mentorSlug: 'maria-popova', reason: 'Both are curators of ideas connecting distinct fields — Grant through research, Popova through literature.' },
     ],
   },
 
@@ -508,10 +508,10 @@ Grant defende que a capacidade de repensar e desaprender e mais valiosa do que a
   {
     slug: 'brene-brown',
     name: 'Brene Brown',
-    tagline: 'Vulnerabilidade e coragem, nao fraqueza',
-    bio: `Brene Brown e pesquisadora, professora da University of Houston e uma das vozes mais influentes do mundo sobre vulnerabilidade, vergonha e coragem. Sua TED Talk "The Power of Vulnerability" e uma das mais assistidas de todos os tempos, com mais de 60 milhoes de visualizacoes.
+    tagline: 'Vulnerability is courage, not weakness',
+    bio: `Brene Brown is a researcher, professor at the University of Houston, and one of the most influential voices in the world on vulnerability, shame, and courage. Her TED Talk "The Power of Vulnerability" is one of the most-watched of all time, with over 60 million views.
 
-Com mais de duas decadas de pesquisa, Brown demonstrou que vulnerabilidade nao e fraqueza — e a medida mais precisa de coragem. Seus livros, incluindo Daring Greatly e Braving the Wilderness, oferecem frameworks praticos para construir conexoes autenticas e resiliencia emocional.`,
+With more than two decades of research, Brown has demonstrated that vulnerability is not weakness — it is the most accurate measure of courage. Her books, including Daring Greatly and Braving the Wilderness, offer practical frameworks for building authentic connections and emotional resilience.`,
     books: [
       { title: 'Daring Greatly', highlight: true },
       { title: 'Braving the Wilderness' },
@@ -527,36 +527,36 @@ Com mais de duas decadas de pesquisa, Brown demonstrou que vulnerabilidade nao e
     principles: [
       {
         id: 'vulnerability-as-courage',
-        name: 'Vulnerabilidade como Coragem',
-        shortDescription: 'Mostrar-se de verdade e o ato mais corajoso que existe.',
+        name: 'Vulnerability as Courage',
+        shortDescription: 'Showing up fully is the most courageous act there is.',
         description:
-          'Brown define vulnerabilidade como incerteza, risco e exposicao emocional. Nao e fraqueza — e a base de toda conexao genuina. Podemos escolher coragem ou conforto, mas nao ambos ao mesmo tempo.',
+          'Brown defines vulnerability as uncertainty, risk, and emotional exposure. It\'s not weakness — it\'s the foundation of all genuine connection. We can choose courage or comfort, but not both at the same time.',
         mentorSlug: 'brene-brown',
         categories: ['relationships', 'decisions'],
       },
       {
         id: 'shame-resilience',
-        name: 'Resiliencia a Vergonha',
-        shortDescription: 'Vergonha sobrevive no silencio — e morre na empatia.',
+        name: 'Shame Resilience',
+        shortDescription: 'Shame survives in silence — and dies in empathy.',
         description:
-          'Vergonha e o medo de nao ser bom o suficiente. Brown mostra que quando compartilhamos nossa historia com alguem que responde com empatia, a vergonha nao sobrevive. Resiliencia a vergonha e uma habilidade treinavel.',
+          'Shame is the fear of not being good enough. Brown shows that when we share our story with someone who responds with empathy, shame cannot survive. Shame resilience is a trainable skill.',
         mentorSlug: 'brene-brown',
         categories: ['relationships', 'thinking'],
       },
       {
         id: 'rumbling-with-vulnerability',
-        name: 'Enfrentando a Vulnerabilidade',
-        shortDescription: 'Entrar na arena mesmo sabendo que vai doer.',
+        name: 'Rumbling with Vulnerability',
+        shortDescription: 'Entering the arena knowing it\'s going to hurt.',
         description:
-          'Brown ensina que "ousar grandemente" significa aceitar que vamos levar pancadas. O que importa e estar na arena — com a disposicao de ser visto, errar e tentar de novo.',
+          'Brown teaches that "daring greatly" means accepting that we\'re going to get knocked down. What matters is being in the arena — with the willingness to be seen, to fail, and to try again.',
         mentorSlug: 'brene-brown',
         categories: ['relationships', 'action'],
       },
     ],
     connections: [
-      { mentorSlug: 'adam-grant', reason: 'Colaboradores e amigos; ambos pesquisam coragem — Brown no terreno emocional, Grant no intelectual.' },
-      { mentorSlug: 'bruce-tift', reason: 'Ambos trabalham com a disposicao de ficar com o desconforto como caminho de crescimento.' },
-      { mentorSlug: 'peter-attia', reason: 'Attia credita o trabalho emocional (alinhado com Brown) como a transformacao mais importante de sua vida.' },
+      { mentorSlug: 'adam-grant', reason: 'Collaborators and friends; both research courage — Brown in the emotional terrain, Grant in the intellectual.' },
+      { mentorSlug: 'bruce-tift', reason: 'Both work with the willingness to stay with discomfort as a path to growth.' },
+      { mentorSlug: 'peter-attia', reason: 'Attia credits emotional work (aligned with Brown) as the most important transformation of his life.' },
     ],
   },
 
@@ -566,10 +566,10 @@ Com mais de duas decadas de pesquisa, Brown demonstrou que vulnerabilidade nao e
   {
     slug: 'maria-popova',
     name: 'Maria Popova',
-    tagline: 'Conectar ideias atraves de seculos para iluminar o presente',
-    bio: `Maria Popova e escritora e fundadora de The Marginalian (anteriormente Brain Pickings), um dos blogs mais lidos do mundo sobre livros, arte, filosofia, ciencia e a busca por sentido. Nascida na Bulgaria e baseada nos Estados Unidos, ela escreve desde 2006, tecendo conexoes entre pensadores de epocas e campos diferentes.
+    tagline: 'Connecting ideas across centuries to illuminate the present',
+    bio: `Maria Popova is a writer and founder of The Marginalian (formerly Brain Pickings), one of the most widely read blogs in the world about books, art, philosophy, science, and the search for meaning. Born in Bulgaria and based in the United States, she has been writing since 2006, weaving connections between thinkers across eras and fields.
 
-Seu livro Figuring explora as vidas entrecruzadas de cientistas, escritoras e artistas, mostrando como o sentido nao e algo que encontramos, mas algo que criamos com as vidas que vivemos. Popova defende que criatividade e combinatoria — tudo se constroi sobre o que veio antes.`,
+Her book Figuring explores the intertwined lives of scientists, writers, and artists, showing how meaning is not something we find but something we create with the lives we live. Popova argues that creativity is combinatorial — everything builds on what came before.`,
     books: [
       { title: 'Figuring', highlight: true },
       { title: 'The Marginalian (blog)' },
@@ -583,36 +583,36 @@ Seu livro Figuring explora as vidas entrecruzadas de cientistas, escritoras e ar
     principles: [
       {
         id: 'combinatorial-creativity',
-        name: 'Criatividade Combinatoria',
-        shortDescription: 'Nada e totalmente original — tudo se constroi sobre o que veio antes.',
+        name: 'Combinatorial Creativity',
+        shortDescription: 'Nothing is entirely original — everything builds on what came before.',
         description:
-          'Popova ensina que criamos recombinando pecas de inspiracao, conhecimento e insight que coletamos ao longo da vida. A originalidade nao vem do nada — vem de conexoes inesperadas entre ideias existentes.',
+          'Popova teaches that we create by recombining pieces of inspiration, knowledge, and insight we\'ve collected throughout life. Originality doesn\'t come from nothing — it comes from unexpected connections between existing ideas.',
         mentorSlug: 'maria-popova',
         categories: ['perspective', 'thinking'],
       },
       {
         id: 'figuring',
-        name: 'Figuring (Desvendar)',
-        shortDescription: 'Sentido nao se encontra — se cria com a vida que vivemos.',
+        name: 'Figuring',
+        shortDescription: 'Meaning isn\'t found — it\'s created with the life we live.',
         description:
-          'Inspirada nas vidas de cientistas e artistas, Popova propoe que o sentido emerge do ato de viver com curiosidade e coragem, conectando experiencias aparentemente desconexas em uma narrativa propria.',
+          'Inspired by the lives of scientists and artists, Popova proposes that meaning emerges from the act of living with curiosity and courage, connecting seemingly disconnected experiences into a narrative of one\'s own.',
         mentorSlug: 'maria-popova',
         categories: ['perspective'],
       },
       {
         id: 'shoreless-seeds',
-        name: 'Sementes sem Margem',
-        shortDescription: 'O que criamos transcende nossa propria vida.',
+        name: 'Shoreless Seeds',
+        shortDescription: 'What we create transcends our own life.',
         description:
-          'Popova escreve que nossas ideias, criacoes e influencias persistem muito alem de nos — como "sementes sem margem" que migram entre culturas, seculos e continentes. O legado nao e fama, mas reverberacao.',
+          'Popova writes that our ideas, creations, and influences persist far beyond us — like "shoreless seeds" that migrate between cultures, centuries, and continents. Legacy is not fame, but reverberation.',
         mentorSlug: 'maria-popova',
         categories: ['perspective', 'relationships'],
       },
     ],
     connections: [
-      { mentorSlug: 'marcus-aurelius', reason: 'Popova frequentemente escreve sobre filosofia estoica e a busca por sentido diante da impermanencia.' },
-      { mentorSlug: 'adam-grant', reason: 'Ambos sao curadores de ideias entre disciplinas — Grant via pesquisa empirica, Popova via literatura e arte.' },
-      { mentorSlug: 'henry-shukman', reason: 'Ambos exploram a intersecao entre beleza, impermanencia e sentido — Popova pela escrita, Shukman pelo zen.' },
+      { mentorSlug: 'marcus-aurelius', reason: 'Popova frequently writes about Stoic philosophy and the search for meaning in the face of impermanence.' },
+      { mentorSlug: 'adam-grant', reason: 'Both are curators of ideas across disciplines — Grant through empirical research, Popova through literature and art.' },
+      { mentorSlug: 'henry-shukman', reason: 'Both explore the intersection of beauty, impermanence, and meaning — Popova through writing, Shukman through Zen.' },
     ],
   },
 
@@ -622,12 +622,12 @@ Seu livro Figuring explora as vidas entrecruzadas de cientistas, escritoras e ar
   {
     slug: 'marcus-aurelius',
     name: 'Marcus Aurelius',
-    tagline: 'Controle o que depende de voce — aceite o resto',
-    bio: `Marco Aurelio foi imperador romano de 161 a 180 d.C. e um dos mais importantes filosofos estoicos da historia. Suas Meditacoes — escritas como diario pessoal, nunca destinadas a publicacao — se tornaram um dos textos mais influentes da filosofia ocidental.
+    tagline: 'Control what depends on you — accept the rest',
+    bio: `Marcus Aurelius was Roman Emperor from 161 to 180 AD and one of the most important Stoic philosophers in history. His Meditations — written as a personal journal, never intended for publication — became one of the most influential texts in Western philosophy.
 
-Governando durante guerras, pragas e traicoes, Marco Aurelio usava a escrita como pratica filosofica diaria: lembrar-se do que pode controlar, da brevidade da vida e da importancia de agir com virtude independentemente das circunstancias. Dois milenios depois, seus principios continuam radicalmente relevantes.`,
+Ruling during wars, plagues, and betrayals, Marcus Aurelius used writing as a daily philosophical practice: reminding himself of what he could control, the brevity of life, and the importance of acting with virtue regardless of circumstances. Two millennia later, his principles remain radically relevant.`,
     books: [
-      { title: 'Meditacoes', highlight: true },
+      { title: 'Meditations', highlight: true },
     ],
     quotes: [
       'You could leave life right now. Let that determine what you do and say and think.',
@@ -639,36 +639,36 @@ Governando durante guerras, pragas e traicoes, Marco Aurelio usava a escrita com
     principles: [
       {
         id: 'dichotomy-of-control',
-        name: 'Dicotomia do Controle',
-        shortDescription: 'Separe o que depende de voce do que nao depende.',
+        name: 'Dichotomy of Control',
+        shortDescription: 'Separate what depends on you from what doesn\'t.',
         description:
-          'O principio central do estoicismo: voce controla seu julgamento, intencao, escolhas e atencao. O clima, as motivacoes alheias e os resultados externos sao material com o qual voce trabalha, nao sistemas que voce comanda.',
+          'The central principle of Stoicism: you control your judgment, intention, choices, and attention. The weather, others\' motivations, and external outcomes are material you work with, not systems you command.',
         mentorSlug: 'marcus-aurelius',
         categories: ['perspective', 'decisions'],
       },
       {
         id: 'memento-mori',
         name: 'Memento Mori',
-        shortDescription: 'Lembrar da morte para viver com mais presenca.',
+        shortDescription: 'Remember death to live with more presence.',
         description:
-          'Memento mori — "lembre que voce morrera" — nao encolhe a vida, mas a condensa. Quando o tempo e mantido proximo, busquedas triviais perdem o apelo, a gratidao se aguza e a bondade para de esperar por "depois".',
+          'Memento mori — "remember you will die" — doesn\'t shrink life but condenses it. When time is kept close, trivial pursuits lose their appeal, gratitude sharpens, and kindness stops waiting for "later."',
         mentorSlug: 'marcus-aurelius',
         categories: ['perspective', 'energy'],
       },
       {
         id: 'view-from-above',
-        name: 'Visao de Cima',
-        shortDescription: 'Veja sua situacao da perspectiva do cosmos.',
+        name: 'View from Above',
+        shortDescription: 'See your situation from the perspective of the cosmos.',
         description:
-          'Um exercicio estoico de imaginacao: veja-se de cima, depois a cidade, o continente, o planeta, o cosmos. Seus problemas nao desaparecem, mas ganham proporcao. O que parecia urgente pode se revelar trivial.',
+          'A Stoic exercise in imagination: see yourself from above, then the city, the continent, the planet, the cosmos. Your problems don\'t disappear, but they gain proportion. What seemed urgent may reveal itself as trivial.',
         mentorSlug: 'marcus-aurelius',
         categories: ['perspective', 'thinking'],
       },
     ],
     connections: [
-      { mentorSlug: 'tim-ferriss', reason: 'Ferriss e estudioso do estoicismo e credita Seneca e Marco Aurelio como inspiracoes diretas para o Fear Setting.' },
-      { mentorSlug: 'derek-sivers', reason: 'Ambos buscam clareza interior e independencia de opinioes externas como base para boas decisoes.' },
-      { mentorSlug: 'tim-urban', reason: 'Ambos confrontam a mortalidade como ferramenta de clareza — Aurelio via memento mori, Urban via visualizacoes de tempo.' },
+      { mentorSlug: 'tim-ferriss', reason: 'Ferriss is a student of Stoicism and credits Seneca and Marcus Aurelius as direct inspirations for Fear Setting.' },
+      { mentorSlug: 'derek-sivers', reason: 'Both seek inner clarity and independence from external opinions as the basis for good decisions.' },
+      { mentorSlug: 'tim-urban', reason: 'Both confront mortality as a tool for clarity — Aurelius via memento mori, Urban via time visualizations.' },
     ],
   },
 
@@ -678,10 +678,10 @@ Governando durante guerras, pragas e traicoes, Marco Aurelio usava a escrita com
   {
     slug: 'tim-urban',
     name: 'Tim Urban',
-    tagline: 'Visualizar o tempo para despertar urgencia',
-    bio: `Tim Urban e escritor e ilustrador, criador do blog Wait But Why, um dos mais lidos da internet. Suas postagens longas — frequentemente acompanhadas de desenhos simples e humor acessivel — exploram temas como procrastinacao, inteligencia artificial, relacionamentos e o sentido da vida.
+    tagline: 'Visualize time to awaken urgency',
+    bio: `Tim Urban is a writer and illustrator, creator of the blog Wait But Why, one of the most widely read on the internet. His long-form posts — often accompanied by simple drawings and accessible humor — explore topics like procrastination, artificial intelligence, relationships, and the meaning of life.
 
-Sua TED Talk "Inside the Mind of a Master Procrastinator" e uma das mais assistidas de todos os tempos. Urban tem um talento raro para tornar visivel o que normalmente e abstrato: a passagem do tempo, a finitude da vida e o custo real de adiar.`,
+His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-watched of all time. Urban has a rare talent for making visible what is normally abstract: the passage of time, the finitude of life, and the real cost of putting things off.`,
     books: [
       { title: 'What\'s Our Problem?', highlight: true },
       { title: 'Wait But Why (blog)' },
@@ -696,35 +696,35 @@ Sua TED Talk "Inside the Mind of a Master Procrastinator" e uma das mais assisti
       {
         id: 'life-calendar',
         name: 'Life Calendar',
-        shortDescription: 'Uma caixa por semana de uma vida de 90 anos. Nao sao tantas.',
+        shortDescription: 'One box per week of a 90-year life. There aren\'t that many.',
         description:
-          'O Life Calendar visualiza toda a sua vida como uma grade de caixas — uma por semana. Ver quantas ja foram usadas e quantas restam cria uma urgencia visceral que nenhuma lista de metas consegue.',
+          'The Life Calendar visualizes your entire life as a grid of boxes — one per week. Seeing how many have already been used and how many remain creates a visceral urgency that no goals list can match.',
         mentorSlug: 'tim-urban',
         categories: ['perspective', 'decisions'],
       },
       {
         id: 'procrastination-matrix',
-        name: 'Matriz da Procrastinacao',
-        shortDescription: 'A procrastinacao mais perigosa nao tem deadline.',
+        name: 'Procrastination Matrix',
+        shortDescription: 'The most dangerous procrastination has no deadline.',
         description:
-          'Urban mostra que tarefas com deadline geram procrastinacao "contida". O perigo real esta nas tarefas sem deadline — os "assassinos silenciosos" como cuidar da saude, sair de um emprego ruim ou fortalecer relacionamentos.',
+          'Urban shows that tasks with deadlines generate "contained" procrastination. The real danger lies in tasks without deadlines — the "silent killers" like taking care of your health, leaving a bad job, or strengthening relationships.',
         mentorSlug: 'tim-urban',
         categories: ['perspective', 'action'],
       },
       {
         id: 'the-tail-end',
         name: 'The Tail End',
-        shortDescription: 'Voce pode estar nos ultimos 5% do tempo com quem ama.',
+        shortDescription: 'You may be in the last 5% of time with the people you love.',
         description:
-          'Mesmo que voce nao esteja no fim da vida, pode estar no fim do tempo com as pessoas mais importantes. Se voce ja saiu de casa, ja usou mais de 90% do tempo presencial com seus pais. O que voce faz com os ultimos 5%?',
+          'Even if you\'re not at the end of your life, you may be at the end of your time with the most important people. If you\'ve already left home, you\'ve used over 90% of your in-person time with your parents. What do you do with the last 5%?',
         mentorSlug: 'tim-urban',
         categories: ['perspective', 'relationships'],
       },
     ],
     connections: [
-      { mentorSlug: 'marcus-aurelius', reason: 'Ambos usam a mortalidade como lente para clareza — Aurelio via filosofia estoica, Urban via visualizacoes de dados.' },
-      { mentorSlug: 'peter-attia', reason: 'Ambos criam urgencia atraves da visualizacao do tempo — Attia com o Decatlo do Centenario, Urban com o Life Calendar.' },
-      { mentorSlug: 'derek-sivers', reason: 'Ambos simplificam decisoes complexas com frames visuais e intuitivos.' },
+      { mentorSlug: 'marcus-aurelius', reason: 'Both use mortality as a lens for clarity — Aurelius via Stoic philosophy, Urban via data visualizations.' },
+      { mentorSlug: 'peter-attia', reason: 'Both create urgency through time visualization — Attia with the Centenarian Decathlon, Urban with the Life Calendar.' },
+      { mentorSlug: 'derek-sivers', reason: 'Both simplify complex decisions with visual, intuitive frames.' },
     ],
   },
 ];

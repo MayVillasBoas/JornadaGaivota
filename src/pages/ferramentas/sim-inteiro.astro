@@ -3,16 +3,16 @@ import Base from '../../layouts/Base.astro';
 import '../../styles/guided-tool.css';
 ---
 
-<Base title="Sim de corpo inteiro — May">
+<Base title="Hell Yes or No — May">
 
   <section class="tool-hero">
-    <span class="tool-label">ferramenta 03</span>
-    <h1>Sim de corpo inteiro</h1>
+    <span class="tool-label">tool 03</span>
+    <h1>Hell Yes or No</h1>
     <p class="tool-intro">
-      Se não é um "sim!" claro, é um não. Esta ferramenta te ajuda a separar o que é desejo
-      genuíno do que é obrigação, culpa ou medo de desagradar.
+      If it's not a clear "yes!", it's a no. This tool helps you separate genuine desire
+      from obligation, guilt, or fear of disappointing others.
     </p>
-    <p class="tool-origin">Baseado em Hell Yes or No — Derek Sivers</p>
+    <p class="tool-origin">Based on Hell Yes or No — Derek Sivers</p>
   </section>
 
   <div class="divider"></div>
@@ -23,15 +23,13 @@ import '../../styles/guided-tool.css';
     <div class="resume-prompt">
       <p></p>
       <div class="resume-actions">
-        <button class="btn-primary btn-resume">continuar</button>
-        <button class="btn-secondary btn-restart">começar de novo</button>
+        <button class="btn-primary btn-resume">continue</button>
+        <button class="btn-secondary btn-restart">start over</button>
       </div>
     </div>
 
-    <!-- Visual artifact: Radiografia da decisão -->
-    <div class="tool-visual" id="tool-visual">
-      <div class="tool-visual-header">sua radiografia</div>
-    </div>
+    <!-- Unified fractal visualization -->
+    <div class="fractal-viz" id="fractal-viz"></div>
 
     <!-- Transition screen -->
     <div class="transition-screen">
@@ -47,15 +45,15 @@ import '../../styles/guided-tool.css';
     <div class="step active" data-step="0">
       <div class="step-content">
         <p class="step-context">
-          A ideia do Derek Sivers é simples e radical: quando você diz sim para tudo,
-          não sobra espaço para o que realmente importa. O filtro é brutal —
-          ou é um "sim!" de corpo inteiro, ou é um não.
+          Derek Sivers' idea is simple and radical: when you say yes to everything,
+          there's no room left for what truly matters. The filter is brutal —
+          it's either a full-body "yes!", or it's a no.
         </p>
         <p class="step-context">
-          Aqui você vai examinar uma decisão que está tomando agora e testar
-          se o seu sim é verdadeiro ou automático.
+          Here you'll examine a decision you're facing right now and test
+          whether your yes is genuine or automatic.
         </p>
-        <button class="btn-primary step-next">começar <span class="arrow">→</span></button>
+        <button class="btn-primary step-next">begin <span class="arrow">→</span></button>
       </div>
     </div>
 
@@ -63,23 +61,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="1">
       <div class="step-header">
         <span class="step-number">1 de 5</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O que está em jogo?</h2>
+        <h2>What's at stake?</h2>
         <p class="step-guide">
-          Descreva a decisão, convite ou compromisso que você está considerando.
-          Pode ser um projeto, uma relação, uma mudança, um pedido. O que está na sua mesa agora?
+          Describe the decision, invitation, or commitment you're considering.
+          It could be a project, a relationship, a change, a request. What's on your plate right now?
         </p>
-        <textarea id="q1" placeholder="Estou considerando..." rows="5"></textarea>
+        <textarea id="q1" placeholder="I'm considering..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -88,23 +85,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="2">
       <div class="step-header">
         <span class="step-number">2 de 5</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Por que você está dizendo sim?</h2>
+        <h2>Why are you saying yes?</h2>
         <p class="step-guide">
-          Seja honesta. É porque quer de verdade? Porque tem medo de perder a oportunidade?
-          Porque não quer desapontar alguém? Porque "deveria"? Liste todos os motivos — os bonitos e os feios.
+          Be honest. Is it because you truly want to? Because you're afraid of missing out?
+          Because you don't want to disappoint someone? Because you "should"? List all the reasons — the pretty and the ugly.
         </p>
-        <textarea id="q2" placeholder="Estou dizendo sim porque..." rows="6"></textarea>
+        <textarea id="q2" placeholder="I'm saying yes because..." rows="6"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -113,24 +109,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="3">
       <div class="step-header">
         <span class="step-number">3 de 5</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>O teste do corpo</h2>
+        <h2>The body test</h2>
         <p class="step-guide">
-          Feche os olhos por um momento. Imagine que você já disse sim e está vivendo isso.
-          Como o seu corpo reage? Expansão, leveza, energia? Ou contração, peso, aperto no peito?
-          Descreva a sensação — sem julgar.
+          Close your eyes for a moment. Imagine you've already said yes and you're living it.
+          How does your body react? Expansion, lightness, energy? Or contraction, heaviness, tightness in the chest?
+          Describe the sensation — without judging.
         </p>
-        <textarea id="q3" placeholder="Quando imagino vivendo isso, meu corpo..." rows="5"></textarea>
+        <textarea id="q3" placeholder="When I imagine living this, my body..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -139,23 +134,22 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="4">
       <div class="step-header">
         <span class="step-number">4 de 5</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Se eu dissesse não — o que aconteceria?</h2>
+        <h2>If I said no — what would happen?</h2>
         <p class="step-guide">
-          Imagine que você recusa. O que muda? Quem fica desapontado? O que sobra de espaço?
-          Você sente alívio ou arrependimento? Essa resposta diz muito.
+          Imagine you decline. What changes? Who gets disappointed? What space opens up?
+          Do you feel relief or regret? That answer says a lot.
         </p>
-        <textarea id="q4" placeholder="Se eu dissesse não..." rows="5"></textarea>
+        <textarea id="q4" placeholder="If I said no..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary step-next">próximo <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary step-next">next <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -164,24 +158,23 @@ import '../../styles/guided-tool.css';
     <div class="step" data-step="5">
       <div class="step-header">
         <span class="step-number">5 de 5</span>
-        <div class="step-progress"><div class="progress-fill" style="width: 0%"></div></div>
       </div>
       <div class="step-content">
         <div class="ai-insight">
-          <span class="ai-insight-marker">✦ reflexão</span>
+          <span class="ai-insight-marker">✦ reflection</span>
           <p class="ai-insight-text"></p>
         </div>
         <div class="step-encouragement"></div>
-        <h2>Seu veredicto</h2>
+        <h2>Your verdict</h2>
         <p class="step-guide">
-          Olhando tudo que você escreveu — é um sim de corpo inteiro?
-          Ou é um sim de cabeça, de culpa, de medo? Escreva sua conclusão honesta.
-          Não precisa ser definitiva. Precisa ser sua.
+          Looking at everything you wrote — is it a full-body yes?
+          Or is it a head-yes, a guilt-yes, a fear-yes? Write your honest conclusion.
+          It doesn't need to be final. It needs to be yours.
         </p>
-        <textarea id="q5" placeholder="Minha conclusão honesta é que..." rows="5"></textarea>
+        <textarea id="q5" placeholder="My honest conclusion is that..." rows="5"></textarea>
         <div class="step-nav">
-          <button class="btn-secondary step-prev"><span class="arrow">←</span> voltar</button>
-          <button class="btn-primary" id="finish-btn">ver meu veredicto <span class="arrow">→</span></button>
+          <button class="btn-secondary step-prev"><span class="arrow">←</span> back</button>
+          <button class="btn-primary" id="finish-btn">see my verdict <span class="arrow">→</span></button>
         </div>
       </div>
     </div>
@@ -189,27 +182,27 @@ import '../../styles/guided-tool.css';
     <!-- Result -->
     <div class="step" data-step="result">
       <div class="step-content result-content">
-        <h2>Seu veredicto</h2>
-        <p class="result-intro">O que apareceu quando você parou pra escutar.</p>
+        <h2>Your verdict</h2>
+        <p class="result-intro">What surfaced when you stopped to listen.</p>
 
-        <div class="result-block"><h3>A decisão</h3><p id="r1"></p></div>
-        <div class="result-block"><h3>Por que estou dizendo sim</h3><p id="r2"></p></div>
-        <div class="result-block"><h3>O que o corpo diz</h3><p id="r3"></p></div>
-        <div class="result-block"><h3>Se eu dissesse não</h3><p id="r4"></p></div>
-        <div class="result-block closing-block"><h3>Minha conclusão</h3><p id="r5"></p></div>
+        <div class="result-block"><h3>The decision</h3><p id="r1"></p></div>
+        <div class="result-block"><h3>Why I'm saying yes</h3><p id="r2"></p></div>
+        <div class="result-block"><h3>What the body says</h3><p id="r3"></p></div>
+        <div class="result-block"><h3>If I said no</h3><p id="r4"></p></div>
+        <div class="result-block closing-block"><h3>My conclusion</h3><p id="r5"></p></div>
 
         <div class="reflection-prompt">
-          <span class="reflection-label">uma pergunta para levar</span>
-          <p class="reflection-text">O que muda na sua vida se você começa a dizer não para os sins automáticos?</p>
+          <span class="reflection-label">a question to take with you</span>
+          <p class="reflection-text">What changes in your life if you start saying no to your automatic yeses?</p>
         </div>
 
         <div class="reflection-counter"></div>
 
         <div class="result-actions">
-          <button class="btn-secondary" id="copy-btn">copiar texto</button>
-          <button class="btn-secondary" id="download-btn">salvar como texto</button>
-          <button class="btn-secondary" id="save-journal-btn">guardar no diário</button>
-          <button class="btn-secondary" id="restart-btn">refazer ↺</button>
+          <button class="btn-secondary" id="copy-btn">copy text</button>
+          <button class="btn-secondary" id="download-btn">save as text</button>
+          <button class="btn-secondary" id="save-journal-btn">save to journal</button>
+          <button class="btn-secondary" id="restart-btn">redo ↺</button>
         </div>
       </div>
     </div>
@@ -218,6 +211,7 @@ import '../../styles/guided-tool.css';
 
 <script>
   import { GuidedTool } from '../../scripts/guided-tool';
+  import { initToolVisuals } from '../../scripts/tool-visuals';
 
   // Prevent duplicate instantiation
   if (!(window as any).__guidedToolInit) {
@@ -235,22 +229,22 @@ import '../../styles/guided-tool.css';
     ],
     encouragements: [
       '', // step 0
-      'Boa. Colocar na mesa já é um ato de honestidade.',
-      'Separar os motivos é corajoso.',
-      'O corpo sabe antes da cabeça. Confie nele.',
-      'Imaginar o não é tão revelador quanto imaginar o sim.',
-      'Agora é só você e sua resposta honesta.',
+      'Good. Putting it on the table is already an act of honesty.',
+      'Separating the motives takes courage.',
+      'The body knows before the head. Trust it.',
+      'Imagining the no is as revealing as imagining the yes.',
+      'Now it\'s just you and your honest answer.',
     ],
-    closingReflection: 'O que muda na sua vida se você começa a dizer não para os sins automáticos?',
-    resultTitle: 'Sim de corpo inteiro',
+    closingReflection: 'What changes in your life if you start saying no to your automatic yeses?',
+    resultTitle: 'Hell Yes or No',
     visualConfig: {
       type: 'decision-xray',
       sections: [
-        { id: 'decision', label: 'a decisão', stepRange: [1], wordClass: 'neutral' },
-        { id: 'motives', label: 'motivos', stepRange: [2], wordClass: 'obligation' },
-        { id: 'body', label: 'o corpo diz', stepRange: [3], wordClass: 'genuine' },
-        { id: 'alternative', label: 'se eu dissesse não', stepRange: [4], wordClass: 'neutral' },
-        { id: 'verdict', label: 'veredicto', stepRange: [5], wordClass: 'genuine' },
+        { id: 'decision', label: 'the decision', stepRange: [1], wordClass: 'neutral' },
+        { id: 'motives', label: 'motives', stepRange: [2], wordClass: 'obligation' },
+        { id: 'body', label: 'body says', stepRange: [3], wordClass: 'genuine' },
+        { id: 'alternative', label: 'if I said no', stepRange: [4], wordClass: 'neutral' },
+        { id: 'verdict', label: 'verdict', stepRange: [5], wordClass: 'genuine' },
       ],
     },
   };
@@ -258,6 +252,7 @@ import '../../styles/guided-tool.css';
   const tool = new GuidedTool(config);
   tool.init();
   GuidedTool.wireExport(config);
+  initToolVisuals(config.slug);
 
   } // end guard
 </script>
