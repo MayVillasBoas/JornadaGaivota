@@ -1,0 +1,56 @@
+---
+const toolCategories = [
+  {
+    name: 'Decidir',
+    tools: [
+      { slug: 'medo-na-mesa', name: 'Botando o medo na mesa', framework: 'Fear Setting', mentor: 'Tim Ferriss', steps: 7 },
+      { slug: 'tres-futuros', name: '3 futuros plausíveis', framework: 'Odyssey Plan', mentor: 'Bill Burnett & Dave Evans', steps: 5 },
+      { slug: 'sim-inteiro', name: 'Sim de corpo inteiro', framework: 'Hell Yes or No', mentor: 'Derek Sivers', steps: 5 },
+    ]
+  },
+  {
+    name: 'Se Ouvir',
+    tools: [
+      { slug: 'bussola-interna', name: 'Bússola interna', framework: 'North Star', mentor: 'Martha Beck', steps: 5 },
+      { slug: 'auditoria-de-energia', name: 'Auditoria de energia', framework: 'Energy Audit', mentor: 'May', steps: 5 },
+    ]
+  },
+  {
+    name: 'Comunicar',
+    tools: [
+      { slug: 'o-que-quero-dizer', name: 'O que eu quero dizer de verdade', framework: 'CNV', mentor: 'Marshall Rosenberg', steps: 5 },
+      { slug: 'prototipos-de-futuro', name: 'Protótipos de futuro', framework: 'Life Prototyping', mentor: 'Bill Burnett & Dave Evans', steps: 5 },
+    ]
+  }
+];
+---
+
+<section class="section" id="ferramentas">
+  <h2 class="section-title">Ferramentas</h2>
+
+  {toolCategories.map(category => (
+    <div class="tools-category">
+      <h3 class="tools-category-name">{category.name}</h3>
+      <div class="tools-grid">
+        {category.tools.map(tool => (
+          <a href={`/ferramentas/${tool.slug}`} class="tool-card">
+            <span class="tool-steps">{tool.steps} passos</span>
+            <h3>{tool.name}</h3>
+            <span class="tool-meta">{tool.framework}</span>
+            <span class="tool-meta tool-mentor">{tool.mentor}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <div class="tools-category">
+    <div class="tools-grid">
+      <div class="tool-card placeholder">
+        <span class="badge-coming">em breve</span>
+        <h3>Life Calendar</h3>
+        <span class="tool-meta">Tim Urban · Wait But Why</span>
+      </div>
+    </div>
+  </div>
+</section>
