@@ -1,0 +1,706 @@
+/* ─── Journal Hero ─── */
+.journal-hero {
+  max-width: 680px;
+  margin: 5rem auto 1.5rem;
+  padding: 0 2rem;
+  text-align: center;
+}
+.journal-hero h1 {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.journal-subtitle {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+}
+
+/* ─── Tabs ─── */
+.journal-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+.journal-tab {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  padding: 0.5rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.journal-tab:hover {
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+.journal-tab.active {
+  color: var(--cream);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ─── Views ─── */
+.journal-view {
+  display: none;
+  max-width: 680px;
+  margin: 0 auto 6rem;
+  padding: 0 2rem;
+}
+.journal-view.active {
+  display: block;
+}
+.journal-view.wide {
+  max-width: 900px;
+}
+
+/* ─── Check-in Input ─── */
+.checkin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.checkin-label {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--ink-light);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.textarea-wrapper {
+  position: relative;
+}
+.textarea-wrapper textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.7;
+  padding: 1.2rem 3rem 1.2rem 1.2rem;
+  resize: none;
+  transition: border-color 0.3s;
+}
+.textarea-wrapper textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.textarea-wrapper textarea::placeholder {
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* ─── Voice Button ─── */
+.voice-btn {
+  position: absolute;
+  top: 1rem;
+  right: 0.8rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  color: var(--ink-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.voice-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.voice-btn--recording {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  animation: pulse-voice 1.5s ease-in-out infinite;
+}
+@keyframes pulse-voice {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(43, 74, 62, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(43, 74, 62, 0); }
+}
+
+/* ─── Trackers ─── */
+.trackers-area {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+}
+.trackers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.trackers-label {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.add-tracker-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.add-tracker-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.tracker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tracker-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.5);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.tracker-chip:hover {
+  border-color: var(--accent-light);
+}
+.tracker-chip.checked {
+  background: rgba(43, 74, 62, 0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.tracker-chip .chip-check {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: all 0.2s;
+}
+.tracker-chip.checked .chip-check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.tracker-chip .chip-emoji {
+  font-size: 0.9rem;
+}
+
+/* Add Tracker Form */
+.add-tracker-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+.add-tracker-form input,
+.add-tracker-form select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  background: var(--cream);
+  color: var(--ink);
+}
+.add-tracker-form input:focus,
+.add-tracker-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.btn-save-tracker {
+  padding: 0.4rem 0.8rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-save-tracker:hover {
+  background: var(--accent-light);
+}
+
+/* ─── Save Button ─── */
+.btn-checkin {
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-checkin:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+.btn-checkin:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Loading ─── */
+.checkin-loading {
+  text-align: center;
+  padding: 1rem 0;
+}
+.loading-dots span {
+  display: inline-block;
+  animation: dot-bounce 1.4s ease-in-out infinite;
+  font-size: 2rem;
+  color: var(--accent);
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot-bounce {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+.loading-label {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* ─── AI Reflection ─── */
+.ai-reflection {
+  animation: fadeInUp 0.5s ease both;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reflection-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(43, 74, 62, 0.08);
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+}
+.reflection-marker {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.reflection-text {
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+/* Celebrations */
+.celebrations {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  background: rgba(43, 74, 62, 0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(43, 74, 62, 0.08);
+  animation: celebration-glow 2s ease-in-out;
+}
+@keyframes celebration-glow {
+  0% { box-shadow: 0 0 0 0 rgba(43, 74, 62, 0.2); }
+  50% { box-shadow: 0 0 20px 4px rgba(43, 74, 62, 0.1); }
+  100% { box-shadow: none; }
+}
+.celebration-marker {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.celebration-list {
+  list-style: none;
+  padding: 0;
+}
+.celebration-list li {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  padding: 0.2rem 0;
+  line-height: 1.5;
+}
+
+/* Energy + Tone Summary */
+.energy-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+.energy-badge,
+.tone-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 16px;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.energy-badge {
+  border: 1px solid currentColor;
+}
+.tone-badge {
+  background: rgba(43, 74, 62, 0.06);
+  color: var(--ink-light);
+}
+.themes-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.themes-pills .theme-pill {
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+}
+
+/* Tracker Suggestion */
+.tracker-suggestion {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px dashed var(--border-light);
+  border-radius: 8px;
+}
+.suggestion-marker {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.suggestion-text {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+.suggestion-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.btn-accept-suggestion {
+  padding: 0.4rem 0.8rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.btn-dismiss-suggestion {
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  color: var(--ink-muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Existing Entry */
+.existing-entry {
+  margin-top: 0.5rem;
+  padding: 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.existing-label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.existing-text {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.existing-meta {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* ─── Calendar — "Life is a movie but you live in a pixel" ─── */
+.calendar-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.cal-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cal-nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.cal-month-label {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.cal-header {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-align: center;
+  padding: 0.5rem 0 0.75rem;
+}
+.cal-day {
+  min-height: 80px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: var(--sans);
+  color: var(--ink-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  border: 2px solid transparent;
+  background: var(--warm-white);
+}
+.cal-day:hover {
+  border-color: var(--accent);
+  transform: scale(1.03);
+  z-index: 2;
+}
+.cal-day.empty {
+  cursor: default;
+  pointer-events: none;
+  background: transparent;
+  border: none;
+}
+.cal-day.today {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+.cal-day .day-num {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1;
+}
+.cal-day .day-emoji {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.cal-day.has-entry {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.cal-day.has-entry .day-num {
+  font-weight: 500;
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  padding: 1rem 0;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* Day Detail */
+.day-detail {
+  margin-top: 1.5rem;
+  padding: 1.2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  animation: fadeInUp 0.3s ease both;
+}
+.day-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.day-detail-date {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.day-detail-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.day-detail-energy {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+}
+.day-detail-text {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.day-detail-trackers {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .journal-hero {
+    margin-top: 3rem;
+  }
+  .journal-hero h1 {
+    font-size: 1.8rem;
+  }
+  .journal-view {
+    padding: 0 1rem;
+  }
+  .journal-view.wide {
+    max-width: 100%;
+    padding: 0 0.75rem;
+  }
+  .cal-day {
+    min-height: 52px;
+  }
+  .cal-day .day-num {
+    font-size: 0.7rem;
+  }
+  .cal-day .day-emoji {
+    font-size: 0.9rem;
+  }
+  .calendar-grid {
+    gap: 3px;
+  }
+  .cal-month-label {
+    font-size: 1.4rem;
+  }
+}
