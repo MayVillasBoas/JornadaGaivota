@@ -1,24 +1,16 @@
 ---
-const isHome = Astro.url.pathname === '/';
-const prefix = isHome ? '' : '/';
-const sectionLinks = [
-  { href: `${prefix}#lentes`, label: 'lenses' },
-  { href: `${prefix}#mentores`, label: 'mentors' },
-  { href: `${prefix}#ferramentas`, label: 'tools' },
-  { href: `${prefix}#escrita`, label: 'writing' },
-];
-const pageLinks = [
-  { href: '/diario', label: 'journal' },
+const links = [
+  { href: '/unfold', label: 'unfold' },
+  { href: '/escrita', label: 'escrita' },
   { href: '/lab', label: 'lab' },
-  { href: '/sobre', label: 'about' },
   { href: '/agora', label: 'now' },
+  { href: '/sobre', label: 'about' },
 ];
-const links = [...sectionLinks, ...pageLinks];
 ---
 
 <header class="site-header">
   <nav>
-    <a href="/" class="logo">Unfold</a>
+    <a href="/" class="logo">May.labs</a>
 
     <ul class="nav-links">
       {links.map(link => (

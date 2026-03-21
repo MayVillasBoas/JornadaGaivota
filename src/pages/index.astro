@@ -1,64 +1,227 @@
 ---
 import Base from '../layouts/Base.astro';
 import CreamCosmos from '../components/CreamCosmos.astro';
-import DotNav from '../components/DotNav.astro';
-import LensesSection from '../components/LensesSection.astro';
-import MentorsSection from '../components/MentorsSection.astro';
-import ToolsSection from '../components/ToolsSection.astro';
-import MentorModal from '../components/MentorModal.astro';
-import '../styles/home.css';
 ---
 
-<Base title="Unfold — Explore the mind you live in" description="Mental models, mentors, and tools for thinking with more clarity.">
-  <CreamCosmos />
-  <LensesSection />
-  <MentorsSection />
-  <ToolsSection />
+<Base title="May.labs" description="Um espaço pra explorar ideias, ferramentas e o que me faz pensar.">
+  <CreamCosmos
+    title="May.labs"
+    tagline="explorations of a curious mind."
+    showInput={false}
+    showMentorLabels={false}
+  />
 
-  <section class="section" id="escrita">
-    <h2 class="section-title">Writing</h2>
-    <p class="escrita-subtitle">The Seagull's Journey</p>
-    <ul class="writing-list">
-      <li>
-        <a href="/escrita/vergonha-da-primeira-versao">a vergonha da primeira versão</a>
-        <span class="date">nov 2024</span>
-      </li>
-      <li>
-        <a href="/escrita/ubuntu">ubuntu</a>
-        <span class="date">nov 2024</span>
-      </li>
-      <li>
-        <a href="/escrita/a-gaivota">a gaivota</a>
-        <span class="date">jun 2023</span>
-      </li>
-      <li>
-        <a href="/escrita/o-que-fazer-com-a-minha-vida">o que fazer com a minha vida?</a>
-        <span class="date">jun 2023</span>
-      </li>
-    </ul>
+  <section class="about-section">
+    <div class="about-content narrow">
+      <p class="lead">
+        I'm May. I build tools for thinking, write about what I'm figuring out,
+        and experiment with ways to make hard decisions feel less impossible.
+      </p>
+
+      <p>
+        This is my corner of the internet — part library, part lab, part journal.
+        A place where I organize the frameworks, mental models, and questions
+        that help me (and maybe you) think with more clarity about what actually matters.
+      </p>
+
+      <p>
+        Everything here comes from real transitions — career changes, grief,
+        starting over, figuring out what kind of life I actually want.
+        Not theory. Practice.
+      </p>
+    </div>
   </section>
 
-  <DotNav />
-  <MentorModal />
+  <div class="divider"></div>
+
+  <section class="spaces-section">
+    <div class="spaces-content narrow">
+      <h2 class="spaces-title">Explore</h2>
+
+      <div class="spaces-list">
+        <a href="/unfold" class="space-item">
+          <span class="space-name">Unfold</span>
+          <span class="space-desc">ferramentas, mentores e lentes pra pensar melhor</span>
+          <span class="space-arrow">&rarr;</span>
+        </a>
+
+        <a href="/escrita" class="space-item">
+          <span class="space-name">Escrita</span>
+          <span class="space-desc">reflexões e fragmentos</span>
+          <span class="space-arrow">&rarr;</span>
+        </a>
+
+        <a href="/lab" class="space-item">
+          <span class="space-name">Lab</span>
+          <span class="space-desc">visualizações e sistemas complexos</span>
+          <span class="space-arrow">&rarr;</span>
+        </a>
+
+        <a href="/agora" class="space-item">
+          <span class="space-name">Now</span>
+          <span class="space-desc">no que estou pensando e construindo</span>
+          <span class="space-arrow">&rarr;</span>
+        </a>
+
+        <a href="/diario" class="space-item">
+          <span class="space-name">Journal</span>
+          <span class="space-desc">your life is a movie but you live in a pixel</span>
+          <span class="space-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="recent-section">
+    <div class="recent-content narrow">
+      <h2 class="spaces-title">Últimos escritos</h2>
+      <ul class="recent-list">
+        <li>
+          <a href="/escrita/vergonha-da-primeira-versao">a vergonha da primeira versão</a>
+          <span class="date">nov 2024</span>
+        </li>
+        <li>
+          <a href="/escrita/ubuntu">ubuntu</a>
+          <span class="date">nov 2024</span>
+        </li>
+        <li>
+          <a href="/escrita/a-gaivota">a gaivota</a>
+          <span class="date">jun 2023</span>
+        </li>
+      </ul>
+    </div>
+  </section>
 </Base>
 
 <style>
-  .escrita-subtitle {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-style: italic;
-    color: var(--ink-muted);
-    text-align: center;
-    margin-top: -28px;
-    margin-bottom: 2rem;
+  /* About section */
+  .about-section {
+    padding: 5rem 2rem 3rem;
   }
 
-  .writing-list {
+  .about-content {
     max-width: 680px;
     margin: 0 auto;
   }
 
-  .writing-list li {
+  .about-content p {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-content p.lead {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  /* Divider */
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 1rem auto;
+  }
+
+  /* Spaces section */
+  .spaces-section {
+    padding: 3rem 2rem;
+  }
+
+  .spaces-content {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .spaces-title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .spaces-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .space-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .space-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .space-name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .space-desc {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    flex: 1;
+  }
+
+  .space-arrow {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .space-item:hover .space-name {
+    color: var(--accent);
+  }
+
+  .space-item:hover .space-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  /* Recent writing */
+  .recent-section {
+    padding: 3rem 2rem 5rem;
+  }
+
+  .recent-content {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .recent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .recent-list li {
     padding: 1.2rem 0;
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -66,17 +229,19 @@ import '../styles/home.css';
     align-items: baseline;
   }
 
-  .writing-list li:first-child {
+  .recent-list li:first-child {
     border-top: 1px solid var(--border);
   }
 
-  .writing-list a {
+  .recent-list a {
     font-family: var(--serif);
     font-size: 1.15rem;
     transition: color 0.3s;
+    text-decoration: none;
+    color: var(--ink);
   }
 
-  .writing-list a:hover {
+  .recent-list a:hover {
     color: var(--accent);
   }
 
@@ -86,8 +251,33 @@ import '../styles/home.css';
     color: var(--ink-muted);
   }
 
+  /* Responsive */
   @media (max-width: 768px) {
-    .writing-list li {
+    .about-section {
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .spaces-section,
+    .recent-section {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .space-item {
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .space-desc {
+      flex-basis: 100%;
+      padding-left: 0;
+    }
+
+    .space-arrow {
+      display: none;
+    }
+
+    .recent-list li {
       flex-direction: column;
       gap: 0.3rem;
     }

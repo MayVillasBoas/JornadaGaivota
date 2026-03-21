@@ -1,30 +1,48 @@
 ---
 import { mentors, getMentorColor } from '../data/mentors';
+
+interface Props {
+  title?: string;
+  tagline?: string;
+  showInput?: boolean;
+  showMentorLabels?: boolean;
+}
+
+const {
+  title = 'Unfold',
+  tagline = 'Explore the mind you live in.',
+  showInput = true,
+  showMentorLabels = true,
+} = Astro.props;
 ---
 
 <section class="hero" id="hero">
   <canvas id="cream-cosmos-canvas"></canvas>
   <div class="hero-overlay">
-    <h1 class="hero-title">Unfold</h1>
-    <p class="hero-tagline">Explore the mind you live in.</p>
-    <div class="hero-input-wrapper">
-      <input
-        type="text"
-        class="hero-input"
-        id="hero-explore-input"
-        placeholder="o que tá na sua cabeça?"
-        autocomplete="off"
-      />
-      <button class="hero-input-mic voice-btn" data-target="hero-explore-input" aria-label="Falar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-        </svg>
-      </button>
-    </div>
+    <h1 class="hero-title">{title}</h1>
+    <p class="hero-tagline">{tagline}</p>
+    {showInput && (
+      <div class="hero-input-wrapper">
+        <input
+          type="text"
+          class="hero-input"
+          id="hero-explore-input"
+          placeholder="o que tá na sua cabeça?"
+          autocomplete="off"
+        />
+        <button class="hero-input-mic voice-btn" data-target="hero-explore-input" aria-label="Falar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+          </svg>
+        </button>
+      </div>
+    )}
   </div>
-  <div class="mentor-label" id="mentor-hover-label" aria-hidden="true"></div>
+  {showMentorLabels && (
+    <div class="mentor-label" id="mentor-hover-label" aria-hidden="true"></div>
+  )}
 </section>
 
 <style>
