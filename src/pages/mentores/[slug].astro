@@ -31,7 +31,7 @@ const bioParagraphs = mentor.bio.split('\n\n');
   <!-- Books -->
   {mentor.books.length > 0 && (
     <section class="mentor-section">
-      <h2>Livros</h2>
+      <h2>Books</h2>
       <ul class="mentor-books-list">
         {mentor.books.map(book => (
           <li
@@ -50,7 +50,7 @@ const bioParagraphs = mentor.bio.split('\n\n');
   <!-- Quotes -->
   {mentor.quotes.length > 0 && (
     <section class="mentor-section mentor-quotes">
-      <h2>Citacoes</h2>
+      <h2>Quotes</h2>
       {mentor.quotes.map(quote => (
         <blockquote style={`border-left-color: ${color};`}>
           &ldquo;{quote}&rdquo;
@@ -64,7 +64,7 @@ const bioParagraphs = mentor.bio.split('\n\n');
   <!-- Principles / Frameworks -->
   {mentor.principles.length > 0 && (
     <section class="mentor-section">
-      <h2>Principios</h2>
+      <h2>Principles</h2>
       <div class="principles-grid">
         {mentor.principles.map(principle => (
           <div class="principle-card">
@@ -87,7 +87,7 @@ const bioParagraphs = mentor.bio.split('\n\n');
                 href={`/ferramentas/${principle.relatedToolSlug}`}
                 style={`color: ${color};`}
               >
-                Experimentar &rarr;
+                Try it &rarr;
               </a>
             )}
           </div>
@@ -101,7 +101,7 @@ const bioParagraphs = mentor.bio.split('\n\n');
   <!-- Connections -->
   {mentor.connections.length > 0 && (
     <section class="mentor-section">
-      <h2>Conexoes</h2>
+      <h2>Connections</h2>
       <ul class="connections-list">
         {mentor.connections.map(conn => {
           const connected = getMentorBySlug(conn.mentorSlug);
