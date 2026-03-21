@@ -18,9 +18,12 @@ function loadEnvKey(): string {
   }
 }
 
-const CLASSIFICATION_PROMPT = `You are an expert decision-making therapist. The user has described a difficult life decision they're struggling with. Your job is to classify the TYPE of confusion they're experiencing.
+const CLASSIFICATION_PROMPT = `You are an expert decision-making therapist. The user has described a difficult life decision they're struggling with. Your job is to:
+1. Classify the TYPE of confusion they're experiencing
+2. Suggest which thinking frameworks would help most
+3. Explain WHY each framework was chosen, using the user's own words
 
-The types are:
+The confusion types are:
 - "fear-based": blocked by imagined negative outcomes, hasn't committed to a preference yet
 - "identity-split": two or more internal parts want different things (safety vs freedom, loyalty vs authenticity)
 - "information-gap": genuinely lacks clarity about what the options are or what each implies
@@ -28,15 +31,27 @@ The types are:
 - "values-conflict": two deeply held values collide and neither can be dismissed
 - "external-pressure": the person's own preference is clear but overridden by others' expectations
 
+The available frameworks are:
+- "body-scan": Somatic awareness — what the body is signaling about each option (Damasio)
+- "parts-mapping": Internal Family Systems — mapping the conflicting inner voices (Schwartz)
+- "first-principles": Separating facts from assumptions (Munger)
+- "regret-minimization": Projecting to age 80 to compare regrets (Bezos)
+
 Return ONLY valid JSON (no markdown, no backticks):
 {
   "types": ["type1", "type2"],
   "confidence": 0.0-1.0,
-  "reasoning": "1-2 sentences explaining why you classified it this way"
+  "reasoning": "1-2 sentences explaining why you classified it this way",
+  "suggestedRoute": ["framework-slug-1", "framework-slug-2", "framework-slug-3"],
+  "frameworkReasons": {
+    "framework-slug-1": "One sentence explaining why this framework fits, referencing the user's specific words",
+    "framework-slug-2": "One sentence...",
+    "framework-slug-3": "One sentence..."
+  }
 }
 
-Be specific. Don't default to "fear-based" for everything. Look for the real root.
-Respond in the same language the user writes in (reasoning field).`;
+Be specific. Reference the user's actual words in frameworkReasons. Suggest 3-4 frameworks.
+Respond in the same language the user writes in (all fields including frameworkReasons).`;
 
 const MODULE_PROMPTS: Record<string, string> = {
   'body-scan': `You are a gentle somatic therapist guiding someone through a body scan for decision-making. Based on Damasio's Somatic Marker Hypothesis — the body often knows before the mind.
@@ -184,7 +199,7 @@ export async function POST({ request }: { request: Request }): Promise<Response>
         ? `\n\nAdditional context from intake questions:\n${body.intakeAnswers.join('\n')}`
         : '';
       userMessage = `Here is my situation:\n\n${body.situation}${intake}`;
-      maxTokens = 200;
+      maxTokens = 400;
       break;
     }
 
