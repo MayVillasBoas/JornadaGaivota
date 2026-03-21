@@ -97,11 +97,11 @@
 
 .copilot-question .guidance {
   font-family: var(--serif);
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-style: italic;
   color: var(--ink-muted);
-  line-height: 1.55;
-  margin-top: 0.4rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
 }
 
 /* User response */
