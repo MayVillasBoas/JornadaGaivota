@@ -1,84 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
-import HeroIllustration from '../components/HeroIllustration.astro';
+import CreamCosmos from '../components/CreamCosmos.astro';
+import DotNav from '../components/DotNav.astro';
+import LensesSection from '../components/LensesSection.astro';
+import MentorsSection from '../components/MentorsSection.astro';
+import ToolsSection from '../components/ToolsSection.astro';
+import MentorModal from '../components/MentorModal.astro';
+import '../styles/home.css';
 ---
 
-<Base title="May — Don't trust what you think">
+<Base title="Unfold — Explore the mind you live in" description="Modelos mentais, mentores e ferramentas para pensar com mais clareza.">
+  <CreamCosmos />
+  <LensesSection />
+  <MentorsSection />
+  <ToolsSection />
 
-  <!-- Hero -->
-  <section class="hero">
-    <HeroIllustration />
-    <h1>Don't trust what you think.</h1>
-    <p class="hero-sub">
-      Ferramentas para examinar seus pensamentos, vieses e decisões com mais clareza —
-      para quem está redesenhando vida, carreira ou relações.
-    </p>
-    <a href="/ferramentas" class="btn-primary">explorar ferramentas →</a>
-  </section>
-
-  <!-- Epigraph -->
-  <section class="epigraph">
-    <div class="divider" style="margin-bottom: 4rem;"></div>
-    <blockquote>
-      "In the beginner's mind there are many possibilities,<br>
-      but in the expert's there are few."
-    </blockquote>
-    <cite>Shunryu Suzuki</cite>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Cards -->
-  <section class="cards-section">
-    <h2>Por onde você quer começar?</h2>
-    <p class="section-sub">Escolha pela situação, não pelo framework.</p>
-
-    <div class="cards-grid">
-      <a href="/ferramentas#decidir" class="card">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none">
-          <path d="M14 34 L24 8 L34 34" stroke="#2B4A3E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M18 26 L30 26" stroke="#2B4A3E" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
-        </svg>
-        <h3>Decidir</h3>
-        <p>Quando você tem opções demais e clareza de menos. Para decisões de carreira, mudanças e encruzilhadas.</p>
-        <span class="card-link">3 ferramentas →</span>
-      </a>
-
-      <a href="/ferramentas#se-ouvir" class="card">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="14" stroke="#2B4A3E" stroke-width="1.5" fill="none"/>
-          <circle cx="24" cy="24" r="5" stroke="#2B4A3E" stroke-width="1" fill="none" opacity="0.4"/>
-        </svg>
-        <h3>Se ouvir</h3>
-        <p>Quando você sente algo mas não sabe nomear. Para separar medo de intuição, desejo de validação.</p>
-        <span class="card-link">2 ferramentas →</span>
-      </a>
-
-      <a href="/ferramentas#comunicar" class="card">
-        <svg class="card-icon" viewBox="0 0 48 48" fill="none">
-          <path d="M10 34 Q10 14 24 14 Q38 14 38 34" stroke="#2B4A3E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <path d="M16 28 Q24 22 32 28" stroke="#2B4A3E" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
-        </svg>
-        <h3>Comunicar</h3>
-        <p>Quando você precisa dizer algo difícil sem atacar nem se anular. Para conversas que você está adiando.</p>
-        <span class="card-link">2 ferramentas →</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Positioning -->
-  <section class="positioning">
-    <p>Não é terapia. É estrutura para pensar melhor sobre o que importa.</p>
-    <p class="use-cases">
-      Use para: trocar de trabalho · mudar de cidade · conversas difíceis · prioridades · "tô travada"
-    </p>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Writing -->
-  <section class="writing-section">
-    <h2>Jornada da Gaivota</h2>
+  <section class="section" id="escrita">
+    <h2 class="section-title">Escrita</h2>
+    <p class="escrita-subtitle">Jornada da Gaivota</p>
     <ul class="writing-list">
       <li>
         <a href="/escrita/vergonha-da-primeira-versao">a vergonha da primeira versão</a>
@@ -99,134 +38,25 @@ import HeroIllustration from '../components/HeroIllustration.astro';
     </ul>
   </section>
 
+  <DotNav />
+  <MentorModal />
 </Base>
 
 <style>
-  .hero {
-    max-width: 800px;
-    margin: 6rem auto 0;
-    padding: 0 2rem;
-    text-align: center;
-  }
-
-  .hero h1 { margin-bottom: 1.8rem; }
-
-  .hero-sub {
-    font-family: var(--sans);
-    font-size: 1.1rem;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--ink-light);
-    max-width: 520px;
-    margin: 0 auto 2.5rem;
-  }
-
-  .epigraph {
-    max-width: 600px;
-    margin: 6rem auto;
-    padding: 0 2rem;
-    text-align: center;
-  }
-
-  .epigraph blockquote {
+  .escrita-subtitle {
     font-family: var(--serif);
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-style: italic;
-    line-height: 1.7;
-    color: var(--ink-light);
-  }
-
-  .epigraph cite {
-    display: block;
-    margin-top: 1rem;
-    font-family: var(--sans);
-    font-size: 0.8rem;
-    font-style: normal;
-    color: var(--ink-muted);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .cards-section {
-    max-width: 960px;
-    margin: 5rem auto;
-    padding: 0 2rem;
-  }
-
-  .cards-section h2 {
-    text-align: center;
-    margin-bottom: 0.6rem;
-  }
-
-  .section-sub {
-    font-family: var(--sans);
-    font-size: 0.9rem;
     color: var(--ink-muted);
     text-align: center;
-    margin-bottom: 3rem;
+    margin-top: -28px;
+    margin-bottom: 2rem;
   }
 
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  .writing-list {
+    max-width: 680px;
+    margin: 0 auto;
   }
-
-  .card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 2.5rem 2rem;
-    transition: all 0.3s;
-    cursor: pointer;
-    display: block;
-  }
-
-  .card:hover {
-    border-color: #c8c8c0;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
-  }
-
-  .card-icon {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 1.5rem;
-    opacity: 0.6;
-  }
-
-  .card h3 { margin-bottom: 0.8rem; }
-  .card p { font-size: 0.88rem; line-height: 1.65; }
-
-  .card-link {
-    display: inline-block;
-    margin-top: 1.2rem;
-    font-family: var(--sans);
-    font-size: 0.8rem;
-    color: var(--accent);
-    letter-spacing: 0.03em;
-  }
-
-  .positioning {
-    max-width: 600px;
-    margin: 4rem auto 5rem;
-    padding: 0 2rem;
-    text-align: center;
-  }
-
-  .use-cases {
-    margin-top: 1rem;
-    font-size: 0.85rem !important;
-    color: var(--ink-muted) !important;
-  }
-
-  .writing-section {
-    max-width: 700px;
-    margin: 5rem auto 6rem;
-    padding: 0 2rem;
-  }
-
-  .writing-section h2 { margin-bottom: 2rem; }
 
   .writing-list li {
     padding: 1.2rem 0;
@@ -236,7 +66,9 @@ import HeroIllustration from '../components/HeroIllustration.astro';
     align-items: baseline;
   }
 
-  .writing-list li:first-child { border-top: 1px solid var(--border); }
+  .writing-list li:first-child {
+    border-top: 1px solid var(--border);
+  }
 
   .writing-list a {
     font-family: var(--serif);
@@ -244,7 +76,9 @@ import HeroIllustration from '../components/HeroIllustration.astro';
     transition: color 0.3s;
   }
 
-  .writing-list a:hover { color: var(--accent); }
+  .writing-list a:hover {
+    color: var(--accent);
+  }
 
   .date {
     font-family: var(--sans);
@@ -253,8 +87,9 @@ import HeroIllustration from '../components/HeroIllustration.astro';
   }
 
   @media (max-width: 768px) {
-    .hero { margin-top: 3rem; }
-    .cards-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-    .writing-list li { flex-direction: column; gap: 0.3rem; }
+    .writing-list li {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
   }
 </style>
