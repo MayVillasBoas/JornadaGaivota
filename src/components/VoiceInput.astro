@@ -1,0 +1,132 @@
+---
+interface Props {
+  targetId: string;
+}
+const { targetId } = Astro.props;
+---
+
+<button
+  class="voice-btn voice-btn--idle"
+  data-target={targetId}
+  aria-label="Iniciar gravação de voz"
+  aria-pressed="false"
+  type="button"
+>
+  <!-- Microphone icon -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+    width="20"
+    height="20"
+  >
+    <!-- Mic body -->
+    <rect x="9" y="2" width="6" height="12" rx="3" />
+    <!-- Mic stand arc -->
+    <path d="M5 10a7 7 0 0 0 14 0" />
+    <!-- Stand pole -->
+    <line x1="12" y1="17" x2="12" y2="21" />
+    <!-- Base -->
+    <line x1="8" y1="21" x2="16" y2="21" />
+  </svg>
+</button>
+
+<style>
+  .voice-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  /* ── idle ── */
+  .voice-btn--idle {
+    color: var(--color-muted, #9ca3af);
+    border-color: var(--color-border, #e5e7eb);
+  }
+
+  .voice-btn--idle:hover {
+    color: var(--color-accent, #7c3aed);
+    border-color: var(--color-accent, #7c3aed);
+    background-color: var(--color-accent-soft, rgba(124, 58, 237, 0.08));
+  }
+
+  /* ── recording ── */
+  .voice-btn--recording {
+    color: var(--color-accent, #7c3aed);
+    border-color: var(--color-accent, #7c3aed);
+    background-color: var(--color-accent-soft, rgba(124, 58, 237, 0.08));
+    animation: voice-pulse 1.4s ease-in-out infinite;
+  }
+
+  /* ── done (brief flash before returning to idle) ── */
+  .voice-btn--done {
+    color: var(--color-success, #16a34a);
+    border-color: var(--color-success, #16a34a);
+    background-color: var(--color-success-soft, rgba(22, 163, 74, 0.08));
+  }
+
+  /* Focus ring for keyboard accessibility */
+  .voice-btn:focus-visible {
+    outline: 2px solid var(--color-accent, #7c3aed);
+    outline-offset: 2px;
+  }
+
+  /* Pulsing border glow animation for recording state */
+  @keyframes voice-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 var(--color-accent-glow, rgba(124, 58, 237, 0.4));
+    }
+    50% {
+      box-shadow: 0 0 0 6px var(--color-accent-glow, rgba(124, 58, 237, 0));
+    }
+  }
+</style>
+
+<script>
+  import { initVoiceInput } from '../scripts/voice-input.ts';
+
+  // Astro processes this script per-page. The self-init inside voice-input.ts
+  // handles DOMContentLoaded for all buttons, but we also run an eager pass
+  // here so components rendered after DOMContentLoaded (e.g. view transitions)
+  // are picked up immediately.
+  function mountAll() {
+    document.querySelectorAll<HTMLButtonElement>('.voice-btn[data-target]').forEach((btn) => {
+      // Skip already-initialized buttons
+      if (btn.dataset.voiceReady) return;
+      const target = document.getElementById(btn.dataset.target!);
+      if (target instanceof HTMLTextAreaElement) {
+        initVoiceInput(btn, target);
+        btn.dataset.voiceReady = 'true';
+      }
+    });
+  }
+
+  // Astro View Transitions support
+  document.addEventListener('astro:page-load', mountAll);
+  // Fallback for non-VT pages
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountAll);
+  } else {
+    mountAll();
+  }
+</script>
