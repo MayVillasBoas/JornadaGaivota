@@ -1,0 +1,15 @@
+---
+import { mentors, getMentorColor } from '../data/mentors';
+---
+<section class="section" id="mentores">
+  <h2 class="section-title">Mentores</h2>
+  <div class="mentors-grid">
+    {mentors.map(m => (
+      <a href={`/mentores/${m.slug}`} class="mentor-card">
+        <div class="mentor-orb" style={`background: radial-gradient(circle at 35% 35%, ${getMentorColor(m)}66, ${getMentorColor(m)}cc)`} />
+        <h3>{m.name}</h3>
+        <span class="mentor-book">{m.books.find(b => b.highlight)?.title || m.books[0]?.title}</span>
+      </a>
+    ))}
+  </div>
+</section>

@@ -222,3 +222,58 @@
     gap: 8px;
   }
 }
+
+/* ==========================================================================
+   Mentors Grid
+   ========================================================================== */
+
+.mentors-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.mentor-card {
+  background: var(--warm-white, #faf8f5);
+  border: 1px solid var(--border, #e5e0da);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mentor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.mentor-orb {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.mentor-card h3 {
+  font-family: var(--serif, 'EB Garamond', serif);
+  font-size: 1.1rem;
+  color: var(--ink, #2c2c2c);
+  margin: 0 0 4px;
+  font-weight: 400;
+}
+
+.mentor-book {
+  font-size: 12px;
+  color: var(--ink-muted, #999);
+  font-family: var(--sans, 'Inter', sans-serif);
+}
+
+@media (max-width: 768px) {
+  .mentors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
