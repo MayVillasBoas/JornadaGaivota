@@ -52,6 +52,10 @@ export function initVoiceInput(
     recognition = new SpeechRecognitionAPI();
     recognition.continuous = true;
     recognition.interimResults = true;
+    // Default to Portuguese (BR) — most users are Brazilian.
+    // Falls back to browser language if it's already pt-*.
+    const browserLang = navigator.language || 'pt-BR';
+    recognition.lang = browserLang.startsWith('pt') ? browserLang : 'pt-BR';
 
     // Save where the textarea content ends before we start appending
     confirmedLength = textarea.value.length;
