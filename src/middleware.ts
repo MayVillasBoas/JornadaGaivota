@@ -1,13 +1,18 @@
 import { defineMiddleware } from 'astro:middleware';
 
 // Routes that don't require authentication
-const publicRoutes = ['/login', '/api/auth', '/api/reflect', '/api/explore', '/api/journal', '/explorar', '/lab'];
+const publicRoutes = ['/', '/login', '/api/auth', '/api/reflect', '/api/explore', '/api/journal', '/explorar', '/lab', '/sobre', '/agora', '/escrita', '/mentores'];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
-  // Allow public routes
+  // Allow public routes (exact match or with trailing slash)
   if (publicRoutes.some(route => pathname === route || pathname === route + '/')) {
+    return next();
+  }
+
+  // Allow subpages of public sections
+  if (pathname.startsWith('/mentores/') || pathname.startsWith('/escrita/') || pathname.startsWith('/ferramentas/')) {
     return next();
   }
 
