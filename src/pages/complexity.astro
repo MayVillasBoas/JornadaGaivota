@@ -1,0 +1,353 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Notes on Complexity — Unfold">
+
+  <div class="complexity-container">
+
+    <!-- Intro -->
+    <section class="complexity-intro">
+      <div class="intro-content">
+        <p class="intro-source">Neil Theise — Notes on Complexity</p>
+        <h1>Notes on Complexity</h1>
+        <p class="intro-text">
+          However separate and alone we might feel, each one of us is — in each and every single moment — a pure expression of the entire living, conscious universe.
+        </p>
+        <div class="scroll-hint">
+          <span>↓</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="complexity-section" data-viz="emergence">
+      <canvas></canvas>
+      <div class="complexity-info">
+        <h2>Emergence</h2>
+        <p>Hundreds of agents following three simple local rules — separation, alignment, cohesion. No leader. No plan. Yet a flock emerges, moves as one, and reforms after every disruption. The whole is greater than the sum of its parts.</p>
+        <span class="complexity-interact">move the mouse to scatter the flock</span>
+      </div>
+    </section>
+
+    <section class="complexity-section" data-viz="edge-of-chaos">
+      <canvas></canvas>
+      <div class="complexity-info">
+        <h2>Edge of Chaos</h2>
+        <p>Too much order: frozen, crystalline, dead. Too much chaos: noise, no structure, meaningless. Life exists at the boundary — the narrow band where patterns form, dissolve, and reform. Neither ice nor steam, but liquid water.</p>
+        <span class="complexity-interact">move the mouse up and down to shift between order and chaos</span>
+      </div>
+    </section>
+
+    <section class="complexity-section" data-viz="stigmergy">
+      <canvas></canvas>
+      <div class="complexity-info">
+        <h2>Self-Organization</h2>
+        <p>Agents wander, leaving invisible trails. Other agents sense the trails and follow. Paths reinforce themselves. Highways emerge from randomness — no architect, no blueprint. Organization always rises from below.</p>
+        <span class="complexity-interact">click to plant attractors</span>
+      </div>
+    </section>
+
+    <section class="complexity-section" data-viz="scale-shift">
+      <canvas></canvas>
+      <div class="complexity-info">
+        <h2>Complementarity</h2>
+        <p>Zoom out: one breathing organism. Zoom in: hundreds of individuals, each with its own rhythm. Both views are true at the same time. We are distinct selves and components of something larger — it depends on where you look.</p>
+        <span class="complexity-interact">move the mouse up/down to shift perspective</span>
+      </div>
+    </section>
+
+    <section class="complexity-section" data-viz="permeable">
+      <canvas></canvas>
+      <div class="complexity-info">
+        <h2>Permeable Boundaries</h2>
+        <p>Clusters of particles with soft, glowing borders. But the borders are not walls — particles constantly cross, carrying color from one group to another. Every atom belonging to me as good belongs to you.</p>
+        <span class="complexity-interact">hover to attract · click to create bridges</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Side dot navigation -->
+  <nav class="complexity-dots" aria-label="Sections">
+    <button class="dot active" data-section="0" aria-label="Emergence"></button>
+    <button class="dot" data-section="1" aria-label="Edge of Chaos"></button>
+    <button class="dot" data-section="2" aria-label="Self-Organization"></button>
+    <button class="dot" data-section="3" aria-label="Complementarity"></button>
+    <button class="dot" data-section="4" aria-label="Permeable Boundaries"></button>
+  </nav>
+
+</Base>
+
+<script>
+  import { EmergenceBoids } from '../scripts/lab/emergence-boids';
+  import { EdgeOfChaos } from '../scripts/lab/edge-of-chaos';
+  import { Stigmergy } from '../scripts/lab/stigmergy';
+  import { ScaleShift } from '../scripts/lab/scale-shift';
+  import { PermeableBoundaries } from '../scripts/lab/permeable-boundaries';
+  import type { BaseVisualization } from '../scripts/lab/base-visualization';
+
+  const sections = document.querySelectorAll('.complexity-section');
+  const dots = document.querySelectorAll('.complexity-dots .dot');
+  const vizMap = new Map<Element, BaseVisualization>();
+  let activeViz: BaseVisualization | null = null;
+
+  const constructors: Record<string, new (canvas: HTMLCanvasElement) => BaseVisualization> = {
+    'emergence': EmergenceBoids,
+    'edge-of-chaos': EdgeOfChaos,
+    'stigmergy': Stigmergy,
+    'scale-shift': ScaleShift,
+    'permeable': PermeableBoundaries,
+  };
+
+  const container = document.querySelector('.complexity-container');
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const section = entry.target;
+      const idx = Array.from(sections).indexOf(section);
+
+      if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+        let viz = vizMap.get(section);
+        if (!viz) {
+          const canvas = section.querySelector('canvas')!;
+          const type = section.getAttribute('data-viz')!;
+          const Ctor = constructors[type];
+          if (Ctor) {
+            viz = new Ctor(canvas);
+            vizMap.set(section, viz);
+          }
+        }
+        if (viz && viz !== activeViz) {
+          activeViz?.stop();
+          viz.start();
+          activeViz = viz;
+        }
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    }
+  }, { threshold: 0.3, root: container });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Dot navigation
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.getAttribute('data-section') || '0');
+      sections[idx]?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+<style is:global>
+  /* Dark theme override for complexity page */
+  body:has(.complexity-container) {
+    background: #1a1a1a;
+  }
+
+  body:has(.complexity-container) .site-header {
+    background: #1a1a1a;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  body:has(.complexity-container) .logo {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  body:has(.complexity-container) .nav-links a {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  body:has(.complexity-container) .nav-links a:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  body:has(.complexity-container) .lang-toggle {
+    color: rgba(255, 255, 255, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  body:has(.complexity-container) .mobile-menu-btn span {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  body:has(.complexity-container) footer {
+    display: none;
+  }
+</style>
+
+<style>
+  .complexity-container {
+    scroll-snap-type: y proximity;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+  }
+
+  .complexity-section {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+
+  .complexity-section canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .complexity-info {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    max-width: 380px;
+    pointer-events: none;
+  }
+
+  .complexity-info h2 {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+
+  .complexity-info p {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 0.5rem;
+  }
+
+  .complexity-interact {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.2);
+    font-style: italic;
+  }
+
+  .complexity-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .complexity-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  .complexity-dots .dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .complexity-dots .dot.active {
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(1.4);
+  }
+
+  /* Intro section */
+  .complexity-intro {
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .intro-content {
+    max-width: 560px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .intro-source {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-content h1 {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .intro-text {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .scroll-hint {
+    margin-top: 3rem;
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 1.2rem;
+    animation: hint-bounce 2.5s ease-in-out infinite;
+  }
+
+  @keyframes hint-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.3; }
+    50% { transform: translateY(6px); opacity: 0.6; }
+  }
+
+  @media (max-width: 768px) {
+    .complexity-container {
+      scroll-snap-type: none;
+    }
+
+    .complexity-dots {
+      right: 0.8rem;
+      gap: 8px;
+    }
+
+    .complexity-dots .dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .complexity-info {
+      bottom: 1.5rem;
+      left: 1.5rem;
+      max-width: 280px;
+    }
+
+    .complexity-info h2 {
+      font-size: 1.1rem;
+    }
+
+    .complexity-info p {
+      font-size: 0.78rem;
+    }
+
+    .intro-content h1 {
+      font-size: 2.5rem;
+    }
+  }
+</style>
