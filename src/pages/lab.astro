@@ -49,15 +49,6 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <section class="lab-section" data-viz="romanesco">
-      <canvas></canvas>
-      <div class="lab-info">
-        <h2>Romanesco</h2>
-        <p>Romanesco broccoli is nature's most beautiful fractal — each bud is a miniature copy of the whole, arranged at the golden angle (137.508°). The same rule repeats at every scale: spirals within spirals within spirals. It's pure self-similarity — the signature of fractals.</p>
-        <span class="lab-interact">click to regenerate</span>
-      </div>
-    </section>
-
     <section class="lab-section" data-viz="aurora">
       <canvas></canvas>
       <div class="lab-info">
@@ -91,10 +82,9 @@ import Base from '../layouts/Base.astro';
     <button class="dot active" data-section="0" aria-label="Flow Field"></button>
     <button class="dot" data-section="1" aria-label="Mycelium"></button>
     <button class="dot" data-section="2" aria-label="Phyllotaxis"></button>
-    <button class="dot" data-section="3" aria-label="Romanesco"></button>
-    <button class="dot" data-section="4" aria-label="Aurora"></button>
-    <button class="dot" data-section="5" aria-label="Clouds"></button>
-    <button class="dot" data-section="6" aria-label="Sun Rays"></button>
+    <button class="dot" data-section="3" aria-label="Aurora"></button>
+    <button class="dot" data-section="4" aria-label="Clouds"></button>
+    <button class="dot" data-section="5" aria-label="Sun Rays"></button>
   </nav>
 
 </Base>
@@ -103,7 +93,6 @@ import Base from '../layouts/Base.astro';
   import { FlowField } from '../scripts/lab/flow-field';
   import { MyceliumNetwork } from '../scripts/lab/mycelium-network';
   import { PhyllotaxisBloom } from '../scripts/lab/phyllotaxis-bloom';
-  import { Romanesco } from '../scripts/lab/romanesco';
   import { ParticleAurora } from '../scripts/lab/particle-aurora';
   import { CloudFractal } from '../scripts/lab/cloud-fractal';
   import { SunRays } from '../scripts/lab/sun-rays';
@@ -118,7 +107,6 @@ import Base from '../layouts/Base.astro';
     'flow-field': FlowField,
     'mycelium': MyceliumNetwork,
     'phyllotaxis': PhyllotaxisBloom,
-    'romanesco': Romanesco,
     'aurora': ParticleAurora,
     'clouds': CloudFractal,
     'sunrays': SunRays,
@@ -226,6 +214,7 @@ import Base from '../layouts/Base.astro';
 
   .lab-info {
     position: absolute;
+    z-index: 5;
     bottom: 2rem;
     left: 2rem;
     max-width: 400px;
