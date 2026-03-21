@@ -2,31 +2,29 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
+const ACCESS_CODE = import.meta.env.ACCESS_CODE || 'Amigos';
+
+// Login: validate access code and set session cookie
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const { access_token, refresh_token } = await request.json();
+  const { code } = await request.json();
 
-  cookies.set('sb-access-token', access_token, {
+  if (code !== ACCESS_CODE) {
+    return new Response(JSON.stringify({ error: 'Código incorreto' }), { status: 401 });
+  }
+
+  cookies.set('may-session', 'authenticated', {
     path: '/',
     httpOnly: true,
-    secure: true,
+    secure: import.meta.env.PROD,
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
-
-  cookies.set('sb-refresh-token', refresh_token, {
-    path: '/',
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 30, // 30 days
   });
 
   return new Response(JSON.stringify({ ok: true }), { status: 200 });
 };
 
-// Logout endpoint
+// Logout: clear session cookie
 export const DELETE: APIRoute = async ({ cookies }) => {
-  cookies.delete('sb-access-token', { path: '/' });
-  cookies.delete('sb-refresh-token', { path: '/' });
+  cookies.delete('may-session', { path: '/' });
   return new Response(JSON.stringify({ ok: true }), { status: 200 });
 };

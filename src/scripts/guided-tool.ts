@@ -100,6 +100,9 @@ export class GuidedTool {
     this.updateProgressBar();
     this.scrollToTop();
     this.isTransitioning = false;
+
+    // Notify fractal canvas of step change
+    document.dispatchEvent(new CustomEvent('tool-step-change', { detail: { step: this.currentStep } }));
   }
 
   private async prevStep(): Promise<void> {
@@ -170,6 +173,7 @@ export class GuidedTool {
         this.themesCollected[this.currentStep] = data.themes;
         this.updateVisual(data.themes, data.visualData, this.currentStep);
         this.pendingInsight = data.insight;
+        document.dispatchEvent(new CustomEvent('tool-insight-received'));
       } else {
         this.pendingInsight = null;
       }
@@ -190,6 +194,16 @@ export class GuidedTool {
       // Show AI insight
       const textEl = insightEl.querySelector('.ai-insight-text');
       if (textEl) textEl.textContent = this.pendingInsight;
+
+      // Gamification: variable reward — random visual treatment
+      insightEl.classList.remove('insight-highlighted', 'insight-breakthrough');
+      const roll = Math.random();
+      if (roll < 0.1) {
+        insightEl.classList.add('insight-breakthrough');
+      } else if (roll < 0.4) {
+        insightEl.classList.add('insight-highlighted');
+      }
+
       setTimeout(() => insightEl.classList.add('visible'), 100);
 
       // Hide encouragement if present
@@ -213,60 +227,16 @@ export class GuidedTool {
   // ─── Visual Artifact ───
 
   private updateVisual(themes: string[], visualData: Record<string, any>, step: number): void {
-    const visualContainer = document.querySelector('.tool-visual');
-    if (!visualContainer) return;
-
     // Find which section this step belongs to
     const section = this.config.visualConfig.sections.find(
       s => s.stepRange.includes(step)
     );
     if (!section) return;
 
-    // Get or create section container
-    let sectionEl = visualContainer.querySelector(`[data-section="${section.id}"]`);
-    if (!sectionEl) {
-      sectionEl = document.createElement('div');
-      sectionEl.className = 'visual-section';
-      sectionEl.setAttribute('data-section', section.id);
-
-      const label = document.createElement('div');
-      label.className = 'visual-section-label';
-      label.textContent = section.label;
-      sectionEl.appendChild(label);
-
-      const wordsContainer = document.createElement('div');
-      wordsContainer.className = 'visual-words';
-      sectionEl.appendChild(wordsContainer);
-
-      // Add divider before if not first section
-      if (visualContainer.querySelector('.visual-section')) {
-        const divider = document.createElement('div');
-        divider.className = 'visual-divider';
-        visualContainer.appendChild(divider);
-      }
-
-      visualContainer.appendChild(sectionEl);
-    }
-
-    // Add theme words
-    const wordsContainer = sectionEl.querySelector('.visual-words');
-    if (wordsContainer) {
-      themes.forEach((theme, i) => {
-        const word = document.createElement('span');
-        word.className = `visual-word ${section.wordClass}`;
-        word.textContent = theme;
-
-        // Highlight first theme as more important
-        if (i === 0 && themes.length > 1) {
-          word.classList.add('highlight');
-        }
-
-        wordsContainer.appendChild(word);
-
-        // Stagger animation
-        setTimeout(() => word.classList.add('visible'), i * 150);
-      });
-    }
+    // Dispatch event for fractal viz to handle theme word placement
+    document.dispatchEvent(new CustomEvent('tool-visual-update', {
+      detail: { themes, wordClass: section.wordClass, sectionLabel: section.label, step },
+    }));
   }
 
   // ─── Transition Screen ───
@@ -281,14 +251,11 @@ export class GuidedTool {
     if (screen) screen.classList.remove('active');
   }
 
-  // ─── Progress Bar ───
+  // ─── Progress (handled by fractal viz via events) ───
 
   private updateProgressBar(): void {
-    const fill = document.querySelector('.progress-fill') as HTMLElement;
-    if (fill && this.currentStep >= 1) {
-      const pct = Math.round((this.currentStep / this.config.totalSteps) * 100);
-      fill.style.width = `${pct}%`;
-    }
+    // Progress is now shown by the fractal viz growth + step dots
+    // No separate progress bar to update
   }
 
   // ─── Textarea Hints ───
@@ -347,6 +314,9 @@ export class GuidedTool {
     // Clean up exit
     if (currentEl) currentEl.classList.remove('exiting-up');
 
+    // Notify fractal to bloom
+    document.dispatchEvent(new CustomEvent('tool-bloom'));
+
     // Stagger reveal of result blocks
     await this.delay(300);
     this.revealResults();
@@ -370,7 +340,7 @@ export class GuidedTool {
       await this.delay(300);
       textEl.classList.add('visible');
       await this.delay(1500);
-      textEl.textContent = 'Pronto.';
+      textEl.textContent = 'Done.';
       await this.delay(1000);
       textEl.classList.remove('visible');
     }
@@ -384,7 +354,7 @@ export class GuidedTool {
       const ta = document.getElementById(f.input) as HTMLTextAreaElement;
       const result = document.getElementById(f.output);
       if (result && ta) {
-        result.textContent = ta.value || '(não preenchido)';
+        result.textContent = ta.value || '(not filled)';
       }
 
       // Add AI insight below each result if available
@@ -405,21 +375,21 @@ export class GuidedTool {
   private revealResults(): void {
     const blocks = document.querySelectorAll('.result-block');
     blocks.forEach((block, i) => {
-      setTimeout(() => block.classList.add('revealed'), i * 200);
+      setTimeout(() => block.classList.add('revealed'), i * 400);
     });
 
     // Reveal reflection prompt
     const reflectionPrompt = document.querySelector('.reflection-prompt');
     if (reflectionPrompt) {
-      setTimeout(() => reflectionPrompt.classList.add('revealed'), blocks.length * 200 + 300);
+      setTimeout(() => reflectionPrompt.classList.add('revealed'), blocks.length * 400 + 500);
     }
 
     // Reveal counter
     const counter = document.querySelector('.reflection-counter');
     if (counter) {
       const count = this.getReflectionCount();
-      counter.textContent = `Esta foi sua ${count}ª reflexão no May.`;
-      setTimeout(() => counter.classList.add('revealed'), blocks.length * 200 + 600);
+      counter.textContent = `This was your ${count}th reflection on Unfold.`;
+      setTimeout(() => counter.classList.add('revealed'), blocks.length * 400 + 800);
     }
   }
 
@@ -431,10 +401,10 @@ export class GuidedTool {
     document.querySelector('.reflection-prompt')?.classList.remove('revealed');
     document.querySelector('.reflection-counter')?.classList.remove('revealed');
 
-    // Reset visual
-    const visualContainer = document.querySelector('.tool-visual');
-    if (visualContainer) {
-      visualContainer.querySelectorAll('.visual-section, .visual-divider').forEach(el => el.remove());
+    // Reset visual — clear theme words from fractal viz
+    const wordsOverlay = document.querySelector('.fractal-viz-words');
+    if (wordsOverlay) {
+      wordsOverlay.innerHTML = '';
     }
 
     this.insightsCollected = {};
@@ -522,12 +492,12 @@ export class GuidedTool {
       const prompt = document.querySelector('.resume-prompt') as HTMLElement;
       if (!prompt) return;
 
-      const dateStr = new Date(data.lastSaved).toLocaleDateString('pt-BR', {
+      const dateStr = new Date(data.lastSaved).toLocaleDateString('en-US', {
         day: 'numeric', month: 'long',
       });
 
       const pEl = prompt.querySelector('p');
-      if (pEl) pEl.textContent = `Você começou esse exercício em ${dateStr}. Quer continuar de onde parou?`;
+      if (pEl) pEl.textContent = `You started this exercise on ${dateStr}. Want to continue where you left off?`;
 
       prompt.classList.add('visible');
 
@@ -567,7 +537,7 @@ export class GuidedTool {
         const btn = document.getElementById('copy-btn');
         if (btn) {
           const original = btn.textContent;
-          btn.textContent = 'copiado ✓';
+          btn.textContent = 'copied ✓';
           btn.classList.add('btn-copied');
           setTimeout(() => {
             btn.textContent = original;
@@ -608,7 +578,7 @@ export class GuidedTool {
 
         const btn = document.getElementById('save-journal-btn');
         if (btn) {
-          btn.textContent = 'guardado ✓';
+          btn.textContent = 'saved ✓';
           btn.classList.add('btn-saved');
           (btn as HTMLButtonElement).disabled = true;
         }
@@ -617,17 +587,17 @@ export class GuidedTool {
   }
 
   private static buildExportText(config: ToolConfig): string {
-    const date = new Date().toLocaleDateString('pt-BR', {
+    const date = new Date().toLocaleDateString('en-US', {
       day: 'numeric', month: 'long', year: 'numeric',
     });
 
-    let text = `${config.resultTitle.toUpperCase()}\nFeito em ${date}\n\n---\n\n`;
+    let text = `${config.resultTitle.toUpperCase()}\nCompleted on ${date}\n\n---\n\n`;
 
     config.fields.forEach(f => {
       const resultEl = document.getElementById(f.output);
       const h3 = resultEl?.parentElement?.querySelector('h3');
       const label = h3?.textContent || f.output;
-      const value = resultEl?.textContent || '(não preenchido)';
+      const value = resultEl?.textContent || '(not filled)';
       text += `${label.toUpperCase()}\n${value}\n\n`;
 
       // Add insight if present

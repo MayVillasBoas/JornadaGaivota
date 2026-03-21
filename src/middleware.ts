@@ -1,8 +1,7 @@
 import { defineMiddleware } from 'astro:middleware';
-import { createClient } from '@supabase/supabase-js';
 
 // Routes that don't require authentication
-const publicRoutes = ['/login', '/api/auth', '/api/reflect'];
+const publicRoutes = ['/login', '/api/auth', '/api/reflect', '/api/explore', '/api/journal', '/explorar', '/lab'];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
@@ -17,48 +16,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next();
   }
 
-  // Check for auth token in cookies
-  const accessToken = context.cookies.get('sb-access-token')?.value;
-  const refreshToken = context.cookies.get('sb-refresh-token')?.value;
+  // Check for session cookie
+  const session = context.cookies.get('may-session')?.value;
 
-  if (!accessToken || !refreshToken) {
+  if (session !== 'authenticated') {
     return context.redirect('/login');
-  }
-
-  // Verify the session with Supabase
-  const supabase = createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-  );
-
-  const { data, error } = await supabase.auth.setSession({
-    access_token: accessToken,
-    refresh_token: refreshToken,
-  });
-
-  if (error || !data.session) {
-    // Clear invalid cookies
-    context.cookies.delete('sb-access-token', { path: '/' });
-    context.cookies.delete('sb-refresh-token', { path: '/' });
-    return context.redirect('/login');
-  }
-
-  // Update cookies if tokens were refreshed
-  if (data.session.access_token !== accessToken) {
-    context.cookies.set('sb-access-token', data.session.access_token, {
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
-    context.cookies.set('sb-refresh-token', data.session.refresh_token, {
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7,
-    });
   }
 
   return next();

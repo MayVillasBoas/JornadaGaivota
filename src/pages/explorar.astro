@@ -1,0 +1,303 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/explore.css';
+---
+
+<Base title="Explorar — Unfold" description="Explore your dilemmas with mental models from great thinkers.">
+  <div class="explore-page">
+    <a href="/" class="explore-back">&larr; Back</a>
+
+    <canvas id="explore-canvas" class="explore-canvas"></canvas>
+
+    <div class="constellation" id="constellation">
+      <!-- Loading state -->
+      <div class="explore-loading" id="explore-loading">
+        <div class="loading-orb"></div>
+        <span class="loading-text">exploring...</span>
+      </div>
+      <!-- Orbs are injected here by JS -->
+    </div>
+
+    <!-- Follow-up question -->
+    <div class="explore-followup" id="explore-followup" style="display:none;"></div>
+
+    <!-- Bottom input -->
+    <div class="explore-input-bar">
+      <div class="explore-input-wrapper">
+        <input
+          type="text"
+          class="explore-input"
+          id="explore-input"
+          placeholder="keep exploring..."
+          autocomplete="off"
+        />
+        <button class="explore-send-btn" id="explore-send" aria-label="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { ConstellationCanvas, calculateOrbPositions } from '../scripts/constellation';
+  import {
+    getSession,
+    setLoading,
+    addUserMessage,
+    addAssistantMessage,
+    addLenses,
+    addConnections,
+    getLensesArray,
+    getHistory,
+    getLens,
+  } from '../scripts/explore-session';
+  import { categoryColors } from '../data/mentors';
+  import type { LensState } from '../scripts/explore-session';
+
+  // ─── DOM Elements ───────────────────────────────────────────────────────────
+  const canvas = document.getElementById('explore-canvas') as HTMLCanvasElement;
+  const container = document.getElementById('constellation')!;
+  const loadingEl = document.getElementById('explore-loading')!;
+  const followupEl = document.getElementById('explore-followup')!;
+  const input = document.getElementById('explore-input') as HTMLInputElement;
+  const sendBtn = document.getElementById('explore-send')!;
+
+  // ─── Canvas Background ─────────────────────────────────────────────────────
+  let constellationCanvas: ConstellationCanvas | null = null;
+  if (canvas) {
+    constellationCanvas = new ConstellationCanvas(canvas);
+    constellationCanvas.start();
+  }
+
+  // ─── Initial Query from URL ─────────────────────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = params.get('q');
+
+  if (initialQuery) {
+    explore(initialQuery);
+  } else {
+    loadingEl.style.display = 'none';
+    input.placeholder = "what's on your mind?";
+    input.focus();
+  }
+
+  // ─── Input Handlers ─────────────────────────────────────────────────────────
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && input.value.trim()) {
+      explore(input.value.trim());
+      input.value = '';
+    }
+  });
+
+  sendBtn.addEventListener('click', () => {
+    if (input.value.trim()) {
+      explore(input.value.trim());
+      input.value = '';
+    }
+  });
+
+  // ─── Main Explore Function ──────────────────────────────────────────────────
+  async function explore(text: string, action?: { type: 'deepen'; principleId: string }) {
+    setLoading(true);
+    showLoading(true);
+    followupEl.style.display = 'none';
+
+    addUserMessage(text);
+
+    try {
+      const res = await fetch('/api/explore', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userText: text,
+          history: getHistory().slice(0, -1), // exclude current message
+          action,
+        }),
+      });
+
+      const data = await res.json();
+
+      // Store assistant response
+      const summary = data.lenses
+        ?.map((l: any) => `${l.principleId}: ${l.personalizedInsight}`)
+        .join('\n') ?? '';
+      addAssistantMessage(summary);
+
+      // Update session state
+      if (data.lenses) addLenses(data.lenses);
+      if (data.connections) addConnections(data.connections);
+
+      // Render
+      renderConstellation();
+
+      // Follow-up question
+      if (data.followUp) {
+        followupEl.textContent = data.followUp;
+        followupEl.style.display = '';
+        followupEl.style.animation = 'none';
+        requestAnimationFrame(() => {
+          followupEl.style.animation = '';
+        });
+      }
+    } catch (err) {
+      console.error('Explore error:', err);
+    } finally {
+      setLoading(false);
+      showLoading(false);
+    }
+  }
+
+  // ─── Rendering ──────────────────────────────────────────────────────────────
+  function showLoading(show: boolean) {
+    loadingEl.style.display = show ? '' : 'none';
+  }
+
+  function renderConstellation() {
+    const lenses = getLensesArray();
+    if (lenses.length === 0) return;
+
+    // Remove old orbs
+    container.querySelectorAll('.orb').forEach(el => el.remove());
+
+    const isMobile = window.innerWidth < 768;
+    const rect = container.getBoundingClientRect();
+    const positions = calculateOrbPositions(lenses, rect.width, rect.height);
+
+    // Create orbs
+    lenses.forEach((lens, i) => {
+      const pos = positions.get(lens.principleId);
+      if (!pos) return;
+
+      const orb = document.createElement('div');
+      orb.className = 'orb';
+      orb.dataset.principleId = lens.principleId;
+
+      if (!isMobile) {
+        const left = pos.x - pos.size / 2;
+        const top = pos.y - pos.size / 2;
+        orb.style.left = `${left}px`;
+        orb.style.top = `${top}px`;
+        orb.style.width = `${pos.size}px`;
+        orb.style.height = `${pos.size}px`;
+        orb.style.animationDelay = `${i * 0.15}s`;
+        orb.dataset.origLeft = `${left}`;
+        orb.dataset.origTop = `${top}`;
+
+        // Per-orb organic movement custom properties
+        const floatDur = 5 + Math.random() * 3;  // 5-8s
+        const breatheDur = 8 + Math.random() * 4; // 8-12s
+        const floatX = (Math.random() - 0.5) * 16; // ±8px
+        const floatY = -(4 + Math.random() * 6);   // -4 to -10px
+        const breatheScale = 0.97 + Math.random() * 0.06; // 0.97-1.03
+        orb.style.setProperty('--float-duration', `${floatDur.toFixed(1)}s`);
+        orb.style.setProperty('--breathe-duration', `${breatheDur.toFixed(1)}s`);
+        orb.style.setProperty('--float-x', `${floatX.toFixed(1)}px`);
+        orb.style.setProperty('--float-y', `${floatY.toFixed(1)}px`);
+        orb.style.setProperty('--float-delay', `${(Math.random() * 3).toFixed(1)}s`);
+        orb.style.setProperty('--breathe-scale', breatheScale.toFixed(3));
+      }
+
+      const gradient = `radial-gradient(circle at 35% 35%, ${lens.color}cc, ${lens.color})`;
+
+      orb.innerHTML = `
+        <div class="orb-inner" style="background: ${gradient};">
+          <span class="orb-name">${lens.principle.name}</span>
+          <p class="orb-insight">${lens.personalizedInsight}</p>
+          <span class="orb-mentor">${lens.mentorName}</span>
+          ${lens.principle.relatedToolSlug
+            ? `<a class="orb-tool-link" href="/ferramentas/${lens.principle.relatedToolSlug}">go deeper &rarr;</a>`
+            : ''
+          }
+        </div>
+        <button class="orb-close" aria-label="Close">&times;</button>
+      `;
+
+      // Click handlers
+      orb.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('a')) return;
+
+        if (target.closest('.orb-close')) {
+          orb.classList.remove('expanded');
+          if (orb.dataset.origLeft) orb.style.left = `${orb.dataset.origLeft}px`;
+          if (orb.dataset.origTop) orb.style.top = `${orb.dataset.origTop}px`;
+          return;
+        }
+
+        if (orb.classList.contains('expanded')) {
+          orb.classList.remove('expanded');
+          if (orb.dataset.origLeft) orb.style.left = `${orb.dataset.origLeft}px`;
+          if (orb.dataset.origTop) orb.style.top = `${orb.dataset.origTop}px`;
+          return;
+        }
+
+        // Collapse others and restore original positions
+        container.querySelectorAll('.orb.expanded').forEach(el => {
+          el.classList.remove('expanded');
+          const htmlEl = el as HTMLElement;
+          if (htmlEl.dataset.origLeft) htmlEl.style.left = `${htmlEl.dataset.origLeft}px`;
+          if (htmlEl.dataset.origTop) htmlEl.style.top = `${htmlEl.dataset.origTop}px`;
+        });
+
+        // Expand and pre-compute position offset so circle stays in viewport
+        const expandedSize = 280;
+        const currentLeft = parseFloat(orb.style.left) || 0;
+        const currentTop = parseFloat(orb.style.top) || 0;
+        const containerRect = container.getBoundingClientRect();
+
+        // Clamp so expanded orb stays inside the container
+        let newLeft = currentLeft;
+        let newTop = currentTop;
+        if (newLeft + expandedSize > containerRect.width - 16) {
+          newLeft = containerRect.width - 16 - expandedSize;
+        }
+        if (newLeft < 16) newLeft = 16;
+        if (newTop + expandedSize > containerRect.height - 16) {
+          newTop = containerRect.height - 16 - expandedSize;
+        }
+        if (newTop < 16) newTop = 16;
+
+        orb.style.left = `${newLeft}px`;
+        orb.style.top = `${newTop}px`;
+        orb.classList.add('expanded');
+      });
+
+      // Double-click to deepen
+      orb.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        explore(
+          `I want to understand more about how "${lens.principle.name}" applies to my situation.`,
+          { type: 'deepen', principleId: lens.principleId },
+        );
+      });
+
+      container.appendChild(orb);
+    });
+
+    // Draw connection lines on canvas
+    if (constellationCanvas && !isMobile) {
+      const session = getSession();
+      const orbPositions = new Map<string, { x: number; y: number; color: string }>();
+      for (const [id, pos] of positions) {
+        const lens = getLens(id);
+        if (lens) {
+          orbPositions.set(id, { x: pos.x, y: pos.y, color: lens.color });
+        }
+      }
+      constellationCanvas.drawConnections(session.connections, orbPositions);
+    }
+  }
+
+  // Rerender on resize
+  let resizeTimeout: ReturnType<typeof setTimeout>;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (getLensesArray().length > 0) renderConstellation();
+    }, 250);
+  });
+</script>

@@ -3,32 +3,19 @@ export const prerender = false;
 
 import '../styles/global.css';
 
-// If user is already logged in, redirect to home
-const accessToken = Astro.cookies.get('sb-access-token')?.value;
-const refreshToken = Astro.cookies.get('sb-refresh-token')?.value;
-
-if (accessToken && refreshToken) {
-  const { createClient } = await import('@supabase/supabase-js');
-  const supabase = createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-  );
-  const { data } = await supabase.auth.setSession({
-    access_token: accessToken,
-    refresh_token: refreshToken,
-  });
-  if (data.session) {
-    return Astro.redirect('/');
-  }
+// If user already has session, redirect to home
+const session = Astro.cookies.get('may-session')?.value;
+if (session === 'authenticated') {
+  return Astro.redirect('/');
 }
 ---
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entrar — May</title>
+  <title>Sign in — Unfold</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -37,183 +24,55 @@ if (accessToken && refreshToken) {
 
   <div class="login-page">
     <div class="login-card">
-      <h1>May</h1>
-      <p class="subtitle">Don't trust what you think.</p>
+      <h1>Unfold</h1>
+      <p class="subtitle">Explore the mind you live in.</p>
 
       <div class="divider"></div>
 
-      <!-- Gate: Master Password -->
-      <div id="gate" class="gate active">
-        <p class="gate-label">Este espaço é por convite.</p>
-        <div class="field">
-          <label for="gate-password">Código de acesso</label>
-          <input type="password" id="gate-password" placeholder="digite o código" />
-        </div>
-        <button type="button" id="gate-btn" class="btn-primary">continuar</button>
-        <div class="error-msg" id="gate-error"></div>
+      <p class="gate-label">This space is by invitation.</p>
+      <div class="field">
+        <label for="access-code">Access code</label>
+        <input type="password" id="access-code" placeholder="enter the code" autofocus />
       </div>
-
-      <!-- Login Form (hidden until gate passes) -->
-      <form id="login-form" class="auth-form">
-        <div class="field">
-          <label for="login-email">Email</label>
-          <input type="email" id="login-email" name="email" required placeholder="seu@email.com" />
-        </div>
-        <div class="field">
-          <label for="login-password">Senha</label>
-          <input type="password" id="login-password" name="password" required placeholder="••••••••" />
-        </div>
-        <button type="submit" class="btn-primary">entrar</button>
-        <div class="error-msg" id="login-error"></div>
-        <p class="toggle-text">
-          Não tem conta? <button type="button" class="toggle-btn" id="show-signup">criar conta</button>
-        </p>
-      </form>
-
-      <!-- Signup Form -->
-      <form id="signup-form" class="auth-form">
-        <div class="field">
-          <label for="signup-email">Email</label>
-          <input type="email" id="signup-email" name="email" required placeholder="seu@email.com" />
-        </div>
-        <div class="field">
-          <label for="signup-password">Senha</label>
-          <input type="password" id="signup-password" name="password" required minlength="6" placeholder="mínimo 6 caracteres" />
-        </div>
-        <button type="submit" class="btn-primary">criar conta</button>
-        <div class="error-msg" id="signup-error"></div>
-        <p class="toggle-text">
-          Já tem conta? <button type="button" class="toggle-btn" id="show-login">entrar</button>
-        </p>
-      </form>
-
-      <!-- Success message -->
-      <div id="signup-success" class="success-msg">
-        <p>Conta criada! Verifique seu email para confirmar.</p>
-      </div>
+      <button type="button" id="enter-btn" class="btn-primary">continue</button>
+      <div class="error-msg" id="error"></div>
     </div>
   </div>
 
 <script>
-  import { createClient } from '@supabase/supabase-js';
+  const input = document.getElementById('access-code') as HTMLInputElement;
+  const btn = document.getElementById('enter-btn')!;
+  const error = document.getElementById('error')!;
 
-  const MASTER_PASSWORD = 'Amigos';
+  async function tryLogin() {
+    const code = input.value.trim();
+    if (!code) return;
 
-  const supabase = createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-  );
+    btn.textContent = 'verifying...';
+    (btn as HTMLButtonElement).disabled = true;
+    error.textContent = '';
 
-  const gate = document.getElementById('gate')!;
-  const gateBtn = document.getElementById('gate-btn')!;
-  const gatePassword = document.getElementById('gate-password') as HTMLInputElement;
-  const gateError = document.getElementById('gate-error')!;
-  const loginForm = document.getElementById('login-form') as HTMLFormElement;
-  const signupForm = document.getElementById('signup-form') as HTMLFormElement;
-  const showSignup = document.getElementById('show-signup')!;
-  const showLogin = document.getElementById('show-login')!;
-  const loginError = document.getElementById('login-error')!;
-  const signupError = document.getElementById('signup-error')!;
-  const signupSuccess = document.getElementById('signup-success')!;
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    });
 
-  // Check if gate was already passed this session
-  if (sessionStorage.getItem('gate-passed')) {
-    gate.classList.remove('active');
-    loginForm.classList.add('active');
-  }
-
-  // Gate check
-  function tryGate() {
-    if (gatePassword.value === MASTER_PASSWORD) {
-      sessionStorage.setItem('gate-passed', 'true');
-      gate.classList.remove('active');
-      loginForm.classList.add('active');
-      gateError.textContent = '';
+    if (res.ok) {
+      window.location.href = '/';
     } else {
-      gateError.textContent = 'Código incorreto';
-      gatePassword.value = '';
-      gatePassword.focus();
+      const data = await res.json();
+      error.textContent = data.error || 'Incorrect code';
+      btn.textContent = 'continue';
+      (btn as HTMLButtonElement).disabled = false;
+      input.value = '';
+      input.focus();
     }
   }
 
-  gateBtn.addEventListener('click', tryGate);
-  gatePassword.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') tryGate();
-  });
-
-  // Toggle between login/signup
-  showSignup.addEventListener('click', () => {
-    loginForm.classList.remove('active');
-    signupForm.classList.add('active');
-    loginError.textContent = '';
-  });
-
-  showLogin.addEventListener('click', () => {
-    signupForm.classList.remove('active');
-    loginForm.classList.add('active');
-    signupError.textContent = '';
-  });
-
-  // Login
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    loginError.textContent = '';
-    const btn = loginForm.querySelector('button[type="submit"]') as HTMLButtonElement;
-    btn.textContent = 'entrando...';
-    btn.disabled = true;
-
-    const email = (document.getElementById('login-email') as HTMLInputElement).value;
-    const password = (document.getElementById('login-password') as HTMLInputElement).value;
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) {
-      loginError.textContent = error.message === 'Invalid login credentials'
-        ? 'Email ou senha incorretos'
-        : error.message;
-      btn.textContent = 'entrar';
-      btn.disabled = false;
-      return;
-    }
-
-    if (data.session) {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          access_token: data.session.access_token,
-          refresh_token: data.session.refresh_token,
-        }),
-      });
-
-      if (res.ok) {
-        window.location.href = '/';
-      }
-    }
-  });
-
-  // Signup
-  signupForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    signupError.textContent = '';
-    const btn = signupForm.querySelector('button[type="submit"]') as HTMLButtonElement;
-    btn.textContent = 'criando...';
-    btn.disabled = true;
-
-    const email = (document.getElementById('signup-email') as HTMLInputElement).value;
-    const password = (document.getElementById('signup-password') as HTMLInputElement).value;
-
-    const { error } = await supabase.auth.signUp({ email, password });
-
-    if (error) {
-      signupError.textContent = error.message;
-      btn.textContent = 'criar conta';
-      btn.disabled = false;
-      return;
-    }
-
-    signupForm.classList.remove('active');
-    signupSuccess.classList.add('active');
+  btn.addEventListener('click', tryLogin);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryLogin();
   });
 </script>
 
@@ -257,28 +116,12 @@ if (accessToken && refreshToken) {
     margin: 0 auto 2.5rem;
   }
 
-  .gate {
-    display: none;
-  }
-
-  .gate.active {
-    display: block;
-  }
-
   .gate-label {
     font-family: var(--serif);
     font-style: italic;
     font-size: 0.95rem;
     color: var(--ink-muted);
     margin-bottom: 1.5rem;
-  }
-
-  .auth-form {
-    display: none;
-  }
-
-  .auth-form.active {
-    display: block;
   }
 
   .field {
@@ -330,43 +173,6 @@ if (accessToken && refreshToken) {
     color: #b44;
     margin-top: 1rem;
     min-height: 1.2rem;
-  }
-
-  .toggle-text {
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--ink-muted);
-  }
-
-  .toggle-btn {
-    background: none;
-    border: none;
-    color: var(--accent);
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .toggle-btn:hover {
-    color: var(--accent-light);
-  }
-
-  .success-msg {
-    display: none;
-    padding: 2rem 0;
-  }
-
-  .success-msg.active {
-    display: block;
-  }
-
-  .success-msg p {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--accent);
   }
 </style>
 

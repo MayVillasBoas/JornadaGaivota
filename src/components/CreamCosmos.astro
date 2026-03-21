@@ -11,18 +11,17 @@ import { mentors, getMentorColor } from '../data/mentors';
       <input
         type="text"
         class="hero-input"
+        id="hero-explore-input"
         placeholder="o que tá na sua cabeça?"
-        disabled
-        aria-hidden="true"
+        autocomplete="off"
       />
-      <span class="hero-input-mic" aria-hidden="true">
+      <button class="hero-input-mic voice-btn" data-target="hero-explore-input" aria-label="Falar">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
           <line x1="12" y1="19" x2="12" y2="23"/>
         </svg>
-      </span>
-      <span class="hero-input-badge">em breve</span>
+      </button>
     </div>
   </div>
   <div class="mentor-label" id="mentor-hover-label" aria-hidden="true"></div>
@@ -103,9 +102,7 @@ import { mentors, getMentorColor } from '../data/mentors';
     border: 1px solid var(--border, #e8e8e2);
     border-radius: 999px;
     outline: none;
-    cursor: default;
-    opacity: 0.5;
-    pointer-events: none;
+    cursor: text;
     transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -113,30 +110,29 @@ import { mentors, getMentorColor } from '../data/mentors';
     border-color: var(--border-light, #d0d0c8);
   }
 
+  .hero-input:focus {
+    border-color: var(--accent, #2B4A3E);
+    box-shadow: 0 0 0 3px rgba(43, 74, 62, 0.08);
+    color: var(--ink, #1a1a18);
+  }
+
   .hero-input-mic {
     position: absolute;
-    right: 1rem;
+    right: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--ink-muted, #8a8a82);
-    opacity: 0.5;
     display: flex;
     align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.2s;
   }
 
-  .hero-input-badge {
-    position: absolute;
-    right: -0.5rem;
-    top: -0.6rem;
-    font-family: var(--sans, 'Inter', sans-serif);
-    font-size: 0.65rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+  .hero-input-mic:hover {
     color: var(--accent, #2B4A3E);
-    background: rgba(43, 74, 62, 0.08);
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
   }
 
   .mentor-label {
@@ -220,5 +216,15 @@ import { mentors, getMentorColor } from '../data/mentors';
     });
 
     cosmos.start();
+  }
+
+  // Hero input → navigate to /explorar
+  const heroInput = document.getElementById('hero-explore-input') as HTMLInputElement | null;
+  if (heroInput) {
+    heroInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && heroInput.value.trim()) {
+        window.location.href = `/explorar?q=${encodeURIComponent(heroInput.value.trim())}`;
+      }
+    });
   }
 </script>
