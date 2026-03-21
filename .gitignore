@@ -27,3 +27,4 @@ dist/
 whisper-flow/
 .vercel
 .worktrees
+.worktrees/
