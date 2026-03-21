@@ -303,6 +303,36 @@
   /* When voice is unavailable */
 }
 
+/* Voice group (lang toggle + mic button) */
+.voice-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.voice-lang-toggle {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.4;
+}
+
+.voice-lang-toggle:hover {
+  border-color: var(--ink-muted);
+  color: var(--ink);
+}
+
 .copilot-voice-btn {
   width: 44px;
   height: 44px;

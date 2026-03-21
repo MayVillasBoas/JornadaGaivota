@@ -91,7 +91,8 @@ export class CopilotEngine {
   private wireInput(): void {
     const { mic, textarea, sendBtn, hint } = this.els;
 
-    initVoiceInput(mic, textarea);
+    const langToggle = document.getElementById('voice-lang') as HTMLButtonElement | null;
+    initVoiceInput(mic, textarea, langToggle);
 
     textarea.addEventListener('input', () => {
       sendBtn.disabled = !textarea.value.trim();

@@ -11,6 +11,7 @@ type RecognitionState = 'idle' | 'recording' | 'done';
 export function initVoiceInput(
   button: HTMLButtonElement,
   textarea: HTMLTextAreaElement,
+  langToggle?: HTMLButtonElement | null,
 ): void {
   const SpeechRecognitionAPI =
     window.SpeechRecognition ?? window.webkitSpeechRecognition;
@@ -52,10 +53,9 @@ export function initVoiceInput(
     recognition = new SpeechRecognitionAPI();
     recognition.continuous = true;
     recognition.interimResults = true;
-    // Default to Portuguese (BR) — most users are Brazilian.
-    // Falls back to browser language if it's already pt-*.
-    const browserLang = navigator.language || 'pt-BR';
-    recognition.lang = browserLang.startsWith('pt') ? browserLang : 'pt-BR';
+    // Use language from toggle button if available, otherwise default to pt-BR
+    const selectedLang = langToggle?.dataset.lang || 'pt-BR';
+    recognition.lang = selectedLang;
 
     // Save where the textarea content ends before we start appending
     confirmedLength = textarea.value.length;
@@ -114,6 +114,25 @@ export function initVoiceInput(
     };
 
     recognition.start();
+  }
+
+  // Wire up language toggle if present
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      const current = langToggle.dataset.lang || 'pt-BR';
+      if (current === 'pt-BR') {
+        langToggle.dataset.lang = 'en-US';
+        langToggle.textContent = 'en';
+      } else {
+        langToggle.dataset.lang = 'pt-BR';
+        langToggle.textContent = 'pt';
+      }
+      // If currently recording, restart with new language
+      if (state === 'recording') {
+        stopRecognition();
+        startRecognition();
+      }
+    });
   }
 
   // Initial state

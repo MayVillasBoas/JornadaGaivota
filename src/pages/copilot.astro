@@ -10,9 +10,12 @@ import '../styles/copilot.css';
     </div>
     <div class="copilot-input" id="copilot-input">
       <div class="copilot-input-inner">
-        <button class="copilot-voice-btn" id="copilot-mic" aria-label="Start voice recording" aria-pressed="false">
-          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
-        </button>
+        <div class="voice-group">
+          <button class="voice-lang-toggle" id="voice-lang" data-lang="pt-BR" aria-label="Voice language">pt</button>
+          <button class="copilot-voice-btn" id="copilot-mic" aria-label="Start voice recording" aria-pressed="false">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+          </button>
+        </div>
         <textarea id="copilot-text" placeholder="type or tap the mic to speak..." rows="2"></textarea>
         <button class="copilot-send-btn" id="copilot-send" disabled>
           <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
