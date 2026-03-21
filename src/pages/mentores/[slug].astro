@@ -3,11 +3,9 @@ import Base from '../../layouts/Base.astro';
 import { mentors, getMentorBySlug, getMentorColor, categoryLabels, categoryColors } from '../../data/mentors';
 import '../../styles/mentors.css';
 
-export function getStaticPaths() {
-  return mentors.map(m => ({ params: { slug: m.slug }, props: { mentor: m } }));
-}
-
-const { mentor } = Astro.props;
+const { slug } = Astro.params;
+const mentor = getMentorBySlug(slug!);
+if (!mentor) return Astro.redirect('/');
 const color = getMentorColor(mentor);
 const bioParagraphs = mentor.bio.split('\n\n');
 ---
