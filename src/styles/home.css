@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Home page — shared section styles
+   ========================================================================== */
+
+/* Section base */
+.section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: var(--serif, 'EB Garamond', serif);
+  font-size: 1.8rem;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Card base */
+.card {
+  background: var(--warm-white, #faf8f5);
+  border: 1px solid var(--border, #e5e0da);
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Card expanded */
+.card.expanded {
+  grid-column: 1 / -1;
+}
+
+/* Filter row */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+/* Filter pills */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: var(--sans, 'Inter', sans-serif);
+  border: 1px solid var(--border, #e5e0da);
+  background: transparent;
+  color: var(--ink, #2c2c2c);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  border-color: var(--ink-light, #666);
+}
+
+.pill.active {
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Search box */
+.search-box {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border, #e5e0da);
+  width: 240px;
+  font-size: 14px;
+  font-family: var(--sans, 'Inter', sans-serif);
+  background: var(--warm-white, #faf8f5);
+  color: var(--ink, #2c2c2c);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.search-box::placeholder {
+  color: var(--ink-muted, #999);
+}
+
+.search-box:focus {
+  border-color: var(--accent, #2B4A3E);
+}
+
+/* Result count */
+.result-count {
+  font-size: 13px;
+  color: var(--ink-muted, #999);
+  margin-bottom: 16px;
+  font-family: var(--sans, 'Inter', sans-serif);
+}
+
+/* Category tag (small pill inside card) */
+.category-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-family: var(--sans, 'Inter', sans-serif);
+  color: #fff;
+  margin-right: 4px;
+  margin-top: 8px;
+}
+
+/* Card content typography */
+.card h3 {
+  font-family: var(--serif, 'EB Garamond', serif);
+  font-size: 1.15rem;
+  color: var(--ink, #2c2c2c);
+  margin: 0 0 4px;
+  font-weight: 500;
+}
+
+.card .mentor-name {
+  font-size: 12px;
+  color: var(--ink-muted, #999);
+  font-family: var(--sans, 'Inter', sans-serif);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.card .short-desc {
+  font-size: 14px;
+  color: var(--ink-light, #555);
+  font-family: var(--sans, 'Inter', sans-serif);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Expanded card content */
+.card .expanded-content {
+  display: none;
+}
+
+.card.expanded .expanded-content {
+  display: block;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light, #ece8e2);
+}
+
+.card .full-desc {
+  font-size: 14px;
+  color: var(--ink-light, #555);
+  font-family: var(--sans, 'Inter', sans-serif);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.card .mentor-link {
+  font-size: 13px;
+  font-family: var(--sans, 'Inter', sans-serif);
+  color: var(--accent, #2B4A3E);
+  text-decoration: none;
+}
+
+.card .mentor-link:hover {
+  text-decoration: underline;
+}
+
+.card .close-btn {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--ink-muted, #999);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.card .close-btn:hover {
+  color: var(--ink, #2c2c2c);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    padding: 48px 20px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 28px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .filter-pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

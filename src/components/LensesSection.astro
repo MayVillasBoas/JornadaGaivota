@@ -1,0 +1,86 @@
+---
+import { getAllPrinciples, getMentorBySlug, categoryLabels, categoryColors, type Category } from '../data/mentors';
+
+const principles = getAllPrinciples();
+const categories = Object.keys(categoryLabels) as Category[];
+---
+
+<section class="section lenses-section" id="lentes">
+  <h2 class="section-title">Lentes</h2>
+
+  <div class="filter-row">
+    <div class="filter-pills-wrap">
+      <button
+        class="pill active"
+        data-category="all"
+        data-color=""
+        style="background: var(--ink); color: #fff; border-color: var(--ink);"
+      >
+        Todas
+      </button>
+      {categories.map((cat) => (
+        <button
+          class="pill"
+          data-category={cat}
+          data-color={categoryColors[cat]}
+        >
+          {categoryLabels[cat]}
+        </button>
+      ))}
+    </div>
+    <input
+      type="text"
+      class="search-box"
+      id="lenses-search"
+      placeholder="Buscar lente..."
+    />
+  </div>
+
+  <p class="result-count" id="lenses-count">
+    Mostrando {principles.length} lentes
+  </p>
+
+  <div class="card-grid" id="lenses-grid">
+    {principles.map((p) => {
+      const mentor = getMentorBySlug(p.mentorSlug);
+      return (
+        <article
+          class="card"
+          data-categories={p.categories.join(',')}
+          data-name={p.name.toLowerCase()}
+          data-description={p.shortDescription.toLowerCase()}
+          data-id={p.id}
+        >
+          <h3>{p.name}</h3>
+          <small class="mentor-name">{mentor?.name}</small>
+          <p class="short-desc">{p.shortDescription}</p>
+          <div class="card-tags">
+            {p.categories.map((cat) => (
+              <span
+                class="category-tag"
+                style={`background: ${categoryColors[cat]}`}
+              >
+                {categoryLabels[cat]}
+              </span>
+            ))}
+          </div>
+          <div class="expanded-content">
+            <button class="close-btn" aria-label="Fechar">&times;</button>
+            <p class="full-desc">{p.description}</p>
+            {mentor && (
+              <a class="mentor-link" href={`/mentores/${mentor.slug}`}>
+                Ver perfil de {mentor.name} &rarr;
+              </a>
+            )}
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  @import '../styles/home.css';
+</style>
+
+<script src="../scripts/lenses-filter.ts"></script>
