@@ -147,6 +147,13 @@ export class CopilotEngine {
     } else if (this.state === 'awaiting-input') {
       this.appendResponse(text, isVoice);
       await this.processModuleResponse(text);
+    } else if (this.state === 'awaiting-additional') {
+      // User added more context before memo generation
+      this.journey.additionalContext = (this.journey.additionalContext || '') + '\n' + text;
+      saveJourney(this.journey);
+      this.appendResponse(text, isVoice);
+      await delay(1000);
+      this.generateAndShowMemo();
     }
   }
 
@@ -305,6 +312,17 @@ export class CopilotEngine {
       this.removeBlock(thinkingBlock);
 
       if (data.insight && !data.fallback) {
+        // If the AI says the response needs more detail, show the insight
+        // as an invitation and DON'T advance to the next step
+        if (data.needsMore) {
+          await this.streamReflection(data.insight, data.themes || [], mod.layer);
+          this.state = 'awaiting-input';
+          this.els.textarea.placeholder = 'take another moment and try again...';
+          this.els.textarea.focus();
+          this.scrollToBottom();
+          return; // Don't increment step — let them try again
+        }
+
         this.journey.moduleInsights[moduleSlug][this.currentStepIndex] = data.insight;
         if (data.summary) {
           this.journey.moduleSummaries[moduleSlug] =
@@ -343,7 +361,7 @@ export class CopilotEngine {
     saveJourney(this.journey);
 
     if (this.currentModuleIndex >= this.journey.route.length) {
-      this.generateAndShowMemo();
+      this.showPreMemoPrompt();
       return;
     }
 
@@ -402,6 +420,68 @@ export class CopilotEngine {
     this.scrollToBottom();
   }
 
+  // ─── Pre-Memo Prompt ───
+
+  private showPreMemoPrompt(): void {
+    this.state = 'transitioning';
+
+    const transitionDiv = document.createElement('div');
+    transitionDiv.innerHTML = `
+      <div class="copilot-module-transition">
+        <span>✓ all exercises complete</span>
+      </div>
+    `;
+    this.els.timeline.appendChild(transitionDiv);
+
+    const block = document.createElement('div');
+    block.className = 'copilot-block';
+    block.style.cssText = 'text-align:center;padding:1.5rem 0';
+
+    const question = document.createElement('p');
+    question.style.cssText = 'font-family:var(--serif);font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem';
+    question.textContent = "Before I compile your Decision Memo — is there anything else you'd like to add?";
+
+    const hint = document.createElement('p');
+    hint.style.cssText = 'font-family:var(--serif);font-size:0.95rem;color:var(--ink-muted);font-style:italic;margin-bottom:1.5rem';
+    hint.textContent = "Something you haven't said yet, a feeling that came up, or context that might change everything.";
+
+    const btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:1rem;justify-content:center;flex-wrap:wrap';
+
+    const addMoreBtn = document.createElement('button');
+    addMoreBtn.className = 'btn-secondary';
+    addMoreBtn.textContent = 'yes, let me add something';
+    addMoreBtn.addEventListener('click', () => {
+      block.remove();
+      this.state = 'awaiting-additional';
+      this.appendQuestion(
+        "What else would you like to add?",
+        "Anything — a thought, a fear, a hope, something you held back earlier. This goes into your memo.",
+        'act'
+      );
+      this.els.textarea.placeholder = 'there\'s something else I want to say...';
+      this.els.textarea.focus();
+      this.scrollToBottom();
+    });
+
+    const generateBtn = document.createElement('button');
+    generateBtn.className = 'btn-primary';
+    generateBtn.textContent = 'I\'m ready — generate my memo';
+    generateBtn.addEventListener('click', () => {
+      generateBtn.disabled = true;
+      this.generateAndShowMemo();
+    });
+
+    btnRow.appendChild(addMoreBtn);
+    btnRow.appendChild(generateBtn);
+
+    block.appendChild(question);
+    block.appendChild(hint);
+    block.appendChild(btnRow);
+    this.els.timeline.appendChild(block);
+    this.scrollToBottom();
+  }
+
   // ─── Memo Generation ───
 
   private async generateAndShowMemo(): Promise<void> {
@@ -424,6 +504,7 @@ export class CopilotEngine {
           action: 'generate-memo',
           allResponses: this.journey.moduleResponses,
           originalSituation: this.journey.situation,
+          additionalContext: this.journey.additionalContext || undefined,
         }),
       });
       const memoData = await res.json();
