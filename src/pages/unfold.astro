@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import CreamCosmos from '../components/CreamCosmos.astro';
 import DotNav from '../components/DotNav.astro';
 import LensesSection from '../components/LensesSection.astro';
 import MentorsSection from '../components/MentorsSection.astro';
@@ -10,7 +9,11 @@ import '../styles/home.css';
 ---
 
 <Base title="Unfold — Explore the mind you live in" description="Mental models, mentors, and tools for thinking with more clarity.">
-  <CreamCosmos />
+  <section class="unfold-header">
+    <h1>Explore the Mind You Live In</h1>
+    <p>Hand-picked lenses from thinkers across psychology, philosophy, neuroscience, and business — chosen to help you see your own patterns, question your assumptions, and make decisions with more clarity.</p>
+  </section>
+
   <LensesSection />
   <MentorsSection />
   <ToolsSection />
@@ -18,3 +21,40 @@ import '../styles/home.css';
   <DotNav />
   <MentorModal />
 </Base>
+
+<style>
+  .unfold-header {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+  }
+
+  .unfold-header h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: var(--ink, #1a1a18);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .unfold-header p {
+    font-family: var(--sans, Inter, sans-serif);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-muted, #6b6b68);
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .unfold-header {
+      padding: 4rem 1.5rem 3rem;
+    }
+
+    .unfold-header h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

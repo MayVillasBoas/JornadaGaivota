@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 32">
-  <path d="M2 16 Q10 6 24 13 Q28 15 32 14 Q36 13 42 8 Q50 3 54 6 Q58 9 62 16" fill="none" stroke="#1a1a18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 30">
+  <path d="M2 22 Q12 14 22 18 Q30 21 38 16 Q42 14 44 15 Q46 14 50 16 Q58 21 68 18 Q78 14 78 22" fill="none" stroke="#1a1a18" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
   <style>
     @media (prefers-color-scheme: dark) {
       path { stroke: #F5F0E8; }

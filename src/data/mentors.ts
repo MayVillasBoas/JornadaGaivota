@@ -727,6 +727,287 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       { mentorSlug: 'derek-sivers', reason: 'Both simplify complex decisions with visual, intuitive frames.' },
     ],
   },
+  {
+    slug: 'antonio-damasio',
+    name: 'António Damasio',
+    tagline: 'Your body knows before your mind does',
+    bio: 'Neuroscientist whose work on somatic markers revealed that emotions are not obstacles to rational thinking — they are essential components of it. His research shows the body sends signals that guide decisions before conscious reasoning even begins.',
+    books: [
+      { title: "Descartes' Error", highlight: true },
+      { title: 'The Feeling of What Happens' },
+      { title: 'Self Comes to Mind' },
+      { title: 'Looking for Spinoza' },
+    ],
+    quotes: [
+      'The body is the main stage for emotions.',
+      'Feelings are not a luxury. They are a means of communicating our states of mind to others.',
+    ],
+    primaryCategory: 'thinking' as Category,
+    principles: [
+      {
+        id: 'somatic-markers',
+        name: 'Somatic Markers',
+        shortDescription: 'Your body signals guide decisions before your mind catches up.',
+        description:
+          'Somatic markers are body signals — a gut feeling, a tightness in the chest, a wave of calm — that arise from past emotional experiences and help guide present decisions. Damasio showed that people with damage to the brain regions processing these signals make catastrophically poor decisions, even when their logical reasoning is intact.',
+        mentorSlug: 'antonio-damasio',
+        categories: ['thinking', 'decisions'] as Category[],
+      },
+      {
+        id: 'embodied-decision-making',
+        name: 'Embodied Decision-Making',
+        shortDescription: 'Rational thought depends on the body\'s emotional signals.',
+        description:
+          'Pure logic alone leads to poor choices. Damasio\'s research demonstrates that the body and emotions are not noise interfering with reason — they are the substrate on which reason operates. Every "rational" decision is shaped by emotional signals you may not even notice.',
+        mentorSlug: 'antonio-damasio',
+        categories: ['thinking', 'energy'] as Category[],
+      },
+    ],
+    connections: [
+      { mentorSlug: 'sam-harris', reason: 'Both explore consciousness from a scientific perspective — Damasio through neuroscience, Harris through contemplative practice.' },
+      { mentorSlug: 'andrew-huberman', reason: 'Both bridge neuroscience and practical living — Huberman with protocols, Damasio with understanding.' },
+      { mentorSlug: 'stephen-porges', reason: 'Both study the body-brain connection — Damasio through somatic markers, Porges through the vagus nerve.' },
+    ],
+  },
+  {
+    slug: 'richard-schwartz',
+    name: 'Richard Schwartz',
+    tagline: 'Every voice inside you is trying to help',
+    bio: 'Creator of Internal Family Systems (IFS) therapy. His model treats the mind as a family of sub-personalities — parts — each with positive intent. Beneath the protective parts lies a core Self characterized by curiosity, compassion, and calm.',
+    books: [
+      { title: 'No Bad Parts', highlight: true },
+      { title: 'Introduction to the Internal Family Systems Model' },
+      { title: "You Are the One You've Been Waiting For" },
+    ],
+    quotes: [
+      'All parts are welcome.',
+      'The goal is not to eliminate parts, but to help them find their non-extreme roles.',
+    ],
+    primaryCategory: 'relationships' as Category,
+    principles: [
+      {
+        id: 'parts-work',
+        name: 'Parts Work',
+        shortDescription: 'Conflicting inner voices are parts with protective roles, not character flaws.',
+        description:
+          'When you feel torn between wanting to stay safe and wanting to take a risk, that\'s not indecision — those are two parts of you, each trying to protect you in their own way. Parts work means recognizing these voices, understanding what they\'re afraid of, and helping them trust that you can handle what comes.',
+        mentorSlug: 'richard-schwartz',
+        categories: ['relationships', 'thinking'] as Category[],
+      },
+      {
+        id: 'self-energy',
+        name: 'Self-Energy',
+        shortDescription: 'Underneath all parts, there is a core Self — curious, compassionate, calm.',
+        description:
+          'IFS posits that beneath the noise of protective parts lies what Schwartz calls Self — a state characterized by the 8 C\'s: curiosity, calm, clarity, compassion, confidence, courage, creativity, and connectedness. Accessing Self is not about becoming someone new; it\'s about uncovering who you already are.',
+        mentorSlug: 'richard-schwartz',
+        categories: ['relationships', 'energy'] as Category[],
+      },
+      {
+        id: 'internal-family-systems',
+        name: 'Internal Family Systems',
+        shortDescription: 'Healing comes from befriending your parts, not exiling them.',
+        description:
+          'Most approaches to inner conflict try to silence, override, or "fix" the difficult voices. IFS does the opposite: it turns toward each part with curiosity. A part that seems destructive (procrastination, self-sabotage, anxiety) is often a protector carrying a burden from the past. When you listen, it can relax.',
+        mentorSlug: 'richard-schwartz',
+        categories: ['relationships', 'perspective'] as Category[],
+      },
+    ],
+    connections: [
+      { mentorSlug: 'bruce-tift', reason: 'Both work with inner conflict therapeutically — Tift through developmental vs fruitional tension, Schwartz through parts.' },
+      { mentorSlug: 'brene-brown', reason: 'Both emphasize compassion toward vulnerable parts of self as the path to wholeness.' },
+      { mentorSlug: 'stephen-porges', reason: 'IFS parts map onto nervous system states — protectors activate fight/flight, exiles carry freeze.' },
+    ],
+  },
+  {
+    slug: 'charlie-munger',
+    name: 'Charlie Munger',
+    tagline: 'Strip away assumptions. What\'s actually true?',
+    bio: 'Investor, vice chairman of Berkshire Hathaway, and one of the most celebrated thinkers on mental models. Munger advocated building a latticework of frameworks from multiple disciplines — psychology, physics, biology, history — to avoid the blind spots that come from seeing the world through a single lens.',
+    books: [
+      { title: "Poor Charlie's Almanack", highlight: true },
+      { title: 'Seeking Wisdom: From Darwin to Munger' },
+    ],
+    quotes: [
+      'Invert, always invert.',
+      'I never allow myself to have an opinion on anything that I don\'t know the other side\'s argument better than they do.',
+    ],
+    primaryCategory: 'thinking' as Category,
+    principles: [
+      {
+        id: 'mental-models',
+        name: 'Mental Models',
+        shortDescription: 'Build a latticework of frameworks to see reality more clearly.',
+        description:
+          'A person who only knows accounting will try to solve every problem with accounting. Munger\'s insight is that the best thinkers collect models from many fields — evolution, psychology, physics, economics — and use them in combination. The more models you have, the fewer blind spots.',
+        mentorSlug: 'charlie-munger',
+        categories: ['thinking', 'decisions'] as Category[],
+      },
+      {
+        id: 'inversion',
+        name: 'Inversion',
+        shortDescription: 'Instead of asking how to succeed, ask what would guarantee failure.',
+        description:
+          'Most people think forward: "How do I get what I want?" Munger inverts: "What would guarantee I fail?" Then avoid that. Want a good relationship? Instead of listing what you want, list what would destroy one. Inversion reveals blind spots that forward thinking misses.',
+        mentorSlug: 'charlie-munger',
+        categories: ['thinking', 'decisions'] as Category[],
+      },
+      {
+        id: 'first-principles-thinking',
+        name: 'First Principles Thinking',
+        shortDescription: 'Break problems down to their fundamental truths before reasoning up.',
+        description:
+          'Most reasoning is by analogy — "this is like that, so do the same thing." First principles thinking strips away assumptions and conventions to find what\'s fundamentally true, then builds up from there. It\'s slower but finds solutions that analogy-based thinking can\'t.',
+        mentorSlug: 'charlie-munger',
+        categories: ['thinking'] as Category[],
+      },
+    ],
+    connections: [
+      { mentorSlug: 'shane-parrish', reason: 'Parrish built Farnam Street largely around Munger\'s ideas — the site is named after Berkshire Hathaway\'s street.' },
+      { mentorSlug: 'derek-sivers', reason: 'Both favor radical simplicity in thinking and ruthless elimination of what doesn\'t matter.' },
+      { mentorSlug: 'jeff-bezos', reason: 'Both use inversion and long-term thinking as core decision-making tools.' },
+    ],
+  },
+  {
+    slug: 'jeff-bezos',
+    name: 'Jeff Bezos',
+    tagline: 'Project yourself to 80. Which regret weighs more?',
+    bio: 'Founder of Amazon. Known in decision-making circles for the Regret Minimization Framework — imagining yourself at 80 and asking which choice you would regret not making. Also advocates Day 1 thinking: maintaining the urgency and customer focus of a startup, no matter how large you grow.',
+    books: [
+      { title: 'Invent and Wander', highlight: true },
+      { title: 'The Everything Store' },
+    ],
+    quotes: [
+      'I knew that when I was 80, I was not going to regret having tried this.',
+      'If you decide that you\'re going to do only the things you know are going to work, you\'re going to leave a lot of opportunity on the table.',
+    ],
+    primaryCategory: 'decisions' as Category,
+    principles: [
+      {
+        id: 'regret-minimization',
+        name: 'Regret Minimization',
+        shortDescription: 'Project yourself to age 80 and ask which path you would regret not taking.',
+        description:
+          'When Bezos was deciding whether to leave his Wall Street job to start Amazon, he imagined himself at 80 looking back. He knew he wouldn\'t regret trying and failing. But he would deeply regret never trying. This framework cuts through noise by shifting the time horizon from months to decades.',
+        mentorSlug: 'jeff-bezos',
+        categories: ['decisions', 'perspective'] as Category[],
+      },
+      {
+        id: 'day-1-thinking',
+        name: 'Day 1 Thinking',
+        shortDescription: 'Treat every day as Day 1: stay curious, decide quickly, resist complacency.',
+        description:
+          'Day 2 is stasis, followed by irrelevance, followed by excruciating decline. Day 1 means staying in startup mode: making decisions with 70% of the information you wish you had, staying close to the people you serve, and being willing to be misunderstood for long periods.',
+        mentorSlug: 'jeff-bezos',
+        categories: ['decisions', 'action'] as Category[],
+      },
+    ],
+    connections: [
+      { mentorSlug: 'tim-ferriss', reason: 'Both use structured frameworks to cut through decision paralysis — Ferriss with Fear Setting, Bezos with Regret Minimization.' },
+      { mentorSlug: 'charlie-munger', reason: 'Both favor long-term thinking and inversion as core decision-making tools.' },
+      { mentorSlug: 'shane-parrish', reason: 'Parrish has extensively analyzed Bezos\'s decision frameworks on Farnam Street.' },
+    ],
+  },
+  {
+    slug: 'shane-parrish',
+    name: 'Shane Parrish',
+    tagline: 'Turn ordinary moments into better decisions',
+    bio: 'Creator of Farnam Street and the Knowledge Project podcast. Former intelligence analyst who turned to studying mental models, decision-making, and clear thinking. His work synthesizes ideas from Munger, Kahneman, and others into practical frameworks anyone can use.',
+    books: [
+      { title: 'Clear Thinking', highlight: true },
+      { title: 'The Great Mental Models Vol. 1' },
+      { title: 'The Great Mental Models Vol. 2' },
+    ],
+    quotes: [
+      'The quality of your thinking determines the quality of your life.',
+      'Most errors come from defaults, not reasoning.',
+    ],
+    primaryCategory: 'decisions' as Category,
+    principles: [
+      {
+        id: 'decision-journal',
+        name: 'Decision Journal',
+        shortDescription: 'Write down your reasoning before you know the outcome.',
+        description:
+          'A decision journal captures what you decided, why, what you expected to happen, and how you felt — before the outcome is known. Reviewing it over time reveals patterns in your thinking: where you\'re consistently right, where you fool yourself, and which emotions lead you astray.',
+        mentorSlug: 'shane-parrish',
+        categories: ['decisions', 'thinking'] as Category[],
+      },
+      {
+        id: 'clear-thinking',
+        name: 'Clear Thinking',
+        shortDescription: 'Most errors come from defaults, not reasoning.',
+        description:
+          'Parrish argues that the biggest thinking errors don\'t happen during deliberation — they happen when we\'re on autopilot. Social defaults, emotional defaults, ego defaults, and inertia defaults hijack our choices before we even realize we\'re making one. Clear thinking means catching yourself in the ordinary moments.',
+        mentorSlug: 'shane-parrish',
+        categories: ['thinking', 'decisions'] as Category[],
+      },
+      {
+        id: 'second-order-thinking',
+        name: 'Second-Order Thinking',
+        shortDescription: 'Ask "and then what?" to see beyond immediate consequences.',
+        description:
+          'First-order thinking asks: "What happens if I do this?" Second-order thinking asks: "And then what? What are the consequences of the consequences?" Most people stop at the first order. The best decisions come from thinking at least two steps ahead.',
+        mentorSlug: 'shane-parrish',
+        categories: ['decisions', 'perspective'] as Category[],
+      },
+    ],
+    connections: [
+      { mentorSlug: 'charlie-munger', reason: 'Farnam Street is named after Berkshire Hathaway\'s street — Parrish is a devoted student of Munger\'s mental models.' },
+      { mentorSlug: 'tim-ferriss', reason: 'Both are systematizers of practical wisdom — Ferriss through experiments, Parrish through synthesis.' },
+      { mentorSlug: 'adam-grant', reason: 'Both bridge academic research and applied decision-making for a general audience.' },
+    ],
+  },
+  {
+    slug: 'stephen-porges',
+    name: 'Stephen Porges',
+    tagline: 'Your nervous system is always listening',
+    bio: 'Neuroscientist and creator of the Polyvagal Theory, which describes how the autonomic nervous system shapes our sense of safety, connection, and threat. His work explains why we sometimes freeze, fight, or shut down — and how co-regulation with others can restore a sense of safety.',
+    books: [
+      { title: 'The Polyvagal Theory', highlight: true },
+      { title: 'The Pocket Guide to the Polyvagal Theory' },
+      { title: 'Polyvagal Exercises for Safety and Connection' },
+    ],
+    quotes: [
+      'Safety is not the absence of threat. It is the presence of connection.',
+      'The nervous system is not asking "Is this dangerous?" It is asking "Is this safe?"',
+    ],
+    primaryCategory: 'energy' as Category,
+    principles: [
+      {
+        id: 'polyvagal-theory',
+        name: 'Polyvagal Theory',
+        shortDescription: 'Your nervous system cycles between safety, fight-or-flight, and shutdown.',
+        description:
+          'The autonomic nervous system has three states: ventral vagal (safe and social — you can connect, think clearly, be creative), sympathetic (fight or flight — mobilized, anxious, reactive), and dorsal vagal (shutdown — frozen, numb, collapsed). Understanding which state you\'re in is the first step to shifting it.',
+        mentorSlug: 'stephen-porges',
+        categories: ['energy', 'relationships'] as Category[],
+      },
+      {
+        id: 'neuroception',
+        name: 'Neuroception',
+        shortDescription: 'Your body detects safety or danger below conscious awareness.',
+        description:
+          'Before you consciously assess a situation, your nervous system has already decided whether it\'s safe or threatening. This below-awareness scanning — neuroception — explains why you might feel uneasy in a "safe" situation or calm in a "dangerous" one. Your body\'s reading may not match reality, but it always drives behavior.',
+        mentorSlug: 'stephen-porges',
+        categories: ['energy', 'thinking'] as Category[],
+      },
+      {
+        id: 'window-of-tolerance',
+        name: 'Window of Tolerance',
+        shortDescription: 'The zone where you can process experiences without being overwhelmed.',
+        description:
+          'The window of tolerance is the bandwidth within which you can think, feel, and function effectively. Too much activation pushes you into hyperarousal (anxiety, panic). Too little drops you into hypoarousal (numbness, disconnection). The goal is not to avoid stress but to widen the window so you can handle more while staying regulated.',
+        mentorSlug: 'stephen-porges',
+        categories: ['energy', 'relationships'] as Category[],
+      },
+    ],
+    connections: [
+      { mentorSlug: 'antonio-damasio', reason: 'Both study the body\'s role in cognition and emotion — Damasio through somatic markers, Porges through the vagus nerve.' },
+      { mentorSlug: 'andrew-huberman', reason: 'Both translate neuroscience into body-based protocols for managing stress and state.' },
+      { mentorSlug: 'richard-schwartz', reason: 'IFS parts map onto polyvagal states — protectors activate sympathetic, exiles carry dorsal vagal freeze.' },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------
