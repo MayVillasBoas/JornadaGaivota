@@ -4,8 +4,23 @@ import '../styles/copilot.css';
 ---
 
 <Base title="Decision Copilot — May">
-  <div class="copilot-container" id="copilot-root">
-    <!-- Engine renders here -->
+  <div class="copilot-container">
+    <canvas class="copilot-canvas" id="breathing-canvas"></canvas>
+    <div class="copilot-timeline" id="copilot-timeline">
+      <!-- Engine renders conversation blocks here -->
+    </div>
+    <div class="copilot-input" id="copilot-input">
+      <div class="copilot-input-inner">
+        <button class="copilot-voice-btn" id="copilot-mic" aria-label="Start voice recording" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        </button>
+        <textarea id="copilot-text" placeholder="type or tap the mic to speak..." rows="1"></textarea>
+        <button class="copilot-send-btn" id="copilot-send" disabled>
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <p class="copilot-empty-hint" id="copilot-hint">take your time — even a few words help</p>
+    </div>
   </div>
 </Base>
 
@@ -15,9 +30,22 @@ import '../styles/copilot.css';
   if (!(window as any).__copilotInit) {
     (window as any).__copilotInit = true;
 
-    const container = document.getElementById('copilot-root');
-    if (container) {
-      const engine = new CopilotEngine(container);
+    const timeline = document.getElementById('copilot-timeline');
+    const canvas = document.getElementById('breathing-canvas') as HTMLCanvasElement;
+    const mic = document.getElementById('copilot-mic') as HTMLButtonElement;
+    const textarea = document.getElementById('copilot-text') as HTMLTextAreaElement;
+    const sendBtn = document.getElementById('copilot-send') as HTMLButtonElement;
+    const hint = document.getElementById('copilot-hint') as HTMLElement;
+
+    if (timeline) {
+      const engine = new CopilotEngine({
+        timeline,
+        canvas,
+        mic,
+        textarea,
+        sendBtn,
+        hint,
+      });
       engine.init();
     }
   }
