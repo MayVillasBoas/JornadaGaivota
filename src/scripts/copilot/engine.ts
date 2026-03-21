@@ -1,6 +1,6 @@
 // src/scripts/copilot/engine.ts — Flowing Session Engine
 
-import { MODULES } from './modules';
+import { MODULES, PICKABLE_MODULES } from './modules';
 import { buildRoute, describeTypes } from './routing';
 import type { Classification, ConfusionType } from './routing';
 import { createJourney, saveJourney, loadActiveJourney } from './persistence';
@@ -42,6 +42,8 @@ type EngineState =
   | 'processing'
   | 'streaming'
   | 'transitioning'
+  | 'picking-frameworks'
+  | 'awaiting-additional'
   | 'generating-memo'
   | 'complete';
 
@@ -55,6 +57,7 @@ export class CopilotEngine {
   private blockLayers: string[] = [];
   private currentModuleIndex = 0;
   private currentStepIndex = 0;
+  private progressBarEl: HTMLElement | null = null;
 
   constructor(els: EngineElements) {
     this.els = els;
@@ -202,14 +205,18 @@ export class CopilotEngine {
         .join(' → ');
 
       this.removeBlock(thinkingBlock);
+
+      const suggestedRoute = data.suggestedRoute || this.journey.route.filter((s: string) => s !== 'decision-memo');
+      const frameworkReasons: Record<string, string> = data.frameworkReasons || {};
+
       await this.streamReflection(
-        `I hear you. It sounds like what's making this hard is ${description}. I'm going to guide you through a few exercises to untangle this: ${moduleNames}.`,
+        `I hear you. It sounds like what's making this hard is ${description}.`,
         [],
         'intake'
       );
 
-      await delay(2000);
-      this.showNextQuestion();
+      await delay(1500);
+      this.showFrameworkPicker(suggestedRoute, frameworkReasons);
     } catch {
       this.removeBlock(thinkingBlock);
       this.journey.classification = {
@@ -225,14 +232,218 @@ export class CopilotEngine {
         "Let me guide you through a few exercises to help you think through this.",
         [], 'intake'
       );
-      await delay(2000);
+      await delay(1500);
+      const fallbackRoute = this.journey.route.filter(s => s !== 'decision-memo');
+      this.showFrameworkPicker(fallbackRoute, {});
+    }
+  }
+
+  // ─── Framework Picker ───
+
+  private showFrameworkPicker(
+    suggestedRoute: string[],
+    frameworkReasons: Record<string, string>,
+  ): void {
+    this.state = 'picking-frameworks';
+
+    const picker = document.createElement('div');
+    picker.className = 'copilot-block framework-picker';
+
+    const intro = document.createElement('p');
+    intro.className = 'framework-picker-intro';
+    intro.textContent = "Here's what I'd suggest:";
+    picker.appendChild(intro);
+
+    const selected = new Set(suggestedRoute.filter(s => s !== 'decision-memo'));
+
+    const renderCard = (slug: string, container: HTMLElement) => {
+      const mod = MODULES[slug];
+      if (!mod || slug === 'decision-memo') return;
+
+      const card = document.createElement('div');
+      card.className = `framework-card${selected.has(slug) ? ' selected' : ''}`;
+      card.dataset.slug = slug;
+
+      const check = document.createElement('div');
+      check.className = 'framework-card-check';
+
+      const content = document.createElement('div');
+      content.className = 'framework-card-content';
+
+      const title = document.createElement('div');
+      title.className = 'framework-card-title';
+      title.textContent = mod.title;
+
+      const tagline = document.createElement('div');
+      tagline.className = 'framework-card-tagline';
+      tagline.textContent = mod.description;
+
+      content.appendChild(title);
+      content.appendChild(tagline);
+
+      const reason = frameworkReasons[slug];
+      if (reason) {
+        const reasonEl = document.createElement('div');
+        reasonEl.className = 'framework-card-reason';
+        reasonEl.textContent = reason;
+        content.appendChild(reasonEl);
+      }
+
+      card.appendChild(check);
+      card.appendChild(content);
+
+      card.addEventListener('click', () => {
+        if (selected.has(slug)) {
+          selected.delete(slug);
+          card.classList.remove('selected');
+        } else {
+          selected.add(slug);
+          card.classList.add('selected');
+        }
+        updateStartButton();
+      });
+
+      container.appendChild(card);
+    };
+
+    suggestedRoute.forEach(slug => renderCard(slug, picker));
+
+    const otherSlugs = PICKABLE_MODULES.filter(s => !suggestedRoute.includes(s));
+    if (otherSlugs.length > 0) {
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'framework-explore-toggle';
+      toggleBtn.textContent = '▸ explore more frameworks';
+
+      const exploreList = document.createElement('div');
+      exploreList.className = 'framework-explore-list';
+
+      otherSlugs.forEach(slug => renderCard(slug, exploreList));
+
+      toggleBtn.addEventListener('click', () => {
+        const isOpen = exploreList.classList.toggle('open');
+        toggleBtn.textContent = isOpen ? '▾ hide' : '▸ explore more frameworks';
+      });
+
+      picker.appendChild(toggleBtn);
+      picker.appendChild(exploreList);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'framework-picker-actions';
+
+    const startBtn = document.createElement('button');
+    startBtn.className = 'btn-primary';
+    startBtn.textContent = 'start journey →';
+
+    const hint = document.createElement('span');
+    hint.className = 'framework-picker-hint';
+
+    const updateStartButton = () => {
+      if (selected.size < 2) {
+        startBtn.disabled = true;
+        hint.textContent = 'select at least 2 frameworks';
+      } else {
+        startBtn.disabled = false;
+        hint.textContent = '';
+      }
+    };
+    updateStartButton();
+
+    startBtn.addEventListener('click', () => {
+      const orderedRoute = PICKABLE_MODULES.filter(s => selected.has(s));
+      orderedRoute.push('decision-memo');
+
+      this.journey.route = orderedRoute;
+      this.journey.status = 'active';
+      this.journey.currentModuleIndex = 0;
+      this.journey.currentStepIndex = 0;
+      this.currentModuleIndex = 0;
+      this.currentStepIndex = 0;
+      saveJourney(this.journey);
+
+      trackEvent('frameworks_confirmed', this.journey.id, {
+        route: orderedRoute,
+        suggested: suggestedRoute,
+      });
+
+      this.renderProgressBar();
       this.showNextQuestion();
+    });
+
+    actions.appendChild(startBtn);
+    actions.appendChild(hint);
+    picker.appendChild(actions);
+
+    this.els.timeline.appendChild(picker);
+    this.scrollToBottom();
+  }
+
+  // ─── Progress Bar ───
+
+  private renderProgressBar(): void {
+    const route = this.journey.route.filter(s => s !== 'decision-memo');
+    const bar = document.createElement('div');
+    bar.className = 'copilot-progress';
+
+    const dots = document.createElement('div');
+    dots.className = 'progress-dots';
+
+    route.forEach((slug, i) => {
+      if (i > 0) {
+        const connector = document.createElement('div');
+        connector.className = 'progress-connector';
+        connector.dataset.index = String(i - 1);
+        dots.appendChild(connector);
+      }
+      const dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      dot.dataset.index = String(i);
+      dot.title = MODULES[slug]?.title || slug;
+      dots.appendChild(dot);
+    });
+
+    const label = document.createElement('div');
+    label.className = 'progress-label';
+
+    bar.appendChild(dots);
+    bar.appendChild(label);
+
+    this.els.timeline.parentElement?.insertBefore(bar, this.els.timeline);
+    this.progressBarEl = bar;
+    this.updateProgressBar();
+  }
+
+  private updateProgressBar(): void {
+    if (!this.progressBarEl) return;
+    const route = this.journey.route.filter(s => s !== 'decision-memo');
+    const currentIdx = this.currentModuleIndex;
+
+    this.progressBarEl.querySelectorAll('.progress-dot').forEach((dot) => {
+      const idx = parseInt((dot as HTMLElement).dataset.index || '0');
+      dot.classList.toggle('done', idx < currentIdx);
+      dot.classList.toggle('current', idx === currentIdx);
+    });
+
+    this.progressBarEl.querySelectorAll('.progress-connector').forEach((conn) => {
+      const idx = parseInt((conn as HTMLElement).dataset.index || '0');
+      conn.classList.toggle('done', idx < currentIdx);
+    });
+
+    const label = this.progressBarEl.querySelector('.progress-label');
+    if (label) {
+      if (currentIdx >= route.length) {
+        label.textContent = '✓ All complete';
+      } else {
+        const mod = MODULES[route[currentIdx]];
+        label.textContent = `Step ${currentIdx + 1} of ${route.length}: ${mod?.title || ''}`;
+      }
     }
   }
 
   // ─── Module Flow ───
 
   private showNextQuestion(): void {
+    this.updateProgressBar();
     const route = this.journey.route;
     if (this.currentModuleIndex >= route.length) {
       this.generateAndShowMemo();
@@ -360,6 +571,7 @@ export class CopilotEngine {
     this.journey.currentModuleIndex = this.currentModuleIndex;
     this.journey.currentStepIndex = 0;
     saveJourney(this.journey);
+    this.updateProgressBar();
 
     if (this.currentModuleIndex >= this.journey.route.length) {
       this.showPreMemoPrompt();
