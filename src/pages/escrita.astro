@@ -2,13 +2,25 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="The Seagull's Journey — May">
+<Base title="Jornada da Gaivota — May">
   <section class="page-header">
-    <h1>The Seagull's Journey</h1>
+    <h1>Jornada da Gaivota</h1>
     <p class="page-sub">
       Essays on transition, clarity, decisions, and real life. Written
       while I'm in the middle of the process myself.
     </p>
+  </section>
+
+  <section class="epigraph narrow">
+    <blockquote>
+      <p>We spend our lives trying to discern where we end and the rest of the world begins. We snatch our freeze-frame of life from the simultaneity of existence by holding on to illusions of permanence, congruence, and linearity; of static selves and lives that unfold in sensical narratives. All the while, we mistake chance for choice, our labels and models of things for the things themselves, our records for our history. History is not what happened, but what survives the shipwrecks of judgment and chance.</p>
+      <p>Meanwhile, someplace in the world, somebody is making love and another a poem. Elsewhere in the universe, a star manyfold the mass of our third-rate sun is living out its final moments in a wild spin before collapsing into a black hole, its exhale bending spacetime itself into a well of nothingness that can swallow every atom that ever touched us and every datum we ever produced, every poem and statue and symphony we've ever known — an entropic spectacle insentient to questions of blame and mercy, devoid of why.</p>
+      <p>In four billion years, our own star will follow its fate, collapsing into a white dwarf. We exist only by chance, after all. The Voyager will still be sailing into the interstellar shorelessness on the wings of the "heavenly breezes" Kepler had once imagined, carrying Beethoven on a golden disc crafted by a symphonic civilization that long ago made love and war and mathematics on a distant blue dot.</p>
+      <p>But until that day comes, nothing once created ever fully leaves us. Seeds are planted and come abloom generations, centuries, civilizations later, migrating across coteries and countries and continents. Meanwhile, people live and people die — in peace as war rages on, in poverty and disrepute as latent fame awaits, with much that never meets its more, in shipwrecked love.</p>
+      <p>I will die.<br>You will die.<br>The atoms that huddled for a cosmic blink around the shadow of a self will return to the seas that made us.</p>
+      <p>What will survive of us are shoreless seeds and stardust.</p>
+      <cite>Maria Popova, <em>Figuring</em></cite>
+    </blockquote>
   </section>
 
   <!-- Reflections -->
@@ -141,6 +153,38 @@ import Base from '../layouts/Base.astro';
     font-size: 1rem !important;
     line-height: 1.7 !important;
     max-width: 500px;
+  }
+
+  .epigraph {
+    max-width: 680px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+  }
+
+  .epigraph blockquote {
+    border-left: 2px solid var(--border);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+
+  .epigraph blockquote p {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin-bottom: 1rem;
+  }
+
+  .epigraph blockquote p:last-of-type {
+    margin-bottom: 1rem;
+  }
+
+  .epigraph cite {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    font-style: normal;
+    letter-spacing: 0.02em;
   }
 
   .posts-section {
