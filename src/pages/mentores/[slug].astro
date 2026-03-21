@@ -3,8 +3,6 @@ import Base from '../../layouts/Base.astro';
 import { mentors, getMentorBySlug, getMentorColor, categoryLabels, categoryColors } from '../../data/mentors';
 import '../../styles/mentors.css';
 
-export const prerender = true;
-
 export function getStaticPaths() {
   return mentors.map(m => ({ params: { slug: m.slug }, props: { mentor: m } }));
 }
@@ -14,7 +12,7 @@ const color = getMentorColor(mentor);
 const bioParagraphs = mentor.bio.split('\n\n');
 ---
 
-<Base title={`${mentor.name} — May`} description={mentor.tagline}>
+<Base title={`${mentor.name} — Unfold`} description={mentor.tagline}>
   <!-- Header -->
   <section class="mentor-header">
     <div
