@@ -100,8 +100,10 @@ export class CopilotEngine {
 
     sendBtn.addEventListener('click', () => this.handleSubmit());
 
+    // Enter = new line (natural textarea behavior)
+    // Ctrl/Cmd+Enter = send
     textarea.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         if (textarea.value.trim()) this.handleSubmit();
       }
@@ -605,18 +607,66 @@ export class CopilotEngine {
     this.updateBreathingLine();
   }
 
-  private appendResponse(text: string, isVoice: boolean, dimmed = false): void {
+  private appendResponse(text: string, isVoice: boolean, dimmed = false): HTMLElement {
     const block = document.createElement('div');
     block.className = `copilot-block${dimmed ? ' dimmed' : ''}`;
-    block.innerHTML = `
-      <div class="copilot-response">
-        <p>${escapeHtml(text)}</p>
-        ${isVoice ? '<div class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>voice</div>' : ''}
-      </div>
-    `;
+
+    const responseDiv = document.createElement('div');
+    responseDiv.className = 'copilot-response';
+
+    const p = document.createElement('p');
+    p.textContent = text;
+    responseDiv.appendChild(p);
+
+    if (isVoice) {
+      responseDiv.insertAdjacentHTML('beforeend', '<div class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>voice</div>');
+    }
+
+    if (!dimmed) {
+      const editBtn = document.createElement('button');
+      editBtn.className = 'copilot-edit-btn';
+      editBtn.textContent = 'edit';
+      editBtn.addEventListener('click', () => {
+        this.editResponse(block, text);
+      });
+      responseDiv.appendChild(editBtn);
+    }
+
+    block.appendChild(responseDiv);
     this.els.timeline.appendChild(block);
     this.updateBreathingLine();
     this.scrollToBottom();
+    return block;
+  }
+
+  private editResponse(responseBlock: HTMLElement, originalText: string): void {
+    if (this.state === 'processing' || this.state === 'classifying') return;
+
+    // Find which step this response belongs to
+    const moduleSlug = this.journey.route[this.currentModuleIndex];
+
+    // Remove everything after this response block (reflection + subsequent blocks)
+    let nextSibling = responseBlock.nextElementSibling;
+    while (nextSibling) {
+      const toRemove = nextSibling;
+      nextSibling = nextSibling.nextElementSibling;
+      toRemove.remove();
+    }
+
+    // Go back one step
+    this.currentStepIndex = Math.max(0, this.currentStepIndex - 1);
+    this.journey.currentStepIndex = this.currentStepIndex;
+
+    // Remove the response block itself
+    responseBlock.remove();
+
+    // Pre-fill the textarea with the original text
+    this.els.textarea.value = originalText;
+    this.els.sendBtn.disabled = false;
+    this.state = 'awaiting-input';
+    this.els.textarea.focus();
+
+    saveJourney(this.journey);
   }
 
   private appendThinking(): HTMLElement {
