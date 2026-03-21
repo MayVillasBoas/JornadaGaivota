@@ -26,3 +26,4 @@ pnpm-debug.log*
 dist/
 whisper-flow/
 .vercel
+.worktrees
