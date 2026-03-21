@@ -72,27 +72,7 @@ import CreamCosmos from '../components/CreamCosmos.astro';
     </div>
   </section>
 
-  <div class="divider"></div>
 
-  <section class="recent-section">
-    <div class="recent-content narrow">
-      <h2 class="spaces-title">Últimos escritos</h2>
-      <ul class="recent-list">
-        <li>
-          <a href="/escrita/vergonha-da-primeira-versao">a vergonha da primeira versão</a>
-          <span class="date">nov 2024</span>
-        </li>
-        <li>
-          <a href="/escrita/ubuntu">ubuntu</a>
-          <span class="date">nov 2024</span>
-        </li>
-        <li>
-          <a href="/escrita/a-gaivota">a gaivota</a>
-          <span class="date">jun 2023</span>
-        </li>
-      </ul>
-    </div>
-  </section>
 </Base>
 
 <style>
@@ -205,60 +185,13 @@ import CreamCosmos from '../components/CreamCosmos.astro';
     color: var(--accent);
   }
 
-  /* Recent writing */
-  .recent-section {
-    padding: 3rem 2rem 5rem;
-  }
-
-  .recent-content {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  .recent-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .recent-list li {
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  .recent-list li:first-child {
-    border-top: 1px solid var(--border);
-  }
-
-  .recent-list a {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    transition: color 0.3s;
-    text-decoration: none;
-    color: var(--ink);
-  }
-
-  .recent-list a:hover {
-    color: var(--accent);
-  }
-
-  .date {
-    font-family: var(--sans);
-    font-size: 0.78rem;
-    color: var(--ink-muted);
-  }
-
   /* Responsive */
   @media (max-width: 768px) {
     .about-section {
       padding: 3rem 1.5rem 2rem;
     }
 
-    .spaces-section,
-    .recent-section {
+    .spaces-section {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
@@ -275,11 +208,6 @@ import CreamCosmos from '../components/CreamCosmos.astro';
 
     .space-arrow {
       display: none;
-    }
-
-    .recent-list li {
-      flex-direction: column;
-      gap: 0.3rem;
     }
   }
 </style>
