@@ -1,0 +1,64 @@
+---
+const sections = [
+  { id: 'hero', label: 'início' },
+  { id: 'lentes', label: 'lentes' },
+  { id: 'mentores', label: 'mentores' },
+  { id: 'ferramentas', label: 'ferramentas' },
+  { id: 'escrita', label: 'escrita' },
+];
+---
+
+<nav class="dot-nav" aria-label="Navegação por seções">
+  {sections.map(({ id, label }) => (
+    <button
+      class="dot-nav-dot"
+      data-section={id}
+      aria-label={`Ir para ${label}`}
+      aria-current="false"
+    />
+  ))}
+</nav>
+
+<style>
+  .dot-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 200;
+  }
+
+  .dot-nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-muted, #6b6b68);
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .dot-nav-dot.active {
+    background: var(--accent, #c8a96e);
+    border-color: var(--accent, #c8a96e);
+  }
+
+  .dot-nav-dot:focus-visible {
+    outline: 2px solid var(--accent, #c8a96e);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 768px) {
+    .dot-nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import '../scripts/dot-nav.ts';
+</script>
