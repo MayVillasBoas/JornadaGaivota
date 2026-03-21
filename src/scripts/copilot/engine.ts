@@ -28,7 +28,7 @@ function delay(ms: number): Promise<void> {
 
 interface EngineElements {
   timeline: HTMLElement;
-  canvas: HTMLCanvasElement;
+  canvas: HTMLCanvasElement | null;
   mic: HTMLButtonElement;
   textarea: HTMLTextAreaElement;
   sendBtn: HTMLButtonElement;
@@ -51,14 +51,16 @@ export class CopilotEngine {
   private els: EngineElements;
   private journey: JourneyData;
   private state: EngineState = 'intake';
-  private breathingLine: BreathingLine;
+  private breathingLine: BreathingLine | null = null;
   private blockLayers: string[] = [];
   private currentModuleIndex = 0;
   private currentStepIndex = 0;
 
   constructor(els: EngineElements) {
     this.els = els;
-    this.breathingLine = new BreathingLine(els.canvas, els.timeline);
+    if (els.canvas) {
+      this.breathingLine = new BreathingLine(els.canvas, els.timeline);
+    }
 
     const active = loadActiveJourney();
     if (active && active.status !== 'completed') {
@@ -81,7 +83,7 @@ export class CopilotEngine {
       this.showIntake();
     }
 
-    this.breathingLine.startAnimation();
+    this.breathingLine?.startAnimation();
   }
 
   // ─── Input Wiring ───
@@ -662,7 +664,7 @@ export class CopilotEngine {
 
   private updateBreathingLine(): void {
     const blocks = this.els.timeline.querySelectorAll('.copilot-block');
-    this.breathingLine.rebuildFromBlocks(Array.from(blocks) as HTMLElement[], this.blockLayers);
+    this.breathingLine?.rebuildFromBlocks(Array.from(blocks) as HTMLElement[], this.blockLayers);
   }
 
   private updateLayerDots(currentLayer: string): void {

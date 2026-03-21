@@ -5,7 +5,6 @@ import '../styles/copilot.css';
 
 <Base title="Decision Copilot — May">
   <div class="copilot-container">
-    <canvas class="copilot-canvas" id="breathing-canvas"></canvas>
     <div class="copilot-timeline" id="copilot-timeline">
       <!-- Engine renders conversation blocks here -->
     </div>
@@ -31,7 +30,7 @@ import '../styles/copilot.css';
     (window as any).__copilotInit = true;
 
     const timeline = document.getElementById('copilot-timeline');
-    const canvas = document.getElementById('breathing-canvas') as HTMLCanvasElement;
+    const canvas = null as any;
     const mic = document.getElementById('copilot-mic') as HTMLButtonElement;
     const textarea = document.getElementById('copilot-text') as HTMLTextAreaElement;
     const sendBtn = document.getElementById('copilot-send') as HTMLButtonElement;

@@ -13,19 +13,10 @@
   min-height: calc(100vh - 60px);
 }
 
-.copilot-canvas {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 40px;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .copilot-timeline {
   max-width: 640px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 8rem 3.5rem;
+  padding: 2rem 1.5rem 8rem;
 }
 
 /* Header with layer dots */
@@ -165,10 +156,9 @@
 
 .copilot-reflection p {
   font-family: var(--serif);
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--ink-light);
-  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--ink);
 }
 
 /* Theme tags */
@@ -485,8 +475,7 @@
 
 /* Mobile */
 @media (max-width: 640px) {
-  .copilot-canvas { width: 20px; }
-  .copilot-timeline { padding-left: 2rem; padding-right: 1rem; }
+  .copilot-timeline { padding-left: 1rem; padding-right: 1rem; }
   .copilot-question p { font-size: 1.05rem; }
   .copilot-input-inner { gap: 0.5rem; }
   .copilot-memo-actions { flex-wrap: wrap; }
