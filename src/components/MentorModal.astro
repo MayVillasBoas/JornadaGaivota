@@ -1,0 +1,259 @@
+---
+import { mentors } from '../data/mentors';
+---
+
+<div id="mentor-modal-backdrop" class="backdrop" aria-hidden="true">
+  <div
+    id="mentor-modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="mentor-modal-name"
+  >
+    <button id="mentor-modal-close" class="close-btn" aria-label="Fechar">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <line x1="2" y1="2" x2="16" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="16" y1="2" x2="2" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    {mentors.map((mentor) => {
+      const highlightBook = mentor.books.find((b) => b.highlight) ?? mentor.books[0];
+      const top3 = mentor.principles.slice(0, 3);
+      return (
+        <div
+          class="mentor-panel"
+          data-slug={mentor.slug}
+          hidden
+        >
+          <h2 id="mentor-modal-name" class="mentor-name">{mentor.name}</h2>
+          {highlightBook && (
+            <p class="mentor-book">{highlightBook.title}</p>
+          )}
+
+          <ul class="principles-list" aria-label="Princípios principais">
+            {top3.map((principle) => (
+              <li class="principle-item">
+                <span class="principle-name">{principle.name}</span>
+                <span class="principle-desc">{principle.shortDescription}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a href={`/mentores/${mentor.slug}`} class="profile-link">
+            ver perfil completo &rarr;
+          </a>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal {
+    position: relative;
+    background: #FAFAF7;
+    border-radius: 16px;
+    max-width: 480px;
+    width: 100%;
+    padding: 32px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+
+  .backdrop.is-open .modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--ink-muted, #8a8a82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    padding: 0;
+  }
+
+  .close-btn:hover {
+    color: var(--ink, #1a1a18);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .mentor-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mentor-name {
+    font-family: var(--serif, 'EB Garamond', Georgia, serif);
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    font-weight: 400;
+    color: var(--ink, #1a1a18);
+    line-height: 1.15;
+    margin: 0 0 0.4rem 0;
+    padding-right: 2rem;
+  }
+
+  .mentor-book {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--ink-muted, #8a8a82);
+    letter-spacing: 0.02em;
+    margin: 0 0 1.5rem 0;
+    font-style: italic;
+  }
+
+  .principles-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .principle-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border, #e8e8e2);
+  }
+
+  .principle-name {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink, #1a1a18);
+    letter-spacing: 0.01em;
+  }
+
+  .principle-desc {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--ink-muted, #8a8a82);
+    line-height: 1.45;
+  }
+
+  .profile-link {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent, #2B4A3E);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: opacity 0.2s;
+  }
+
+  .profile-link:hover {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 540px) {
+    .modal {
+      padding: 24px 20px;
+      border-radius: 12px;
+    }
+  }
+</style>
+
+<script>
+  const backdrop = document.getElementById('mentor-modal-backdrop');
+  const modal = document.getElementById('mentor-modal');
+  const closeBtn = document.getElementById('mentor-modal-close');
+
+  function openModal(slug: string) {
+    if (!backdrop || !modal) return;
+
+    // Hide all panels first
+    const panels = modal.querySelectorAll<HTMLElement>('.mentor-panel');
+    panels.forEach((p) => { p.hidden = true; });
+
+    // Show the requested panel
+    const target = modal.querySelector<HTMLElement>(`.mentor-panel[data-slug="${slug}"]`);
+    if (!target) return;
+
+    target.hidden = false;
+
+    // Update aria-labelledby target
+    const heading = target.querySelector('h2');
+    if (heading) heading.id = 'mentor-modal-name';
+
+    backdrop.classList.add('is-open');
+    backdrop.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Focus close button for accessibility
+    closeBtn?.focus();
+  }
+
+  function closeModal() {
+    if (!backdrop) return;
+    backdrop.classList.remove('is-open');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Listen for mentor-click events from CreamCosmos
+  window.addEventListener('mentor-click', (e: Event) => {
+    const customEvent = e as CustomEvent<{ slug: string }>;
+    if (customEvent.detail?.slug) {
+      openModal(customEvent.detail.slug);
+    }
+  });
+
+  // Close on X button
+  closeBtn?.addEventListener('click', closeModal);
+
+  // Close on backdrop click (but not modal click)
+  backdrop?.addEventListener('click', (e) => {
+    if (e.target === backdrop) {
+      closeModal();
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && backdrop?.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+</script>
