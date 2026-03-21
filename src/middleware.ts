@@ -1,7 +1,7 @@
 import { defineMiddleware } from 'astro:middleware';
 
 // Routes that don't require authentication
-const publicRoutes = ['/', '/login', '/api/auth', '/api/reflect', '/api/copilot', '/api/explore', '/api/journal', '/api/diario-auth', '/explorar', '/lab', '/sobre', '/agora', '/escrita', '/mentores', '/unfold', '/copilot', '/diario-gate'];
+const publicRoutes = ['/', '/login', '/api/auth', '/api/reflect', '/api/copilot', '/api/explore', '/api/journal', '/api/diario-auth', '/explorar', '/lab', '/sobre', '/agora', '/escrita', '/mentores', '/unfold', '/copilot', '/diario-gate', '/books'];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
