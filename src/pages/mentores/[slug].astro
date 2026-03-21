@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import { mentors, getMentorBySlug, getMentorColor, categoryLabels, categoryColors } from '../../data/mentors';
+import '../../styles/mentors.css';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return mentors.map(m => ({ params: { slug: m.slug }, props: { mentor: m } }));
+}
+
+const { mentor } = Astro.props;
+const color = getMentorColor(mentor);
+const bioParagraphs = mentor.bio.split('\n\n');
+---
+
+<Base title={`${mentor.name} — May`} description={mentor.tagline}>
+  <!-- Header -->
+  <section class="mentor-header">
+    <div
+      class="mentor-orb"
+      style={`background: radial-gradient(circle at 35% 35%, ${color}88, ${color});`}
+    ></div>
+    <h1>{mentor.name}</h1>
+    <p class="mentor-tagline">{mentor.tagline}</p>
+  </section>
+
+  <!-- Bio -->
+  <section class="mentor-section mentor-bio">
+    {bioParagraphs.map(p => <p>{p}</p>)}
+  </section>
+
+  <div class="mentor-divider"></div>
+
+  <!-- Books -->
+  {mentor.books.length > 0 && (
+    <section class="mentor-section">
+      <h2>Livros</h2>
+      <ul class="mentor-books-list">
+        {mentor.books.map(book => (
+          <li
+            class={book.highlight ? 'book-highlight' : ''}
+            style={book.highlight ? `border-left-color: ${color};` : ''}
+          >
+            {book.title}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <div class="mentor-divider"></div>
+
+  <!-- Quotes -->
+  {mentor.quotes.length > 0 && (
+    <section class="mentor-section mentor-quotes">
+      <h2>Citacoes</h2>
+      {mentor.quotes.map(quote => (
+        <blockquote style={`border-left-color: ${color};`}>
+          &ldquo;{quote}&rdquo;
+        </blockquote>
+      ))}
+    </section>
+  )}
+
+  <div class="mentor-divider"></div>
+
+  <!-- Principles / Frameworks -->
+  {mentor.principles.length > 0 && (
+    <section class="mentor-section">
+      <h2>Principios</h2>
+      <div class="principles-grid">
+        {mentor.principles.map(principle => (
+          <div class="principle-card">
+            <h3>{principle.name}</h3>
+            <p class="principle-short">{principle.shortDescription}</p>
+            <p class="principle-description">{principle.description}</p>
+            <div class="principle-categories">
+              {principle.categories.map(cat => (
+                <span
+                  class="principle-tag"
+                  style={`background-color: ${categoryColors[cat]};`}
+                >
+                  {categoryLabels[cat]}
+                </span>
+              ))}
+            </div>
+            {principle.relatedToolSlug && (
+              <a
+                class="principle-tool-link"
+                href={`/ferramentas/${principle.relatedToolSlug}`}
+                style={`color: ${color};`}
+              >
+                Experimentar &rarr;
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <div class="mentor-divider"></div>
+
+  <!-- Connections -->
+  {mentor.connections.length > 0 && (
+    <section class="mentor-section">
+      <h2>Conexoes</h2>
+      <ul class="connections-list">
+        {mentor.connections.map(conn => {
+          const connected = getMentorBySlug(conn.mentorSlug);
+          return connected ? (
+            <li>
+              <a class="connection-link" href={`/mentores/${conn.mentorSlug}`}>
+                <div class="connection-name">{connected.name}</div>
+                <div class="connection-reason">{conn.reason}</div>
+              </a>
+            </li>
+          ) : null;
+        })}
+      </ul>
+    </section>
+  )}
+
+  <!-- Back link -->
+  <div class="mentor-back">
+    <a href="/">&larr; Voltar</a>
+  </div>
+</Base>
