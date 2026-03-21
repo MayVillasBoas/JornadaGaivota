@@ -20,47 +20,92 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
+    <!-- Text 1: What is emergence? -->
+    <section class="complexity-text">
+      <div class="text-content">
+        <p>A flock of starlings moves as one — turning, diving, reforming — yet no bird leads. Each bird follows three simple rules: stay close, don't collide, match your neighbors' speed.</p>
+        <p class="faded">From these local interactions, a global pattern emerges that no individual bird intended or controls. The whole becomes greater than the sum of its parts.</p>
+      </div>
+    </section>
+
+    <!-- Viz 1: Emergence -->
     <section class="complexity-section" data-viz="emergence">
       <canvas></canvas>
       <div class="complexity-info">
         <h2>Emergence</h2>
-        <p>Hundreds of agents following three simple local rules — separation, alignment, cohesion. No leader. No plan. Yet a flock emerges, moves as one, and reforms after every disruption. The whole is greater than the sum of its parts.</p>
+        <p>Hundreds of agents following three simple local rules — separation, alignment, cohesion. No leader. No plan. Yet a flock emerges, moves as one, and reforms after every disruption.</p>
         <span class="complexity-interact">move the mouse to scatter the flock</span>
       </div>
     </section>
 
+    <!-- Text 2: From emergence to the edge -->
+    <section class="complexity-text">
+      <div class="text-content">
+        <p>But emergence isn't guaranteed. Too much order and the system freezes — crystalline, predictable, dead. Too much chaos and structure dissolves into noise.</p>
+        <p class="faded">Life happens at the boundary between the two — the narrow band where patterns form, dissolve, and reform.</p>
+      </div>
+    </section>
+
+    <!-- Viz 2: Edge of Chaos -->
     <section class="complexity-section" data-viz="edge-of-chaos">
       <canvas></canvas>
       <div class="complexity-info">
         <h2>Edge of Chaos</h2>
-        <p>Too much order: frozen, crystalline, dead. Too much chaos: noise, no structure, meaningless. Life exists at the boundary — the narrow band where patterns form, dissolve, and reform. Neither ice nor steam, but liquid water.</p>
+        <p>Reaction-diffusion patterns — two chemicals interacting on a surface, producing spots, stripes, and coral-like structures. The same math that paints leopards and grows coral reefs.</p>
         <span class="complexity-interact">move the mouse up and down to shift between order and chaos</span>
       </div>
     </section>
 
+    <!-- Text 3: From the edge to self-organization -->
+    <section class="complexity-text">
+      <div class="text-content">
+        <p>At this boundary, something remarkable happens: systems organize themselves. Without blueprints, without architects. Ants leave chemical trails. Other ants follow. Paths reinforce.</p>
+        <p class="faded">Highways emerge from randomness. Organization always rises from below.</p>
+      </div>
+    </section>
+
+    <!-- Viz 3: Self-Organization -->
     <section class="complexity-section" data-viz="stigmergy">
       <canvas></canvas>
       <div class="complexity-info">
         <h2>Self-Organization</h2>
-        <p>Agents wander, leaving invisible trails. Other agents sense the trails and follow. Paths reinforce themselves. Highways emerge from randomness — no architect, no blueprint. Organization always rises from below.</p>
+        <p>Agents wander, leaving invisible trails. Other agents sense the trails and follow. Paths reinforce themselves. Highways emerge from randomness — no architect, no blueprint.</p>
         <span class="complexity-interact">click to plant attractors</span>
       </div>
     </section>
 
+    <!-- Text 4: From organization to perspective -->
+    <section class="complexity-text">
+      <div class="text-content">
+        <p>Zoom out, and you see one breathing organism. Zoom in, and you see hundreds of individuals, each with its own rhythm. Both views are true at the same time.</p>
+        <p class="faded">We are distinct selves and components of something larger — it depends entirely on where you look.</p>
+      </div>
+    </section>
+
+    <!-- Viz 4: Complementarity -->
     <section class="complexity-section" data-viz="scale-shift">
       <canvas></canvas>
       <div class="complexity-info">
         <h2>Complementarity</h2>
-        <p>Zoom out: one breathing organism. Zoom in: hundreds of individuals, each with its own rhythm. Both views are true at the same time. We are distinct selves and components of something larger — it depends on where you look.</p>
+        <p>Zoom out: one breathing organism. Zoom in: hundreds of individuals, each with its own rhythm. Both views are true at the same time.</p>
         <span class="complexity-interact">move the mouse up/down to shift perspective</span>
       </div>
     </section>
 
+    <!-- Text 5: From perspective to connection -->
+    <section class="complexity-text">
+      <div class="text-content">
+        <p>And if the boundaries between us are not walls but membranes — permeable, porous, constantly exchanging — then what we call "self" is a temporary pattern in a continuous flow.</p>
+        <p class="faded">Every atom belonging to me as good belongs to you.</p>
+      </div>
+    </section>
+
+    <!-- Viz 5: Permeable Boundaries -->
     <section class="complexity-section" data-viz="permeable">
       <canvas></canvas>
       <div class="complexity-info">
         <h2>Permeable Boundaries</h2>
-        <p>Clusters of particles with soft, glowing borders. But the borders are not walls — particles constantly cross, carrying color from one group to another. Every atom belonging to me as good belongs to you.</p>
+        <p>Clusters of particles with soft, glowing borders. But the borders are not walls — particles constantly cross, carrying color from one group to another.</p>
         <span class="complexity-interact">hover to attract · click to create bridges</span>
       </div>
     </section>
@@ -129,7 +174,6 @@ import Base from '../layouts/Base.astro';
 
   sections.forEach(s => observer.observe(s));
 
-  // Dot navigation
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       const idx = parseInt(dot.getAttribute('data-section') || '0');
@@ -139,7 +183,6 @@ import Base from '../layouts/Base.astro';
 </script>
 
 <style is:global>
-  /* Dark theme override for complexity page */
   body:has(.complexity-container) {
     background: #1a1a1a;
   }
@@ -228,6 +271,35 @@ import Base from '../layouts/Base.astro';
     font-size: 0.68rem;
     letter-spacing: 0.08em;
     color: rgba(255, 255, 255, 0.2);
+    font-style: italic;
+  }
+
+  /* Narrative text sections */
+  .complexity-text {
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .text-content {
+    max-width: 520px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .text-content p {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 1.5rem;
+  }
+
+  .text-content p.faded {
+    color: rgba(255, 255, 255, 0.25);
     font-style: italic;
   }
 
@@ -348,6 +420,14 @@ import Base from '../layouts/Base.astro';
 
     .intro-content h1 {
       font-size: 2.5rem;
+    }
+
+    .text-content {
+      padding: 1.5rem;
+    }
+
+    .text-content p {
+      font-size: 0.95rem;
     }
   }
 </style>

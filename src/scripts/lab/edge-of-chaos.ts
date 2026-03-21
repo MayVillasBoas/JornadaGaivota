@@ -1,300 +1,267 @@
-// Edge of Chaos — quenched disorder visualization
+// Edge of Chaos — Gray-Scott reaction-diffusion
 // Life exists at the boundary between rigid order and total chaos.
 // From "Notes on Complexity" by Neil Theise.
 
-import { BaseVisualization, LAB_PALETTE, hexToRgba, PALETTE_ARRAY } from './base-visualization';
-import { createNoise2D } from './simplex-noise';
-
-// Parse hex colors to [r, g, b] for fast interpolation
-function hexToRgb(hex: string): [number, number, number] {
-  return [
-    parseInt(hex.slice(1, 3), 16),
-    parseInt(hex.slice(3, 5), 16),
-    parseInt(hex.slice(5, 7), 16),
-  ];
-}
-
-function lerpColor(
-  a: [number, number, number],
-  b: [number, number, number],
-  t: number,
-): [number, number, number] {
-  return [
-    a[0] + (b[0] - a[0]) * t,
-    a[1] + (b[1] - a[1]) * t,
-    a[2] + (b[2] - a[2]) * t,
-  ];
-}
-
-// Color stops: value 0..1 mapped to palette
-const COLOR_STOPS: { pos: number; color: [number, number, number] }[] = [
-  { pos: 0.0, color: hexToRgb(LAB_PALETTE.bg) },
-  { pos: 0.18, color: hexToRgb(LAB_PALETTE.sage) },
-  { pos: 0.38, color: hexToRgb(LAB_PALETTE.lilac) },
-  { pos: 0.58, color: hexToRgb(LAB_PALETTE.terracotta) },
-  { pos: 0.78, color: hexToRgb(LAB_PALETTE.cream) },
-  { pos: 1.0, color: hexToRgb(LAB_PALETTE.gold) },
-];
-
-function valueToColor(v: number): [number, number, number] {
-  const clamped = Math.max(0, Math.min(1, v));
-  for (let i = 1; i < COLOR_STOPS.length; i++) {
-    if (clamped <= COLOR_STOPS[i].pos) {
-      const prev = COLOR_STOPS[i - 1];
-      const next = COLOR_STOPS[i];
-      const t = (clamped - prev.pos) / (next.pos - prev.pos);
-      // Smooth-step for more organic transitions
-      const st = t * t * (3 - 2 * t);
-      return lerpColor(prev.color, next.color, st);
-    }
-  }
-  return COLOR_STOPS[COLOR_STOPS.length - 1].color;
-}
+import { BaseVisualization } from './base-visualization';
 
 export class EdgeOfChaos extends BaseVisualization {
+  // Grid dimensions (~200x150, adjusted to aspect ratio)
   private cols = 0;
   private rows = 0;
-  private cellSize = 8;
-  private grid: Float32Array = new Float32Array(0);
-  private nextGrid: Float32Array = new Float32Array(0);
-  private displayGrid: Float32Array = new Float32Array(0);
 
-  // Order-chaos parameter: 0 = pure order, 1 = pure chaos
-  private parameter = 0.5;
-  private targetParameter = 0.5;
-  private autoOscillate = true;
+  // Double-buffered U and V concentration grids
+  private U!: Float32Array;
+  private V!: Float32Array;
+  private nextU!: Float32Array;
+  private nextV!: Float32Array;
 
-  private noise2d!: ReturnType<typeof createNoise2D>;
-  private noise2dB!: ReturnType<typeof createNoise2D>;
-  private timeOffset = 0;
-  private lastTime = 0;
+  // Reaction-diffusion parameters
+  private Du = 0.21;
+  private Dv = 0.105;
+  private f = 0.035;
+  private k = 0.065;
 
-  // ImageData for fast pixel-level rendering
+  // Mouse-driven parameter control
+  private targetF = 0.035;
+  private targetK = 0.065;
+  private autoPhase = 0;
+
+  // Rendering
   private imageData!: ImageData;
 
+  // Pre-computed color LUT (256 entries for V mapped to rgb)
+  private colorLUT!: Uint8Array; // 256 * 3
+
   protected init(): void {
-    this.noise2d = createNoise2D(137);
-    this.noise2dB = createNoise2D(983);
-    this.cellSize = this.isMobile ? 12 : 8;
+    this.buildColorLUT();
     this.rebuildGrid();
-    this.lastTime = 0;
   }
 
   protected resize(): void {
     super.resize();
-    if (this.noise2d) {
+    if (this.U) {
       this.rebuildGrid();
     }
   }
 
+  private buildColorLUT(): void {
+    // Map V concentration [0..1] -> color via 256-entry LUT
+    // V ≈ 0.0 : dark bg    rgb(26, 26, 26)
+    // V ≈ 0.15: sage green rgb(61, 107, 90)
+    // V ≈ 0.3 : cream      rgb(245, 240, 232)
+    const stops: { pos: number; r: number; g: number; b: number }[] = [
+      { pos: 0.0,  r: 26,  g: 26,  b: 26  },
+      { pos: 0.15, r: 61,  g: 107, b: 90  },
+      { pos: 0.3,  r: 245, g: 240, b: 232 },
+    ];
+
+    this.colorLUT = new Uint8Array(256 * 3);
+
+    for (let i = 0; i < 256; i++) {
+      const v = i / 255;
+      // Find the two stops we're between
+      let r: number, g: number, b: number;
+      if (v <= stops[0].pos) {
+        r = stops[0].r; g = stops[0].g; b = stops[0].b;
+      } else if (v >= stops[stops.length - 1].pos) {
+        const s = stops[stops.length - 1];
+        r = s.r; g = s.g; b = s.b;
+      } else {
+        let lo = stops[0], hi = stops[1];
+        for (let j = 1; j < stops.length; j++) {
+          if (v <= stops[j].pos) {
+            lo = stops[j - 1];
+            hi = stops[j];
+            break;
+          }
+        }
+        const t = (v - lo.pos) / (hi.pos - lo.pos);
+        // Smoothstep interpolation
+        const st = t * t * (3 - 2 * t);
+        r = lo.r + (hi.r - lo.r) * st;
+        g = lo.g + (hi.g - lo.g) * st;
+        b = lo.b + (hi.b - lo.b) * st;
+      }
+      this.colorLUT[i * 3]     = Math.round(r);
+      this.colorLUT[i * 3 + 1] = Math.round(g);
+      this.colorLUT[i * 3 + 2] = Math.round(b);
+    }
+  }
+
   private rebuildGrid(): void {
-    this.cols = Math.ceil(this.width / this.cellSize) + 1;
-    this.rows = Math.ceil(this.height / this.cellSize) + 1;
-    const total = this.cols * this.rows;
+    // Target ~200 columns, adjust rows to aspect ratio
+    const targetCols = this.isMobile ? 120 : 200;
+    const aspect = this.height / this.width;
+    this.cols = targetCols;
+    this.rows = Math.round(targetCols * aspect);
+    if (this.rows < 50) this.rows = 50;
 
-    const oldGrid = this.grid;
-    const oldCols = oldGrid.length > 0 ? this.cols : 0;
+    const n = this.cols * this.rows;
+    this.U = new Float32Array(n);
+    this.V = new Float32Array(n);
+    this.nextU = new Float32Array(n);
+    this.nextV = new Float32Array(n);
 
-    this.grid = new Float32Array(total);
-    this.nextGrid = new Float32Array(total);
-    this.displayGrid = new Float32Array(total);
+    // Initialize: U=1 everywhere, V=0 everywhere
+    this.U.fill(1.0);
+    this.V.fill(0.0);
 
-    // Seed with noise
-    for (let i = 0; i < total; i++) {
-      const col = i % this.cols;
-      const row = Math.floor(i / this.cols);
-      const n = (this.noise2d(col * 0.08, row * 0.08) + 1) * 0.5;
-      this.grid[i] = n;
-      this.displayGrid[i] = n;
+    // Seed many small circular spots with V=0.25 + noise
+    const patchCount = 20 + Math.floor(Math.random() * 15);
+    for (let p = 0; p < patchCount; p++) {
+      const r = 2 + Math.floor(Math.random() * 3);
+      const cx = r + Math.floor(Math.random() * (this.cols - r * 2));
+      const cy = r + Math.floor(Math.random() * (this.rows - r * 2));
+      for (let dy = -r; dy <= r; dy++) {
+        for (let dx = -r; dx <= r; dx++) {
+          if (dx * dx + dy * dy <= r * r) {
+            const x = cx + dx;
+            const y = cy + dy;
+            if (x >= 0 && x < this.cols && y >= 0 && y < this.rows) {
+              const idx = y * this.cols + x;
+              this.U[idx] = 0.5 + Math.random() * 0.1;
+              this.V[idx] = 0.25 + Math.random() * 0.05;
+            }
+          }
+        }
+      }
     }
 
-    // Prepare image data at canvas pixel resolution
+    // Prepare ImageData at canvas pixel resolution
     this.imageData = this.ctx.createImageData(
       this.width * this.dpr,
       this.height * this.dpr,
     );
   }
 
-  private idx(col: number, row: number): number {
-    // Wrap-around boundaries for seamless edges
-    const c = ((col % this.cols) + this.cols) % this.cols;
-    const r = ((row % this.rows) + this.rows) % this.rows;
-    return r * this.cols + c;
-  }
-
-  private neighborAverage(col: number, row: number): number {
-    // Moore neighborhood (8 neighbors) with weighted center
-    let sum = 0;
-    let weight = 0;
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        if (dx === 0 && dy === 0) continue;
-        const w = (dx === 0 || dy === 0) ? 1.0 : 0.707; // cardinal vs diagonal
-        sum += this.grid[this.idx(col + dx, row + dy)] * w;
-        weight += w;
-      }
-    }
-    return sum / weight;
-  }
-
   protected update(time: number): void {
-    const dt = this.lastTime === 0 ? 16 : Math.min(time - this.lastTime, 50);
-    this.lastTime = time;
-    const dtSec = dt / 1000;
-
-    this.timeOffset += dtSec;
-
     // --- Parameter control ---
     if (this.mouseActive) {
-      // Mouse Y maps to parameter: top = 0 (order), bottom = 1 (chaos)
-      this.targetParameter = Math.max(0, Math.min(1, this.mouseY / this.height));
-      this.autoOscillate = false;
+      const yNorm = Math.max(0, Math.min(1, this.mouseY / this.height));
+      // Top (y=0): f=0.055, k=0.062 (ordered)
+      // Mid (y=0.5): f=0.035, k=0.065 (edge of chaos)
+      // Bot (y=1): f=0.012, k=0.055 (chaotic)
+      if (yNorm <= 0.5) {
+        const t = yNorm / 0.5; // 0..1 from top to mid
+        this.targetF = 0.055 + (0.035 - 0.055) * t;
+        this.targetK = 0.062 + (0.065 - 0.062) * t;
+      } else {
+        const t = (yNorm - 0.5) / 0.5; // 0..1 from mid to bot
+        this.targetF = 0.035 + (0.012 - 0.035) * t;
+        this.targetK = 0.065 + (0.055 - 0.065) * t;
+      }
     } else {
-      // Auto-oscillate: slow sine wave that lingers at the sweet spot
-      if (!this.autoOscillate) {
-        this.autoOscillate = true;
-      }
-      // Oscillation with a bias toward the middle (edge of chaos)
-      const raw = Math.sin(this.timeOffset * 0.15) * 0.5 + 0.5;
-      // Squash toward center to spend more time at the edge
-      this.targetParameter = 0.15 + raw * 0.7;
+      // Auto-oscillate f between 0.02 and 0.05
+      this.autoPhase += 0.0005;
+      const osc = (Math.sin(this.autoPhase) + 1) * 0.5; // 0..1
+      this.targetF = 0.02 + osc * 0.03;
+      // k follows a complementary curve for interesting patterns
+      this.targetK = 0.06 + osc * 0.005;
     }
 
-    // Smooth parameter transition
-    const paramSpeed = 3.0;
-    this.parameter += (this.targetParameter - this.parameter) * Math.min(1, dtSec * paramSpeed);
+    // Smooth parameter transitions
+    this.f += (this.targetF - this.f) * 0.02;
+    this.k += (this.targetK - this.k) * 0.02;
 
-    // --- Cellular automaton update ---
-    // The parameter controls the balance between neighbor influence and randomness
-    // p=0: neighbors dominate (frozen order)
-    // p=0.5: balance (edge of chaos - emergent complexity)
-    // p=1: randomness dominates (noise chaos)
+    // --- Reaction-diffusion simulation (4-8 steps per frame) ---
+    const steps = this.isMobile ? 8 : 16;
+    const { cols, rows, Du, Dv } = this;
+    const f = this.f;
+    const k = this.k;
 
-    const p = this.parameter;
+    for (let s = 0; s < steps; s++) {
+      const U = this.U;
+      const V = this.V;
+      const nU = this.nextU;
+      const nV = this.nextV;
 
-    // Effective weights
-    // At p=0: neighborWeight=1, noiseWeight=0
-    // At p=1: neighborWeight=0, noiseWeight=1
-    // We use a nonlinear curve so the "edge" zone is wider and more dramatic
-    const curve = p * p * (3 - 2 * p); // smoothstep
-    const neighborWeight = 1 - curve;
-    const noiseWeight = curve;
+      for (let y = 0; y < rows; y++) {
+        const yUp = ((y - 1 + rows) % rows) * cols;
+        const yDn = ((y + 1) % rows) * cols;
+        const yC  = y * cols;
 
-    // How fast cells update (slower at edges of the parameter range)
-    const edgeness = 1 - Math.abs(p - 0.5) * 2; // 0 at extremes, 1 at center
-    const updateSpeed = 0.3 + edgeness * 0.7; // faster at edge of chaos
+        for (let x = 0; x < cols; x++) {
+          const xL = (x - 1 + cols) % cols;
+          const xR = (x + 1) % cols;
+          const i = yC + x;
 
-    // Noise scale changes: ordered = large scale, chaotic = tiny scale
-    const noiseScale = 0.02 + p * 0.15;
-    const noiseTimeScale = 0.3 + p * 2.0;
+          const u = U[i];
+          const v = V[i];
 
-    for (let row = 0; row < this.rows; row++) {
-      for (let col = 0; col < this.cols; col++) {
-        const i = row * this.cols + col;
-        const current = this.grid[i];
+          // 5-point stencil Laplacian: weights 0.2 for each neighbor, -0.8 for center
+          const lapU = 0.2 * (U[yUp + x] + U[yDn + x] + U[yC + xL] + U[yC + xR]) - 0.8 * u;
+          const lapV = 0.2 * (V[yUp + x] + V[yDn + x] + V[yC + xL] + V[yC + xR]) - 0.8 * v;
 
-        // Neighbor influence
-        const navg = this.neighborAverage(col, row);
+          const uvv = u * v * v;
 
-        // Noise influence (two octaves for richness)
-        const n1 = (this.noise2d(
-          col * noiseScale + this.timeOffset * noiseTimeScale * 0.3,
-          row * noiseScale + this.timeOffset * noiseTimeScale * 0.2,
-        ) + 1) * 0.5;
-        const n2 = (this.noise2dB(
-          col * noiseScale * 2.5 + this.timeOffset * noiseTimeScale * 0.7,
-          row * noiseScale * 2.5 - this.timeOffset * noiseTimeScale * 0.5,
-        ) + 1) * 0.5;
-        const noiseVal = n1 * 0.65 + n2 * 0.35;
-
-        // Combine: weighted blend of neighbor average and noise
-        const target = navg * neighborWeight + noiseVal * noiseWeight;
-
-        // At the edge of chaos, add a nonlinear feedback term
-        // This creates the interesting emergent structures
-        let feedback = 0;
-        if (edgeness > 0.3) {
-          const diff = navg - current;
-          // Amplify differences slightly — this is what creates structure
-          feedback = diff * edgeness * 0.4;
-          // Add a gentle threshold effect: push values toward 0 or 1
-          const centerDist = (current - 0.5) * 2; // -1 to 1
-          feedback += centerDist * edgeness * 0.05;
+          nU[i] = u + Du * lapU - uvv + f * (1.0 - u);
+          nV[i] = v + Dv * lapV + uvv - (k + f) * v;
         }
-
-        const newVal = current + (target - current + feedback) * updateSpeed * dtSec * 3;
-        this.nextGrid[i] = Math.max(0, Math.min(1, newVal));
       }
-    }
 
-    // Swap grids
-    const tmp = this.grid;
-    this.grid = this.nextGrid;
-    this.nextGrid = tmp;
-
-    // Smooth display values toward actual values (visual interpolation)
-    const displayLerp = Math.min(1, dtSec * 12);
-    for (let i = 0; i < this.grid.length; i++) {
-      this.displayGrid[i] += (this.grid[i] - this.displayGrid[i]) * displayLerp;
+      // Swap buffers
+      const tmpU = this.U;
+      const tmpV = this.V;
+      this.U = this.nextU;
+      this.V = this.nextV;
+      this.nextU = tmpU;
+      this.nextV = tmpV;
     }
   }
 
   protected draw(): void {
     const { ctx, width, height, dpr } = this;
     const data = this.imageData.data;
-    const imgW = Math.floor(width * dpr);
-    const imgH = Math.floor(height * dpr);
-    const cellPx = this.cellSize * dpr;
-    const halfCell = cellPx * 0.5;
+    const imgW = Math.round(width * dpr);
+    const imgH = Math.round(height * dpr);
+    const { cols, rows, V, colorLUT } = this;
 
-    // Clear to bg
-    const bgRgb = hexToRgb(LAB_PALETTE.bg);
+    // Scale factors from pixel space to grid space
+    const scaleX = cols / imgW;
+    const scaleY = rows / imgH;
 
-    // Fill all pixels — interpolate between cell centers for organic feel
     for (let py = 0; py < imgH; py++) {
-      // Hex offset: odd rows shift right by half a cell
-      const rawRow = py / cellPx;
-      const row = Math.floor(rawRow);
-      const fy = rawRow - row; // fractional position within cell
+      const gy = py * scaleY;
+      const gy0 = Math.floor(gy);
+      const gy1 = gy0 + 1 < rows ? gy0 + 1 : gy0;
+      const fy = gy - gy0;
+      const row0 = gy0 * cols;
+      const row1 = gy1 * cols;
+
+      const rowOffset = py * imgW;
 
       for (let px = 0; px < imgW; px++) {
-        // Offset odd rows for organic hex-like feel
-        const offset = (row & 1) ? halfCell * 0.5 : 0;
-        const rawCol = (px - offset) / cellPx;
-        const col = Math.floor(rawCol);
-        const fx = rawCol - col; // fractional position within cell
+        const gx = px * scaleX;
+        const gx0 = Math.floor(gx);
+        const gx1 = gx0 + 1 < cols ? gx0 + 1 : gx0;
+        const fx = gx - gx0;
 
-        // Bilinear interpolation between 4 nearest cell centers
-        const c00 = this.displayGrid[this.idx(col, row)];
-        const c10 = this.displayGrid[this.idx(col + 1, row)];
-        const c01 = this.displayGrid[this.idx(col, row + 1)];
-        const c11 = this.displayGrid[this.idx(col + 1, row + 1)];
+        // Bilinear interpolation of V
+        const v00 = V[row0 + gx0];
+        const v10 = V[row0 + gx1];
+        const v01 = V[row1 + gx0];
+        const v11 = V[row1 + gx1];
+        const top = v00 + (v10 - v00) * fx;
+        const bot = v01 + (v11 - v01) * fx;
+        let v = top + (bot - top) * fy;
 
-        const sfx = fx * fx * (3 - 2 * fx); // smoothstep
-        const sfy = fy * fy * (3 - 2 * fy);
+        // Clamp and map to LUT index
+        if (v < 0) v = 0;
+        if (v > 1) v = 1;
+        const li = (v * 255) | 0;
+        const li3 = li * 3;
 
-        const top = c00 + (c10 - c00) * sfx;
-        const bot = c01 + (c11 - c01) * sfx;
-        const val = top + (bot - top) * sfy;
-
-        const rgb = valueToColor(val);
-
-        // Subtle glow: brighten active cells (those far from bg value)
-        const activity = Math.abs(val - 0.1) * 0.15;
-        const edgeness = 1 - Math.abs(this.parameter - 0.5) * 2;
-        const glow = activity * edgeness;
-
-        const idx = (py * imgW + px) * 4;
-        data[idx] = Math.min(255, rgb[0] + glow * 40);
-        data[idx + 1] = Math.min(255, rgb[1] + glow * 30);
-        data[idx + 2] = Math.min(255, rgb[2] + glow * 20);
-        data[idx + 3] = 255;
+        const pidx = (rowOffset + px) * 4;
+        data[pidx]     = colorLUT[li3];
+        data[pidx + 1] = colorLUT[li3 + 1];
+        data[pidx + 2] = colorLUT[li3 + 2];
+        data[pidx + 3] = 255;
       }
     }
 
     ctx.putImageData(this.imageData, 0, 0);
 
-    // Reset transform for overlay drawing (putImageData ignores transform)
+    // Reset transform for any overlay drawing
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
 
     // --- Parameter indicator bar on the left ---
@@ -302,42 +269,44 @@ export class EdgeOfChaos extends BaseVisualization {
   }
 
   private drawParameterIndicator(): void {
-    const { ctx, width, height, parameter } = this;
+    const { ctx, height } = this;
     const barX = 12;
     const barW = 3;
     const barTop = height * 0.1;
     const barBottom = height * 0.9;
     const barH = barBottom - barTop;
 
+    // Compute normalized parameter position (0=top/order, 1=bottom/chaos)
+    // Map f back to yNorm approximation
+    const fRange = 0.055 - 0.012;
+    const param = 1 - (this.f - 0.012) / fRange;
+
     // Track background
     ctx.globalAlpha = 0.2;
-    ctx.fillStyle = LAB_PALETTE.cream;
+    ctx.fillStyle = '#F5F0E8';
     ctx.beginPath();
     ctx.roundRect(barX - 1, barTop, barW + 2, barH, 2);
     ctx.fill();
 
-    // Gradient fill showing the spectrum
+    // Gradient fill
     ctx.globalAlpha = 0.5;
     const grad = ctx.createLinearGradient(0, barTop, 0, barBottom);
-    grad.addColorStop(0, LAB_PALETTE.sage);      // order
-    grad.addColorStop(0.4, LAB_PALETTE.lilac);    // transition
-    grad.addColorStop(0.5, LAB_PALETTE.gold);     // edge of chaos
-    grad.addColorStop(0.6, LAB_PALETTE.terracotta);
-    grad.addColorStop(1, LAB_PALETTE.cream);      // chaos
+    grad.addColorStop(0, '#3D6B5A');
+    grad.addColorStop(0.5, '#ADA45A');
+    grad.addColorStop(1, '#F5F0E8');
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.roundRect(barX, barTop + 1, barW, barH - 2, 1.5);
     ctx.fill();
 
     // Current position marker
-    const markerY = barTop + parameter * barH;
-    ctx.globalAlpha = 0.9;
+    const markerY = barTop + param * barH;
+    const edgeness = 1 - Math.abs(param - 0.5) * 2;
 
     // Glow behind marker
-    const edgeness = 1 - Math.abs(parameter - 0.5) * 2;
     if (edgeness > 0.2) {
       ctx.globalAlpha = edgeness * 0.4;
-      ctx.fillStyle = LAB_PALETTE.gold;
+      ctx.fillStyle = '#ADA45A';
       ctx.beginPath();
       ctx.arc(barX + barW * 0.5, markerY, 6 + edgeness * 4, 0, Math.PI * 2);
       ctx.fill();
@@ -354,15 +323,14 @@ export class EdgeOfChaos extends BaseVisualization {
     ctx.globalAlpha = 0.35;
     ctx.font = '9px system-ui, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillStyle = LAB_PALETTE.cream;
+    ctx.fillStyle = '#F5F0E8';
     ctx.fillText('ORDER', barX - 2, barTop - 6);
     ctx.fillText('CHAOS', barX - 2, barBottom + 14);
 
-    // "Edge of chaos" label that appears when near the sweet spot
     if (edgeness > 0.5) {
       ctx.globalAlpha = (edgeness - 0.5) * 2 * 0.4;
       ctx.font = '8px system-ui, sans-serif';
-      ctx.fillStyle = LAB_PALETTE.gold;
+      ctx.fillStyle = '#ADA45A';
       ctx.fillText('edge', barX + barW + 6, markerY + 3);
     }
 

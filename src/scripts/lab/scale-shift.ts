@@ -34,8 +34,8 @@ export class ScaleShift extends BaseVisualization {
   private time = 0;
 
   // camera
-  private zoom = 0.3;
-  private targetZoom = 0.3;
+  private zoom = 0.05;
+  private targetZoom = 0.05;
   private camX = 0;
   private camY = 0;
   private targetCamX = 0;
@@ -96,6 +96,7 @@ export class ScaleShift extends BaseVisualization {
 
   protected resize(): void {
     super.resize();
+    if (!this.particles) return;
     if (this.particles.length > 0) {
       this.centerX = this.width / 2;
       this.centerY = this.height / 2;
@@ -113,8 +114,9 @@ export class ScaleShift extends BaseVisualization {
     if (this.mouseActive) {
       this.targetZoom = Math.max(0, Math.min(1, this.mouseY / this.height));
     } else {
-      // auto-oscillate between 0.15 and 0.75
-      this.targetZoom = 0.45 + 0.30 * Math.sin(this.autoZoomPhase);
+      // auto-oscillate between 0.03 and 0.5, biased toward 0.2 (organism view)
+      const t = Math.sin(this.autoZoomPhase) * 0.5 + 0.5; // 0..1
+      this.targetZoom = 0.03 + (0.5 - 0.03) * t * t; // quadratic bias toward low zoom
     }
     this.zoom += (this.targetZoom - this.zoom) * 0.03;
 

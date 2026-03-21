@@ -1,0 +1,427 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Fractals in Nature — Unfold">
+
+  <div class="fractal-container">
+
+    <!-- Intro -->
+    <section class="fractal-intro">
+      <div class="intro-content">
+        <h1>Fractals in Nature</h1>
+        <p class="intro-text">
+          A simple rule, repeated — and the universe builds itself.
+        </p>
+        <div class="scroll-hint">
+          <span>↓</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Text 1: What is a fractal? -->
+    <section class="fractal-text">
+      <div class="text-content">
+        <p>Look closely at a fern. Each leaf is a smaller copy of the whole frond. Zoom into that leaf, and each leaflet repeats the same shape again. This is self-similarity — the signature of a fractal.</p>
+        <p class="faded">Nature doesn't design from blueprints. It gives a simple instruction, repeats it at every scale, and lets complexity emerge.</p>
+      </div>
+    </section>
+
+    <!-- Viz 1: Fern -->
+    <section class="fractal-section" data-viz="fern">
+      <canvas></canvas>
+      <div class="fractal-info">
+        <h2>Barnsley Fern</h2>
+        <p>Four affine transformations, chosen at random with weighted probabilities. Each point is born from the previous one — and yet a perfect fern appears. The algorithm of every frond that ever unfurled.</p>
+        <span class="fractal-interact">move the mouse to stir the wind</span>
+      </div>
+    </section>
+
+    <!-- Text 2: From ferns to vegetables -->
+    <section class="fractal-text">
+      <div class="text-content">
+        <p>The same principle that shapes a fern also sculpts one of the most extraordinary vegetables on Earth. The romanesco arranges its buds in Fibonacci spirals, and each bud is a perfect miniature of the whole.</p>
+        <p class="faded">Fractals you can eat.</p>
+      </div>
+    </section>
+
+    <!-- Viz 2: Romanesco -->
+    <section class="fractal-section" data-viz="romanesco">
+      <canvas></canvas>
+      <div class="fractal-info">
+        <h2>Romanesco</h2>
+        <p>Golden angle phyllotaxis — 137.508° — distributes each floret without overlap. Each one is a recursive copy of the whole, spirals within spirals, down to the smallest bud.</p>
+        <span class="fractal-interact">move the mouse to shift the light</span>
+      </div>
+    </section>
+
+    <!-- Text 3: From growth to discharge -->
+    <section class="fractal-text">
+      <div class="text-content">
+        <p>Fractals don't only grow slowly. Sometimes they explode into existence — in milliseconds. When lightning searches for the path of least resistance, it branches recursively through the atmosphere.</p>
+        <p class="faded">Each fork is a smaller version of the main bolt.</p>
+      </div>
+    </section>
+
+    <!-- Viz 3: Lightning -->
+    <section class="fractal-section" data-viz="lightning">
+      <canvas></canvas>
+      <div class="fractal-info">
+        <h2>Lightning</h2>
+        <p>Recursive branching through the atmosphere. The main channel forks, and each fork forks again — probability decreasing, thickness thinning, until the charge dissipates into the finest filaments.</p>
+        <span class="fractal-interact">click to summon a bolt</span>
+      </div>
+    </section>
+
+    <!-- Text 4: From chaos to geometry -->
+    <section class="fractal-text">
+      <div class="text-content">
+        <p>Some fractals are born from pure geometry. Take a triangle. Replace each edge with a smaller triangle. Repeat forever. The Koch snowflake has infinite perimeter trapped inside a finite area.</p>
+        <p class="faded">A paradox that mirrors the crystalline symmetry of real snowflakes.</p>
+      </div>
+    </section>
+
+    <!-- Viz 4: Koch Snowflake -->
+    <section class="fractal-section" data-viz="koch">
+      <canvas></canvas>
+      <div class="fractal-info">
+        <h2>Koch Snowflake</h2>
+        <p>Start with a triangle. Subdivide each edge into four. Repeat six times. The perimeter grows toward infinity while the area barely changes — geometry at the edge of reason.</p>
+        <span class="fractal-interact">hover to illuminate the edges</span>
+      </div>
+    </section>
+
+    <!-- Text 5: From geometry to growth -->
+    <section class="fractal-text">
+      <div class="text-content">
+        <p>And then there are fractals that grow with you. The nautilus adds a new chamber to its shell as it grows — each one slightly larger than the last, following a logarithmic spiral.</p>
+        <p class="faded">The golden ratio, made habitable.</p>
+      </div>
+    </section>
+
+    <!-- Viz 5: Nautilus -->
+    <section class="fractal-section" data-viz="nautilus">
+      <canvas></canvas>
+      <div class="fractal-info">
+        <h2>Nautilus</h2>
+        <p>A logarithmic spiral where each chamber is roughly 1.618 times larger than the last. The animal builds its home by following one rule — grow, seal, repeat — and a masterpiece of geometry emerges.</p>
+        <span class="fractal-interact">hover to reveal the chambers</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Side dot navigation -->
+  <nav class="fractal-dots" aria-label="Sections">
+    <button class="dot active" data-section="0" aria-label="Fern"></button>
+    <button class="dot" data-section="1" aria-label="Romanesco"></button>
+    <button class="dot" data-section="2" aria-label="Lightning"></button>
+    <button class="dot" data-section="3" aria-label="Koch"></button>
+    <button class="dot" data-section="4" aria-label="Nautilus"></button>
+  </nav>
+
+</Base>
+
+<script>
+  import { BarnsleyFern } from '../scripts/lab/barnsley-fern';
+  import { RomanescoNatural } from '../scripts/lab/romanesco-natural';
+  import { LightningFractal } from '../scripts/lab/lightning-fractal';
+  import { KochSnowflake } from '../scripts/lab/koch-snowflake';
+  import { NautilusSpiral } from '../scripts/lab/nautilus-spiral';
+  import type { BaseVisualization } from '../scripts/lab/base-visualization';
+
+  const sections = document.querySelectorAll('.fractal-section');
+  const dots = document.querySelectorAll('.fractal-dots .dot');
+  const vizMap = new Map<Element, BaseVisualization>();
+  let activeViz: BaseVisualization | null = null;
+
+  const constructors: Record<string, new (canvas: HTMLCanvasElement) => BaseVisualization> = {
+    'fern': BarnsleyFern,
+    'romanesco': RomanescoNatural,
+    'lightning': LightningFractal,
+    'koch': KochSnowflake,
+    'nautilus': NautilusSpiral,
+  };
+
+  const container = document.querySelector('.fractal-container');
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const section = entry.target;
+      const idx = Array.from(sections).indexOf(section);
+
+      if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+        let viz = vizMap.get(section);
+        if (!viz) {
+          const canvas = section.querySelector('canvas')!;
+          const type = section.getAttribute('data-viz')!;
+          const Ctor = constructors[type];
+          if (Ctor) {
+            viz = new Ctor(canvas);
+            vizMap.set(section, viz);
+          }
+        }
+        if (viz && viz !== activeViz) {
+          activeViz?.stop();
+          viz.start();
+          activeViz = viz;
+        }
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    }
+  }, { threshold: 0.3, root: container });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Dot navigation
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.getAttribute('data-section') || '0');
+      sections[idx]?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+<style is:global>
+  /* Dark theme override for fractals page */
+  body:has(.fractal-container) {
+    background: #1a1a1a;
+  }
+
+  body:has(.fractal-container) .site-header {
+    background: #1a1a1a;
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  body:has(.fractal-container) .logo {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  body:has(.fractal-container) .nav-links a {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  body:has(.fractal-container) .nav-links a:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  body:has(.fractal-container) .lang-toggle {
+    color: rgba(255, 255, 255, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  body:has(.fractal-container) .mobile-menu-btn span {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  body:has(.fractal-container) footer {
+    display: none;
+  }
+</style>
+
+<style>
+  .fractal-container {
+    scroll-snap-type: y proximity;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+  }
+
+  /* Visualization sections */
+  .fractal-section {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    scroll-snap-align: start;
+  }
+
+  .fractal-section canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .fractal-info {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    max-width: 380px;
+    pointer-events: none;
+  }
+
+  .fractal-info h2 {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+
+  .fractal-info p {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 0.5rem;
+  }
+
+  .fractal-interact {
+    font-family: var(--sans, 'Inter', sans-serif);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.2);
+    font-style: italic;
+  }
+
+  /* Narrative text sections */
+  .fractal-text {
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .text-content {
+    max-width: 520px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .text-content p {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 1.5rem;
+  }
+
+  .text-content p.faded {
+    color: rgba(255, 255, 255, 0.25);
+    font-style: italic;
+  }
+
+  /* Dot navigation */
+  .fractal-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .fractal-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  .fractal-dots .dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .fractal-dots .dot.active {
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(1.4);
+  }
+
+  /* Intro section */
+  .fractal-intro {
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  .intro-content {
+    max-width: 560px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .intro-content h1 {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .intro-text {
+    font-family: var(--serif, 'EB Garamond', serif);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .scroll-hint {
+    margin-top: 3rem;
+    color: rgba(255, 255, 255, 0.15);
+    font-size: 1.2rem;
+    animation: hint-bounce 2.5s ease-in-out infinite;
+  }
+
+  @keyframes hint-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.3; }
+    50% { transform: translateY(6px); opacity: 0.6; }
+  }
+
+  @media (max-width: 768px) {
+    .fractal-container {
+      scroll-snap-type: none;
+    }
+
+    .fractal-dots {
+      right: 0.8rem;
+      gap: 8px;
+    }
+
+    .fractal-dots .dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .fractal-info {
+      bottom: 1.5rem;
+      left: 1.5rem;
+      max-width: 280px;
+    }
+
+    .fractal-info h2 {
+      font-size: 1.1rem;
+    }
+
+    .fractal-info p {
+      font-size: 0.78rem;
+    }
+
+    .intro-content h1 {
+      font-size: 2.5rem;
+    }
+
+    .text-content {
+      padding: 1.5rem;
+    }
+
+    .text-content p {
+      font-size: 0.95rem;
+    }
+  }
+</style>
