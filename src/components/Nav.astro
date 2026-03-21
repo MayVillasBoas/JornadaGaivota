@@ -2,8 +2,12 @@
 const links = [
   { href: '/unfold', label: 'unfold' },
   { href: '/copilot', label: 'copilot' },
-  { href: '/escrita', label: 'escrita' },
-  { href: '/lab', label: 'lab' },
+  { href: '/lab', label: 'labs' },
+];
+
+const mayLinks = [
+  { href: '/escrita', label: 'essays' },
+  { href: '/books', label: 'books' },
   { href: '/agora', label: 'now' },
   { href: '/sobre', label: 'about' },
 ];
@@ -17,6 +21,18 @@ const links = [
       {links.map(link => (
         <li><a href={link.href}>{link.label}</a></li>
       ))}
+
+      <li class="dropdown">
+        <button class="dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+          may <span class="chevron">&#8250;</span>
+        </button>
+        <ul class="dropdown-menu">
+          {mayLinks.map(link => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </li>
+
       <li><a href="#" class="lang-toggle">pt</a></li>
     </ul>
 
@@ -64,7 +80,8 @@ const links = [
     align-items: center;
   }
 
-  .nav-links a {
+  .nav-links a,
+  .dropdown-trigger {
     font-family: var(--sans, Inter, sans-serif);
     font-size: 0.85rem;
     font-weight: 400;
@@ -75,10 +92,81 @@ const links = [
     transition: color 0.3s;
   }
 
-  .nav-links a:hover {
+  .nav-links a:hover,
+  .dropdown-trigger:hover {
     color: var(--ink, #1a1a18);
   }
 
+  /* Dropdown */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .chevron {
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+
+  .dropdown:hover .chevron,
+  .dropdown.open .chevron {
+    transform: rotate(270deg);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cream, #FAFAF7);
+    border: 1px solid rgba(26, 26, 24, 0.08);
+    border-radius: 6px;
+    padding: 0.5rem 0;
+    min-width: 120px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(4px);
+    transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+    list-style: none;
+  }
+
+  .dropdown:hover .dropdown-menu,
+  .dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .dropdown-menu li {
+    padding: 0;
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.82rem !important;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .dropdown-menu a:hover {
+    background: rgba(26, 26, 24, 0.04);
+    color: var(--ink, #1a1a18);
+  }
+
+  /* Lang toggle */
   .lang-toggle {
     font-size: 0.75rem !important;
     color: var(--ink-muted, #6b6b68) !important;
@@ -92,6 +180,7 @@ const links = [
     border-color: var(--ink-muted, #6b6b68) !important;
   }
 
+  /* Mobile */
   .mobile-menu-btn {
     display: none;
     flex-direction: column;
@@ -136,8 +225,51 @@ const links = [
       display: flex;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .dropdown-trigger {
       font-size: 1rem;
+    }
+
+    /* Mobile dropdown: inline instead of floating */
+    .dropdown-menu {
+      position: static;
+      transform: none;
+      box-shadow: none;
+      border: none;
+      border-left: 1px solid rgba(26, 26, 24, 0.12);
+      border-radius: 0;
+      padding: 0.5rem 0 0.5rem 1rem;
+      margin-top: 0.5rem;
+      min-width: unset;
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.2s, max-height 0.3s, visibility 0.2s;
+    }
+
+    .dropdown.open .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      max-height: 200px;
+      transform: none;
+    }
+
+    /* Disable hover on mobile */
+    .dropdown:hover .dropdown-menu {
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+    }
+
+    .dropdown.open:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      max-height: 200px;
+    }
+
+    .dropdown-menu a {
+      padding: 0.4rem 0;
     }
   }
 </style>
@@ -151,6 +283,21 @@ const links = [
     btn?.setAttribute('aria-expanded', String(isOpen));
   });
 
+  // Dropdown toggle (click-based for mobile, hover works on desktop via CSS)
+  document.querySelector('.dropdown-trigger')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const dropdown = (e.target as HTMLElement).closest('.dropdown');
+    dropdown?.classList.toggle('open');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    const dropdown = document.querySelector('.dropdown');
+    if (dropdown && !dropdown.contains(e.target as Node)) {
+      dropdown.classList.remove('open');
+    }
+  });
+
   // Smooth scroll for anchor links (closes mobile menu on click)
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -160,7 +307,6 @@ const links = [
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth' });
-        // Close mobile menu if open
         document.querySelector('.nav-links')?.classList.remove('open');
         document.querySelector('.mobile-menu-btn')?.setAttribute('aria-expanded', 'false');
       }
