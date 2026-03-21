@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/copilot.css';
+---
+
+<Base title="Decision Copilot — May">
+  <div class="copilot-container" id="copilot-root">
+    <!-- Engine renders here -->
+  </div>
+</Base>
+
+<script>
+  import { CopilotEngine } from '../scripts/copilot/engine';
+
+  if (!(window as any).__copilotInit) {
+    (window as any).__copilotInit = true;
+
+    const container = document.getElementById('copilot-root');
+    if (container) {
+      const engine = new CopilotEngine(container);
+      engine.init();
+    }
+  }
+</script>
