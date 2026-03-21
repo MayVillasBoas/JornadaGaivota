@@ -119,3 +119,6 @@ export const MODULES: Record<string, ModuleDefinition> = {
 };
 
 export const MODULE_ORDER = ['body-scan', 'parts-mapping', 'first-principles', 'regret-minimization', 'decision-memo'];
+
+// Frameworks available for user selection (excludes decision-memo which is always auto-appended)
+export const PICKABLE_MODULES = MODULE_ORDER.filter(slug => slug !== 'decision-memo');
