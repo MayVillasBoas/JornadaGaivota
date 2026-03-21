@@ -19,6 +19,33 @@ The Decision Copilot MVP works functionally but the UX fails at engagement. Real
 
 Transform the copilot from a multi-page form into a flowing, single-scroll conversation with organic visual elements that grow as the person progresses. Voice-first input. Streaming AI reflections after every response. Questions cut in half.
 
+## Intake-to-Module Transition
+
+The intake is the FIRST block in the flowing timeline — not a separate page:
+
+1. User sees "What's on your mind?" as the first copilot question in the timeline
+2. User responds (voice or text)
+3. Classification happens with a loading indicator ("listening to what you said..." with animated dots, inline in the timeline)
+4. Classification result appears as an AI reflection block: "It sounds like what's making this hard is [description]. I'm going to guide you through [module names]."
+5. After ~2s, first module question fades in below — no "let's begin" button needed
+6. The breathing line starts growing from the very first response
+
+## Resuming a Session
+
+When the user returns to `/copilot` with an active journey:
+
+1. The full timeline reconstructs from stored data — all prior Q&A blocks are visible
+2. The page auto-scrolls to the last unanswered question
+3. Prior responses and AI reflections are shown but slightly dimmed (opacity 0.7) to signal "you've been here"
+4. The breathing line renders the full history state instantly (no animation replay)
+
+## Degraded States
+
+- **API failure during streaming:** Show the reflection card with "I couldn't reflect on that one — but your answer is saved. Let's keep going." Auto-advance to next question.
+- **Voice unavailable (Firefox, etc):** Hide mic button entirely. Text input becomes primary and expands to full width. Layout adapts — no broken UI.
+- **Empty response:** "next" behavior is blocked. The input area shows a gentle prompt: "take your time — even a few words help." No auto-advance without content.
+- **Network offline:** Save response to localStorage. Show: "You're offline. Your answer is saved — reflections will appear when you reconnect."
+
 ## Design Decisions
 
 ### 1. Organic Visual System — "Breathing Line"
@@ -27,9 +54,10 @@ A generative organic line runs along the left edge of the session timeline, insp
 
 - **Growth:** The line extends downward as the user progresses, with organic branching at key moments (theme nodes, module transitions)
 - **Color by layer:** Warm coral (#c27a5a) for FEEL → Lilás (#8b6aad) for SEE → Blue-green (#4a7aad) for THINK → Deep green (#2B4A3E) for ACT
-- **Theme nodes:** When the AI extracts themes, they appear as small nodes on the breathing line with keywords floating beside them. Repeated themes across modules connect visually.
-- **Module transitions:** The line curves/spirals and shifts color with a ~1s animation
-- **Implementation:** Canvas element positioned absolute on the left side, ~40px wide. Uses 2D canvas with bezier curves and noise-based organic movement. Lightweight — no WebGL needed.
+- **Theme nodes:** When the AI extracts themes, they appear as small nodes on the breathing line with keywords floating beside them. (Phase 2: cross-module theme connections — deferred.)
+- **Module transitions:** The line curves/spirals and shifts color with a ~1s CSS transition
+- **Implementation:** Canvas element positioned absolute on the left side, ~40px wide. 2D canvas with quadratic bezier curves. Line wobbles using sine-wave offset (amplitude 3-5px, frequency tied to scroll). Theme nodes are DOM elements positioned at the Y-coordinate of their response block. Creative freedom for implementer: line must feel organic not geometric, color transitions smooth, nodes clearly tied to their source response.
+- **Voice browser compat:** If `SpeechRecognition` is unavailable (Firefox), hide mic button, text input expands to full width. No broken UI.
 
 ### 2. Interaction Pattern — One Question at a Time
 
@@ -57,19 +85,35 @@ No "next" button between questions within a module. The flow is automatic after 
 - **Textarea** as secondary input — smaller, placeholder "type or tap the mic..."
 - **Integration:** Reuse existing `voice-input.ts` module and `VoiceInput.astro` component patterns
 
-### 4. Streaming AI Reflections
+### 4. Streaming AI Reflections (Simulated)
 
-After each user response, the AI reflection appears with streaming animation:
+**Approach: Fake streaming (fetch full response, reveal character by character).** Real SSE streaming would require a significant API rewrite and is deferred.
 
-- Call `/api/copilot` with action `reflect`
-- Display response character by character (~30ms per character) in the accent card
-- Card fades in first (empty), then text streams in
-- Theme tags appear after streaming completes
-- This creates a feeling of the AI "thinking with you" rather than returning a static block
+Flow after user submits a response:
+1. Show a "thinking" indicator in the reflection card (3-dot pulse, same as classification loading)
+2. Fetch full response from `/api/copilot` (action: `reflect`) — typically 2-4 seconds
+3. Once response arrives, replace thinking indicator with character-by-character reveal (~20ms per char)
+4. Theme tags fade in after text streaming completes
+5. The thinking indicator bridges the API wait time — the user sees activity, not a blank pause
+
+API endpoint (`copilot.ts`) stays unchanged — no streaming rewrite needed.
+
+### 4b. Auto-Advance Between Questions
+
+Within a module (between questions):
+- After AI reflection streaming completes, wait **2 seconds**
+- Next question fades in below the current block (user scrolls or auto-scroll triggers)
+- No "next" button — the flow is automatic
+- **Back navigation:** User can scroll up to re-read any prior Q&A but cannot edit previous answers
+
+Between modules:
+- After the last question's reflection, a **transition block** appears with: module checkmark, next module preview, and two buttons: "continue →" and "save & come back later"
+- This is the ONLY manual gate — user must tap "continue" to proceed to the next module
+- If user taps "save," journey state is persisted and they return to the resume flow on next visit
 
 ### 5. Reduced Question Count
 
-Each module is cut to 2 core questions. The AI compensates with deeper, more provocative reflections.
+Routing still selects a subset of modules (2-4) based on classification. With 2 questions per module, a typical session is **4-8 questions** plus intake. Maximum (all 5 modules) is 11 questions. The AI compensates for fewer questions with deeper, more provocative reflections.
 
 **Body Scan (FEEL) — 2 questions:**
 1. "Close your eyes. Imagine choosing the first path. What happens in your body?"
@@ -87,11 +131,12 @@ Each module is cut to 2 core questions. The AI compensates with deeper, more pro
 1. "You're 80, looking back. You chose path A and lived with it for decades. Then imagine you chose path B. Which regret feels heavier?"
 2. "What would 80-year-old you tell present-day you?"
 
-**Decision Memo (ACT) — 2 questions:**
+**Decision Memo (ACT) — 3 questions:**
 1. "Based on everything — body signals, inner parts, facts vs assumptions, regret — what are your REAL options and their trade-offs?"
-2. "What's the smallest next step you can take in the next 24 hours?"
+2. "Right now, what does your gut say? If you had to choose in 10 seconds, what would you pick? Write it before your mind argues."
+3. "What's the smallest next step you can take in the next 24 hours?"
 
-**Total: 10 questions** (down from 18-21)
+**Total per session: 4-11 questions** depending on route (typically 6-8, down from 18-21)
 
 ### 6. Visual Design Tokens
 
@@ -171,7 +216,7 @@ src/
   pages/
     copilot.astro      — MODIFY: add voice input component, canvas element
   pages/api/
-    copilot.ts         — MINOR: adjust for streaming if needed
+    copilot.ts         — NO CHANGES (fake streaming on client side)
 ```
 
 ## What's NOT Changing
