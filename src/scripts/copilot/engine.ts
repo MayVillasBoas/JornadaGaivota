@@ -278,6 +278,13 @@ export class CopilotEngine {
         .map(([slug, summary]) => `${MODULES[slug]?.title || slug}: ${summary}`)
         .join('\n');
 
+      // Include previous responses from this same module for context
+      const currentModuleResponses = this.journey.moduleResponses[moduleSlug] || [];
+      const priorStepResponses = currentModuleResponses
+        .slice(0, this.currentStepIndex)
+        .map((r, i) => `Step ${i + 1}: ${r}`)
+        .join('\n');
+
       const res = await fetch('/api/copilot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -287,6 +294,8 @@ export class CopilotEngine {
           step: this.currentStepIndex,
           userText: text,
           journeyContext: priorSummaries || undefined,
+          originalSituation: this.journey.situation,
+          priorStepResponses: priorStepResponses || undefined,
         }),
       });
 
@@ -340,40 +349,55 @@ export class CopilotEngine {
     const nextMod = MODULES[nextSlug];
     this.state = 'transitioning';
 
-    const div = document.createElement('div');
-    div.innerHTML = `
+    const transitionDiv = document.createElement('div');
+    transitionDiv.innerHTML = `
       <div class="copilot-module-transition">
         <span>✓ ${escapeHtml(mod.title)} complete</span>
       </div>
-      ${nextMod ? `
-        <div class="copilot-block" style="text-align:center;padding:1rem 0">
-          <p style="font-family:var(--serif);color:var(--ink-light);margin-bottom:1rem">
-            Next: <strong>${escapeHtml(nextMod.title)}</strong> — ${escapeHtml(nextMod.description)}
-          </p>
-          <div style="display:flex;gap:1rem;justify-content:center">
-            <button class="btn-primary" id="copilot-continue">continue →</button>
-            <button class="btn-secondary" id="copilot-pause">save & come back later</button>
-          </div>
-        </div>
-      ` : ''}
     `;
-    this.els.timeline.appendChild(div);
+    this.els.timeline.appendChild(transitionDiv);
+
+    if (nextMod) {
+      const actionDiv = document.createElement('div');
+      actionDiv.className = 'copilot-block';
+      actionDiv.style.cssText = 'text-align:center;padding:1rem 0';
+
+      const desc = document.createElement('p');
+      desc.style.cssText = 'font-family:var(--serif);color:var(--ink-light);margin-bottom:1rem';
+      desc.innerHTML = `Next: <strong>${escapeHtml(nextMod.title)}</strong> — ${escapeHtml(nextMod.description)}`;
+      actionDiv.appendChild(desc);
+
+      const btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:1rem;justify-content:center';
+
+      const continueBtn = document.createElement('button');
+      continueBtn.className = 'btn-primary';
+      continueBtn.textContent = 'continue →';
+      continueBtn.addEventListener('click', () => {
+        continueBtn.disabled = true;
+        this.showNextQuestion();
+      });
+
+      const pauseBtn = document.createElement('button');
+      pauseBtn.className = 'btn-secondary';
+      pauseBtn.textContent = 'save & come back later';
+      pauseBtn.addEventListener('click', () => {
+        saveJourney(this.journey);
+        this.els.timeline.insertAdjacentHTML('beforeend', `
+          <div class="copilot-block" style="text-align:center;padding:2rem 0">
+            <h3 style="font-family:var(--serif);font-size:1.3rem;margin-bottom:.5rem">Saved</h3>
+            <p style="color:var(--ink-muted)">Come back anytime. I'll remember where you left off.</p>
+          </div>
+        `);
+        this.scrollToBottom();
+      });
+
+      btnRow.appendChild(continueBtn);
+      btnRow.appendChild(pauseBtn);
+      actionDiv.appendChild(btnRow);
+      this.els.timeline.appendChild(actionDiv);
+    }
     this.scrollToBottom();
-
-    document.getElementById('copilot-continue')?.addEventListener('click', () => {
-      this.showNextQuestion();
-    });
-
-    document.getElementById('copilot-pause')?.addEventListener('click', () => {
-      saveJourney(this.journey);
-      this.els.timeline.insertAdjacentHTML('beforeend', `
-        <div class="copilot-block" style="text-align:center;padding:2rem 0">
-          <h3 style="font-family:var(--serif);font-size:1.3rem;margin-bottom:.5rem">Saved</h3>
-          <p style="color:var(--ink-muted)">Come back anytime. I'll remember where you left off.</p>
-        </div>
-      `);
-      this.scrollToBottom();
-    });
   }
 
   // ─── Memo Generation ───
