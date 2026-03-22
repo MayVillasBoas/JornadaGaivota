@@ -1,5 +1,5 @@
 // Growing Mycelium Network — organic branching that grows from seed points
-// Nodes pulse with radial gradients. Click to add growth points.
+// Draws incrementally: new segments are added each frame without redrawing everything.
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';
 import { createNoise2D } from './simplex-noise';
@@ -14,45 +14,26 @@ interface Tip {
   alive: boolean;
 }
 
-interface Node {
-  x: number;
-  y: number;
-  radius: number;
-  color: string;
-  phase: number;
-}
-
-interface Segment {
-  x1: number; y1: number;
-  x2: number; y2: number;
-  color: string;
-  alpha: number;
-}
-
 export class MyceliumNetwork extends BaseVisualization {
   private noise = createNoise2D(23);
   private tips: Tip[] = [];
-  private nodes: Node[] = [];
-  private segments: Segment[] = [];
-  private time = 0;
-  private maxSegments = 1500;
+  private totalSegments = 0;
+  private maxSegments = 2000;
   private maxDepth = 5;
-
   private clickHandler: ((e: MouseEvent) => void) | null = null;
+  private needsBackground = true;
 
   protected init() {
     this.tips = [];
-    this.nodes = [];
-    this.segments = [];
+    this.totalSegments = 0;
+    this.needsBackground = true;
     this.addSeed(this.width / 2, this.height / 2);
 
-    // Remove old listener before adding new one
     if (this.clickHandler) {
       this.canvas.removeEventListener('click', this.clickHandler);
     }
     this.clickHandler = (e: MouseEvent) => {
-      // Don't add more seeds if already at capacity
-      if (this.segments.length >= this.maxSegments * 0.8) return;
+      if (this.totalSegments >= this.maxSegments) return;
       const rect = this.canvas.getBoundingClientRect();
       this.addSeed(e.clientX - rect.left, e.clientY - rect.top);
     };
@@ -60,52 +41,59 @@ export class MyceliumNetwork extends BaseVisualization {
   }
 
   private addSeed(x: number, y: number) {
-    const numTips = 3 + Math.floor(Math.random() * 4);
+    const numTips = 3 + Math.floor(Math.random() * 3);
     for (let i = 0; i < numTips; i++) {
       const angle = (i / numTips) * Math.PI * 2 + Math.random() * 0.5;
       this.tips.push({
         x, y, angle,
-        speed: 0.8 + Math.random() * 0.8,
+        speed: 0.8 + Math.random() * 0.6,
         depth: 0,
         color: PALETTE_ARRAY[Math.floor(Math.random() * PALETTE_ARRAY.length)],
         alive: true,
       });
     }
-    this.nodes.push({
-      x, y, radius: 3,
-      color: PALETTE_ARRAY[Math.floor(Math.random() * PALETTE_ARRAY.length)],
-      phase: Math.random() * Math.PI * 2,
-    });
+
+    // Draw seed node
+    this.ctx.fillStyle = hexToRgba(
+      PALETTE_ARRAY[Math.floor(Math.random() * PALETTE_ARRAY.length)], 0.5
+    );
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, 3, 0, Math.PI * 2);
+    this.ctx.fill();
   }
 
-  protected update(t: number) {
-    this.time = t * 0.001;
+  protected update(_t: number) {
+    if (this.totalSegments >= this.maxSegments) return;
 
-    if (this.segments.length >= this.maxSegments) return;
+    // Grow a batch of steps per frame (not just 1 per tip)
+    const stepsPerFrame = Math.min(20, this.maxSegments - this.totalSegments);
+    let drawn = 0;
 
-    // Grow each active tip
     for (const tip of this.tips) {
-      if (!tip.alive) continue;
+      if (!tip.alive || drawn >= stepsPerFrame) continue;
 
       const prevX = tip.x;
       const prevY = tip.y;
 
-      // Perturb angle with noise
       tip.angle += this.noise(tip.x * 0.01, tip.y * 0.01) * 0.15;
       tip.x += Math.cos(tip.angle) * tip.speed;
       tip.y += Math.sin(tip.angle) * tip.speed;
 
-      // Add segment
-      const alpha = 0.12 + (1 - tip.depth / this.maxDepth) * 0.18;
-      this.segments.push({
-        x1: prevX, y1: prevY,
-        x2: tip.x, y2: tip.y,
-        color: tip.color,
-        alpha,
-      });
+      // Draw segment immediately (incremental rendering)
+      const alpha = 0.15 + (1 - tip.depth / this.maxDepth) * 0.2;
+      this.ctx.strokeStyle = hexToRgba(tip.color, alpha);
+      this.ctx.lineWidth = 0.6;
+      this.ctx.lineCap = 'round';
+      this.ctx.beginPath();
+      this.ctx.moveTo(prevX, prevY);
+      this.ctx.lineTo(tip.x, tip.y);
+      this.ctx.stroke();
 
-      // Branch probability decreases with depth
-      const branchProb = 0.012 * Math.pow(0.65, tip.depth);
+      this.totalSegments++;
+      drawn++;
+
+      // Branch
+      const branchProb = 0.015 * Math.pow(0.6, tip.depth);
       if (Math.random() < branchProb && tip.depth < this.maxDepth) {
         const branchAngle = tip.angle + (Math.random() > 0.5 ? 1 : -1) * (0.4 + Math.random() * 0.8);
         this.tips.push({
@@ -116,55 +104,34 @@ export class MyceliumNetwork extends BaseVisualization {
           color: tip.color,
           alive: true,
         });
-        this.nodes.push({
-          x: tip.x, y: tip.y,
-          radius: 2 - tip.depth * 0.15,
-          color: tip.color,
-          phase: Math.random() * Math.PI * 2,
-        });
+
+        // Draw branch node
+        this.ctx.fillStyle = hexToRgba(tip.color, 0.3);
+        this.ctx.beginPath();
+        this.ctx.arc(tip.x, tip.y, 1.5, 0, Math.PI * 2);
+        this.ctx.fill();
       }
 
-      // Die at edges or max depth
+      // Die at edges
       if (tip.x < -20 || tip.x > this.width + 20 ||
-          tip.y < -20 || tip.y > this.height + 20 ||
-          tip.depth >= this.maxDepth) {
+          tip.y < -20 || tip.y > this.height + 20) {
         tip.alive = false;
       }
-
-      if (this.segments.length >= this.maxSegments) break;
     }
 
-    // Clean up dead tips to prevent array growth
-    if (this.tips.length > 200) {
+    // Clean up dead tips periodically
+    if (this.tips.length > 150) {
       this.tips = this.tips.filter(t => t.alive);
     }
   }
 
   protected draw() {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    this.ctx.fillStyle = LAB_PALETTE.bg;
-    this.ctx.fillRect(0, 0, this.width, this.height);
-
-    // Draw segments — batch by color for fewer state changes
-    this.ctx.lineWidth = 0.6;
-    this.ctx.lineCap = 'round';
-    for (const seg of this.segments) {
-      this.ctx.strokeStyle = hexToRgba(seg.color, seg.alpha);
-      this.ctx.beginPath();
-      this.ctx.moveTo(seg.x1, seg.y1);
-      this.ctx.lineTo(seg.x2, seg.y2);
-      this.ctx.stroke();
+    // Only draw background once — everything else is incremental
+    if (this.needsBackground) {
+      this.ctx.fillStyle = LAB_PALETTE.bg;
+      this.ctx.fillRect(0, 0, this.width, this.height);
+      this.needsBackground = false;
     }
-
-    // Draw pulsing nodes — simple filled circles (radialGradient is too expensive)
-    const visibleNodes = this.nodes.length > 60 ? this.nodes.slice(-60) : this.nodes;
-    for (const node of visibleNodes) {
-      const pulse = 1 + Math.sin(this.time * 2 + node.phase) * 0.3;
-      const r = Math.max(0.5, node.radius * pulse);
-      this.ctx.fillStyle = hexToRgba(node.color, 0.35);
-      this.ctx.beginPath();
-      this.ctx.arc(node.x, node.y, r * 2, 0, Math.PI * 2);
-      this.ctx.fill();
-    }
+    // All drawing happens in update() incrementally
   }
 }
