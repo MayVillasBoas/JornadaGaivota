@@ -21,6 +21,14 @@ export class MyceliumNetwork extends BaseVisualization {
   private maxSegments = 6000;
   private maxDepth = 6;
   private clickHandler: ((e: MouseEvent) => void) | null = null;
+  protected resize() {
+    super.resize();
+    // Canvas was cleared by resize — re-initialize if running
+    if (this.running) {
+      this.init();
+    }
+  }
+
   protected init() {
     this.tips = [];
     this.totalSegments = 0;

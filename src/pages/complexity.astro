@@ -243,17 +243,23 @@ import Base from '../layouts/Base.astro';
 
   .complexity-info {
     position: absolute;
+    z-index: 5;
     bottom: 2rem;
     left: 2rem;
     max-width: 380px;
     pointer-events: none;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
   }
 
   .complexity-info h2 {
     font-family: var(--serif, 'EB Garamond', serif);
     font-size: 1.3rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 0.6rem;
     letter-spacing: 0.02em;
   }
@@ -262,7 +268,7 @@ import Base from '../layouts/Base.astro';
     font-family: var(--serif, 'EB Garamond', serif);
     font-size: 0.85rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 0.5rem;
   }
 
@@ -270,7 +276,7 @@ import Base from '../layouts/Base.astro';
     font-family: var(--sans, 'Inter', sans-serif);
     font-size: 0.68rem;
     letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.45);
     font-style: italic;
   }
 
