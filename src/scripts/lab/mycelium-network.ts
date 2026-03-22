@@ -18,16 +18,24 @@ export class MyceliumNetwork extends BaseVisualization {
   private noise = createNoise2D(23);
   private tips: Tip[] = [];
   private totalSegments = 0;
-  private maxSegments = 2000;
-  private maxDepth = 5;
+  private maxSegments = 6000;
+  private maxDepth = 6;
   private clickHandler: ((e: MouseEvent) => void) | null = null;
-  private needsBackground = true;
-
   protected init() {
     this.tips = [];
     this.totalSegments = 0;
-    this.needsBackground = true;
-    this.addSeed(this.width / 2, this.height / 2);
+
+    // Paint background once before any incremental drawing
+    this.ctx.fillStyle = LAB_PALETTE.bg;
+    this.ctx.fillRect(0, 0, this.width, this.height);
+
+    // Multiple seeds spread across the canvas
+    const numSeeds = this.isMobile ? 3 : 5;
+    for (let i = 0; i < numSeeds; i++) {
+      const sx = this.width * (0.2 + Math.random() * 0.6);
+      const sy = this.height * (0.2 + Math.random() * 0.6);
+      this.addSeed(sx, sy);
+    }
 
     if (this.clickHandler) {
       this.canvas.removeEventListener('click', this.clickHandler);
@@ -46,7 +54,7 @@ export class MyceliumNetwork extends BaseVisualization {
       const angle = (i / numTips) * Math.PI * 2 + Math.random() * 0.5;
       this.tips.push({
         x, y, angle,
-        speed: 0.8 + Math.random() * 0.6,
+        speed: 1.2 + Math.random() * 1.3,
         depth: 0,
         color: PALETTE_ARRAY[Math.floor(Math.random() * PALETTE_ARRAY.length)],
         alive: true,
@@ -65,24 +73,21 @@ export class MyceliumNetwork extends BaseVisualization {
   protected update(_t: number) {
     if (this.totalSegments >= this.maxSegments) return;
 
-    // Grow a batch of steps per frame (not just 1 per tip)
-    const stepsPerFrame = Math.min(20, this.maxSegments - this.totalSegments);
-    let drawn = 0;
-
+    // Grow all alive tips each frame for consistent speed
     for (const tip of this.tips) {
-      if (!tip.alive || drawn >= stepsPerFrame) continue;
+      if (!tip.alive || this.totalSegments >= this.maxSegments) continue;
 
       const prevX = tip.x;
       const prevY = tip.y;
 
-      tip.angle += this.noise(tip.x * 0.01, tip.y * 0.01) * 0.15;
+      tip.angle += this.noise(tip.x * 0.003, tip.y * 0.003) * 0.05;
       tip.x += Math.cos(tip.angle) * tip.speed;
       tip.y += Math.sin(tip.angle) * tip.speed;
 
       // Draw segment immediately (incremental rendering)
-      const alpha = 0.15 + (1 - tip.depth / this.maxDepth) * 0.2;
+      const alpha = 0.3 + (1 - tip.depth / this.maxDepth) * 0.35;
       this.ctx.strokeStyle = hexToRgba(tip.color, alpha);
-      this.ctx.lineWidth = 0.6;
+      this.ctx.lineWidth = Math.max(0.4, 1.2 - tip.depth * 0.15);
       this.ctx.lineCap = 'round';
       this.ctx.beginPath();
       this.ctx.moveTo(prevX, prevY);
@@ -90,10 +95,9 @@ export class MyceliumNetwork extends BaseVisualization {
       this.ctx.stroke();
 
       this.totalSegments++;
-      drawn++;
 
       // Branch
-      const branchProb = 0.015 * Math.pow(0.6, tip.depth);
+      const branchProb = 0.025 * Math.pow(0.6, tip.depth);
       if (Math.random() < branchProb && tip.depth < this.maxDepth) {
         const branchAngle = tip.angle + (Math.random() > 0.5 ? 1 : -1) * (0.4 + Math.random() * 0.8);
         this.tips.push({
@@ -126,12 +130,6 @@ export class MyceliumNetwork extends BaseVisualization {
   }
 
   protected draw() {
-    // Only draw background once — everything else is incremental
-    if (this.needsBackground) {
-      this.ctx.fillStyle = LAB_PALETTE.bg;
-      this.ctx.fillRect(0, 0, this.width, this.height);
-      this.needsBackground = false;
-    }
-    // All drawing happens in update() incrementally
+    // All drawing happens in update() incrementally — background painted once in init()
   }
 }

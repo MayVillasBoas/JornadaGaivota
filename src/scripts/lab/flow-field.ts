@@ -1,5 +1,5 @@
-// Flow Field — thousands of particles steered by simplex noise
-// Creates wind/water/smoke effects. Mouse pushes particles.
+// Flow Field — thousands of particles steered by curl noise
+// Curl noise produces divergence-free flow (like real fluid). Mouse pushes particles.
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';
 import { createNoise3D } from './simplex-noise';
@@ -55,11 +55,16 @@ export class FlowField extends BaseVisualization {
       p.prevX = p.x;
       p.prevY = p.y;
 
-      // Get flow angle from noise
-      const angle = this.noise(p.x * this.scale, p.y * this.scale, this.time) * Math.PI * 4;
+      // Curl noise: take the curl of the scalar noise field for divergence-free flow
+      // curl(N) = (dN/dy, -dN/dx) — particles never bunch up or spread apart
+      const eps = 0.5;
+      const px = p.x * this.scale;
+      const py = p.y * this.scale;
+      const dNdy = this.noise(px, py + eps, this.time) - this.noise(px, py - eps, this.time);
+      const dNdx = this.noise(px + eps, py, this.time) - this.noise(px - eps, py, this.time);
 
-      let vx = Math.cos(angle) * p.speed;
-      let vy = Math.sin(angle) * p.speed;
+      let vx = dNdy * p.speed * 2;
+      let vy = -dNdx * p.speed * 2;
 
       // Mouse repulsion
       if (this.mouseActive) {

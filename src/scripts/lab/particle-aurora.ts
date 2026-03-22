@@ -1,105 +1,101 @@
 // Particle Aurora — vivid aurora borealis with bright flowing curtains
-// Real aurora colors: electric green, teal, magenta, violet
+// GPU-accelerated via WebGL fragment shader
 
-import { BaseVisualization, hexToRgba } from './base-visualization';
-import { createNoise2D } from './simplex-noise';
+import { BaseWebGLVisualization } from './base-webgl-visualization';
+import { GLSL_SIMPLEX_3D } from './glsl-noise';
 
-// Real aurora borealis colors — vivid!
-const AURORA_COLORS = [
-  '#39FF14', // electric green (oxygen at 100km)
-  '#00E5CC', // teal-cyan
-  '#FF10F0', // magenta-pink (nitrogen)
-  '#8B5CF6', // violet-purple (nitrogen at high altitude)
-  '#22D3EE', // bright cyan
-];
+const FRAGMENT_SHADER = `
+precision highp float;
 
-export class ParticleAurora extends BaseVisualization {
-  private noise = createNoise2D(41);
-  private noise2 = createNoise2D(59);
-  private time = 0;
-  private curtains: {
-    baseY: number;
-    color: string;
-    freq: number;
-    amplitude: number;
-    speed: number;
-    particleCount: number;
-  }[] = [];
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec2 u_mouse;
+uniform float u_mouseActive;
+uniform float u_isMobile;
 
-  protected init() {
-    this.curtains = [];
-    const numCurtains = 5;
+${GLSL_SIMPLEX_3D}
 
-    for (let c = 0; c < numCurtains; c++) {
-      this.curtains.push({
-        baseY: this.height * (0.15 + (c / numCurtains) * 0.45),
-        color: AURORA_COLORS[c % AURORA_COLORS.length],
-        freq: 0.002 + c * 0.0008,
-        amplitude: 25 + c * 12,
-        speed: 0.25 + c * 0.08,
-        particleCount: this.isMobile ? 150 : 300,
-      });
-    }
+// Aurora colors
+vec3 getAuroraColor(int i) {
+  if (i == 0) return vec3(0.224, 1.0, 0.078);      // #39FF14 electric green
+  if (i == 1) return vec3(0.0, 0.898, 0.8);         // #00E5CC teal-cyan
+  if (i == 2) return vec3(1.0, 0.063, 0.941);       // #FF10F0 magenta
+  if (i == 3) return vec3(0.545, 0.361, 0.965);     // #8B5CF6 violet
+  return vec3(0.133, 0.827, 0.933);                  // #22D3EE bright cyan
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / u_resolution;
+
+  // Dark background with slight fade trail effect
+  vec3 color = vec3(0.102); // #1a1a1a
+
+  float mouseTilt = u_mouseActive > 0.5
+    ? (u_mouse.x / u_resolution.x - 0.5) * 3.0
+    : 0.0;
+
+  int numCurtains = 5;
+  if (u_isMobile > 0.5) numCurtains = 3;
+
+  for (int c = 0; c < 5; c++) {
+    if (c >= numCurtains) break;
+
+    float fc = float(c);
+    float baseY = 0.55 + fc * 0.08;
+    float freq = 0.002 + fc * 0.0008;
+    float amplitude = 0.04 + fc * 0.02;
+    float speed = 0.25 + fc * 0.08;
+
+    // Scale freq to UV space (original was in pixel space)
+    float uvFreq = freq * u_resolution.x;
+
+    // Wave position from layered noise
+    float wave1 = snoise(vec3(
+      uv.x * uvFreq + mouseTilt * 0.3,
+      u_time * speed,
+      fc * 3.0
+    )) * amplitude;
+
+    float wave2 = snoise(vec3(
+      uv.x * uvFreq * 2.5 + 5.0,
+      u_time * speed * 0.7,
+      fc * 3.0 + 1.0
+    )) * amplitude * 0.4;
+
+    float curtainY = baseY + wave1 + wave2;
+
+    // Vertical streak with gaussian falloff
+    float dist = abs(uv.y - curtainY);
+    float streakHeight = 0.025 + abs(snoise(vec3(
+      uv.x * uvFreq * 1.5,
+      u_time * speed * 0.5,
+      fc * 3.0 + 2.0
+    ))) * 0.08;
+
+    float streak = exp(-dist * dist / (streakHeight * streakHeight * 2.0));
+
+    // Intensity varies along X
+    float intensity = max(0.05, (snoise(vec3(
+      uv.x * uvFreq * 0.8,
+      u_time * speed * 0.3,
+      fc * 3.0 + 4.0
+    )) + 0.5) * 0.8);
+
+    // Additive blend
+    vec3 curtainColor = getAuroraColor(c);
+    color += curtainColor * streak * intensity * 0.5;
+
+    // Broad atmospheric glow
+    float glowDist = length(vec2(uv.x - 0.5, uv.y - baseY));
+    color += curtainColor * exp(-glowDist * 3.0) * 0.02;
   }
 
-  protected update(t: number) {
-    this.time = t * 0.001;
-  }
+  gl_FragColor = vec4(color, 1.0);
+}
+`;
 
-  protected draw() {
-    // Slight fade for trailing glow
-    this.ctx.fillStyle = 'rgba(26, 26, 26, 0.15)';
-    this.ctx.fillRect(0, 0, this.width, this.height);
-
-    const mouseTilt = this.mouseActive ? (this.mouseX / this.width - 0.5) * 3 : 0;
-
-    this.ctx.globalCompositeOperation = 'lighter';
-
-    for (const curtain of this.curtains) {
-      const { baseY, color, freq, amplitude, speed, particleCount } = curtain;
-
-      for (let i = 0; i < particleCount; i++) {
-        const x = (i / particleCount) * this.width;
-
-        // Wavy Y position — layered noise for organic movement
-        const wave1 = this.noise(x * freq + mouseTilt * 0.3, this.time * speed) * amplitude;
-        const wave2 = this.noise2(x * freq * 2.5 + 5, this.time * speed * 0.7) * amplitude * 0.4;
-        const y = baseY + wave1 + wave2;
-
-        // Height of the vertical streak — varies with noise
-        const streakHeight = 15 + Math.abs(this.noise(x * freq * 1.5, this.time * speed * 0.5)) * 60;
-
-        // Intensity varies along the curtain — creates bright spots and dim areas
-        const intensity = Math.max(0.05,
-          (this.noise(x * freq * 0.8, this.time * speed * 0.3) + 0.5) * 0.8
-        );
-
-        // Vertical gradient streak
-        const grad = this.ctx.createLinearGradient(x, y - streakHeight, x, y + streakHeight * 0.6);
-        grad.addColorStop(0, 'transparent');
-        grad.addColorStop(0.2, hexToRgba(color, intensity * 0.1));
-        grad.addColorStop(0.4, hexToRgba(color, intensity * 0.35));
-        grad.addColorStop(0.5, hexToRgba(color, intensity * 0.5));
-        grad.addColorStop(0.65, hexToRgba(color, intensity * 0.3));
-        grad.addColorStop(0.85, hexToRgba(color, intensity * 0.08));
-        grad.addColorStop(1, 'transparent');
-
-        this.ctx.fillStyle = grad;
-        this.ctx.fillRect(x - 1.5, y - streakHeight, 3, streakHeight * 1.6);
-      }
-
-      // Broad atmospheric glow underneath each curtain
-      const glowGrad = this.ctx.createRadialGradient(
-        this.width / 2, baseY, 0,
-        this.width / 2, baseY, this.width * 0.6
-      );
-      glowGrad.addColorStop(0, hexToRgba(color, 0.03));
-      glowGrad.addColorStop(0.5, hexToRgba(color, 0.01));
-      glowGrad.addColorStop(1, 'transparent');
-      this.ctx.fillStyle = glowGrad;
-      this.ctx.fillRect(0, 0, this.width, this.height);
-    }
-
-    this.ctx.globalCompositeOperation = 'source-over';
+export class ParticleAurora extends BaseWebGLVisualization {
+  protected getFragmentShader(): string {
+    return FRAGMENT_SHADER;
   }
 }
