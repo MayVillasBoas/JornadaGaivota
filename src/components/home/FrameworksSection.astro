@@ -1,0 +1,68 @@
+---
+import FrameworkCard from './FrameworkCard.astro';
+import { frameworkCategories } from '../../data/framework-categories';
+---
+
+<section class="frameworks-section">
+  <div class="frameworks-content">
+    <span class="section-label">FRAMEWORKS</span>
+    <h2>Lenses for Thinking</h2>
+    <div class="frameworks-grid">
+      {frameworkCategories.map((cat) => (
+        <FrameworkCard category={cat} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .frameworks-section {
+    padding: 4rem 2rem;
+  }
+
+  .frameworks-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .frameworks-content h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .frameworks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .frameworks-section {
+      padding: 3rem 1.5rem;
+    }
+
+    .frameworks-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .frameworks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

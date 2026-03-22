@@ -1,0 +1,192 @@
+---
+import { getAllQuotes, getRandomQuote } from '../../data/books';
+
+const allQuotes = getAllQuotes();
+const initial = getRandomQuote();
+---
+
+<section class="quote-section">
+  <div class="quote-content narrow">
+    <span class="section-label">FROM BOOKS I'VE READ AND LOVED</span>
+    <blockquote class="home-quote">
+      <p class="quote-text">{initial.text}</p>
+      <cite class="quote-source">
+        <span class="quote-author">{initial.author}</span>
+        <span class="quote-sep"> — </span>
+        <span class="quote-book">{initial.title}</span>
+      </cite>
+    </blockquote>
+    <div class="quote-footer">
+      <button class="quote-next" aria-label="Next quote">another &rarr;</button>
+      <a href="/books" class="quote-link">all highlights &rarr;</a>
+    </div>
+  </div>
+  <script type="application/json" id="quotes-data" set:html={JSON.stringify(allQuotes)} />
+</section>
+
+<style>
+  .quote-section {
+    padding: 5rem 2rem;
+  }
+
+  .quote-content {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .home-quote {
+    margin: 0 0 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--border);
+    transition: border-color 0.3s;
+    min-height: 120px;
+  }
+
+  .home-quote:hover {
+    border-left-color: var(--accent);
+  }
+
+  .quote-text {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    transition: opacity 0.4s ease;
+  }
+
+  .quote-source {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    font-style: normal;
+    color: var(--ink-muted);
+    transition: opacity 0.4s ease;
+  }
+
+  .quote-author {
+    font-weight: 400;
+    color: var(--ink-light);
+  }
+
+  .quote-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .quote-next {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .quote-next:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .quote-link {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .quote-link:hover {
+    color: var(--accent);
+  }
+
+  .quote-text.fading,
+  .quote-source.fading {
+    opacity: 0;
+  }
+
+  @media (max-width: 768px) {
+    .quote-section {
+      padding: 3rem 1.5rem;
+    }
+
+    .quote-text {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<script>
+  try {
+    const dataEl = document.getElementById('quotes-data');
+    if (!dataEl) throw new Error('no data');
+
+    const quotes = JSON.parse(dataEl.textContent || '[]');
+    if (quotes.length === 0) throw new Error('empty');
+
+    const textEl = document.querySelector('.quote-text') as HTMLElement;
+    const authorEl = document.querySelector('.quote-author') as HTMLElement;
+    const bookEl = document.querySelector('.quote-book') as HTMLElement;
+    const sourceEl = document.querySelector('.quote-source') as HTMLElement;
+    const nextBtn = document.querySelector('.quote-next');
+
+    let currentIndex = Math.floor(Math.random() * quotes.length);
+
+    function showQuote(index: number) {
+      const quote = quotes[index];
+      if (!quote) return;
+
+      // Fade out
+      textEl?.classList.add('fading');
+      sourceEl?.classList.add('fading');
+
+      setTimeout(() => {
+        if (textEl) textEl.textContent = quote.text;
+        if (authorEl) authorEl.textContent = quote.author;
+        if (bookEl) bookEl.textContent = quote.title;
+
+        // Fade in
+        textEl?.classList.remove('fading');
+        sourceEl?.classList.remove('fading');
+      }, 400);
+    }
+
+    // Show initial random quote
+    showQuote(currentIndex);
+
+    // "Another" button cycles through quotes
+    nextBtn?.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % quotes.length;
+      // Shuffle on first cycle through
+      showQuote(currentIndex);
+    });
+
+    // Also auto-rotate every 12 seconds
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % quotes.length;
+      showQuote(currentIndex);
+    }, 12000);
+  } catch {
+    // SSR fallback is already rendered
+  }
+</script>

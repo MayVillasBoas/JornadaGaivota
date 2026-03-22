@@ -1,9 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import CreamCosmos from '../components/CreamCosmos.astro';
-import { mainLinks, mayLinks } from '../data/navigation';
-
-const allLinks = [...mainLinks, ...mayLinks];
+import LabsSection from '../components/home/LabsSection.astro';
+import QuoteSection from '../components/home/QuoteSection.astro';
+import FrameworksSection from '../components/home/FrameworksSection.astro';
+import LinksSection from '../components/home/LinksSection.astro';
 ---
 
 <Base title="may.labs" description="Um espaço pra explorar ideias, ferramentas e o que me faz pensar.">
@@ -35,24 +36,17 @@ const allLinks = [...mainLinks, ...mayLinks];
     </div>
   </section>
 
+  <LabsSection />
+
+  <QuoteSection />
+
   <div class="divider"></div>
 
-  <section class="spaces-section">
-    <div class="spaces-content narrow">
-      <h2 class="spaces-title">Explore</h2>
+  <FrameworksSection />
 
-      <div class="spaces-list">
-        {allLinks.map(link => (
-          <a href={link.href} class="space-item">
-            <span class="space-name">{link.label}</span>
-            <span class="space-desc">{link.description}</span>
-            <span class="space-arrow">&rarr;</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+  <div class="divider"></div>
 
+  <LinksSection />
 
 </Base>
 
@@ -93,102 +87,10 @@ const allLinks = [...mainLinks, ...mayLinks];
     margin: 1rem auto;
   }
 
-  /* Spaces section */
-  .spaces-section {
-    padding: 3rem 2rem;
-  }
-
-  .spaces-content {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  .spaces-title {
-    font-family: var(--serif);
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 2rem;
-  }
-
-  .spaces-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .space-item {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
-  .space-item:first-child {
-    border-top: 1px solid var(--border);
-  }
-
-  .space-name {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    font-weight: 500;
-    color: var(--ink);
-    flex-shrink: 0;
-  }
-
-  .space-desc {
-    font-family: var(--sans);
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: var(--ink-muted);
-    flex: 1;
-  }
-
-  .space-arrow {
-    font-size: 1rem;
-    color: var(--ink-muted);
-    opacity: 0;
-    transform: translateX(-4px);
-    transition: opacity 0.2s, transform 0.2s;
-    flex-shrink: 0;
-  }
-
-  .space-item:hover .space-name {
-    color: var(--accent);
-  }
-
-  .space-item:hover .space-arrow {
-    opacity: 1;
-    transform: translateX(0);
-    color: var(--accent);
-  }
-
   /* Responsive */
   @media (max-width: 768px) {
     .about-section {
       padding: 3rem 1.5rem 2rem;
-    }
-
-    .spaces-section {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-
-    .space-item {
-      flex-wrap: wrap;
-      gap: 0.3rem;
-    }
-
-    .space-desc {
-      flex-basis: 100%;
-      padding-left: 0;
-    }
-
-    .space-arrow {
-      display: none;
     }
   }
 </style>

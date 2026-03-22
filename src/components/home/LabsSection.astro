@@ -1,0 +1,148 @@
+---
+import LabCarousel from './LabCarousel.astro';
+import { labCategories, getVizzesByCategory } from '../../data/lab-registry';
+---
+
+<div class="labs-gradient-top"></div>
+<section class="labs-section">
+  <div class="labs-content">
+    <span class="section-label">LAB</span>
+    {labCategories.map((cat) => (
+      <LabCarousel category={cat} vizzes={getVizzesByCategory(cat.id)} />
+    ))}
+  </div>
+</section>
+<div class="labs-gradient-bottom"></div>
+
+<style>
+  .labs-gradient-top {
+    height: 60px;
+    background: linear-gradient(to bottom, var(--cream), #1a1a1a);
+  }
+
+  .labs-section {
+    background: #1a1a1a;
+    padding: 3rem 0 5rem;
+  }
+
+  .labs-gradient-bottom {
+    height: 60px;
+    background: linear-gradient(to bottom, #1a1a1a, var(--cream));
+  }
+
+  .labs-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.25);
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .labs-section {
+      padding: 2rem 0 3rem;
+    }
+
+    .labs-content {
+      padding: 0 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Carousel scroll buttons
+  document.querySelectorAll('.lab-carousel').forEach((carousel) => {
+    const track = carousel.querySelector('.carousel-track') as HTMLElement;
+    const prevBtn = carousel.querySelector('.carousel-prev');
+    const nextBtn = carousel.querySelector('.carousel-next');
+    const cardWidth = 296; // 280px card + 16px gap
+
+    prevBtn?.addEventListener('click', () => {
+      track.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
+    });
+    nextBtn?.addEventListener('click', () => {
+      track.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
+    });
+  });
+
+  // Hover-to-activate canvas (desktop only)
+  if (window.innerWidth >= 768) {
+    type VizConstructor = new (canvas: HTMLCanvasElement) => { start(): void; stop(): void };
+
+    const vizInstances = new Map<string, { start(): void; stop(): void }>();
+    let activeViz: { stop(): void } | null = null;
+    let activeCanvas: HTMLCanvasElement | null = null;
+
+    const importMap: Record<string, () => Promise<Record<string, VizConstructor>>> = {
+      'fern': () => import('../../scripts/lab/barnsley-fern') as any,
+      'romanesco': () => import('../../scripts/lab/romanesco-natural') as any,
+      'lightning': () => import('../../scripts/lab/lightning-fractal') as any,
+      'koch': () => import('../../scripts/lab/koch-snowflake') as any,
+      'nautilus': () => import('../../scripts/lab/nautilus-spiral') as any,
+      'emergence': () => import('../../scripts/lab/emergence-boids') as any,
+      'edge-of-chaos': () => import('../../scripts/lab/edge-of-chaos') as any,
+      'stigmergy': () => import('../../scripts/lab/stigmergy') as any,
+      'scale-shift': () => import('../../scripts/lab/scale-shift') as any,
+      'permeable': () => import('../../scripts/lab/permeable-boundaries') as any,
+      'flow-field': () => import('../../scripts/lab/flow-field') as any,
+      'mycelium': () => import('../../scripts/lab/mycelium-network') as any,
+      'phyllotaxis': () => import('../../scripts/lab/phyllotaxis-bloom') as any,
+      'aurora': () => import('../../scripts/lab/particle-aurora') as any,
+      'clouds': () => import('../../scripts/lab/cloud-fractal') as any,
+      'sunrays': () => import('../../scripts/lab/sun-rays') as any,
+    };
+
+    document.querySelectorAll('.lab-preview-card').forEach((card) => {
+      const slug = (card as HTMLElement).dataset.vizSlug!;
+      const canvas = card.querySelector('.hover-canvas') as HTMLCanvasElement;
+
+      card.addEventListener('mouseenter', async () => {
+        let viz = vizInstances.get(slug);
+
+        if (!viz) {
+          const loader = importMap[slug];
+          if (!loader) return;
+
+          const mod = await loader();
+          const Ctor = Object.values(mod).find(
+            (v) => typeof v === 'function' && v.prototype && 'start' in v.prototype
+          ) as VizConstructor | undefined;
+
+          if (!Ctor) return;
+          viz = new Ctor(canvas);
+          vizInstances.set(slug, viz);
+        }
+
+        if (activeViz && activeViz !== viz) {
+          activeViz.stop();
+          if (activeCanvas) activeCanvas.style.opacity = '0';
+        }
+
+        viz.start();
+        activeViz = viz;
+        activeCanvas = canvas;
+        canvas.style.opacity = '1';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        canvas.style.opacity = '0';
+        const currentViz = vizInstances.get(slug);
+        setTimeout(() => {
+          if (canvas.style.opacity === '0' && currentViz) {
+            currentViz.stop();
+            if (activeViz === currentViz) activeViz = null;
+          }
+        }, 700);
+      });
+    });
+  }
+</script>

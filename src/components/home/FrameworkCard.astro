@@ -1,0 +1,78 @@
+---
+import type { FrameworkCategory } from '../../data/framework-categories';
+
+interface Props {
+  category: FrameworkCategory;
+}
+
+const { category } = Astro.props;
+---
+
+<a href="/unfold" class="framework-card" style={`--card-color: ${category.color}`}>
+  <div class="card-header">
+    <span class="card-dot" style={`background: ${category.color}`}></span>
+    <h3>{category.label}</h3>
+  </div>
+  <span class="card-count">{category.count} frameworks</span>
+  <p class="card-examples">{category.examples.join(' · ')}</p>
+</a>
+
+<style>
+  .framework-card {
+    display: block;
+    padding: 1.5rem;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s;
+  }
+
+  .framework-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-left: 3px solid var(--card-color);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-header h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .card-count {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .card-examples {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-light);
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import { mainLinks, mayLinks } from '../../data/navigation';
+
+// Filter out links already represented by rich sections
+const excludedHrefs = ['/lab', '/unfold', '/books'];
+const remainingLinks = [...mainLinks, ...mayLinks].filter(
+  (link) => !excludedHrefs.includes(link.href)
+);
+---
+
+<section class="links-section">
+  <div class="links-content narrow">
+    <div class="links-list">
+      {remainingLinks.map((link) => (
+        <a href={link.href} class="link-item">
+          <span class="link-name">{link.label}</span>
+          <span class="link-desc">{link.description}</span>
+          <span class="link-arrow">&rarr;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .links-section {
+    padding: 3rem 2rem 5rem;
+  }
+
+  .links-content {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .links-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .link-item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .link-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .link-name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .link-desc {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    flex: 1;
+  }
+
+  .link-arrow {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .link-item:hover .link-name {
+    color: var(--accent);
+  }
+
+  .link-item:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .links-section {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .link-item {
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .link-desc {
+      flex-basis: 100%;
+    }
+
+    .link-arrow {
+      display: none;
+    }
+  }
+</style>
