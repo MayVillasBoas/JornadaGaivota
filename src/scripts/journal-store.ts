@@ -54,9 +54,22 @@ export interface CalendarDay {
 
 // ─── Auth helper ────────────────────────────────────────────────────────────
 
+let cachedUserId: string | null = null;
+
 async function getUserId(): Promise<string | null> {
-  const { data } = await supabase.auth.getUser();
-  return data.user?.id ?? null;
+  if (cachedUserId) return cachedUserId;
+
+  // Personal site: get the bot user from profiles (phone-based identity)
+  const { data } = await supabase
+    .from('profiles')
+    .select('id')
+    .not('weight_kg', 'is', null)
+    .not('goal', 'is', null)
+    .limit(1)
+    .single();
+
+  cachedUserId = data?.id ?? null;
+  return cachedUserId;
 }
 
 // ─── Journal Entries ────────────────────────────────────────────────────────

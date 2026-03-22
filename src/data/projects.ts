@@ -13,7 +13,7 @@ export const projects: Project[] = [
   {
     slug: 'personal-hub',
     number: '01',
-    title: 'May.OS',
+    title: 'may.os',
     subtitle: 'A personal operating system through WhatsApp',
     description: 'An integrated system that captures life through natural WhatsApp messages — nutrition, journal, and ideas classified by AI and visualized in a personal dashboard.',
     status: 'building',
