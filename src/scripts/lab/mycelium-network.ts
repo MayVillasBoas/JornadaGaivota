@@ -38,17 +38,23 @@ export class MyceliumNetwork extends BaseVisualization {
   private maxSegments = 5000;
   private maxDepth = 8;
 
+  private clickHandler: ((e: MouseEvent) => void) | null = null;
+
   protected init() {
     this.tips = [];
     this.nodes = [];
     this.segments = [];
     this.addSeed(this.width / 2, this.height / 2);
 
-    // Click to add seeds
-    this.canvas.addEventListener('click', (e) => {
+    // Remove old listener before adding new one
+    if (this.clickHandler) {
+      this.canvas.removeEventListener('click', this.clickHandler);
+    }
+    this.clickHandler = (e: MouseEvent) => {
       const rect = this.canvas.getBoundingClientRect();
       this.addSeed(e.clientX - rect.left, e.clientY - rect.top);
-    });
+    };
+    this.canvas.addEventListener('click', this.clickHandler);
   }
 
   private addSeed(x: number, y: number) {
