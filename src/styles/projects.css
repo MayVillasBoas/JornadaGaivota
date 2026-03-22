@@ -1,0 +1,409 @@
+/* ─── Projects list page ─── */
+
+.page-header {
+  padding: 4rem 2rem 2rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.page-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.page-sub {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.projects-content {
+  padding: 2rem;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.project-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.project-card:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.project-number {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-muted);
+  padding-top: 0.3rem;
+  flex-shrink: 0;
+}
+
+.project-info {
+  flex: 1;
+}
+
+.project-info h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+
+.project-card:hover .project-info h2 {
+  color: var(--accent);
+}
+
+.project-desc {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.project-areas {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.area-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: block;
+}
+
+.project-status {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.project-arrow {
+  font-size: 1.2rem;
+  color: var(--border-light);
+  transition: all 0.3s ease;
+  padding-top: 0.3rem;
+  flex-shrink: 0;
+}
+
+.project-card:hover .project-arrow {
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+/* ─── Project detail page ─── */
+
+.project-detail {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 2rem 6rem;
+}
+
+.project-header {
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+}
+
+.project-header .back-link {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  display: inline-block;
+  margin-bottom: 2rem;
+  transition: color 0.3s;
+}
+
+.project-header .back-link:hover {
+  color: var(--ink);
+}
+
+.project-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+
+.project-subtitle {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+/* Sections */
+.project-detail section {
+  margin-bottom: 1rem;
+}
+
+.project-detail h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-detail .divider {
+  width: 40px;
+  height: 1px;
+  background: var(--border-light);
+  margin: 2.5rem auto;
+}
+
+/* Section: The idea */
+.section-idea p {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  line-height: 1.8;
+  color: var(--ink-light);
+  margin-bottom: 1.5rem;
+}
+
+.section-idea p.lead {
+  font-size: 1.25rem;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* Section: Flow diagram */
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.flow-input,
+.flow-process,
+.flow-output {
+  text-align: center;
+}
+
+.flow-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 0.5rem;
+}
+
+.flow-box {
+  border: 1px solid var(--border);
+  padding: 1rem 1.2rem;
+  border-radius: 4px;
+  min-width: 120px;
+}
+
+.flow-box strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.flow-box span {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+.flow-arrow {
+  font-size: 1.2rem;
+  color: var(--border-light);
+  padding-top: 1.2rem;
+}
+
+.flow-surfaces {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.flow-arrow-down {
+  display: block;
+  font-size: 1rem;
+  color: var(--border-light);
+  margin-bottom: 0.75rem;
+}
+
+.surface-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.surface-tag {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+/* Section: Areas grid */
+.areas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.area-card {
+  padding: 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  border-top: 2px solid var(--area-color);
+}
+
+.area-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.area-card h3 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.area-status {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.area-status.active {
+  color: var(--cat-action);
+}
+
+.area-status.planned {
+  color: var(--ink-muted);
+}
+
+.area-card p {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+/* Section: Rhythm */
+.rhythm-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rhythm-block h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.rhythm-block p {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--ink-light);
+}
+
+/* Section: Stack */
+.stack-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stack-badge {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
+/* Section: Roadmap */
+.roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.roadmap-list li {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--ink-light);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.roadmap-marker {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.project-timestamp {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+
+  .projects-content {
+    padding: 1.5rem;
+  }
+
+  .project-detail {
+    padding: 0 1.5rem 4rem;
+  }
+
+  .flow-diagram {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+    padding-top: 0;
+  }
+
+  .areas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-header h1 {
+    font-size: 1.8rem;
+  }
+}

@@ -1,0 +1,190 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/projects.css';
+---
+
+<Base title="Personal Hub - may.labs" description="A life evolution system through WhatsApp — connecting journal, health, and work through natural messages.">
+
+  <article class="project-detail">
+    <header class="project-header">
+      <a href="/projects" class="back-link">&larr; projects</a>
+      <h1>Personal Hub</h1>
+      <p class="project-subtitle">A life evolution system through WhatsApp</p>
+    </header>
+
+    <!-- Section 1: The idea -->
+    <section class="section-idea">
+      <p class="lead">
+        Most personal tracking tools die the same way — you download an app, fill forms for a week, and quietly stop. The friction kills the habit.
+      </p>
+      <p>
+        This project starts from a different premise: what if the interface was a conversation you're already having? WhatsApp is where I think out loud, share meals, vent about work, celebrate wins. Instead of asking me to open another app, the system meets me where I already am.
+      </p>
+      <p>
+        A single message — text, voice, or photo — gets classified by AI into one of six life areas. No forms, no categories to pick, no buttons to tap. Just talk, and the system understands.
+      </p>
+      <!-- TODO: May, personalize this section with your own words — why you built this, what problem it solves for you -->
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 2: How it works -->
+    <section class="section-flow">
+      <h2>How it works</h2>
+
+      <div class="flow-diagram">
+        <div class="flow-input">
+          <span class="flow-label">input</span>
+          <div class="flow-box">
+            <strong>WhatsApp</strong>
+            <span>text, voice, photo</span>
+          </div>
+        </div>
+
+        <span class="flow-arrow">&rarr;</span>
+
+        <div class="flow-process">
+          <span class="flow-label">process</span>
+          <div class="flow-box">
+            <strong>AI classifies</strong>
+            <span>Claude Haiku / Sonnet</span>
+          </div>
+        </div>
+
+        <span class="flow-arrow">&rarr;</span>
+
+        <div class="flow-output">
+          <span class="flow-label">store</span>
+          <div class="flow-box">
+            <strong>6 life areas</strong>
+            <span>Supabase</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-surfaces">
+        <span class="flow-arrow-down">&darr;</span>
+        <div class="surface-row">
+          <span class="surface-tag">Dashboard</span>
+          <span class="surface-tag">Weekly Pulse</span>
+          <span class="surface-tag">Journey</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 3: What it captures -->
+    <section class="section-areas">
+      <h2>What it captures</h2>
+
+      <div class="areas-grid">
+        <div class="area-card" style="--area-color: var(--cat-action)">
+          <div class="area-header">
+            <h3>Nutrition</h3>
+            <span class="area-status active">active</span>
+          </div>
+          <p>Meals, macros (kcal, protein, carbs, fat), daily progress, nutritional tips. Photo analysis for food identification.</p>
+        </div>
+
+        <div class="area-card" style="--area-color: var(--cat-energy)">
+          <div class="area-header">
+            <h3>Body</h3>
+            <span class="area-status planned">planned</span>
+          </div>
+          <p>Workouts, sleep quality, weight trends, physical energy. Movement frequency over intensity.</p>
+        </div>
+
+        <div class="area-card" style="--area-color: var(--cat-thinking)">
+          <div class="area-header">
+            <h3>Emotional diary</h3>
+            <span class="area-status active">active</span>
+          </div>
+          <p>Energy level (-1 to 1), emotional tone (16 categories), recurring themes, celebrations. One entry per day, appends naturally.</p>
+        </div>
+
+        <div class="area-card" style="--area-color: var(--cat-decisions)">
+          <div class="area-header">
+            <h3>Work</h3>
+            <span class="area-status planned">planned</span>
+          </div>
+          <p>Accomplishments, blockers, deep work sessions, skills developed. Wins over hours.</p>
+        </div>
+
+        <div class="area-card" style="--area-color: var(--cat-relationships)">
+          <div class="area-header">
+            <h3>Relationships</h3>
+            <span class="area-status planned">planned</span>
+          </div>
+          <p>Meaningful connections, quality of interactions, relational patterns. Only when it matters.</p>
+        </div>
+
+        <div class="area-card" style="--area-color: var(--cat-perspective)">
+          <div class="area-header">
+            <h3>Intellectual</h3>
+            <span class="area-status planned">planned</span>
+          </div>
+          <p>Readings, ideas, insights, frameworks learned. Feeds from the vault.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 4: The rhythm -->
+    <section class="section-rhythm">
+      <h2>The rhythm</h2>
+
+      <div class="rhythm-blocks">
+        <div class="rhythm-block">
+          <h3>Daily — capture</h3>
+          <p>3-5 natural WhatsApp messages throughout the day. No forms, no checklists. AI extracts the data. The bot occasionally asks — "how did you sleep?", "what did you accomplish today?" — but never more than twice a day.</p>
+        </div>
+
+        <div class="rhythm-block">
+          <h3>Weekly — pulse</h3>
+          <p>Every Sunday, the bot sends an AI-generated summary: nutritional adherence, movement days, average energy, dominant tone, recurring themes, wins, and one cross-area correlation. Not a list of numbers — a mini-narrative.</p>
+        </div>
+
+        <div class="rhythm-block">
+          <h3>Monthly — deep dive</h3>
+          <p>Energy curves, mood heat maps, consistency radar across all six areas, month-over-month comparisons. The editorial graphs that tell the story of a month lived.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 5: The stack -->
+    <section class="section-stack">
+      <h2>Under the hood</h2>
+      <div class="stack-badges">
+        <span class="stack-badge">TypeScript</span>
+        <span class="stack-badge">Astro</span>
+        <span class="stack-badge">Supabase</span>
+        <span class="stack-badge">Claude API</span>
+        <span class="stack-badge">Twilio</span>
+        <span class="stack-badge">Vercel</span>
+        <span class="stack-badge">Groq Whisper</span>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 6: What's next -->
+    <section class="section-roadmap">
+      <h2>What's next</h2>
+      <ul class="roadmap-list">
+        <li><span class="roadmap-marker">○</span> Dashboard with editorial graphs</li>
+        <li><span class="roadmap-marker">○</span> Body and movement tracking</li>
+        <li><span class="roadmap-marker">○</span> Proactive check-ins from the bot</li>
+        <li><span class="roadmap-marker">○</span> Weekly Pulse summaries via WhatsApp</li>
+        <li><span class="roadmap-marker">○</span> Work and intellectual area capture</li>
+        <li><span class="roadmap-marker">○</span> Monthly deep dive with cross-area correlations</li>
+      </ul>
+      <p class="project-timestamp">In progress · Started March 2026</p>
+    </section>
+
+  </article>
+
+</Base>

@@ -4,6 +4,7 @@
 export const mainLinks = [
   { href: '/unfold', label: 'explore', description: 'frameworks, mentors, and lenses for better thinking' },
   { href: '/copilot', label: 'copilot', description: 'AI-guided decision-making through structured frameworks' },
+  { href: '/projects', label: 'projects', description: 'what I\'m building — tools, systems, experiments' },
   { href: '/lab', label: 'lab', description: 'visualizations and complex systems' },
 ];
 

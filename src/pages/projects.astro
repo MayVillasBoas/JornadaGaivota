@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import { projects } from '../data/projects';
+import '../styles/projects.css';
+---
+
+<Base title="Projects - may.labs" description="What I'm building — tools, systems, and experiments.">
+
+  <section class="page-header">
+    <h1>Projects</h1>
+    <p class="page-sub">Things I'm building. Some work, some are ideas, all are real.</p>
+  </section>
+
+  <section class="projects-content narrow">
+    <div class="projects-list">
+      {projects.map(project => (
+        <a href={`/projects/${project.slug}`} class="project-card">
+          <span class="project-number">{project.number}</span>
+          <div class="project-info">
+            <h2>{project.title}</h2>
+            <p class="project-desc">{project.description}</p>
+            <div class="project-meta">
+              <div class="project-areas">
+                {project.areas.filter(a => a.active).map(area => (
+                  <span class="area-dot" style={`background: ${area.color}`} title={area.name}></span>
+                ))}
+              </div>
+              <span class="project-status">{project.status}</span>
+            </div>
+          </div>
+          <span class="project-arrow">&rarr;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</Base>
