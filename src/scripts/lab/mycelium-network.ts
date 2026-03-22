@@ -35,8 +35,8 @@ export class MyceliumNetwork extends BaseVisualization {
   private nodes: Node[] = [];
   private segments: Segment[] = [];
   private time = 0;
-  private maxSegments = 5000;
-  private maxDepth = 8;
+  private maxSegments = 3000;
+  private maxDepth = 6;
 
   private clickHandler: ((e: MouseEvent) => void) | null = null;
 
@@ -131,6 +131,11 @@ export class MyceliumNetwork extends BaseVisualization {
 
       if (this.segments.length >= this.maxSegments) break;
     }
+
+    // Clean up dead tips to prevent array growth
+    if (this.tips.length > 200) {
+      this.tips = this.tips.filter(t => t.alive);
+    }
   }
 
   protected draw() {
@@ -138,19 +143,20 @@ export class MyceliumNetwork extends BaseVisualization {
     this.ctx.fillStyle = LAB_PALETTE.bg;
     this.ctx.fillRect(0, 0, this.width, this.height);
 
-    // Draw segments
+    // Draw segments — batch by color for fewer state changes
+    this.ctx.lineWidth = 0.6;
+    this.ctx.lineCap = 'round';
     for (const seg of this.segments) {
       this.ctx.strokeStyle = hexToRgba(seg.color, seg.alpha);
-      this.ctx.lineWidth = 0.6;
-      this.ctx.lineCap = 'round';
       this.ctx.beginPath();
       this.ctx.moveTo(seg.x1, seg.y1);
       this.ctx.lineTo(seg.x2, seg.y2);
       this.ctx.stroke();
     }
 
-    // Draw pulsing nodes
-    for (const node of this.nodes) {
+    // Draw pulsing nodes — limit to 100 most recent to avoid gradient overload
+    const visibleNodes = this.nodes.length > 100 ? this.nodes.slice(-100) : this.nodes;
+    for (const node of visibleNodes) {
       const pulse = 1 + Math.sin(this.time * 2 + node.phase) * 0.3;
       const r = Math.max(0.5, node.radius * pulse);
       const glow = this.ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 3);
