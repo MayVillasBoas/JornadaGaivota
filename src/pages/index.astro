@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import CreamCosmos from '../components/CreamCosmos.astro';
+import { mainLinks, mayLinks } from '../data/navigation';
+
+const allLinks = [...mainLinks, ...mayLinks];
 ---
 
 <Base title="may.labs" description="Um espaço pra explorar ideias, ferramentas e o que me faz pensar.">
@@ -39,35 +42,13 @@ import CreamCosmos from '../components/CreamCosmos.astro';
       <h2 class="spaces-title">Explore</h2>
 
       <div class="spaces-list">
-        <a href="/unfold" class="space-item">
-          <span class="space-name">Explore</span>
-          <span class="space-desc">ferramentas, mentores e lentes pra pensar melhor</span>
-          <span class="space-arrow">&rarr;</span>
-        </a>
-
-        <a href="/escrita" class="space-item">
-          <span class="space-name">Escrita</span>
-          <span class="space-desc">reflexões e fragmentos</span>
-          <span class="space-arrow">&rarr;</span>
-        </a>
-
-        <a href="/lab" class="space-item">
-          <span class="space-name">Lab</span>
-          <span class="space-desc">visualizações e sistemas complexos</span>
-          <span class="space-arrow">&rarr;</span>
-        </a>
-
-        <a href="/agora" class="space-item">
-          <span class="space-name">Now</span>
-          <span class="space-desc">no que estou pensando e construindo</span>
-          <span class="space-arrow">&rarr;</span>
-        </a>
-
-        <a href="/diario" class="space-item">
-          <span class="space-name">Journal</span>
-          <span class="space-desc">your life is a movie but you live in a pixel</span>
-          <span class="space-arrow">&rarr;</span>
-        </a>
+        {allLinks.map(link => (
+          <a href={link.href} class="space-item">
+            <span class="space-name">{link.label}</span>
+            <span class="space-desc">{link.description}</span>
+            <span class="space-arrow">&rarr;</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>

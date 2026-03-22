@@ -1,0 +1,15 @@
+// Single source of truth for site navigation
+// Used by Nav.astro (header) and index.astro (home explore section)
+
+export const mainLinks = [
+  { href: '/unfold', label: 'explore', description: 'frameworks, mentors, and lenses for better thinking' },
+  { href: '/copilot', label: 'copilot', description: 'AI-guided decision-making through structured frameworks' },
+  { href: '/lab', label: 'lab', description: 'visualizations and complex systems' },
+];
+
+export const mayLinks = [
+  { href: '/sobre', label: 'about', description: 'who I am and what this is about' },
+  { href: '/escrita', label: 'essays', description: 'reflections and fragments' },
+  { href: '/books', label: 'books', description: 'highlights from my Kindle' },
+  { href: '/agora', label: 'now', description: 'what I\'m thinking and building' },
+];
