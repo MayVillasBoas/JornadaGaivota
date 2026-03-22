@@ -9,6 +9,7 @@ export const mainLinks = [
 ];
 
 export const mayLinks = [
+  { href: '/diario', label: 'May.OS', description: 'personal operating system' },
   { href: '/sobre', label: 'about', description: 'who I am and what this is about' },
   { href: '/escrita', label: 'essays', description: 'reflections and fragments' },
   { href: '/books', label: 'books', description: 'highlights from my Kindle' },

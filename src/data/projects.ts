@@ -13,9 +13,9 @@ export const projects: Project[] = [
   {
     slug: 'personal-hub',
     number: '01',
-    title: 'Personal Hub',
-    subtitle: 'A life evolution system through WhatsApp',
-    description: 'An integrated chat that connects personal journal, health tracking, and work — all through natural WhatsApp messages classified by AI into six life areas.',
+    title: 'May.OS',
+    subtitle: 'A personal operating system through WhatsApp',
+    description: 'An integrated system that captures life through natural WhatsApp messages — nutrition, journal, and ideas classified by AI and visualized in a personal dashboard.',
     status: 'building',
     areas: [
       { name: 'nutrition', color: 'var(--cat-action)', active: true },

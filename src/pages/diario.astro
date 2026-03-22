@@ -3,16 +3,19 @@ import Base from '../layouts/Base.astro';
 import '../styles/journal.css';
 ---
 
-<Base title="Energy Journal - Unfold" description="Track how you feel, day after day.">
+<Base title="May.OS" description="Your personal operating system.">
 
   <section class="journal-hero">
-    <h1>energy journal</h1>
-    <p class="journal-subtitle">mapping how you feel, day after day</p>
+    <h1>May.OS</h1>
+    <p class="journal-subtitle">your personal operating system</p>
   </section>
 
   <div class="journal-tabs">
     <button class="journal-tab active" data-view="checkin">check-in</button>
+    <button class="journal-tab" data-view="saude">health</button>
     <button class="journal-tab" data-view="calendario">calendar</button>
+    <button class="journal-tab" data-view="timeline">timeline</button>
+    <button class="journal-tab" data-view="vault">vault</button>
   </div>
 
   <!-- ─── Check-in View ─── -->
@@ -112,6 +115,35 @@ import '../styles/journal.css';
     </div>
   </section>
 
+  <!-- ─── Health View ─── -->
+  <section class="journal-view" id="view-saude">
+    <div class="health-container">
+      <!-- Daily Macros Summary -->
+      <div class="health-macros-card" id="health-macros-card">
+        <span class="health-section-label">today's nutrition</span>
+        <div class="macro-bars" id="macro-bars">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Meals List -->
+      <div class="health-section">
+        <span class="health-section-label">meals</span>
+        <div class="health-meals" id="health-meals"></div>
+      </div>
+
+      <!-- Workouts -->
+      <div class="health-section">
+        <span class="health-section-label">workouts</span>
+        <div class="health-workouts" id="health-workouts"></div>
+      </div>
+
+      <div class="health-empty" id="health-empty" style="display:none">
+        <p class="timeline-empty-text">no health data yet today</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── Calendar View ─── -->
   <section class="journal-view wide" id="view-calendario">
     <div class="calendar-container">
@@ -156,9 +188,40 @@ import '../styles/journal.css';
     </div>
   </section>
 
+  <!-- ─── Timeline View ─── -->
+  <section class="journal-view" id="view-timeline">
+    <div class="timeline-container">
+      <div class="timeline-empty" id="timeline-empty" style="display:none">
+        <p class="timeline-empty-text">nothing here yet — send something via WhatsApp</p>
+      </div>
+      <div class="timeline-entries" id="timeline-entries"></div>
+      <button class="btn-load-more" id="btn-load-more" style="display:none">load more</button>
+      <div class="timeline-loading" id="timeline-loading" style="display:none">
+        <div class="loading-dots"><span>.</span><span>.</span><span>.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Vault View ─── -->
+  <section class="journal-view" id="view-vault">
+    <div class="vault-container">
+      <div class="vault-filters">
+        <div class="vault-search-wrapper">
+          <input type="text" id="vault-search" class="vault-search" placeholder="search..." />
+        </div>
+        <div class="vault-tags" id="vault-tags"></div>
+      </div>
+      <div class="vault-empty" id="vault-empty" style="display:none">
+        <p class="timeline-empty-text">no vault entries yet</p>
+      </div>
+      <div class="vault-entries" id="vault-entries"></div>
+    </div>
+  </section>
+
 </Base>
 
 <script>
   import '../scripts/voice-input';
   import '../scripts/journal-ui';
+  import '../scripts/hub-ui';
 </script>
