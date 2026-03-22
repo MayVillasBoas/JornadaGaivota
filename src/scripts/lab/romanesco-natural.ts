@@ -1,11 +1,13 @@
-// Romanesco — 3D romanesco broccoli with Three.js
-// Recursive cone geometry arranged in golden angle phyllotaxis
-// Real 3D with orbital camera, lighting, and self-similar structure
+// Romanesco — 3D fractal broccoli with Three.js
+// Recursive cone-on-cone structure with golden angle spiral placement
+// Based on the algorithm from rrhvella/romanesco-broccoli-generator
 
 import { BaseVisualization } from './base-visualization';
 import * as THREE from 'three';
 
-const GOLDEN_ANGLE = 137.508 * (Math.PI / 180);
+const GOLDEN_ANGLE = 2.399963; // 137.508° in radians
+const INNER_TO_OUTER_RATIO = 0.4325;
+const RADIUS_TO_LENGTH = 0.9534;
 
 export class RomanescoNatural extends BaseVisualization {
   private renderer: THREE.WebGLRenderer | null = null;
@@ -16,14 +18,13 @@ export class RomanescoNatural extends BaseVisualization {
   private elapsed = 0;
   private cameraAngle = 0;
   private targetCameraAngle = 0;
-  private cameraHeight = 0.4;
-  private targetCameraHeight = 0.4;
+  private cameraHeight = 0.5;
+  private targetCameraHeight = 0.5;
 
   protected init() {
     this.startTime = 0;
     this.elapsed = 0;
 
-    // Create Three.js canvas
     this.threeCanvas = document.createElement('canvas');
     this.threeCanvas.style.position = 'absolute';
     this.threeCanvas.style.inset = '0';
@@ -32,7 +33,6 @@ export class RomanescoNatural extends BaseVisualization {
     this.canvas.parentElement?.appendChild(this.threeCanvas);
     this.canvas.style.display = 'none';
 
-    // Renderer
     const dpr = this.isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.threeCanvas,
@@ -41,124 +41,136 @@ export class RomanescoNatural extends BaseVisualization {
     this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(this.width, this.height);
     this.renderer.setClearColor(0x1a1a1a);
+    this.renderer.shadowMap.enabled = false;
 
-    // Scene
     this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(35, this.width / this.height, 0.1, 100);
 
-    // Camera
-    this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.1, 100);
-    this.camera.position.set(0, 2, 4);
-    this.camera.lookAt(0, 0.5, 0);
+    // Warm natural lighting
+    this.scene.add(new THREE.AmbientLight(0x667755, 0.7));
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x334422, 0.6);
-    this.scene.add(ambientLight);
+    const sun = new THREE.DirectionalLight(0xffeedd, 1.0);
+    sun.position.set(4, 6, 3);
+    this.scene.add(sun);
 
-    const mainLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    mainLight.position.set(3, 5, 2);
-    this.scene.add(mainLight);
+    const fill = new THREE.DirectionalLight(0x99bb88, 0.35);
+    fill.position.set(-3, 2, -4);
+    this.scene.add(fill);
 
-    const fillLight = new THREE.DirectionalLight(0x88aa66, 0.3);
-    fillLight.position.set(-2, 1, -3);
-    this.scene.add(fillLight);
-
-    const rimLight = new THREE.DirectionalLight(0xaaccaa, 0.2);
-    rimLight.position.set(0, -1, -2);
-    this.scene.add(rimLight);
-
-    // Build romanesco
     this.buildRomanesco();
   }
 
   private buildRomanesco() {
     if (!this.scene) return;
 
-    const budGeometry = new THREE.ConeGeometry(1, 1.6, 6);
-    budGeometry.translate(0, 0.8, 0); // pivot at base
-
-    // Romanesco green material
-    const material = new THREE.MeshPhongMaterial({
-      color: 0x6b9b3a,
-      shininess: 20,
-      specular: 0x334422,
-    });
-
-    const numPrimary = this.isMobile ? 120 : 220;
     const group = new THREE.Group();
 
-    for (let i = 1; i <= numPrimary; i++) {
-      const t = i / numPrimary;
-      const theta = i * GOLDEN_ANGLE;
+    // Shared bud geometry — a sphere deformed into a bud/teardrop shape
+    const budGeo = new THREE.SphereGeometry(1, 10, 8);
+    const pos = budGeo.getAttribute('position');
+    for (let i = 0; i < pos.count; i++) {
+      let x = pos.getX(i);
+      let y = pos.getY(i);
+      let z = pos.getZ(i);
+      // Taper: narrow at top, wide at bottom
+      const t = (y + 1) / 2; // 0=bottom, 1=top
+      const taper = 1.0 - t * 0.65;
+      // Stretch upward to make conical
+      pos.setX(i, x * taper);
+      pos.setZ(i, z * taper);
+      pos.setY(i, y * 1.4);
+    }
+    budGeo.computeVertexNormals();
 
-      // Phyllotaxis on a dome surface
-      const phi = Math.acos(1 - 1.6 * t);
-      const r = 1.0;
+    // Material: bright lime green (like the photo)
+    const mat = new THREE.MeshPhongMaterial({
+      color: 0x8ec440,
+      shininess: 15,
+      specular: 0x334411,
+      flatShading: false,
+    });
 
-      // Position on sphere
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.cos(phi);
-      const z = r * Math.sin(phi) * Math.sin(theta);
+    const maxLevels = this.isMobile ? 2 : 3;
+    const budsPerLevel = this.isMobile ? 12 : 18;
 
-      // Bud size: larger toward equator
-      const budScale = 0.06 + 0.12 * Math.sin(phi);
+    // Recursive romanesco builder
+    const addBroccoli = (
+      parentPos: THREE.Vector3,
+      parentDir: THREE.Vector3, // direction the cone points
+      radius: number,
+      level: number
+    ) => {
+      if (level > maxLevels || radius < 0.008) return;
 
-      // Create bud pointing outward from center
-      const bud = new THREE.Mesh(budGeometry, material);
-      bud.position.set(x, y, z);
-      bud.scale.setScalar(budScale);
+      const length = radius / RADIUS_TO_LENGTH;
+      const innerRadius = radius * INNER_TO_OUTER_RATIO;
 
-      // Orient to point outward (away from center)
-      bud.lookAt(x * 2, y * 2, z * 2);
+      // Draw this bud
+      const bud = new THREE.Mesh(budGeo, mat);
+      bud.position.copy(parentPos);
+      bud.scale.set(radius, length * 0.5, radius);
+
+      // Orient along parentDir
+      const up = new THREE.Vector3(0, 1, 0);
+      const quat = new THREE.Quaternion().setFromUnitVectors(up, parentDir.clone().normalize());
+      bud.quaternion.copy(quat);
 
       group.add(bud);
 
-      // Level 2: sub-buds on larger buds
-      if (budScale > 0.1 && !this.isMobile) {
-        const numSub = 5;
-        for (let j = 0; j < numSub; j++) {
-          const subTheta = j * GOLDEN_ANGLE;
-          const subPhi = 0.3 + j * 0.12;
-          const subR = budScale * 3.5;
+      // Place child buds on the surface in a conic spiral
+      const medianRadius = (innerRadius + radius) / 2;
+      const childScale = 0.38 - level * 0.05; // children get proportionally smaller each level
+      let angle = 0;
 
-          // Position sub-bud on the surface of the parent bud
-          const parentNorm = new THREE.Vector3(x, y, z).normalize();
-          const tangent1 = new THREE.Vector3(-Math.sin(theta), 0, Math.cos(theta)).normalize();
-          const tangent2 = new THREE.Vector3().crossVectors(parentNorm, tangent1).normalize();
+      for (let i = 0; i < budsPerLevel; i++) {
+        const t = (i + 1) / (budsPerLevel + 1); // 0 to 1 along the cone spine
 
-          const sx = x + (tangent1.x * Math.cos(subTheta) + tangent2.x * Math.sin(subTheta)) * subR * Math.sin(subPhi)
-                       + parentNorm.x * subR * Math.cos(subPhi);
-          const sy = y + (tangent1.y * Math.cos(subTheta) + tangent2.y * Math.sin(subTheta)) * subR * Math.sin(subPhi)
-                       + parentNorm.y * subR * Math.cos(subPhi);
-          const sz = z + (tangent1.z * Math.cos(subTheta) + tangent2.z * Math.sin(subTheta)) * subR * Math.sin(subPhi)
-                       + parentNorm.z * subR * Math.cos(subPhi);
+        // Position along the cone's spine
+        const spineProgress = t * length;
+        const localRadius = medianRadius * t; // radius grows from tip to base
 
-          const subScale = budScale * 0.35;
-          const subBud = new THREE.Mesh(budGeometry, material);
-          subBud.position.set(sx, sy, sz);
-          subBud.scale.setScalar(subScale);
-          subBud.lookAt(sx + parentNorm.x, sy + parentNorm.y, sz + parentNorm.z);
+        // Spiral position on cone surface
+        angle += GOLDEN_ANGLE;
+        const lx = Math.cos(angle) * localRadius;
+        const lz = Math.sin(angle) * localRadius;
+        const ly = length - spineProgress; // from top down
 
-          group.add(subBud);
-        }
+        // Transform to world space
+        const localPos = new THREE.Vector3(lx, ly, lz);
+        localPos.applyQuaternion(quat);
+        const worldPos = parentPos.clone().add(localPos);
+
+        // Child direction: outward from cone spine + upward along cone
+        const outward = new THREE.Vector3(lx, 0, lz).normalize();
+        outward.applyQuaternion(quat);
+        const childDir = parentDir.clone().multiplyScalar(0.6).add(outward.multiplyScalar(0.4)).normalize();
+
+        const childRadius = radius * childScale * (0.5 + t * 0.5); // larger toward base
+
+        addBroccoli(worldPos, childDir, childRadius, level + 1);
       }
-    }
+    };
 
-    // Add a base sphere for the main dome body
-    const domeGeo = new THREE.SphereGeometry(0.92, 32, 24, 0, Math.PI * 2, 0, Math.PI * 0.6);
-    const domeMat = new THREE.MeshPhongMaterial({
-      color: 0x4a7a28,
-      shininess: 10,
-      specular: 0x223311,
-    });
-    const dome = new THREE.Mesh(domeGeo, domeMat);
-    group.add(dome);
+    // Start: main romanesco pointing up
+    addBroccoli(
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 1, 0),
+      0.8,
+      0
+    );
+
+    // Center the group
+    const box = new THREE.Box3().setFromObject(group);
+    const center = box.getCenter(new THREE.Vector3());
+    group.position.sub(center);
+    group.position.y += 0.3;
 
     this.scene.add(group);
   }
 
   protected resize() {
     super.resize();
-    if (this.renderer && this.camera && this.threeCanvas) {
+    if (this.renderer && this.camera) {
       const dpr = this.isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       this.renderer.setPixelRatio(dpr);
       this.renderer.setSize(this.width, this.height);
@@ -171,23 +183,21 @@ export class RomanescoNatural extends BaseVisualization {
     if (this.startTime === 0) this.startTime = t;
     this.elapsed = (t - this.startTime) * 0.001;
 
-    // Auto-rotate slowly
-    this.targetCameraAngle = this.elapsed * 0.2;
+    this.targetCameraAngle = this.elapsed * 0.12;
 
-    // Mouse orbit
     if (this.mouseActive) {
       this.targetCameraAngle = (this.mouseX / this.width - 0.5) * Math.PI * 2;
-      this.targetCameraHeight = 0.2 + (1 - this.mouseY / this.height) * 1.5;
+      this.targetCameraHeight = 0.3 + (1 - this.mouseY / this.height) * 1.5;
     }
 
-    this.cameraAngle += (this.targetCameraAngle - this.cameraAngle) * 0.05;
-    this.cameraHeight += (this.targetCameraHeight - this.cameraHeight) * 0.05;
+    this.cameraAngle += (this.targetCameraAngle - this.cameraAngle) * 0.04;
+    this.cameraHeight += (this.targetCameraHeight - this.cameraHeight) * 0.04;
 
     if (this.camera) {
-      const dist = 3.5;
+      const dist = 4.5;
       this.camera.position.set(
         Math.sin(this.cameraAngle) * dist,
-        this.cameraHeight + 0.8,
+        this.cameraHeight + 1.2,
         Math.cos(this.cameraAngle) * dist
       );
       this.camera.lookAt(0, 0.3, 0);
@@ -201,9 +211,7 @@ export class RomanescoNatural extends BaseVisualization {
 
   stop() {
     super.stop();
-    if (this.renderer) {
-      this.renderer.dispose();
-    }
+    if (this.renderer) this.renderer.dispose();
     if (this.threeCanvas?.parentElement) {
       this.threeCanvas.parentElement.removeChild(this.threeCanvas);
       this.canvas.style.display = '';
