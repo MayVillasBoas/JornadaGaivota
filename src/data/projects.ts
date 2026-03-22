@@ -27,4 +27,19 @@ export const projects: Project[] = [
     ],
     stack: ['TypeScript', 'Astro', 'Supabase', 'Claude', 'Twilio', 'Vercel'],
   },
+  {
+    slug: 'decision-copilot',
+    number: '02',
+    title: 'Decision Copilot',
+    subtitle: 'AI-guided clarity for hard decisions',
+    description: 'A conversational tool that guides you through difficult decisions using psychology frameworks — somatic awareness, parts mapping, first principles, and regret minimization. Not to decide for you, but to help you think.',
+    status: 'active',
+    areas: [
+      { name: 'feel', color: 'var(--cat-relationships)', active: true },
+      { name: 'see', color: 'var(--cat-thinking)', active: true },
+      { name: 'think', color: 'var(--cat-decisions)', active: true },
+      { name: 'act', color: 'var(--cat-energy)', active: true },
+    ],
+    stack: ['TypeScript', 'Astro', 'Claude Sonnet', 'Web Speech API'],
+  },
 ];
