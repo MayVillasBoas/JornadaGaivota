@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/copilot2.css';
+---
+
+<Base title="Copilot 2.0 - May">
+  <div class="immersive-container" id="immersive-container">
+    <!-- Top bar -->
+    <div class="immersive-topbar">
+      <a href="/copilot" class="immersive-back">← back</a>
+      <button class="immersive-voice-toggle" id="voice-toggle">voice on</button>
+    </div>
+
+    <!-- Phase label -->
+    <div class="immersive-phase hidden" id="phase-label"></div>
+
+    <!-- Breathing circle -->
+    <canvas class="immersive-breathing hidden" id="breathing-canvas" width="200" height="200"></canvas>
+
+    <!-- Main text display -->
+    <div class="immersive-text-area" id="text-display">
+      <!-- Engine renders here -->
+    </div>
+
+    <!-- Input area -->
+    <div class="immersive-input hidden" id="input-area">
+      <div class="immersive-voice-group">
+        <button class="immersive-mic" id="immersive-mic" aria-label="Record voice" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        </button>
+        <button class="immersive-lang-toggle" id="voice-lang" data-lang="en-US" aria-label="Language">en</button>
+      </div>
+      <textarea class="immersive-textarea" id="immersive-text" placeholder="" rows="2"></textarea>
+      <button class="immersive-send" id="immersive-send" disabled>
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { ImmersiveCopilotEngine } from '../scripts/copilot2/immersive-engine';
+
+  if (!(window as any).__immersiveInit) {
+    (window as any).__immersiveInit = true;
+
+    const container = document.getElementById('immersive-container')!;
+    const breathingCanvas = document.getElementById('breathing-canvas') as HTMLCanvasElement;
+    const textDisplay = document.getElementById('text-display')!;
+    const inputArea = document.getElementById('input-area')!;
+    const textarea = document.getElementById('immersive-text') as HTMLTextAreaElement;
+    const sendBtn = document.getElementById('immersive-send') as HTMLButtonElement;
+    const mic = document.getElementById('immersive-mic') as HTMLButtonElement;
+    const phaseLabel = document.getElementById('phase-label')!;
+    const voiceToggle = document.getElementById('voice-toggle') as HTMLButtonElement;
+
+    const engine = new ImmersiveCopilotEngine({
+      breathingCanvas,
+      textDisplay,
+      inputArea,
+      textarea,
+      sendBtn,
+      mic,
+      phaseLabel,
+      container,
+      voiceToggle,
+    });
+
+    // Small delay to let audio context initialize on user gesture
+    container.addEventListener('click', function initAudio() {
+      engine.init();
+      container.removeEventListener('click', initAudio);
+    }, { once: true });
+
+    // Show a "tap to begin" prompt
+    textDisplay.innerHTML = '<p class="immersive-text fade-in" style="cursor: pointer; opacity: 0.5">tap to begin</p>';
+  }
+</script>

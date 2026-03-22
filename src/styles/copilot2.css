@@ -1,0 +1,634 @@
+/* src/styles/copilot2.css — Immersive Copilot Meditation UX */
+
+/* ─── Hide site chrome in immersive mode ─── */
+body:has(.immersive-container) .site-header,
+body:has(.immersive-container) footer {
+  display: none !important;
+}
+
+body:has(.immersive-container) {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body:has(.immersive-container) > main {
+  padding: 0;
+  margin: 0;
+}
+
+/* ─── Full-screen immersive container ─── */
+.immersive-container {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0f;
+  color: rgba(250, 250, 247, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: var(--serif, 'EB Garamond', Georgia, serif);
+  z-index: 1000;
+}
+
+/* ─── Top bar ─── */
+.immersive-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  z-index: 1010;
+}
+
+.immersive-back {
+  background: none;
+  border: none;
+  color: rgba(250, 250, 247, 0.4);
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.immersive-back:hover {
+  color: rgba(250, 250, 247, 0.7);
+}
+
+.immersive-voice-toggle {
+  background: none;
+  border: 1px solid rgba(250, 250, 247, 0.2);
+  color: rgba(250, 250, 247, 0.5);
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.immersive-voice-toggle:hover {
+  border-color: rgba(250, 250, 247, 0.4);
+  color: rgba(250, 250, 247, 0.7);
+}
+
+.immersive-voice-toggle.off {
+  opacity: 0.4;
+}
+
+/* ─── Phase label ─── */
+.immersive-phase {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(250, 250, 247, 0.3);
+  transition: color 0.5s;
+  z-index: 1010;
+}
+
+.immersive-phase[data-layer="feel"] { color: rgba(194, 122, 90, 0.6); }
+.immersive-phase[data-layer="see"] { color: rgba(139, 106, 173, 0.6); }
+.immersive-phase[data-layer="think"] { color: rgba(74, 122, 173, 0.6); }
+.immersive-phase[data-layer="act"] { color: rgba(43, 74, 62, 0.6); }
+
+.immersive-phase.hidden {
+  opacity: 0;
+}
+
+/* ─── Breathing canvas ─── */
+.immersive-breathing {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  transition: opacity 0.5s;
+}
+
+.immersive-breathing.hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+/* ─── Text display area ─── */
+.immersive-text-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  width: 100%;
+  padding: 4rem 2rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.immersive-text-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Text styles ─── */
+.immersive-text {
+  font-size: 1.35rem;
+  line-height: 1.8;
+  text-align: center;
+  margin: 0.5rem 0;
+  color: rgba(250, 250, 247, 0.85);
+  max-width: 520px;
+}
+
+.immersive-sentence {
+  margin: 0.3rem 0;
+}
+
+.immersive-user-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: center;
+  color: rgba(250, 250, 247, 0.45);
+  font-style: italic;
+  margin: 1rem 0;
+  max-width: 520px;
+}
+
+.immersive-guidance {
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  text-align: center;
+  color: rgba(250, 250, 247, 0.35);
+  margin: 0.5rem 0;
+  max-width: 480px;
+}
+
+/* ─── Themes ─── */
+.immersive-themes {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.immersive-theme {
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(250, 250, 247, 0.3);
+  border: 1px solid rgba(250, 250, 247, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+/* ─── Fade animation ─── */
+.fade-in {
+  animation: immersiveFadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes immersiveFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Input area ─── */
+.immersive-input {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.immersive-input.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.immersive-textarea {
+  flex: 1;
+  background: rgba(250, 250, 247, 0.05);
+  border: 1px solid rgba(250, 250, 247, 0.15);
+  border-radius: 8px;
+  color: rgba(250, 250, 247, 0.9);
+  font-family: var(--serif, 'EB Garamond', Georgia, serif);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  resize: none;
+  outline: none;
+  min-height: 48px;
+  max-height: 120px;
+  transition: border-color 0.3s;
+}
+
+.immersive-textarea::placeholder {
+  color: rgba(250, 250, 247, 0.25);
+}
+
+.immersive-textarea:focus {
+  border-color: rgba(250, 250, 247, 0.3);
+}
+
+/* Voice group */
+.immersive-voice-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.immersive-mic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(250, 250, 247, 0.08);
+  border: 1px solid rgba(250, 250, 247, 0.15);
+  color: rgba(250, 250, 247, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.immersive-mic svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.immersive-mic:hover {
+  background: rgba(250, 250, 247, 0.12);
+  color: rgba(250, 250, 247, 0.7);
+}
+
+.immersive-mic.voice-btn--recording {
+  background: rgba(194, 122, 90, 0.3);
+  border-color: rgba(194, 122, 90, 0.5);
+  color: rgba(194, 122, 90, 0.9);
+  animation: micPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(194, 122, 90, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(194, 122, 90, 0); }
+}
+
+.immersive-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(250, 250, 247, 0.1);
+  border: 1px solid rgba(250, 250, 247, 0.2);
+  color: rgba(250, 250, 247, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.immersive-send svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.immersive-send:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.immersive-send:not(:disabled):hover {
+  background: rgba(250, 250, 247, 0.15);
+  color: rgba(250, 250, 247, 0.8);
+}
+
+.immersive-lang-toggle {
+  background: none;
+  border: none;
+  color: rgba(250, 250, 247, 0.25);
+  font-size: 0.65rem;
+  font-family: var(--sans, Inter, sans-serif);
+  cursor: pointer;
+  padding: 0;
+}
+
+/* ─── Journey Path Visualization ─── */
+.immersive-journey {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 440px;
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+}
+
+.journey-node {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  text-align: left;
+  color: rgba(250, 250, 247, 0.6);
+  font-family: var(--serif, 'EB Garamond', Georgia, serif);
+  transition: all 0.3s;
+  width: 100%;
+  animation: immersiveFadeIn 0.6s ease forwards;
+}
+
+.journey-node:hover {
+  color: rgba(250, 250, 247, 0.85);
+}
+
+.journey-node.selected {
+  color: rgba(250, 250, 247, 0.9);
+}
+
+.journey-node-final {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.journey-node-circle {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.journey-node.selected .journey-node-circle {
+  box-shadow: 0 0 12px rgba(250, 250, 247, 0.1);
+}
+
+.journey-node-num {
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(250, 250, 247, 0.7);
+}
+
+.journey-node.selected .journey-node-num {
+  color: rgba(250, 250, 247, 0.95);
+}
+
+.journey-node-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-top: 0.2rem;
+}
+
+.journey-node-layer {
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.journey-node-title {
+  font-size: 1.05rem;
+  color: inherit;
+}
+
+.journey-node-desc {
+  font-size: 0.8rem;
+  color: rgba(250, 250, 247, 0.35);
+  line-height: 1.4;
+}
+
+.journey-node-reason {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: rgba(250, 250, 247, 0.25);
+  margin-top: 0.1rem;
+}
+
+.journey-line {
+  width: 2px;
+  height: 24px;
+  margin-left: 17px;
+  border-left: 2px dashed;
+  opacity: 0.3;
+}
+
+/* Legacy picker (unused but kept for compat) */
+.immersive-picker { display: none; }
+
+/* ─── Buttons ─── */
+.immersive-start-btn,
+.immersive-primary-btn {
+  background: rgba(250, 250, 247, 0.1);
+  border: 1px solid rgba(250, 250, 247, 0.3);
+  color: rgba(250, 250, 247, 0.8);
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.9rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s;
+  width: 100%;
+  max-width: 300px;
+}
+
+.immersive-start-btn:hover:not(:disabled),
+.immersive-primary-btn:hover {
+  background: rgba(250, 250, 247, 0.15);
+  border-color: rgba(250, 250, 247, 0.4);
+}
+
+.immersive-start-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.immersive-secondary-btn {
+  background: none;
+  border: 1px solid rgba(250, 250, 247, 0.15);
+  color: rgba(250, 250, 247, 0.5);
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.immersive-secondary-btn:hover {
+  background: rgba(250, 250, 247, 0.05);
+  border-color: rgba(250, 250, 247, 0.25);
+  color: rgba(250, 250, 247, 0.7);
+}
+
+.immersive-btn-row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* ─── Memo ─── */
+.immersive-memo {
+  max-width: 560px;
+  width: 100%;
+  animation: immersiveFadeIn 1.5s ease forwards;
+}
+
+.immersive-memo h2 {
+  font-family: var(--serif, 'EB Garamond', Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 0.25rem;
+  color: rgba(250, 250, 247, 0.8);
+}
+
+.immersive-memo-date {
+  text-align: center;
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.75rem;
+  color: rgba(250, 250, 247, 0.3);
+  margin-bottom: 2rem;
+}
+
+.immersive-memo-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(250, 250, 247, 0.06);
+}
+
+.immersive-memo-section:last-of-type {
+  border-bottom: none;
+}
+
+.immersive-memo-section h3 {
+  font-family: var(--sans, Inter, sans-serif);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(250, 250, 247, 0.35);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.immersive-memo-section p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(250, 250, 247, 0.75);
+}
+
+.immersive-memo-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(250, 250, 247, 0.06);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 640px) {
+  .immersive-text {
+    font-size: 1.15rem;
+  }
+
+  .immersive-text-area {
+    padding: 3rem 1.25rem;
+  }
+
+  .immersive-input {
+    padding: 1rem;
+  }
+
+  .immersive-breathing {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* ─── Subtle background gradient animation ─── */
+.immersive-container::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(194, 122, 90, 0.03) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: subtleShift 20s ease-in-out infinite alternate;
+}
+
+@keyframes subtleShift {
+  0% {
+    background: radial-gradient(
+      ellipse at 50% 40%,
+      rgba(194, 122, 90, 0.03) 0%,
+      transparent 70%
+    );
+  }
+  33% {
+    background: radial-gradient(
+      ellipse at 45% 55%,
+      rgba(139, 106, 173, 0.03) 0%,
+      transparent 70%
+    );
+  }
+  66% {
+    background: radial-gradient(
+      ellipse at 55% 45%,
+      rgba(74, 122, 173, 0.03) 0%,
+      transparent 70%
+    );
+  }
+  100% {
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba(43, 74, 62, 0.03) 0%,
+      transparent 70%
+    );
+  }
+}

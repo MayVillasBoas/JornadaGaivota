@@ -175,6 +175,7 @@ interface CopilotRequest {
   priorStepResponses?: string;
   allResponses?: Record<string, string[]>;
   additionalContext?: string;
+  lang?: string;
 }
 
 export async function POST({ request }: { request: Request }): Promise<Response> {
@@ -250,7 +251,9 @@ export async function POST({ request }: { request: Request }): Promise<Response>
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: maxTokens,
-        system: systemPrompt,
+        system: body.lang === 'en'
+          ? systemPrompt + '\n\nIMPORTANT: You MUST respond in English regardless of what language the user writes in.'
+          : systemPrompt,
         messages: [{ role: 'user', content: userMessage }],
       }),
     });
