@@ -5,10 +5,63 @@ import '../styles/copilot.css';
 
 <Base title="Decision Copilot - May">
   <div class="copilot-container">
+    <div class="copilot-welcome" id="copilot-welcome">
+      <div class="copilot-hero">
+        <div class="copilot-hero-rotate">
+          <span class="copilot-hero-fixed">Pense melhor sobre</span>
+          <div class="copilot-hero-mask">
+            <div class="copilot-hero-track">
+              <span>uma mudança de carreira.</span>
+              <span>um relacionamento difícil.</span>
+              <span>o que você realmente quer.</span>
+              <span>uma decisão que te trava.</span>
+              <span>o próximo passo.</span>
+              <span>um recomeço.</span>
+              <span>uma mudança de carreira.</span>
+            </div>
+          </div>
+        </div>
+        <p class="copilot-hero-sub">
+          A vida é uma sucessão infinita de decisões.<br>
+          IA não resolve isso por você — mas, sabendo usá-la bem,<br class="hide-mobile">
+          você chega mais perto da clareza.
+        </p>
+      </div>
+
+      <div class="copilot-how">
+        <h2 class="copilot-how-title">Como funciona</h2>
+        <div class="copilot-steps">
+          <div class="copilot-step">
+            <div class="copilot-step-num">1</div>
+            <div class="copilot-step-content">
+              <h3>Conte</h3>
+              <p>Descreva o que te trava. Pode ser bagunçado — é só pra você.</p>
+            </div>
+          </div>
+          <div class="copilot-step-connector"></div>
+          <div class="copilot-step">
+            <div class="copilot-step-num">2</div>
+            <div class="copilot-step-content">
+              <h3>Explore</h3>
+              <p>Frameworks de decisão escolhidos pra sua situação te guiam por ângulos que você não viu.</p>
+            </div>
+          </div>
+          <div class="copilot-step-connector"></div>
+          <div class="copilot-step">
+            <div class="copilot-step-num">3</div>
+            <div class="copilot-step-content">
+              <h3>Decida</h3>
+              <p>Um memo com o que você descobriu, seus trade-offs reais e o próximo passo concreto.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="copilot-timeline" id="copilot-timeline">
       <!-- Engine renders conversation blocks here -->
     </div>
-    <div class="copilot-input" id="copilot-input">
+    <div class="copilot-input copilot-input--welcome" id="copilot-input">
+      <h2 class="copilot-input-title" id="copilot-input-title">Comece aqui</h2>
       <div class="copilot-input-inner">
         <div class="voice-group">
           <button class="voice-lang-toggle" id="voice-lang" data-lang="pt-BR" aria-label="Voice language">pt</button>
@@ -16,13 +69,13 @@ import '../styles/copilot.css';
             <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
           </button>
         </div>
-        <textarea id="copilot-text" placeholder="type or tap the mic to speak..." rows="2"></textarea>
+        <textarea id="copilot-text" placeholder="Descreva a decisão que te trava..." rows="2"></textarea>
         <button class="copilot-send-btn" id="copilot-send" disabled>
           <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
-      <p class="copilot-empty-hint" id="copilot-hint">take your time - even a few words help</p>
-      <p class="copilot-input-hint">press Enter for new line · click send or ⌘+Enter to submit</p>
+      <p class="copilot-empty-hint" id="copilot-hint">sem pressa — até poucas palavras ajudam</p>
+      <p class="copilot-input-hint">Enter para nova linha · clique enviar ou ⌘+Enter para enviar</p>
     </div>
   </div>
 </Base>

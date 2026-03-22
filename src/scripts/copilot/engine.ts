@@ -81,6 +81,7 @@ export class CopilotEngine {
     trackEvent('session_started', this.journey.id);
 
     if (this.journey.status === 'active' && this.journey.classification) {
+      this.hideWelcome();
       this.reconstructTimeline();
     } else {
       this.showIntake();
@@ -116,14 +117,46 @@ export class CopilotEngine {
 
   // ─── Intake ───
 
+  private hideWelcome(): void {
+    const welcome = document.getElementById('copilot-welcome');
+    if (welcome && !welcome.classList.contains('hidden')) {
+      welcome.classList.add('hidden');
+      this.els.timeline.classList.remove('timeline-hidden');
+
+      // Switch input from floating card to fixed bar
+      const inputEl = document.getElementById('copilot-input');
+      if (inputEl) inputEl.classList.remove('copilot-input--welcome');
+      const titleEl = document.getElementById('copilot-input-title');
+      if (titleEl) titleEl.style.display = 'none';
+
+      // Now that we're in chat mode, render the intake question
+      if (this.state === 'intake' && this.els.timeline.children.length === 0) {
+        this.appendQuestion(
+          "What's on your mind?",
+          'Describe the decision you\'re struggling with. Be messy, be honest — this is just for you.',
+          'intake'
+        );
+      }
+    }
+  }
+
   private showIntake(): void {
     this.state = 'intake';
-    this.appendQuestion(
-      "What's on your mind?",
-      'Describe the decision you\'re struggling with. Be messy, be honest — this is just for you.',
-      'intake'
-    );
-    this.els.textarea.placeholder = "I've been going back and forth about...";
+    const welcome = document.getElementById('copilot-welcome');
+    if (welcome && !welcome.classList.contains('hidden')) {
+      // Welcome is visible — skip rendering the intake question block.
+      // The welcome section itself acts as the onboarding.
+      this.els.timeline.classList.add('timeline-hidden');
+      this.els.textarea.placeholder = "Descreva a decisão que te trava...";
+    } else {
+      // Welcome was already hidden (e.g. page reload mid-session)
+      this.appendQuestion(
+        "What's on your mind?",
+        'Describe the decision you\'re struggling with. Be messy, be honest — this is just for you.',
+        'intake'
+      );
+      this.els.textarea.placeholder = "I've been going back and forth about...";
+    }
     this.els.textarea.focus();
   }
 
@@ -135,6 +168,7 @@ export class CopilotEngine {
       this.els.hint.classList.add('visible');
       return;
     }
+    this.hideWelcome();
 
     const isVoice = this.els.mic.classList.contains('voice-btn--done') ||
                     this.els.mic.classList.contains('voice-btn--recording');

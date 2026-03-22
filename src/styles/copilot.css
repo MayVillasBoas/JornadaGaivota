@@ -19,6 +19,10 @@
   padding: 2rem 1.5rem 8rem;
 }
 
+.copilot-timeline.timeline-hidden {
+  display: none;
+}
+
 /* Header with layer dots */
 .copilot-header {
   display: flex;
@@ -56,6 +60,215 @@
   letter-spacing: 0.1em;
   color: var(--ink-muted);
   margin-left: 0.5rem;
+}
+
+/* Welcome hero */
+.copilot-welcome {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 2rem;
+}
+
+.copilot-welcome.hidden {
+  display: none;
+}
+
+.copilot-hero {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+/* Rotating headline */
+.copilot-hero-rotate {
+  margin-bottom: 1.75rem;
+}
+
+.copilot-hero-fixed {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ink-muted);
+  letter-spacing: 0.01em;
+  margin-bottom: 0.3rem;
+}
+
+.copilot-hero-mask {
+  height: 3.2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.copilot-hero-track {
+  display: flex;
+  flex-direction: column;
+  animation: heroRotate 15s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.copilot-hero-track span {
+  height: 3.2rem;
+  line-height: 3.2rem;
+  display: block;
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Subtitle */
+.copilot-hero-sub {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--ink-muted);
+  letter-spacing: 0.005em;
+}
+
+/* How it works */
+.copilot-how {
+  max-width: 520px;
+  margin: 0 auto;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.copilot-how-title {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.copilot-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.copilot-step {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.copilot-step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-light, #d0d0c8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.copilot-step-content h3 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+
+.copilot-step-content p {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  max-width: 140px;
+  margin: 0 auto;
+}
+
+.copilot-step-connector {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+  margin-top: 16px;
+  flex-shrink: 0;
+}
+
+/* Rotation keyframes — pause on each word */
+@keyframes heroRotate {
+  0%, 13%    { transform: translateY(0); }
+  16%, 29%   { transform: translateY(-3.2rem); }
+  32%, 45%   { transform: translateY(calc(-2 * 3.2rem)); }
+  48%, 61%   { transform: translateY(calc(-3 * 3.2rem)); }
+  64%, 77%   { transform: translateY(calc(-4 * 3.2rem)); }
+  80%, 93%   { transform: translateY(calc(-5 * 3.2rem)); }
+  96%, 100%  { transform: translateY(calc(-6 * 3.2rem)); }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .copilot-welcome {
+    min-height: auto;
+    padding: 2.5rem 1.5rem 0.5rem;
+  }
+
+  .copilot-hero-fixed {
+    font-size: 1rem;
+  }
+
+  .copilot-hero-mask {
+    height: 2.2rem;
+  }
+
+  .copilot-hero-track span {
+    font-size: 1.6rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+  }
+
+  .copilot-hero-sub {
+    font-size: 0.85rem;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .copilot-how {
+    padding-top: 2rem;
+  }
+
+  .copilot-steps {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .copilot-step {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+    padding: 0.6rem 0;
+  }
+
+  .copilot-step-content p {
+    max-width: none;
+    margin: 0;
+  }
+
+  .copilot-step-connector {
+    width: 1px;
+    height: 20px;
+    margin: 0 0 0 15.5px;
+  }
 }
 
 /* Conversation blocks */
@@ -259,7 +472,18 @@
   position: relative;
 }
 
-/* Sticky input bar */
+/* Input title (welcome mode only) */
+.copilot-input-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  text-align: center;
+  display: none;
+}
+
+/* Sticky input bar (chat mode — default) */
 .copilot-input {
   position: fixed;
   bottom: 0;
@@ -269,6 +493,23 @@
   border-top: 1px solid var(--border);
   padding: 0.75rem 1rem;
   z-index: 10;
+}
+
+/* Welcome mode — floating card */
+.copilot-input.copilot-input--welcome {
+  position: relative;
+  max-width: 520px;
+  margin: 2.5rem auto 4rem;
+  padding: 1.75rem 1.5rem 1.25rem;
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  border-top: 1px solid var(--border);
+}
+
+.copilot-input.copilot-input--welcome .copilot-input-title {
+  display: block;
 }
 
 .copilot-input-inner {
