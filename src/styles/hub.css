@@ -1,0 +1,322 @@
+/* ─── Hub Pessoal ─── */
+
+.hub-header {
+  max-width: 680px;
+  margin: 5rem auto 1.5rem;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.hub-header h1 {
+  font-family: var(--serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+}
+
+.hub-date {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+}
+
+.hub-range {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+/* ─── Section Title ─── */
+.hub-section-title {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 1.25rem;
+}
+
+/* ─── Stat Cards ─── */
+.hub-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.hub-stat {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hub-stat-value {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.hub-stat-label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.hub-stat-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 0.4rem;
+  overflow: hidden;
+}
+
+.hub-stat-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ─── Chart Containers ─── */
+.hub-chart {
+  height: 120px;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hub-chart svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Horizontal Bars ─── */
+.hub-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.hub-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hub-bar-label {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  min-width: 80px;
+  text-align: right;
+}
+
+.hub-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.hub-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.hub-bar-value {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  min-width: 36px;
+}
+
+/* ─── Theme Pills ─── */
+.hub-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Reuses .theme-pill from journal.css */
+
+/* ─── Vault Counts ─── */
+.hub-counts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.hub-count {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.hub-count-value {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.hub-count-label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-top: 0.25rem;
+}
+
+/* ─── Vault Entries ─── */
+.hub-entries {
+  display: flex;
+  flex-direction: column;
+}
+
+.hub-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.hub-entry:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.hub-entry-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--ink);
+  flex: 1;
+}
+
+.hub-entry-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.hub-entry-category {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  background: rgba(0, 0, 0, 0.04);
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+}
+
+.hub-entry-date {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+/* ─── Empty State ─── */
+.hub-empty {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-light);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* ─── Divider overrides for hub ─── */
+.hub-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--border-light);
+  margin: 2.5rem auto;
+  border: none;
+}
+
+/* ─── Hub section spacing ─── */
+.hub-section {
+  margin-bottom: 0.5rem;
+}
+
+/* ─── Hub content wrapper ─── */
+.hub-content {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  margin-bottom: 4rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+  .hub-header {
+    margin-top: 3rem;
+    padding: 0 1.5rem;
+  }
+
+  .hub-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .hub-content {
+    padding: 0 1.5rem;
+  }
+
+  .hub-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hub-stat-value {
+    font-size: 1.6rem;
+  }
+
+  .hub-bar-label {
+    min-width: 64px;
+    font-size: 0.7rem;
+  }
+
+  .hub-entry {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .hub-entry-meta {
+    flex-basis: 100%;
+    gap: 0.5rem;
+  }
+
+  .hub-counts {
+    gap: 0.5rem;
+  }
+
+  .hub-count-value {
+    font-size: 1.6rem;
+  }
+}
