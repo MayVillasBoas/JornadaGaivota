@@ -35,8 +35,8 @@ export class MyceliumNetwork extends BaseVisualization {
   private nodes: Node[] = [];
   private segments: Segment[] = [];
   private time = 0;
-  private maxSegments = 3000;
-  private maxDepth = 6;
+  private maxSegments = 1500;
+  private maxDepth = 5;
 
   private clickHandler: ((e: MouseEvent) => void) | null = null;
 
@@ -51,6 +51,8 @@ export class MyceliumNetwork extends BaseVisualization {
       this.canvas.removeEventListener('click', this.clickHandler);
     }
     this.clickHandler = (e: MouseEvent) => {
+      // Don't add more seeds if already at capacity
+      if (this.segments.length >= this.maxSegments * 0.8) return;
       const rect = this.canvas.getBoundingClientRect();
       this.addSeed(e.clientX - rect.left, e.clientY - rect.top);
     };
@@ -154,17 +156,14 @@ export class MyceliumNetwork extends BaseVisualization {
       this.ctx.stroke();
     }
 
-    // Draw pulsing nodes — limit to 100 most recent to avoid gradient overload
-    const visibleNodes = this.nodes.length > 100 ? this.nodes.slice(-100) : this.nodes;
+    // Draw pulsing nodes — simple filled circles (radialGradient is too expensive)
+    const visibleNodes = this.nodes.length > 60 ? this.nodes.slice(-60) : this.nodes;
     for (const node of visibleNodes) {
       const pulse = 1 + Math.sin(this.time * 2 + node.phase) * 0.3;
       const r = Math.max(0.5, node.radius * pulse);
-      const glow = this.ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 3);
-      glow.addColorStop(0, hexToRgba(node.color, 0.4));
-      glow.addColorStop(1, 'transparent');
-      this.ctx.fillStyle = glow;
+      this.ctx.fillStyle = hexToRgba(node.color, 0.35);
       this.ctx.beginPath();
-      this.ctx.arc(node.x, node.y, r * 3, 0, Math.PI * 2);
+      this.ctx.arc(node.x, node.y, r * 2, 0, Math.PI * 2);
       this.ctx.fill();
     }
   }
