@@ -23,7 +23,7 @@
   font-family: var(--serif);
   font-style: italic;
   font-size: 1.15rem;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   font-weight: 400;
 }
 
@@ -117,8 +117,8 @@
 }
 
 .principle-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .principle-card h3 {
@@ -202,8 +202,8 @@
 }
 
 .connection-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .connection-name {

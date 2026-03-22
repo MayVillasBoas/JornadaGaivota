@@ -19,6 +19,19 @@
   --cat-relationships: #c27a5a;
   --cat-energy: #2B4A3E;
   --cat-perspective: #ada45a;
+
+  /* Copilot layer colors */
+  --feel-color: #c27a5a;
+  --see-color: #8b6aad;
+  --think-color: #4a7aad;
+  --act-color: #2B4A3E;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-focus: 0 0 0 3px rgba(43, 74, 62, 0.08);
 }
 
 /* ─── Reset ─── */
@@ -93,7 +106,7 @@ p {
 
 .btn-primary:hover {
   background: var(--accent-light);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {

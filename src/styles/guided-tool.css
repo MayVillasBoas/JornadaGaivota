@@ -80,7 +80,7 @@
   font-family: var(--sans);
   font-size: 0.8rem;
   font-style: italic;
-  color: var(--ink-muted);
+  color: var(--ink-light);
 }
 
 /* ─── Guided Experience Container ─── */
@@ -122,7 +122,7 @@
   font-family: var(--serif);
   font-size: 0.8rem;
   font-style: italic;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   letter-spacing: 0.04em;
   display: block;
   margin-bottom: 0.6rem;
@@ -189,7 +189,7 @@
 
 /* Gamification: Variable insight styles */
 .ai-insight.insight-highlighted {
-  border-left-color: #ada45a;
+  border-left-color: var(--cat-perspective);
   box-shadow: 0 0 20px rgba(173, 164, 90, 0.15), 0 4px 12px rgba(0,0,0,0.04);
   animation: insight-glow 0.6s ease-out;
 }
@@ -216,7 +216,7 @@
   font-family: var(--serif);
   font-size: 0.92rem;
   font-style: italic;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   margin-bottom: 1.5rem;
   min-height: 1.4em;
   opacity: 0;
@@ -251,7 +251,7 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.85);
 }
 textarea::placeholder {
-  color: var(--ink-muted);
+  color: var(--ink-light);
   font-style: italic;
 }
 textarea:not(:placeholder-shown) {
@@ -350,7 +350,7 @@ textarea:not(:placeholder-shown) {
   min-height: 120px;
   font-family: var(--serif);
   font-size: 1.1rem;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   font-style: italic;
 }
 .transition-screen.active {
@@ -414,9 +414,9 @@ textarea:not(:placeholder-shown) {
 .result-block h3 {
   font-family: var(--serif);
   font-size: 0.85rem;
-  font-weight: 400;
+  font-weight: 500;
   font-style: italic;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   letter-spacing: 0.02em;
   margin-bottom: 0.8rem;
 }

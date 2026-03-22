@@ -1,12 +1,5 @@
 /* src/styles/copilot.css */
 
-:root {
-  --feel-color: #c27a5a;
-  --see-color: #8b6aad;
-  --think-color: #4a7aad;
-  --act-color: #2B4A3E;
-}
-
 /* Container */
 .copilot-container {
   position: relative;
@@ -312,7 +305,7 @@
   font-family: var(--serif);
   font-size: 1.15rem;
   font-style: italic;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   line-height: 1.6;
   margin-top: 0.5rem;
 }
@@ -504,7 +497,7 @@
   background: var(--warm-white);
   border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-sm);
   border-top: 1px solid var(--border);
 }
 
@@ -700,7 +693,7 @@
 .memo-section h3 {
   font-family: var(--sans);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--ink-muted);
@@ -768,7 +761,7 @@
 .copilot-loading-text {
   font-family: var(--serif);
   font-style: italic;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   font-size: 1rem;
   margin-bottom: 1rem;
 }
@@ -781,7 +774,7 @@
 .framework-picker-intro {
   font-family: var(--serif);
   font-size: 1.1rem;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   margin-bottom: 1.25rem;
   font-style: italic;
 }
@@ -853,7 +846,7 @@
 .framework-card-tagline {
   font-family: var(--serif);
   font-size: 0.9rem;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   font-style: italic;
   margin-bottom: 0.3rem;
 }

@@ -36,8 +36,8 @@
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
 }
 
 /* Card expanded */
@@ -75,7 +75,7 @@
 }
 
 .pill.active {
-  color: #fff;
+  color: var(--cream);
   border-color: transparent;
 }
 
@@ -247,8 +247,8 @@
 }
 
 .mentor-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
 }
 
 .mentor-orb {
@@ -263,7 +263,7 @@
   font-size: 1.1rem;
   color: var(--ink, #2c2c2c);
   margin: 0 0 4px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .mentor-book {
@@ -318,7 +318,7 @@
 
 .tool-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-lg);
 }
 
 .tool-card h3 {

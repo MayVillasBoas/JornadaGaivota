@@ -282,7 +282,7 @@
 .area-card h3 {
   font-family: var(--serif);
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .area-status {
@@ -317,7 +317,7 @@
 .rhythm-block h3 {
   font-family: var(--serif);
   font-size: 1.15rem;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--ink);
   margin-bottom: 0.5rem;
 }
@@ -370,7 +370,7 @@
 .project-timestamp {
   font-family: var(--sans);
   font-size: 0.8rem;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   margin-top: 2rem;
   font-style: italic;
 }
@@ -416,7 +416,7 @@
 .evo-content h3 {
   font-family: var(--serif);
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 0.3rem;
 }
 
@@ -453,7 +453,7 @@
 .copilot-flow-step h3 {
   font-family: var(--serif);
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 0.3rem;
 }
 
@@ -500,7 +500,7 @@
 .framework-item h3 {
   font-family: var(--serif);
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .framework-item p {

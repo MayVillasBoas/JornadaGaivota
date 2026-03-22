@@ -11,7 +11,10 @@ import Base from '../layouts/Base.astro';
   <section class="now-content narrow">
 
     <div class="now-block">
-      <h3>🧠 Thinking about</h3>
+      <h3>
+        <span class="now-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/></svg></span>
+        Thinking about
+      </h3>
       <p>
         How to turn thinking frameworks into interactive experiences.
         The tension between wanting to improve and accepting what already is.
@@ -20,7 +23,10 @@ import Base from '../layouts/Base.astro';
     </div>
 
     <div class="now-block">
-      <h3>🔨 Building</h3>
+      <h3>
+        <span class="now-icon"><svg viewBox="0 0 24 24"><path d="M12 3v18M6 9l6-6 6 6M7 21h10"/></svg></span>
+        Building
+      </h3>
       <p>
         This site and its tools. An AI-assisted clarity product for
         people in moments of transition. My own professional narrative
@@ -29,7 +35,10 @@ import Base from '../layouts/Base.astro';
     </div>
 
     <div class="now-block">
-      <h3>📚 Reading</h3>
+      <h3>
+        <span class="now-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></span>
+        Reading
+      </h3>
       <p>
         <em>Already Free</em> - Bruce Tift (Buddhism meets psychotherapy, the tension between development and fruition).
         <em>When Einstein Walked with Gödel</em> - Jim Holt (excursions to the edge of thought).
@@ -39,7 +48,10 @@ import Base from '../layouts/Base.astro';
     </div>
 
     <div class="now-block">
-      <h3>🔬 Studying</h3>
+      <h3>
+        <span class="now-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+        Studying
+      </h3>
       <p>
         Claude Code and AI-driven development. Complexity science and how emergence
         shapes systems, decisions, and lives. The interplay between structure and chaos
@@ -48,7 +60,10 @@ import Base from '../layouts/Base.astro';
     </div>
 
     <div class="now-block">
-      <h3>🌊 Living</h3>
+      <h3>
+        <span class="now-icon"><svg viewBox="0 0 24 24"><path d="M2 12 C5 8, 8 8, 10 12 S15 16, 18 12 S21 8, 22 12"/></svg></span>
+        Living
+      </h3>
       <p>
         In Florianópolis. Redesigning routines after a season of intense change.
         Trying to balance building with presence. Walking, swimming, cooking.
@@ -56,7 +71,10 @@ import Base from '../layouts/Base.astro';
     </div>
 
     <div class="now-block">
-      <h3>🤝 Open to</h3>
+      <h3>
+        <span class="now-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></span>
+        Open to
+      </h3>
       <p>
         Conversations with people going through career or life transitions.
         Collaborations on thinking and clarity products. Exchanging ideas about
@@ -111,6 +129,30 @@ import Base from '../layouts/Base.astro';
     letter-spacing: 0.02em;
     margin-bottom: 0.8rem;
     color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .now-icon {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .now-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--ink-muted);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.3s;
+  }
+
+  .now-block:hover .now-icon svg {
+    stroke: var(--accent);
   }
 
   .now-block p {

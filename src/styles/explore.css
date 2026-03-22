@@ -60,7 +60,7 @@
   font-family: var(--serif);
   font-style: italic;
   font-size: 1.1rem;
-  color: var(--ink-muted);
+  color: var(--ink-light);
   animation: loading-fade 2.4s ease-in-out infinite;
 }
 
