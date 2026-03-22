@@ -122,7 +122,7 @@
 .copilot-hero-sub {
   font-family: var(--sans);
   font-size: 0.92rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.8;
   color: var(--ink-muted);
   letter-spacing: 0.005em;
@@ -187,7 +187,7 @@
 .copilot-step-content p {
   font-family: var(--sans);
   font-size: 0.82rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.55;
   color: var(--ink-muted);
   max-width: 140px;
@@ -647,25 +647,26 @@
   fill: none;
 }
 
-/* Empty state hint */
+/* Empty state hint — visible by default, hidden when user types */
 .copilot-empty-hint {
   font-size: 0.8rem;
   color: var(--feel-color);
   text-align: center;
   padding: 0.25rem;
+  display: block;
+  transition: opacity 0.3s;
+}
+
+.copilot-empty-hint.hidden {
   display: none;
 }
 
-.copilot-empty-hint.visible {
-  display: block;
-}
-
 .copilot-input-hint {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--ink-muted);
   text-align: center;
   padding: 0.15rem;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 /* Decision memo output */
@@ -857,6 +858,14 @@
   margin-bottom: 0.3rem;
 }
 
+.framework-card-activity {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+}
+
 .framework-card-reason {
   font-family: var(--sans);
   font-size: 0.8rem;
@@ -972,4 +981,11 @@
   .framework-card { padding: 0.75rem 1rem; }
   .copilot-progress { top: 50px; padding: 0.5rem 1rem; }
   .progress-label { font-size: 0.7rem; }
+}
+
+/* Touch devices: always show edit button (no hover) */
+@media (hover: none) {
+  .copilot-edit-btn {
+    opacity: 0.6;
+  }
 }

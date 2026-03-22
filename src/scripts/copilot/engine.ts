@@ -80,6 +80,12 @@ export class CopilotEngine {
   init(): void {
     trackEvent('session_started', this.journey.id);
 
+    // Detect OS for keyboard hint
+    const keyboardHint = document.getElementById('copilot-keyboard-hint');
+    if (keyboardHint && !navigator.platform?.includes('Mac')) {
+      keyboardHint.textContent = 'Enter para nova linha · clique enviar ou Ctrl+Enter para enviar';
+    }
+
     if (this.journey.status === 'active' && this.journey.classification) {
       this.hideWelcome();
       this.reconstructTimeline();
@@ -100,7 +106,11 @@ export class CopilotEngine {
 
     textarea.addEventListener('input', () => {
       sendBtn.disabled = !textarea.value.trim();
-      hint.classList.remove('visible');
+      if (textarea.value.trim()) {
+        hint.classList.add('hidden');
+      } else {
+        hint.classList.remove('hidden');
+      }
     });
 
     sendBtn.addEventListener('click', () => this.handleSubmit());
@@ -132,8 +142,8 @@ export class CopilotEngine {
       // Now that we're in chat mode, render the intake question
       if (this.state === 'intake' && this.els.timeline.children.length === 0) {
         this.appendQuestion(
-          "What's on your mind?",
-          'Describe the decision you\'re struggling with. Be messy, be honest — this is just for you.',
+          "O que está na sua cabeça?",
+          'Descreva a decisão com a qual está lutando. Pode ser bagunçado, pode ser honesto — é só pra você.',
           'intake'
         );
       }
@@ -151,11 +161,11 @@ export class CopilotEngine {
     } else {
       // Welcome was already hidden (e.g. page reload mid-session)
       this.appendQuestion(
-        "What's on your mind?",
-        'Describe the decision you\'re struggling with. Be messy, be honest — this is just for you.',
+        "O que está na sua cabeça?",
+        'Descreva a decisão com a qual está lutando. Pode ser bagunçado, pode ser honesto — é só pra você.',
         'intake'
       );
-      this.els.textarea.placeholder = "I've been going back and forth about...";
+      this.els.textarea.placeholder = "Fico indo e voltando sobre...";
     }
     this.els.textarea.focus();
   }
@@ -165,7 +175,7 @@ export class CopilotEngine {
   private async handleSubmit(): Promise<void> {
     const text = this.els.textarea.value.trim();
     if (!text) {
-      this.els.hint.classList.add('visible');
+      this.els.hint.classList.remove('hidden');
       return;
     }
     this.hideWelcome();
@@ -244,7 +254,7 @@ export class CopilotEngine {
       const frameworkReasons: Record<string, string> = data.frameworkReasons || {};
 
       await this.streamReflection(
-        `I hear you. It sounds like what's making this hard is ${description}.`,
+        `Entendi. Parece que o que torna isso difícil é ${description}.`,
         [],
         'intake'
       );
@@ -263,7 +273,7 @@ export class CopilotEngine {
       saveJourney(this.journey);
 
       await this.streamReflection(
-        "Let me guide you through a few exercises to help you think through this.",
+        "Vou te guiar por alguns exercícios pra te ajudar a pensar sobre isso.",
         [], 'intake'
       );
       await delay(1500);
@@ -285,7 +295,7 @@ export class CopilotEngine {
 
     const intro = document.createElement('p');
     intro.className = 'framework-picker-intro';
-    intro.textContent = "Here's what I'd suggest:";
+    intro.textContent = "Aqui está o que eu sugiro:";
     picker.appendChild(intro);
 
     const selected = new Set(suggestedRoute.filter(s => s !== 'decision-memo'));
@@ -312,8 +322,13 @@ export class CopilotEngine {
       tagline.className = 'framework-card-tagline';
       tagline.textContent = mod.description;
 
+      const activity = document.createElement('div');
+      activity.className = 'framework-card-activity';
+      activity.textContent = mod.activity;
+
       content.appendChild(title);
       content.appendChild(tagline);
+      content.appendChild(activity);
 
       const reason = frameworkReasons[slug];
       if (reason) {
@@ -346,7 +361,7 @@ export class CopilotEngine {
     if (otherSlugs.length > 0) {
       const toggleBtn = document.createElement('button');
       toggleBtn.className = 'framework-explore-toggle';
-      toggleBtn.textContent = '▸ explore more frameworks';
+      toggleBtn.textContent = '▸ explorar mais frameworks';
 
       const exploreList = document.createElement('div');
       exploreList.className = 'framework-explore-list';
@@ -355,7 +370,7 @@ export class CopilotEngine {
 
       toggleBtn.addEventListener('click', () => {
         const isOpen = exploreList.classList.toggle('open');
-        toggleBtn.textContent = isOpen ? '▾ hide' : '▸ explore more frameworks';
+        toggleBtn.textContent = isOpen ? '▾ esconder' : '▸ explorar mais frameworks';
       });
 
       picker.appendChild(toggleBtn);
@@ -367,7 +382,7 @@ export class CopilotEngine {
 
     const startBtn = document.createElement('button');
     startBtn.className = 'btn-primary';
-    startBtn.textContent = 'start journey →';
+    startBtn.textContent = 'começar jornada →';
 
     const hint = document.createElement('span');
     hint.className = 'framework-picker-hint';
@@ -375,7 +390,7 @@ export class CopilotEngine {
     const updateStartButton = () => {
       if (selected.size < 2) {
         startBtn.disabled = true;
-        hint.textContent = 'select at least 2 frameworks';
+        hint.textContent = 'selecione pelo menos 2 frameworks';
       } else {
         startBtn.disabled = false;
         hint.textContent = '';
@@ -466,10 +481,10 @@ export class CopilotEngine {
     const label = this.progressBarEl.querySelector('.progress-label');
     if (label) {
       if (currentIdx >= route.length) {
-        label.textContent = '✓ All complete';
+        label.textContent = '✓ Tudo completo';
       } else {
         const mod = MODULES[route[currentIdx]];
-        label.textContent = `Step ${currentIdx + 1} of ${route.length}: ${mod?.title || ''}`;
+        label.textContent = `Passo ${currentIdx + 1} de ${route.length}: ${mod?.title || ''}`;
       }
     }
   }
@@ -563,7 +578,7 @@ export class CopilotEngine {
         if (data.needsMore) {
           await this.streamReflection(data.insight, data.themes || [], mod.layer);
           this.state = 'awaiting-input';
-          this.els.textarea.placeholder = 'take another moment and try again...';
+          this.els.textarea.placeholder = 'respire fundo e tente de novo...';
           this.els.textarea.focus();
           this.scrollToBottom();
           return; // Don't increment step — let them try again
@@ -580,7 +595,7 @@ export class CopilotEngine {
     } catch {
       this.removeBlock(thinkingBlock);
       await this.streamReflection(
-        "I couldn't reflect on that one — but your answer is saved. Let's keep going.",
+        "Não consegui refletir sobre isso — mas sua resposta está salva. Vamos continuar.",
         [], mod.layer
       );
     }
@@ -617,9 +632,10 @@ export class CopilotEngine {
     this.state = 'transitioning';
 
     const transitionDiv = document.createElement('div');
+    const summary = this.journey.moduleSummaries[mod.slug];
     transitionDiv.innerHTML = `
       <div class="copilot-module-transition">
-        <span>✓ ${escapeHtml(mod.title)} complete</span>
+        <span>✓ ${escapeHtml(mod.title)} completo</span>
       </div>
     `;
     this.els.timeline.appendChild(transitionDiv);
@@ -631,7 +647,7 @@ export class CopilotEngine {
 
       const desc = document.createElement('p');
       desc.style.cssText = 'font-family:var(--serif);color:var(--ink-light);margin-bottom:1rem';
-      desc.innerHTML = `Next: <strong>${escapeHtml(nextMod.title)}</strong> — ${escapeHtml(nextMod.description)}`;
+      desc.innerHTML = `Próximo: <strong>${escapeHtml(nextMod.title)}</strong> — ${escapeHtml(nextMod.description)}`;
       actionDiv.appendChild(desc);
 
       const btnRow = document.createElement('div');
@@ -639,7 +655,7 @@ export class CopilotEngine {
 
       const continueBtn = document.createElement('button');
       continueBtn.className = 'btn-primary';
-      continueBtn.textContent = 'continue →';
+      continueBtn.textContent = 'continuar →';
       continueBtn.addEventListener('click', () => {
         continueBtn.disabled = true;
         this.showNextQuestion();
@@ -647,13 +663,13 @@ export class CopilotEngine {
 
       const pauseBtn = document.createElement('button');
       pauseBtn.className = 'btn-secondary';
-      pauseBtn.textContent = 'save & come back later';
+      pauseBtn.textContent = 'salvar e voltar depois';
       pauseBtn.addEventListener('click', () => {
         saveJourney(this.journey);
         this.els.timeline.insertAdjacentHTML('beforeend', `
           <div class="copilot-block" style="text-align:center;padding:2rem 0">
-            <h3 style="font-family:var(--serif);font-size:1.3rem;margin-bottom:.5rem">Saved</h3>
-            <p style="color:var(--ink-muted)">Come back anytime. I'll remember where you left off.</p>
+            <h3 style="font-family:var(--serif);font-size:1.3rem;margin-bottom:.5rem">Salvo</h3>
+            <p style="color:var(--ink-muted)">Volte quando quiser. Vou lembrar de onde você parou.</p>
           </div>
         `);
         this.scrollToBottom();
@@ -675,7 +691,7 @@ export class CopilotEngine {
     const transitionDiv = document.createElement('div');
     transitionDiv.innerHTML = `
       <div class="copilot-module-transition">
-        <span>✓ all exercises complete</span>
+        <span>✓ todos os exercícios completos</span>
       </div>
     `;
     this.els.timeline.appendChild(transitionDiv);
@@ -686,34 +702,34 @@ export class CopilotEngine {
 
     const question = document.createElement('p');
     question.style.cssText = 'font-family:var(--serif);font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem';
-    question.textContent = "Before I compile your Decision Memo — is there anything else you'd like to add?";
+    question.textContent = "Antes de compilar seu Memo de Decisão — tem mais alguma coisa que gostaria de acrescentar?";
 
     const hint = document.createElement('p');
     hint.style.cssText = 'font-family:var(--serif);font-size:0.95rem;color:var(--ink-muted);font-style:italic;margin-bottom:1.5rem';
-    hint.textContent = "Something you haven't said yet, a feeling that came up, or context that might change everything.";
+    hint.textContent = "Algo que você ainda não disse, um sentimento que surgiu, ou um contexto que pode mudar tudo.";
 
     const btnRow = document.createElement('div');
     btnRow.style.cssText = 'display:flex;gap:1rem;justify-content:center;flex-wrap:wrap';
 
     const addMoreBtn = document.createElement('button');
     addMoreBtn.className = 'btn-secondary';
-    addMoreBtn.textContent = 'yes, let me add something';
+    addMoreBtn.textContent = 'sim, quero acrescentar algo';
     addMoreBtn.addEventListener('click', () => {
       block.remove();
       this.state = 'awaiting-additional';
       this.appendQuestion(
-        "What else would you like to add?",
-        "Anything — a thought, a fear, a hope, something you held back earlier. This goes into your memo.",
+        "O que mais gostaria de acrescentar?",
+        "Qualquer coisa — um pensamento, um medo, uma esperança, algo que segurou antes. Isso vai pro seu memo.",
         'act'
       );
-      this.els.textarea.placeholder = 'there\'s something else I want to say...';
+      this.els.textarea.placeholder = 'tem mais uma coisa que quero dizer...';
       this.els.textarea.focus();
       this.scrollToBottom();
     });
 
     const generateBtn = document.createElement('button');
     generateBtn.className = 'btn-primary';
-    generateBtn.textContent = 'I\'m ready — generate my memo';
+    generateBtn.textContent = 'estou pronto — gerar meu memo';
     generateBtn.addEventListener('click', () => {
       generateBtn.disabled = true;
       this.generateAndShowMemo();
@@ -737,7 +753,7 @@ export class CopilotEngine {
     const loading = document.createElement('div');
     loading.className = 'copilot-block copilot-loading';
     loading.innerHTML = `
-      <p class="copilot-loading-text">compiling everything you've explored...</p>
+      <p class="copilot-loading-text">compilando tudo que você explorou...</p>
       <div class="thinking-dots"><span></span><span></span><span></span></div>
     `;
     this.els.timeline.appendChild(loading);
@@ -788,22 +804,22 @@ export class CopilotEngine {
 
     this.els.timeline.insertAdjacentHTML('beforeend', `
       <div class="copilot-memo">
-        <h2>Your Decision Memo</h2>
-        <p class="copilot-memo-date">${new Date(m.generatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-        ${section('The Decision', m.situation)}
-        ${section('What was making it hard', m.classification)}
-        ${section('What your body said', m.bodyInsights)}
-        ${section('The inner conflict', m.identityInsights)}
-        ${section('Facts vs assumptions', m.rationalInsights)}
-        ${section('Your real options', m.options)}
+        <h2>Seu Memo de Decisão</h2>
+        <p class="copilot-memo-date">${new Date(m.generatedAt).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        ${section('A Decisão', m.situation)}
+        ${section('O que tornava difícil', m.classification)}
+        ${section('O que seu corpo disse', m.bodyInsights)}
+        ${section('O conflito interno', m.identityInsights)}
+        ${section('Fatos vs suposições', m.rationalInsights)}
+        ${section('Suas opções reais', m.options)}
         ${section('Trade-offs', m.tradeoffs)}
-        ${section('The emerging clarity', m.gutFeeling)}
-        ${section('Your next step', m.nextStep, 'memo-next-step')}
-        ${section('Questions worth sitting with', m.openQuestions)}
+        ${section('A clareza emergente', m.gutFeeling)}
+        ${section('Seu próximo passo', m.nextStep, 'memo-next-step')}
+        ${section('Perguntas pra sentar com', m.openQuestions)}
         <div class="copilot-memo-actions">
-          <button class="btn-secondary" id="copilot-copy">copy memo</button>
-          <button class="btn-secondary" id="copilot-download">download</button>
-          <button class="btn-secondary" id="copilot-new">new decision</button>
+          <button class="btn-secondary" id="copilot-copy">copiar memo</button>
+          <button class="btn-secondary" id="copilot-download">baixar</button>
+          <button class="btn-secondary" id="copilot-new">nova decisão</button>
         </div>
       </div>
     `);
@@ -830,12 +846,12 @@ export class CopilotEngine {
 
     this.els.timeline.insertAdjacentHTML('beforeend', `
       <div class="copilot-memo">
-        <h2>Your Decision Memo</h2>
-        <div class="memo-section"><h3>The Decision</h3><p>${escapeHtml(this.journey.situation)}</p></div>
+        <h2>Seu Memo de Decisão</h2>
+        <div class="memo-section"><h3>A Decisão</h3><p>${escapeHtml(this.journey.situation)}</p></div>
         ${sections}
         <div class="copilot-memo-actions">
-          <button class="btn-secondary" id="copilot-copy">copy memo</button>
-          <button class="btn-secondary" id="copilot-new">new decision</button>
+          <button class="btn-secondary" id="copilot-copy">copiar memo</button>
+          <button class="btn-secondary" id="copilot-new">nova decisão</button>
         </div>
       </div>
     `);
@@ -847,8 +863,8 @@ export class CopilotEngine {
       navigator.clipboard.writeText(this.memoToText());
       trackEvent('memo_exported', this.journey.id, { method: 'copy' });
       const btn = document.getElementById('copilot-copy')!;
-      btn.textContent = 'copied ✓';
-      setTimeout(() => btn.textContent = 'copy memo', 2000);
+      btn.textContent = 'copiado ✓';
+      setTimeout(() => btn.textContent = 'copiar memo', 3500);
     });
     document.getElementById('copilot-download')?.addEventListener('click', () => {
       const blob = new Blob([this.memoToText()], { type: 'text/plain' });
@@ -860,7 +876,11 @@ export class CopilotEngine {
       URL.revokeObjectURL(url);
       trackEvent('memo_exported', this.journey.id, { method: 'download' });
     });
-    document.getElementById('copilot-new')?.addEventListener('click', () => this.restart());
+    document.getElementById('copilot-new')?.addEventListener('click', () => {
+      if (confirm('Tem certeza? Seu progresso atual será perdido.')) {
+        this.restart();
+      }
+    });
   }
 
   private restart(): void {
@@ -925,7 +945,7 @@ export class CopilotEngine {
     block.setAttribute('data-layer', layer);
     block.innerHTML = `
       <div class="copilot-question">
-        <div class="speaker">copilot</div>
+        <div class="speaker">copiloto</div>
         <p>${escapeHtml(text)}</p>
         ${guidance ? `<p class="guidance">${escapeHtml(guidance)}</p>` : ''}
       </div>
@@ -1002,7 +1022,7 @@ export class CopilotEngine {
     block.className = 'copilot-block';
     block.innerHTML = `
       <div class="copilot-reflection">
-        <div class="marker">✦ reflection</div>
+        <div class="marker">✦ reflexão</div>
         <div class="thinking-dots"><span></span><span></span><span></span></div>
       </div>
     `;
@@ -1023,7 +1043,7 @@ export class CopilotEngine {
 
     const reflDiv = document.createElement('div');
     reflDiv.className = 'copilot-reflection';
-    reflDiv.innerHTML = '<div class="marker">✦ reflection</div>';
+    reflDiv.innerHTML = '<div class="marker">✦ reflexão</div>';
 
     const textP = document.createElement('p');
     reflDiv.appendChild(textP);
@@ -1055,7 +1075,7 @@ export class CopilotEngine {
     block.setAttribute('data-layer', layer);
     block.innerHTML = `
       <div class="copilot-reflection">
-        <div class="marker">✦ reflection</div>
+        <div class="marker">✦ reflexão</div>
         <p>${escapeHtml(text)}</p>
       </div>
       ${themes.length > 0 ? `<div class="copilot-themes">${themes.map(t => `<span class="theme-tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
@@ -1078,7 +1098,7 @@ export class CopilotEngine {
     }
 
     const layers = ['feel', 'see', 'think', 'act'];
-    const labels: Record<string, string> = { feel: 'FEEL', see: 'SEE', think: 'THINK', act: 'ACT' };
+    const labels: Record<string, string> = { feel: 'SENTIR', see: 'VER', think: 'PENSAR', act: 'AGIR' };
     const currentMod = this.currentModuleIndex < this.journey.route.length
       ? MODULES[this.journey.route[this.currentModuleIndex]] : null;
 
@@ -1102,18 +1122,18 @@ export class CopilotEngine {
   private memoToText(): string {
     const m = this.journey.memo!;
     return [
-      `DECISION MEMO — ${new Date(m.generatedAt).toLocaleDateString()}`, '',
-      `THE DECISION: ${m.situation}`,
-      `WHAT MADE IT HARD: ${m.classification}`,
-      m.bodyInsights ? `BODY SIGNALS: ${m.bodyInsights}` : '',
-      m.identityInsights ? `INNER CONFLICT: ${m.identityInsights}` : '',
-      m.rationalInsights ? `FACTS VS ASSUMPTIONS: ${m.rationalInsights}` : '',
-      m.options ? `OPTIONS: ${m.options}` : '',
+      `MEMO DE DECISÃO — ${new Date(m.generatedAt).toLocaleDateString('pt-BR')}`, '',
+      `A DECISÃO: ${m.situation}`,
+      `O QUE TORNAVA DIFÍCIL: ${m.classification}`,
+      m.bodyInsights ? `SINAIS DO CORPO: ${m.bodyInsights}` : '',
+      m.identityInsights ? `CONFLITO INTERNO: ${m.identityInsights}` : '',
+      m.rationalInsights ? `FATOS VS SUPOSIÇÕES: ${m.rationalInsights}` : '',
+      m.options ? `OPÇÕES: ${m.options}` : '',
       m.tradeoffs ? `TRADE-OFFS: ${m.tradeoffs}` : '',
-      m.gutFeeling ? `EMERGING CLARITY: ${m.gutFeeling}` : '',
-      m.nextStep ? `NEXT STEP: ${m.nextStep}` : '',
-      m.openQuestions ? `QUESTIONS WORTH SITTING WITH: ${m.openQuestions}` : '',
-      '', '— Generated by May Decision Copilot',
+      m.gutFeeling ? `CLAREZA EMERGENTE: ${m.gutFeeling}` : '',
+      m.nextStep ? `PRÓXIMO PASSO: ${m.nextStep}` : '',
+      m.openQuestions ? `PERGUNTAS PRA SENTAR COM: ${m.openQuestions}` : '',
+      '', '— Gerado pelo May Copiloto de Decisão',
     ].filter(Boolean).join('\n\n');
   }
 }

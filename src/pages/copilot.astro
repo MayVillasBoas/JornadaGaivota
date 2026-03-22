@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import '../styles/copilot.css';
 ---
 
-<Base title="Decision Copilot - May">
+<Base title="Copiloto de Decisão - May">
   <div class="copilot-container">
     <div class="copilot-welcome" id="copilot-welcome">
       <div class="copilot-hero">
@@ -29,7 +29,7 @@ import '../styles/copilot.css';
       </div>
 
       <div class="copilot-how">
-        <h2 class="copilot-how-title">Como funciona</h2>
+        <p class="copilot-how-title">Como funciona</p>
         <div class="copilot-steps">
           <div class="copilot-step">
             <div class="copilot-step-num">1</div>
@@ -64,7 +64,7 @@ import '../styles/copilot.css';
       <h2 class="copilot-input-title" id="copilot-input-title">Comece aqui</h2>
       <div class="copilot-input-inner">
         <div class="voice-group">
-          <button class="voice-lang-toggle" id="voice-lang" data-lang="pt-BR" aria-label="Voice language">pt</button>
+          <button class="voice-lang-toggle" id="voice-lang" data-lang="pt-BR" aria-label="Idioma do reconhecimento de voz" title="Idioma do reconhecimento de voz">pt</button>
           <button class="copilot-voice-btn" id="copilot-mic" aria-label="Start voice recording" aria-pressed="false">
             <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
           </button>
@@ -75,7 +75,7 @@ import '../styles/copilot.css';
         </button>
       </div>
       <p class="copilot-empty-hint" id="copilot-hint">sem pressa — até poucas palavras ajudam</p>
-      <p class="copilot-input-hint">Enter para nova linha · clique enviar ou ⌘+Enter para enviar</p>
+      <p class="copilot-input-hint" id="copilot-keyboard-hint">Enter para nova linha · clique enviar ou ⌘+Enter para enviar</p>
     </div>
   </div>
 </Base>

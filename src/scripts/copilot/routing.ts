@@ -57,12 +57,12 @@ export function buildRoute(classification: Classification): string[] {
 
 export function describeTypes(types: ConfusionType[]): string {
   const descriptions: Record<ConfusionType, string> = {
-    'fear-based': 'fear of what could go wrong',
-    'identity-split': 'different parts of you wanting different things',
-    'information-gap': 'lack of clarity about your real options',
-    'paralysis': 'knowing what you want but not being able to act',
-    'values-conflict': 'two things you deeply value pulling in opposite directions',
-    'external-pressure': 'other people\'s expectations overriding what you actually want',
+    'fear-based': 'o medo do que pode dar errado',
+    'identity-split': 'partes diferentes de você querendo coisas diferentes',
+    'information-gap': 'falta de clareza sobre suas opções reais',
+    'paralysis': 'saber o que quer mas não conseguir agir',
+    'values-conflict': 'duas coisas que você valoriza profundamente puxando em direções opostas',
+    'external-pressure': 'as expectativas dos outros sobrepondo o que você realmente quer',
   };
-  return types.map(t => descriptions[t] || t).join(' and ');
+  return types.map(t => descriptions[t] || t).join(' e ');
 }
