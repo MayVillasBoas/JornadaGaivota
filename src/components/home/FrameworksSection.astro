@@ -5,7 +5,7 @@ import { frameworkCategories } from '../../data/framework-categories';
 
 <section class="frameworks-section">
   <div class="frameworks-content">
-    <span class="section-label">FRAMEWORKS</span>
+    <span class="section-label">HOW I THINK</span>
     <h2>Lenses for Thinking</h2>
     <p class="section-subtitle">Mental models and frameworks from thinkers I admire — organized for when clarity matters most.</p>
     <div class="frameworks-grid">
@@ -13,6 +13,7 @@ import { frameworkCategories } from '../../data/framework-categories';
         <FrameworkCard category={cat} />
       ))}
     </div>
+    <a href="/thinking" class="frameworks-link">Explore how I think &rarr;</a>
   </div>
 </section>
 
@@ -58,6 +59,21 @@ import { frameworkCategories } from '../../data/framework-categories';
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 1.25rem;
+  }
+
+  .frameworks-link {
+    display: inline-block;
+    margin-top: 2rem;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .frameworks-link:hover {
+    color: var(--accent);
   }
 
   @media (max-width: 768px) {

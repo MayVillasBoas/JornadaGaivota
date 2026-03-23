@@ -1,5 +1,5 @@
 ---
-import { mainLinks as links, mayLinks } from '../data/navigation';
+import { mainLinks } from '../data/navigation';
 ---
 
 <header class="site-header">
@@ -7,24 +7,18 @@ import { mainLinks as links, mayLinks } from '../data/navigation';
     <a href="/" class="logo">may.labs</a>
 
     <ul class="nav-links">
-      {links.map(link => (
-        <li><a href={link.href}>{link.label}</a></li>
+      {mainLinks.map(link => (
+        <li class={link.children ? 'has-dropdown' : ''}>
+          <a href={link.href}>{link.label}</a>
+          {link.children && (
+            <ul class="dropdown-menu">
+              {link.children.map(child => (
+                <li><a href={child.href}>{child.label}</a></li>
+              ))}
+            </ul>
+          )}
+        </li>
       ))}
-
-      <li class="dropdown">
-        <span class="dropdown-trigger">
-          <a href="/sobre" class="dropdown-label">may</a>
-          <button class="dropdown-chevron" aria-expanded="false" aria-haspopup="true">
-            <span class="chevron">&#8250;</span>
-          </button>
-        </span>
-        <ul class="dropdown-menu">
-          {mayLinks.map(link => (
-            <li><a href={link.href}>{link.label}</a></li>
-          ))}
-        </ul>
-      </li>
-
       <li><a href="#" class="lang-toggle">pt</a></li>
     </ul>
 
@@ -72,8 +66,7 @@ import { mainLinks as links, mayLinks } from '../data/navigation';
     align-items: center;
   }
 
-  .nav-links a,
-  .dropdown-label {
+  .nav-links > li > a {
     font-family: var(--sans, Inter, sans-serif);
     font-size: 0.85rem;
     font-weight: 400;
@@ -84,77 +77,46 @@ import { mainLinks as links, mayLinks } from '../data/navigation';
     transition: color 0.3s;
   }
 
-  .nav-links a:hover,
-  .dropdown-label:hover {
+  .nav-links > li > a:hover {
     color: var(--ink, #1a1a18);
   }
 
   /* Dropdown */
-  .dropdown {
+  .has-dropdown {
     position: relative;
-  }
-
-  .dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-  }
-
-  .dropdown-chevron {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    color: var(--ink-muted, #6b6b68);
-  }
-
-  .chevron {
-    font-size: 0.75rem;
-    transition: transform 0.2s;
-    display: inline-block;
-    transform: rotate(90deg);
-  }
-
-  .dropdown:hover .chevron,
-  .dropdown.open .chevron {
-    transform: rotate(270deg);
   }
 
   .dropdown-menu {
     position: absolute;
     top: calc(100% + 0.75rem);
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(4px);
     background: var(--cream, #FAFAF7);
     border: 1px solid rgba(26, 26, 24, 0.08);
     border-radius: 6px;
     padding: 0.5rem 0;
-    min-width: 120px;
+    min-width: 140px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-50%) translateY(4px);
     transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
     list-style: none;
   }
 
-  .dropdown:hover .dropdown-menu,
-  .dropdown.open .dropdown-menu {
+  .has-dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
   }
 
-  .dropdown-menu li {
-    padding: 0;
-  }
-
   .dropdown-menu a {
     display: block;
     padding: 0.5rem 1.2rem;
-    font-size: 0.82rem !important;
+    font-family: var(--sans, Inter, sans-serif);
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--ink-muted, #6b6b68);
+    text-decoration: none;
     white-space: nowrap;
     transition: background 0.15s, color 0.15s;
   }
@@ -223,8 +185,7 @@ import { mainLinks as links, mayLinks } from '../data/navigation';
       display: flex;
     }
 
-    .nav-links a,
-    .dropdown-label {
+    .nav-links > li > a {
       font-size: 1rem;
     }
 
@@ -239,31 +200,13 @@ import { mainLinks as links, mayLinks } from '../data/navigation';
       padding: 0.5rem 0 0.5rem 1rem;
       margin-top: 0.5rem;
       min-width: unset;
-      opacity: 0;
-      visibility: hidden;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.2s, max-height 0.3s, visibility 0.2s;
-    }
-
-    .dropdown.open .dropdown-menu {
       opacity: 1;
       visibility: visible;
-      max-height: 200px;
-      transform: none;
     }
 
     /* Disable hover on mobile */
-    .dropdown:hover .dropdown-menu {
-      opacity: 0;
-      visibility: hidden;
-      max-height: 0;
-    }
-
-    .dropdown.open:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      max-height: 200px;
+    .has-dropdown:hover .dropdown-menu {
+      transform: none;
     }
 
     .dropdown-menu a {
@@ -279,21 +222,6 @@ import { mainLinks as links, mayLinks } from '../data/navigation';
     const btn = document.querySelector('.mobile-menu-btn');
     const isOpen = menu?.classList.toggle('open');
     btn?.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  // Dropdown toggle (click chevron for mobile, hover works on desktop via CSS)
-  document.querySelector('.dropdown-chevron')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const dropdown = (e.target as HTMLElement).closest('.dropdown');
-    dropdown?.classList.toggle('open');
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    const dropdown = document.querySelector('.dropdown');
-    if (dropdown && !dropdown.contains(e.target as Node)) {
-      dropdown.classList.remove('open');
-    }
   });
 
   // Smooth scroll for anchor links (closes mobile menu on click)

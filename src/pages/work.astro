@@ -1,0 +1,256 @@
+---
+import Base from '../layouts/Base.astro';
+import { labCategories } from '../data/lab-registry';
+import { projects } from '../data/projects';
+---
+
+<Base title="What I Build - may.labs" description="Lab visualizations, projects, and tools.">
+
+  <section class="page-header">
+    <h1>What I build</h1>
+  </section>
+
+  <section class="content narrow">
+
+    <!-- Lab -->
+    <div class="work-section">
+      <span class="section-label">LAB</span>
+      <p class="section-intro">
+        In 2014, I learned to code computer graphics from scratch — C++ and OpenGL, rendering triangular meshes, writing optimization algorithms to make them run. I fell in love with the intersection of math, modeling, and visual computation.
+      </p>
+      <p class="section-intro faded">
+        It took over ten years to come back. These are the explorations I'm building now.
+      </p>
+
+      <div class="lab-cards">
+        {labCategories.map((cat, i) => (
+          <a href={cat.page} class="work-card">
+            <span class="card-number">{String(i + 1).padStart(2, '0')}</span>
+            <h2>{cat.label}</h2>
+            <span class="card-arrow">&rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Projects -->
+    <div class="work-section">
+      <span class="section-label">PROJECTS</span>
+      <p class="section-intro">
+        Things I'm building. Some work, some are ideas, all are real.
+      </p>
+
+      <div class="projects-list">
+        {projects.map(project => (
+          <a href={`/projects/${project.slug}`} class="project-card">
+            <span class="card-number">{project.number}</span>
+            <div class="project-info">
+              <h2>{project.title}</h2>
+              <p class="project-subtitle">{project.subtitle}</p>
+              <p class="project-desc">{project.description}</p>
+              <span class="project-status">{project.status}</span>
+            </div>
+            <span class="card-arrow">&rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+  </section>
+
+</Base>
+
+<style>
+  .page-header {
+    max-width: 680px;
+    margin: 5rem auto 3rem;
+    padding: 0 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    padding: 0 2rem;
+    margin-bottom: 6rem;
+  }
+
+  .work-section {
+    margin-bottom: 3rem;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-intro {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin-bottom: 1rem;
+  }
+
+  .section-intro.faded {
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 3rem auto;
+  }
+
+  /* Lab cards */
+  .lab-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .work-card {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .work-card:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .card-number {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+
+  .work-card h2 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .card-arrow {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .work-card:hover h2 {
+    color: var(--accent);
+  }
+
+  .work-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  /* Projects */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .project-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .project-card:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .project-info {
+    flex: 1;
+  }
+
+  .project-info h2 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .project-subtitle {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-bottom: 0.6rem;
+  }
+
+  .project-desc {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .project-status {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  .project-card:hover .project-info h2 {
+    color: var(--accent);
+  }
+
+  .project-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      margin: 3rem auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .content {
+      padding: 0 1.5rem;
+    }
+
+    .card-arrow {
+      display: none;
+    }
+  }
+</style>

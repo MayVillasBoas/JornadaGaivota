@@ -1,0 +1,294 @@
+---
+import Base from '../layouts/Base.astro';
+import { books } from '../data/books';
+import { mentors } from '../data/mentors';
+---
+
+<Base title="How I Think - may.labs" description="Essays, books, frameworks, and mentors.">
+
+  <section class="page-header">
+    <h1>How I think</h1>
+  </section>
+
+  <section class="content narrow">
+    <p class="lead">
+      I learn from experience first, theory second. Everything here started as something I lived through — a decision that wouldn't resolve, a question that kept coming back, a book that changed how I saw the problem.
+    </p>
+
+    <p>
+      This is where I organize what shapes how I think — the writing, the books, the tools, the people.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Essays -->
+    <div class="thinking-section">
+      <span class="section-label">ESCRITA</span>
+      <h2>Jornada da Gaivota</h2>
+      <p class="section-sub">Essays on transition, clarity, decisions, and real life. Written while I'm in the middle of the process myself.</p>
+
+      <div class="items-list">
+        <a href="/escrita/voltei" class="item-row">
+          <span class="item-title">voltei</span>
+          <span class="item-desc">On falling back in love with creating — at a thousand times the speed.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/escrita/vergonha-da-primeira-versao" class="item-row">
+          <span class="item-title">a vergonha da primeira versão</span>
+          <span class="item-desc">If you look back and feel proud of the first version, you took too long to ship.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/escrita/dont-try-harder" class="item-row">
+          <span class="item-title">if whatever you're doing isn't working, don't try harder</span>
+          <span class="item-desc">On stopping the self-blame when the plan fails.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/escrita/como-foram-suas-ferias" class="item-row">
+          <span class="item-title">como foram suas férias?</span>
+          <span class="item-desc">A question that reveals more than it asks.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <a href="/escrita" class="see-all">All essays &rarr;</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Books -->
+    <div class="thinking-section">
+      <span class="section-label">BOOKS</span>
+      <h2>From my Kindle</h2>
+      <p class="section-sub">Words that stayed with me. Highlights from books that shaped how I think.</p>
+
+      <div class="items-list">
+        {books.slice(0, 4).map(book => (
+          <div class="book-row">
+            <span class="item-title">{book.title}</span>
+            <span class="item-desc">{book.author}</span>
+          </div>
+        ))}
+      </div>
+
+      <a href="/books" class="see-all">All book highlights &rarr;</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Tools -->
+    <div class="thinking-section">
+      <span class="section-label">FERRAMENTAS</span>
+      <h2>Clarity tools</h2>
+      <p class="section-sub">Guided experiences to examine what you're thinking, feeling, and deciding. Each tool is based on a real thinking framework.</p>
+
+      <div class="items-list">
+        <a href="/ferramentas/medo-na-mesa" class="item-row">
+          <span class="item-title">Fear Setting</span>
+          <span class="item-desc">Name what you're avoiding. Based on Tim Ferriss.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/ferramentas/tres-futuros" class="item-row">
+          <span class="item-title">3 Plausible Futures</span>
+          <span class="item-desc">Imagine three honest versions of your next chapter.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/ferramentas/sim-inteiro" class="item-row">
+          <span class="item-title">Hell Yes or No</span>
+          <span class="item-desc">Separate a true yes from obligation. Based on Derek Sivers.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <a href="/ferramentas" class="see-all">All tools &rarr;</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Mentors -->
+    <div class="thinking-section">
+      <span class="section-label">MENTORES</span>
+      <h2>Lenses for thinking</h2>
+      <p class="section-sub">Mental models and frameworks from thinkers I admire — organized for when clarity matters most.</p>
+
+      <div class="items-list">
+        {mentors.slice(0, 5).map(mentor => (
+          <a href={`/mentores/${mentor.slug}`} class="item-row">
+            <span class="item-title">{mentor.name}</span>
+            <span class="item-desc">{mentor.tagline}</span>
+            <span class="item-arrow">&rarr;</span>
+          </a>
+        ))}
+      </div>
+
+      <a href="/unfold" class="see-all">Explore all mentors &rarr;</a>
+    </div>
+
+  </section>
+
+</Base>
+
+<style>
+  .page-header {
+    max-width: 680px;
+    margin: 5rem auto 3rem;
+    padding: 0 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    padding: 0 2rem;
+    margin-bottom: 6rem;
+  }
+
+  .lead {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .content > p {
+    margin-bottom: 1.5rem;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 3rem auto;
+  }
+
+  .thinking-section {
+    margin-bottom: 1rem;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .thinking-section h2 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-sub {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink-light);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Item rows */
+  .items-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item-row,
+  .book-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .item-row:first-child,
+  .book-row:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .item-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .item-desc {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    flex: 1;
+  }
+
+  .item-arrow {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .item-row:hover .item-title {
+    color: var(--accent);
+  }
+
+  .item-row:hover .item-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  .see-all {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .see-all:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      margin: 3rem auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .content {
+      padding: 0 1.5rem;
+    }
+
+    .item-row,
+    .book-row {
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .item-desc {
+      flex-basis: 100%;
+    }
+
+    .item-arrow {
+      display: none;
+    }
+  }
+</style>
