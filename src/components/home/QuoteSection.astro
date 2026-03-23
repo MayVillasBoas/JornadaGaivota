@@ -6,16 +6,19 @@ const initial = getRandomQuote();
 ---
 
 <section class="quote-section">
-  <div class="quote-content narrow">
+  <div class="quote-content">
     <span class="section-label">FROM BOOKS I'VE READ AND LOVED</span>
-    <blockquote class="home-quote">
-      <p class="quote-text">{initial.text}</p>
+    <div class="quote-block">
+      <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+      <blockquote class="home-quote">
+        <p class="quote-text">{initial.text}</p>
+      </blockquote>
       <cite class="quote-source">
         <span class="quote-author">{initial.author}</span>
         <span class="quote-sep"> — </span>
         <span class="quote-book">{initial.title}</span>
       </cite>
-    </blockquote>
+    </div>
     <div class="quote-footer">
       <button class="quote-next" aria-label="Next quote">another &rarr;</button>
       <a href="/books" class="quote-link">all highlights &rarr;</a>
@@ -26,11 +29,11 @@ const initial = getRandomQuote();
 
 <style>
   .quote-section {
-    padding: 5rem 2rem;
+    padding: 6rem 2rem 5rem;
   }
 
   .quote-content {
-    max-width: 620px;
+    max-width: 720px;
     margin: 0 auto;
   }
 
@@ -42,39 +45,50 @@ const initial = getRandomQuote();
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ink-muted);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .quote-block {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .quote-mark {
+    position: absolute;
+    top: -1.5rem;
+    left: -0.5rem;
+    font-family: var(--serif);
+    font-size: 6rem;
+    line-height: 1;
+    color: var(--border);
+    pointer-events: none;
+    user-select: none;
   }
 
   .home-quote {
-    margin: 0 0 1.5rem;
-    padding-left: 1.5rem;
-    border-left: 2px solid var(--border);
-    transition: border-color 0.3s;
-    min-height: 120px;
-  }
-
-  .home-quote:hover {
-    border-left-color: var(--accent);
+    margin: 0;
+    padding-left: 0.5rem;
   }
 
   .quote-text {
     font-family: var(--serif);
-    font-size: 1.4rem;
+    font-size: 2rem;
     font-weight: 400;
     font-style: italic;
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--ink);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     transition: opacity 0.4s ease;
   }
 
   .quote-source {
     display: block;
     font-family: var(--sans);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 300;
     font-style: normal;
     color: var(--ink-muted);
+    padding-left: 0.5rem;
     transition: opacity 0.4s ease;
   }
 
@@ -87,29 +101,28 @@ const initial = getRandomQuote();
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    padding-left: 0.5rem;
   }
 
   .quote-next {
     font-family: var(--sans);
-    font-size: 0.8rem;
-    font-weight: 400;
+    font-size: 0.85rem;
+    font-weight: 300;
     color: var(--ink-muted);
     background: none;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 0.4rem 1rem;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    transition: color 0.3s, border-color 0.3s;
+    transition: color 0.3s;
   }
 
   .quote-next:hover {
     color: var(--accent);
-    border-color: var(--accent);
   }
 
   .quote-link {
     font-family: var(--sans);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 300;
     color: var(--ink-muted);
     text-decoration: none;
@@ -127,11 +140,16 @@ const initial = getRandomQuote();
 
   @media (max-width: 768px) {
     .quote-section {
-      padding: 3rem 1.5rem;
+      padding: 4rem 1.5rem 3rem;
     }
 
     .quote-text {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
+    }
+
+    .quote-mark {
+      font-size: 4rem;
+      top: -1rem;
     }
   }
 </style>
@@ -156,7 +174,6 @@ const initial = getRandomQuote();
       const quote = quotes[index];
       if (!quote) return;
 
-      // Fade out
       textEl?.classList.add('fading');
       sourceEl?.classList.add('fading');
 
@@ -165,23 +182,18 @@ const initial = getRandomQuote();
         if (authorEl) authorEl.textContent = quote.author;
         if (bookEl) bookEl.textContent = quote.title;
 
-        // Fade in
         textEl?.classList.remove('fading');
         sourceEl?.classList.remove('fading');
       }, 400);
     }
 
-    // Show initial random quote
     showQuote(currentIndex);
 
-    // "Another" button cycles through quotes
     nextBtn?.addEventListener('click', () => {
       currentIndex = (currentIndex + 1) % quotes.length;
-      // Shuffle on first cycle through
       showQuote(currentIndex);
     });
 
-    // Also auto-rotate every 12 seconds
     setInterval(() => {
       currentIndex = (currentIndex + 1) % quotes.length;
       showQuote(currentIndex);

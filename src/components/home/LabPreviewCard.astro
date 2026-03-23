@@ -10,8 +10,8 @@ const { viz } = Astro.props;
 
 <div class="lab-preview-card" data-viz-slug={viz.slug} data-viz-category={viz.category}>
   <div class="card-visual">
-    <img src={viz.thumbnail} alt={viz.name} loading="lazy" width="400" height="300" />
-    <canvas class="hover-canvas" width="400" height="300"></canvas>
+    <img src={viz.thumbnail} alt={viz.name} loading="lazy" width="800" height="600" />
+    <canvas class="hover-canvas"></canvas>
   </div>
   <div class="card-meta">
     <h4>{viz.name}</h4>
@@ -21,10 +21,6 @@ const { viz } = Astro.props;
 
 <style>
   .lab-preview-card {
-    min-width: 280px;
-    width: 280px;
-    flex-shrink: 0;
-    scroll-snap-align: start;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
   }
@@ -38,13 +34,13 @@ const { viz } = Astro.props;
     overflow: hidden;
     border-radius: 8px;
     aspect-ratio: 4 / 3;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: border-color 0.3s;
+    border: 1px solid var(--border);
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
 
   .lab-preview-card:hover .card-visual {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--border-light);
+    box-shadow: var(--shadow-md);
   }
 
   .card-visual img {
@@ -65,29 +61,23 @@ const { viz } = Astro.props;
   }
 
   .card-meta {
-    padding: 0.75rem 0.25rem 0;
+    padding: 0.75rem 0 0;
   }
 
   .card-meta h4 {
     font-family: var(--serif);
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--ink);
     margin-bottom: 0.2rem;
   }
 
   .card-meta p {
     font-family: var(--sans);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--ink-muted);
     line-height: 1.4;
-  }
-
-  @media (max-width: 768px) {
-    .lab-preview-card {
-      min-width: 240px;
-      width: 240px;
-    }
+    margin: 0;
   }
 </style>

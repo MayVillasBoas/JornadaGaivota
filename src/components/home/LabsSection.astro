@@ -1,39 +1,33 @@
 ---
-import LabCarousel from './LabCarousel.astro';
-import { labCategories, getVizzesByCategory } from '../../data/lab-registry';
+import LabPreviewCard from './LabPreviewCard.astro';
+import { labVizRegistry } from '../../data/lab-registry';
+
+const selectedSlugs = ['scale-shift', 'phyllotaxis', 'emergence', 'fern'];
+const selectedVizzes = selectedSlugs
+  .map(slug => labVizRegistry.find(v => v.slug === slug))
+  .filter(Boolean);
 ---
 
-<div class="labs-gradient-top"></div>
 <section class="labs-section">
   <div class="labs-content">
     <span class="section-label">LAB</span>
-    {labCategories.map((cat) => (
-      <LabCarousel category={cat} vizzes={getVizzesByCategory(cat.id)} />
-    ))}
+    <div class="labs-grid">
+      {selectedVizzes.map((viz) => (
+        <LabPreviewCard viz={viz!} />
+      ))}
+    </div>
+    <a href="/lab" class="labs-link">Explore all 16 visualizations &rarr;</a>
   </div>
 </section>
-<div class="labs-gradient-bottom"></div>
 
 <style>
-  .labs-gradient-top {
-    height: 60px;
-    background: linear-gradient(to bottom, var(--cream), #1a1a1a);
-  }
-
   .labs-section {
-    background: #1a1a1a;
-    padding: 3rem 0 5rem;
-  }
-
-  .labs-gradient-bottom {
-    height: 60px;
-    background: linear-gradient(to bottom, #1a1a1a, var(--cream));
+    padding: 5rem 2rem;
   }
 
   .labs-content {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 0 2rem;
   }
 
   .section-label {
@@ -43,37 +37,43 @@ import { labCategories, getVizzesByCategory } from '../../data/lab-registry';
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.25);
+    color: var(--ink-muted);
     margin-bottom: 2rem;
+  }
+
+  .labs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .labs-link {
+    display: inline-block;
+    margin-top: 2rem;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .labs-link:hover {
+    color: var(--accent);
   }
 
   @media (max-width: 768px) {
     .labs-section {
-      padding: 2rem 0 3rem;
+      padding: 3rem 1.5rem;
     }
 
-    .labs-content {
-      padding: 0 1.5rem;
+    .labs-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
 
 <script>
-  // Carousel scroll buttons
-  document.querySelectorAll('.lab-carousel').forEach((carousel) => {
-    const track = carousel.querySelector('.carousel-track') as HTMLElement;
-    const prevBtn = carousel.querySelector('.carousel-prev');
-    const nextBtn = carousel.querySelector('.carousel-next');
-    const cardWidth = 296; // 280px card + 16px gap
-
-    prevBtn?.addEventListener('click', () => {
-      track.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
-    });
-    nextBtn?.addEventListener('click', () => {
-      track.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
-    });
-  });
-
   // Hover-to-activate canvas (desktop only)
   if (window.innerWidth >= 768) {
     type VizConstructor = new (canvas: HTMLCanvasElement) => { start(): void; stop(): void };
