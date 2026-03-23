@@ -27,7 +27,7 @@ function buildFrameworkCategories(): FrameworkCategory[] {
     }
   }
 
-  const order: Category[] = ['decisions', 'thinking', 'action', 'relationships', 'energy', 'perspective'];
+  const order: Category[] = ['work', 'bodyMind', 'relationships', 'meaning'];
 
   return order
     .filter(id => categoryMap.has(id))

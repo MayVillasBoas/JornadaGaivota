@@ -1,8 +1,8 @@
 ---
 import { getAllQuotes, getRandomQuote } from '../../data/books';
 
-const allQuotes = getAllQuotes();
-const initial = getRandomQuote();
+const allQuotes = getAllQuotes(['relationships']);
+const initial = getRandomQuote(['relationships']);
 ---
 
 <section class="quote-section">

@@ -1,24 +1,33 @@
 ---
 const toolCategories = [
   {
-    name: 'Decide',
+    name: 'Trabalho',
+    domain: 'work' as const,
     tools: [
       { slug: 'medo-na-mesa', name: 'Fear Setting', framework: 'Fear Setting', mentor: 'Tim Ferriss', steps: 7 },
-      { slug: 'tres-futuros', name: '3 Plausible Futures', framework: 'Odyssey Plan', mentor: 'Bill Burnett & Dave Evans', steps: 5 },
       { slug: 'sim-inteiro', name: 'Hell Yes or No', framework: 'Hell Yes or No', mentor: 'Derek Sivers', steps: 5 },
     ]
   },
   {
-    name: 'Listen In',
+    name: 'Corpo & Mente',
+    domain: 'bodyMind' as const,
     tools: [
-      { slug: 'bussola-interna', name: 'Inner Compass', framework: 'North Star', mentor: 'Martha Beck', steps: 5 },
       { slug: 'auditoria-de-energia', name: 'Energy Audit', framework: 'Energy Audit', mentor: 'May', steps: 5 },
+      { slug: 'bussola-interna', name: 'Inner Compass', framework: 'North Star', mentor: 'Martha Beck', steps: 5 },
     ]
   },
   {
-    name: 'Communicate',
+    name: 'Relacionamentos',
+    domain: 'relationships' as const,
     tools: [
       { slug: 'o-que-quero-dizer', name: 'What I Really Want to Say', framework: 'NVC', mentor: 'Marshall Rosenberg', steps: 5 },
+    ]
+  },
+  {
+    name: 'Sentido',
+    domain: 'meaning' as const,
+    tools: [
+      { slug: 'tres-futuros', name: '3 Plausible Futures', framework: 'Odyssey Plan', mentor: 'Bill Burnett & Dave Evans', steps: 5 },
       { slug: 'prototipos-de-futuro', name: 'Future Prototypes', framework: 'Life Prototyping', mentor: 'Bill Burnett & Dave Evans', steps: 5 },
     ]
   }

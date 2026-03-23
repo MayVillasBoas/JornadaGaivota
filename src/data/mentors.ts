@@ -1,23 +1,19 @@
 // src/data/mentors.ts
 
-export type Category = 'decisions' | 'thinking' | 'action' | 'relationships' | 'energy' | 'perspective';
+export type Category = 'work' | 'bodyMind' | 'relationships' | 'meaning';
 
 export const categoryLabels: Record<Category, string> = {
-  decisions: 'Decisions',
-  thinking: 'Thinking',
-  action: 'Action',
-  relationships: 'Relationships',
-  energy: 'Energy',
-  perspective: 'Perspective',
+  work: 'Trabalho',
+  bodyMind: 'Corpo & Mente',
+  relationships: 'Relacionamentos',
+  meaning: 'Sentido',
 };
 
 export const categoryColors: Record<Category, string> = {
-  decisions: '#4a7aad',
-  thinking: '#8b6aad',
-  action: '#4aad6a',
+  work: '#4a7aad',
+  bodyMind: '#2B4A3E',
   relationships: '#c27a5a',
-  energy: '#2B4A3E',
-  perspective: '#ada45a',
+  meaning: '#8b6aad',
 };
 
 export interface Principle {
@@ -68,7 +64,7 @@ His books - Hell Yeah or No, Anything You Want, Useful Not True, and How to Live
       'Most of us have lives filled with mediocrity. We said yes to things that we felt half-hearted about.',
       'Saying no makes your yes more powerful.',
     ],
-    primaryCategory: 'decisions',
+    primaryCategory: 'work',
     principles: [
       {
         id: 'hell-yeah-or-no',
@@ -77,7 +73,7 @@ His books - Hell Yeah or No, Anything You Want, Useful Not True, and How to Live
         description:
           'When you feel anything less than genuine enthusiasm - "Wow, that would be amazing!" - the answer is no. Saying no to almost everything frees up space to give your full attention to what truly matters.',
         mentorSlug: 'derek-sivers',
-        categories: ['decisions'],
+        categories: ['work'],
         relatedToolSlug: 'sim-inteiro',
       },
       {
@@ -87,7 +83,7 @@ His books - Hell Yeah or No, Anything You Want, Useful Not True, and How to Live
         description:
           'Instead of debating whether an idea is objectively true, ask whether it\'s useful to you right now. Beliefs are lenses: swap them out when they stop helping.',
         mentorSlug: 'derek-sivers',
-        categories: ['thinking', 'decisions'],
+        categories: ['work'],
       },
       {
         id: 'do-this-not-that',
@@ -96,7 +92,7 @@ His books - Hell Yeah or No, Anything You Want, Useful Not True, and How to Live
         description:
           'Defining what you DON\'T want is as important as defining what you do. Contrasts create sharp edges that make everyday decisions easier.',
         mentorSlug: 'derek-sivers',
-        categories: ['decisions', 'action'],
+        categories: ['work'],
       },
     ],
     connections: [
@@ -127,7 +123,7 @@ Ferriss is a systematizer: he breaks down complex processes into replicable step
       'Fear-setting has produced my biggest business and personal successes, as well as repeatedly helped me to avoid catastrophic mistakes.',
       '"Someday" is a disease that will take your dreams to the grave with you.',
     ],
-    primaryCategory: 'decisions',
+    primaryCategory: 'work',
     principles: [
       {
         id: 'fear-setting',
@@ -136,7 +132,7 @@ Ferriss is a systematizer: he breaks down complex processes into replicable step
         description:
           'Inspired by Seneca\'s premeditatio malorum, Fear Setting is an exercise where you list the worst-case scenario, the actions to prevent it, and the cost of inaction. Ferriss does it at least once a month.',
         mentorSlug: 'tim-ferriss',
-        categories: ['decisions', 'action'],
+        categories: ['work'],
         relatedToolSlug: 'medo-na-mesa',
       },
       {
@@ -146,7 +142,7 @@ Ferriss is a systematizer: he breaks down complex processes into replicable step
         description:
           'Identify the vital few factors that produce most results - and eliminate or delegate the rest. Applies to work, relationships, learning, and health.',
         mentorSlug: 'tim-ferriss',
-        categories: ['action', 'decisions'],
+        categories: ['work'],
       },
       {
         id: 'lifestyle-design',
@@ -155,7 +151,7 @@ Ferriss is a systematizer: he breaks down complex processes into replicable step
         description:
           'Instead of working 40 years to "enjoy later," redistribute mini-retirements throughout life. Question assumptions about work, location, and schedule.',
         mentorSlug: 'tim-ferriss',
-        categories: ['decisions', 'perspective'],
+        categories: ['work', 'meaning'],
       },
     ],
     connections: [
@@ -186,7 +182,7 @@ Harris argues that meditation is not relaxation but a direct investigation of th
       'Thoughts and intentions emerge from background causes of which we are unaware and over which we exert no conscious control.',
       'The "self" - the conventional sense of being a subject living inside one\'s head - is an illusion.',
     ],
-    primaryCategory: 'thinking',
+    primaryCategory: 'bodyMind',
     principles: [
       {
         id: 'mindfulness-investigation',
@@ -195,7 +191,7 @@ Harris argues that meditation is not relaxation but a direct investigation of th
         description:
           'For Harris, mindfulness practice is a rigorous investigation of moment-to-moment experience. The goal isn\'t to empty the mind but to observe how thoughts arise without an apparent author.',
         mentorSlug: 'sam-harris',
-        categories: ['thinking', 'perspective'],
+        categories: ['bodyMind', 'meaning'],
       },
       {
         id: 'no-self',
@@ -204,7 +200,7 @@ Harris argues that meditation is not relaxation but a direct investigation of th
         description:
           'If you pay attention, you\'ll notice that thoughts appear in consciousness without you knowing the next one. There is no thinker to be found - only thoughts. Recognizing this dissolves much unnecessary suffering.',
         mentorSlug: 'sam-harris',
-        categories: ['thinking', 'perspective'],
+        categories: ['bodyMind', 'meaning'],
       },
       {
         id: 'free-will-skepticism',
@@ -213,7 +209,7 @@ Harris argues that meditation is not relaxation but a direct investigation of th
         description:
           'Harris argues that losing the belief in free will doesn\'t lead to fatalism but increases the feeling of freedom. A creative change of inputs - new habits, new skills - can radically transform your life.',
         mentorSlug: 'sam-harris',
-        categories: ['thinking'],
+        categories: ['bodyMind'],
       },
     ],
     connections: [
@@ -243,7 +239,7 @@ Shukman teaches that awakening is not a grand event reserved for monks - it is o
       'There\'s something about deep wounding that can be a pathway to deep, deep love.',
       'In awakening, one thing vanishes, that sense of self, and another thing appears, which is what that sense of self was occluding.',
     ],
-    primaryCategory: 'perspective',
+    primaryCategory: 'meaning',
     principles: [
       {
         id: 'original-love',
@@ -252,7 +248,7 @@ Shukman teaches that awakening is not a grand event reserved for monks - it is o
         description:
           'Original Love is the discovery that before any conditioning, there is an intrinsic love and well-being native to our original nature. It\'s not something to build, but to rediscover.',
         mentorSlug: 'henry-shukman',
-        categories: ['perspective', 'relationships'],
+        categories: ['meaning', 'relationships'],
       },
       {
         id: 'ordinary-awakening',
@@ -261,7 +257,7 @@ Shukman teaches that awakening is not a grand event reserved for monks - it is o
         description:
           'Shukman teaches that awakening doesn\'t require years on retreat. It can happen in simple moments: the separate self dissolves and what was being hidden - presence, connection, openness - appears naturally.',
         mentorSlug: 'henry-shukman',
-        categories: ['perspective', 'thinking'],
+        categories: ['meaning'],
       },
       {
         id: 'koan-practice',
@@ -270,7 +266,7 @@ Shukman teaches that awakening is not a grand event reserved for monks - it is o
         description:
           'Koans are Zen questions or stories that can\'t be "solved" by the intellect. Koan practice invites the mind to release its certainties and find a more direct way of knowing.',
         mentorSlug: 'henry-shukman',
-        categories: ['thinking', 'perspective'],
+        categories: ['meaning'],
       },
     ],
     connections: [
@@ -298,7 +294,7 @@ Huberman translates neuroscience research into practical, accessible protocols. 
       'Make sure that your dopamine system is attached more to the effort process than it ever is to any external reward.',
       'Addiction is a progressive narrowing of the things that bring you pleasure. Happiness is a progressive expansion of the things that bring you pleasure.',
     ],
-    primaryCategory: 'energy',
+    primaryCategory: 'bodyMind',
     principles: [
       {
         id: 'dopamine-protocols',
@@ -307,7 +303,7 @@ Huberman translates neuroscience research into practical, accessible protocols. 
         description:
           'Huberman teaches that dopamine is about motivation and pursuit, not pleasure. The key is linking your dopamine system to the effort process, not to external rewards - avoiding artificial spikes that lead to crashes.',
         mentorSlug: 'andrew-huberman',
-        categories: ['energy', 'action'],
+        categories: ['bodyMind'],
       },
       {
         id: 'stress-as-enhancer',
@@ -316,7 +312,7 @@ Huberman translates neuroscience research into practical, accessible protocols. 
         description:
           'Not all stress is bad. Huberman explains how acute, short-term stress (like cold exposure or intense exercise) activates neurobiological responses that enhance focus, resilience, and learning capacity.',
         mentorSlug: 'andrew-huberman',
-        categories: ['energy', 'action'],
+        categories: ['bodyMind'],
       },
       {
         id: 'sleep-hygiene',
@@ -325,7 +321,7 @@ Huberman translates neuroscience research into practical, accessible protocols. 
         description:
           'Before optimizing anything else, optimize sleep. Huberman teaches protocols based on light, temperature, and timing to regulate circadian rhythms and maximize sleep quality.',
         mentorSlug: 'andrew-huberman',
-        categories: ['energy'],
+        categories: ['bodyMind'],
       },
     ],
     connections: [
@@ -352,7 +348,7 @@ His book Outlive became a best-seller by proposing that longevity isn't about li
       'I would never want anybody to come away thinking, "I\'m too old to do anything about it." As long as you\'re breathing, you have a chance.',
       'Striving for physical health and longevity while ignoring emotional health could be the ultimate curse.',
     ],
-    primaryCategory: 'energy',
+    primaryCategory: 'bodyMind',
     principles: [
       {
         id: 'four-pillars-exercise',
@@ -361,7 +357,7 @@ His book Outlive became a best-seller by proposing that longevity isn't about li
         description:
           'Attia organizes exercise into four pillars: stability (the foundation), strength, zone 2 cardio (metabolic efficiency), and VO2max (peak aerobic capacity). Together, they form the bedrock of physical longevity.',
         mentorSlug: 'peter-attia',
-        categories: ['energy', 'action'],
+        categories: ['bodyMind'],
       },
       {
         id: 'emotional-health',
@@ -370,7 +366,7 @@ His book Outlive became a best-seller by proposing that longevity isn't about li
         description:
           'Attia argues that emotional health is the most neglected pillar of longevity. If you reach 90 without being able to connect with the people you love, all the optimization was in vain.',
         mentorSlug: 'peter-attia',
-        categories: ['energy', 'relationships'],
+        categories: ['bodyMind', 'relationships'],
       },
       {
         id: 'centenarian-decathlon',
@@ -379,7 +375,7 @@ His book Outlive became a best-seller by proposing that longevity isn't about li
         description:
           'The Centenarian Decathlon is a framework where you define 10 physical activities you want to perform in your last decade of life - and train now to ensure them. It redefines what\'s possible in old age.',
         mentorSlug: 'peter-attia',
-        categories: ['energy', 'perspective'],
+        categories: ['bodyMind', 'meaning'],
       },
     ],
     connections: [
@@ -407,7 +403,7 @@ In his book Already Free, Tift presents two seemingly contradictory paths: the "
       'Neurosis is always a substitute for experiential intensity.',
       'When we use the Western and Eastern approaches together, they can help us open to all of life - its richness, its disturbances, and its inherent completeness.',
     ],
-    primaryCategory: 'thinking',
+    primaryCategory: 'relationships',
     principles: [
       {
         id: 'developmental-vs-fruitional',
@@ -416,7 +412,7 @@ In his book Already Free, Tift presents two seemingly contradictory paths: the "
         description:
           'The developmental view (therapy) says we need to resolve our past to live fully. The fruitional view (Buddhism) says we are already whole right now. Tift proposes that holding both - without resolving the tension - is the most honest path.',
         mentorSlug: 'bruce-tift',
-        categories: ['thinking', 'perspective'],
+        categories: ['relationships', 'meaning'],
       },
       {
         id: 'already-whole',
@@ -425,7 +421,7 @@ In his book Already Free, Tift presents two seemingly contradictory paths: the "
         description:
           'The fruitional perspective invites presence, embodiment, and acceptance of whatever arises in immediate experience - without the requirement of "cleaning up" the past as a prerequisite for living fully.',
         mentorSlug: 'bruce-tift',
-        categories: ['perspective', 'thinking'],
+        categories: ['meaning', 'relationships'],
       },
       {
         id: 'neurotic-intelligence',
@@ -434,7 +430,7 @@ In his book Already Free, Tift presents two seemingly contradictory paths: the "
         description:
           'What we call neurosis was, at some point, an intelligent attempt to protect ourselves. Tift proposes that instead of fighting these patterns, we recognize them as forms of experiential intensity - and open ourselves to that intensity directly.',
         mentorSlug: 'bruce-tift',
-        categories: ['thinking', 'relationships'],
+        categories: ['relationships'],
       },
     ],
     connections: [
@@ -465,7 +461,7 @@ Grant argues that the ability to rethink and unlearn is more valuable than raw i
       'Thinking like a scientist means searching for reasons why we might be wrong - not for reasons why we must be right.',
       'Givers advance the world. Takers advance themselves and hold the world back.',
     ],
-    primaryCategory: 'thinking',
+    primaryCategory: 'meaning',
     principles: [
       {
         id: 'think-again',
@@ -474,7 +470,7 @@ Grant argues that the ability to rethink and unlearn is more valuable than raw i
         description:
           'Grant proposes that we operate like scientists: forming hypotheses, testing them, and revising our views based on what we learn. When you\'re wrong, it\'s not cause for sadness - it\'s a discovery.',
         mentorSlug: 'adam-grant',
-        categories: ['thinking'],
+        categories: ['meaning'],
       },
       {
         id: 'give-and-take',
@@ -483,7 +479,7 @@ Grant argues that the ability to rethink and unlearn is more valuable than raw i
         description:
           'In Give and Take, Grant shows that "givers" - people who contribute without expecting immediate return - tend to occupy both the top and the bottom of the success ladder. The difference lies in giving with healthy boundaries.',
         mentorSlug: 'adam-grant',
-        categories: ['relationships', 'action'],
+        categories: ['relationships', 'work'],
       },
       {
         id: 'originals',
@@ -492,7 +488,7 @@ Grant argues that the ability to rethink and unlearn is more valuable than raw i
         description:
           'Being original doesn\'t require supernatural boldness. Grant shows that successful innovators often feel just as much fear as everyone else - but they act anyway, and generate many ideas to find the few that work.',
         mentorSlug: 'adam-grant',
-        categories: ['action', 'thinking'],
+        categories: ['work', 'meaning'],
       },
     ],
     connections: [
@@ -532,7 +528,7 @@ With more than two decades of research, Brown has demonstrated that vulnerabilit
         description:
           'Brown defines vulnerability as uncertainty, risk, and emotional exposure. It\'s not weakness - it\'s the foundation of all genuine connection. We can choose courage or comfort, but not both at the same time.',
         mentorSlug: 'brene-brown',
-        categories: ['relationships', 'decisions'],
+        categories: ['relationships'],
       },
       {
         id: 'shame-resilience',
@@ -541,7 +537,7 @@ With more than two decades of research, Brown has demonstrated that vulnerabilit
         description:
           'Shame is the fear of not being good enough. Brown shows that when we share our story with someone who responds with empathy, shame cannot survive. Shame resilience is a trainable skill.',
         mentorSlug: 'brene-brown',
-        categories: ['relationships', 'thinking'],
+        categories: ['relationships'],
       },
       {
         id: 'rumbling-with-vulnerability',
@@ -550,7 +546,7 @@ With more than two decades of research, Brown has demonstrated that vulnerabilit
         description:
           'Brown teaches that "daring greatly" means accepting that we\'re going to get knocked down. What matters is being in the arena - with the willingness to be seen, to fail, and to try again.',
         mentorSlug: 'brene-brown',
-        categories: ['relationships', 'action'],
+        categories: ['relationships'],
       },
     ],
     connections: [
@@ -579,7 +575,7 @@ Her book Figuring explores the intertwined lives of scientists, writers, and art
       'We are a collage of our interests, our influences, our inspirations, all the fragmentary impressions we\'ve collected by being alive and awake to the world.',
       'What will survive of us are shoreless seeds and stardust.',
     ],
-    primaryCategory: 'perspective',
+    primaryCategory: 'meaning',
     principles: [
       {
         id: 'combinatorial-creativity',
@@ -588,7 +584,7 @@ Her book Figuring explores the intertwined lives of scientists, writers, and art
         description:
           'Popova teaches that we create by recombining pieces of inspiration, knowledge, and insight we\'ve collected throughout life. Originality doesn\'t come from nothing - it comes from unexpected connections between existing ideas.',
         mentorSlug: 'maria-popova',
-        categories: ['perspective', 'thinking'],
+        categories: ['meaning'],
       },
       {
         id: 'figuring',
@@ -597,7 +593,7 @@ Her book Figuring explores the intertwined lives of scientists, writers, and art
         description:
           'Inspired by the lives of scientists and artists, Popova proposes that meaning emerges from the act of living with curiosity and courage, connecting seemingly disconnected experiences into a narrative of one\'s own.',
         mentorSlug: 'maria-popova',
-        categories: ['perspective'],
+        categories: ['meaning'],
       },
       {
         id: 'shoreless-seeds',
@@ -606,7 +602,7 @@ Her book Figuring explores the intertwined lives of scientists, writers, and art
         description:
           'Popova writes that our ideas, creations, and influences persist far beyond us - like "shoreless seeds" that migrate between cultures, centuries, and continents. Legacy is not fame, but reverberation.',
         mentorSlug: 'maria-popova',
-        categories: ['perspective', 'relationships'],
+        categories: ['meaning'],
       },
     ],
     connections: [
@@ -635,7 +631,7 @@ Ruling during wars, plagues, and betrayals, Marcus Aurelius used writing as a da
       'The happiness of your life depends upon the quality of your thoughts.',
       'Very little is needed to make a happy life; it is all within yourself, in your way of thinking.',
     ],
-    primaryCategory: 'perspective',
+    primaryCategory: 'meaning',
     principles: [
       {
         id: 'dichotomy-of-control',
@@ -644,7 +640,7 @@ Ruling during wars, plagues, and betrayals, Marcus Aurelius used writing as a da
         description:
           'The central principle of Stoicism: you control your judgment, intention, choices, and attention. The weather, others\' motivations, and external outcomes are material you work with, not systems you command.',
         mentorSlug: 'marcus-aurelius',
-        categories: ['perspective', 'decisions'],
+        categories: ['meaning', 'work'],
       },
       {
         id: 'memento-mori',
@@ -653,7 +649,7 @@ Ruling during wars, plagues, and betrayals, Marcus Aurelius used writing as a da
         description:
           'Memento mori - "remember you will die" - doesn\'t shrink life but condenses it. When time is kept close, trivial pursuits lose their appeal, gratitude sharpens, and kindness stops waiting for "later."',
         mentorSlug: 'marcus-aurelius',
-        categories: ['perspective', 'energy'],
+        categories: ['meaning'],
       },
       {
         id: 'view-from-above',
@@ -662,7 +658,7 @@ Ruling during wars, plagues, and betrayals, Marcus Aurelius used writing as a da
         description:
           'A Stoic exercise in imagination: see yourself from above, then the city, the continent, the planet, the cosmos. Your problems don\'t disappear, but they gain proportion. What seemed urgent may reveal itself as trivial.',
         mentorSlug: 'marcus-aurelius',
-        categories: ['perspective', 'thinking'],
+        categories: ['meaning'],
       },
     ],
     connections: [
@@ -691,7 +687,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'When I graduated from high school, I had already used up 93% of my in-person parent time. We\'re in the tail end.',
       'Non-procrastinators don\'t exist. All people are procrastinators.',
     ],
-    primaryCategory: 'perspective',
+    primaryCategory: 'meaning',
     principles: [
       {
         id: 'life-calendar',
@@ -700,7 +696,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'The Life Calendar visualizes your entire life as a grid of boxes - one per week. Seeing how many have already been used and how many remain creates a visceral urgency that no goals list can match.',
         mentorSlug: 'tim-urban',
-        categories: ['perspective', 'decisions'],
+        categories: ['meaning'],
       },
       {
         id: 'procrastination-matrix',
@@ -709,7 +705,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Urban shows that tasks with deadlines generate "contained" procrastination. The real danger lies in tasks without deadlines - the "silent killers" like taking care of your health, leaving a bad job, or strengthening relationships.',
         mentorSlug: 'tim-urban',
-        categories: ['perspective', 'action'],
+        categories: ['meaning', 'work'],
       },
       {
         id: 'the-tail-end',
@@ -718,7 +714,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Even if you\'re not at the end of your life, you may be at the end of your time with the most important people. If you\'ve already left home, you\'ve used over 90% of your in-person time with your parents. What do you do with the last 5%?',
         mentorSlug: 'tim-urban',
-        categories: ['perspective', 'relationships'],
+        categories: ['meaning', 'relationships'],
       },
     ],
     connections: [
@@ -742,7 +738,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'The body is the main stage for emotions.',
       'Feelings are not a luxury. They are a means of communicating our states of mind to others.',
     ],
-    primaryCategory: 'thinking' as Category,
+    primaryCategory: 'bodyMind',
     principles: [
       {
         id: 'somatic-markers',
@@ -751,7 +747,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Somatic markers are body signals - a gut feeling, a tightness in the chest, a wave of calm - that arise from past emotional experiences and help guide present decisions. Damasio showed that people with damage to the brain regions processing these signals make catastrophically poor decisions, even when their logical reasoning is intact.',
         mentorSlug: 'antonio-damasio',
-        categories: ['thinking', 'decisions'] as Category[],
+        categories: ['bodyMind', 'work'],
       },
       {
         id: 'embodied-decision-making',
@@ -760,7 +756,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Pure logic alone leads to poor choices. Damasio\'s research demonstrates that the body and emotions are not noise interfering with reason - they are the substrate on which reason operates. Every "rational" decision is shaped by emotional signals you may not even notice.',
         mentorSlug: 'antonio-damasio',
-        categories: ['thinking', 'energy'] as Category[],
+        categories: ['bodyMind'],
       },
     ],
     connections: [
@@ -783,7 +779,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'All parts are welcome.',
       'The goal is not to eliminate parts, but to help them find their non-extreme roles.',
     ],
-    primaryCategory: 'relationships' as Category,
+    primaryCategory: 'relationships',
     principles: [
       {
         id: 'parts-work',
@@ -792,7 +788,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'When you feel torn between wanting to stay safe and wanting to take a risk, that\'s not indecision - those are two parts of you, each trying to protect you in their own way. Parts work means recognizing these voices, understanding what they\'re afraid of, and helping them trust that you can handle what comes.',
         mentorSlug: 'richard-schwartz',
-        categories: ['relationships', 'thinking'] as Category[],
+        categories: ['relationships'],
       },
       {
         id: 'self-energy',
@@ -801,7 +797,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'IFS posits that beneath the noise of protective parts lies what Schwartz calls Self - a state characterized by the 8 C\'s: curiosity, calm, clarity, compassion, confidence, courage, creativity, and connectedness. Accessing Self is not about becoming someone new; it\'s about uncovering who you already are.',
         mentorSlug: 'richard-schwartz',
-        categories: ['relationships', 'energy'] as Category[],
+        categories: ['relationships', 'bodyMind'],
       },
       {
         id: 'internal-family-systems',
@@ -810,7 +806,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Most approaches to inner conflict try to silence, override, or "fix" the difficult voices. IFS does the opposite: it turns toward each part with curiosity. A part that seems destructive (procrastination, self-sabotage, anxiety) is often a protector carrying a burden from the past. When you listen, it can relax.',
         mentorSlug: 'richard-schwartz',
-        categories: ['relationships', 'perspective'] as Category[],
+        categories: ['relationships'],
       },
     ],
     connections: [
@@ -832,7 +828,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'Invert, always invert.',
       'I never allow myself to have an opinion on anything that I don\'t know the other side\'s argument better than they do.',
     ],
-    primaryCategory: 'thinking' as Category,
+    primaryCategory: 'work',
     principles: [
       {
         id: 'mental-models',
@@ -841,7 +837,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'A person who only knows accounting will try to solve every problem with accounting. Munger\'s insight is that the best thinkers collect models from many fields - evolution, psychology, physics, economics - and use them in combination. The more models you have, the fewer blind spots.',
         mentorSlug: 'charlie-munger',
-        categories: ['thinking', 'decisions'] as Category[],
+        categories: ['work'],
       },
       {
         id: 'inversion',
@@ -850,7 +846,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Most people think forward: "How do I get what I want?" Munger inverts: "What would guarantee I fail?" Then avoid that. Want a good relationship? Instead of listing what you want, list what would destroy one. Inversion reveals blind spots that forward thinking misses.',
         mentorSlug: 'charlie-munger',
-        categories: ['thinking', 'decisions'] as Category[],
+        categories: ['work'],
       },
       {
         id: 'first-principles-thinking',
@@ -859,7 +855,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Most reasoning is by analogy - "this is like that, so do the same thing." First principles thinking strips away assumptions and conventions to find what\'s fundamentally true, then builds up from there. It\'s slower but finds solutions that analogy-based thinking can\'t.',
         mentorSlug: 'charlie-munger',
-        categories: ['thinking'] as Category[],
+        categories: ['work'],
       },
     ],
     connections: [
@@ -881,7 +877,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'I knew that when I was 80, I was not going to regret having tried this.',
       'If you decide that you\'re going to do only the things you know are going to work, you\'re going to leave a lot of opportunity on the table.',
     ],
-    primaryCategory: 'decisions' as Category,
+    primaryCategory: 'work',
     principles: [
       {
         id: 'regret-minimization',
@@ -890,7 +886,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'When Bezos was deciding whether to leave his Wall Street job to start Amazon, he imagined himself at 80 looking back. He knew he wouldn\'t regret trying and failing. But he would deeply regret never trying. This framework cuts through noise by shifting the time horizon from months to decades.',
         mentorSlug: 'jeff-bezos',
-        categories: ['decisions', 'perspective'] as Category[],
+        categories: ['work', 'meaning'],
       },
       {
         id: 'day-1-thinking',
@@ -899,7 +895,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Day 2 is stasis, followed by irrelevance, followed by excruciating decline. Day 1 means staying in startup mode: making decisions with 70% of the information you wish you had, staying close to the people you serve, and being willing to be misunderstood for long periods.',
         mentorSlug: 'jeff-bezos',
-        categories: ['decisions', 'action'] as Category[],
+        categories: ['work'],
       },
     ],
     connections: [
@@ -922,7 +918,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'The quality of your thinking determines the quality of your life.',
       'Most errors come from defaults, not reasoning.',
     ],
-    primaryCategory: 'decisions' as Category,
+    primaryCategory: 'work',
     principles: [
       {
         id: 'decision-journal',
@@ -931,7 +927,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'A decision journal captures what you decided, why, what you expected to happen, and how you felt - before the outcome is known. Reviewing it over time reveals patterns in your thinking: where you\'re consistently right, where you fool yourself, and which emotions lead you astray.',
         mentorSlug: 'shane-parrish',
-        categories: ['decisions', 'thinking'] as Category[],
+        categories: ['work'],
       },
       {
         id: 'clear-thinking',
@@ -940,7 +936,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Parrish argues that the biggest thinking errors don\'t happen during deliberation - they happen when we\'re on autopilot. Social defaults, emotional defaults, ego defaults, and inertia defaults hijack our choices before we even realize we\'re making one. Clear thinking means catching yourself in the ordinary moments.',
         mentorSlug: 'shane-parrish',
-        categories: ['thinking', 'decisions'] as Category[],
+        categories: ['work'],
       },
       {
         id: 'second-order-thinking',
@@ -949,7 +945,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'First-order thinking asks: "What happens if I do this?" Second-order thinking asks: "And then what? What are the consequences of the consequences?" Most people stop at the first order. The best decisions come from thinking at least two steps ahead.',
         mentorSlug: 'shane-parrish',
-        categories: ['decisions', 'perspective'] as Category[],
+        categories: ['work', 'meaning'],
       },
     ],
     connections: [
@@ -972,7 +968,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
       'Safety is not the absence of threat. It is the presence of connection.',
       'The nervous system is not asking "Is this dangerous?" It is asking "Is this safe?"',
     ],
-    primaryCategory: 'energy' as Category,
+    primaryCategory: 'bodyMind',
     principles: [
       {
         id: 'polyvagal-theory',
@@ -981,7 +977,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'The autonomic nervous system has three states: ventral vagal (safe and social - you can connect, think clearly, be creative), sympathetic (fight or flight - mobilized, anxious, reactive), and dorsal vagal (shutdown - frozen, numb, collapsed). Understanding which state you\'re in is the first step to shifting it.',
         mentorSlug: 'stephen-porges',
-        categories: ['energy', 'relationships'] as Category[],
+        categories: ['bodyMind', 'relationships'],
       },
       {
         id: 'neuroception',
@@ -990,7 +986,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'Before you consciously assess a situation, your nervous system has already decided whether it\'s safe or threatening. This below-awareness scanning - neuroception - explains why you might feel uneasy in a "safe" situation or calm in a "dangerous" one. Your body\'s reading may not match reality, but it always drives behavior.',
         mentorSlug: 'stephen-porges',
-        categories: ['energy', 'thinking'] as Category[],
+        categories: ['bodyMind'],
       },
       {
         id: 'window-of-tolerance',
@@ -999,7 +995,7 @@ His TED Talk "Inside the Mind of a Master Procrastinator" is one of the most-wat
         description:
           'The window of tolerance is the bandwidth within which you can think, feel, and function effectively. Too much activation pushes you into hyperarousal (anxiety, panic). Too little drops you into hypoarousal (numbness, disconnection). The goal is not to avoid stress but to widen the window so you can handle more while staying regulated.',
         mentorSlug: 'stephen-porges',
-        categories: ['energy', 'relationships'] as Category[],
+        categories: ['bodyMind', 'relationships'],
       },
     ],
     connections: [

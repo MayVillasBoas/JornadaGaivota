@@ -1,10 +1,55 @@
 ---
 import Base from '../layouts/Base.astro';
 import { books } from '../data/books';
-import { mentors } from '../data/mentors';
+import { mentors, categoryLabels, categoryColors, type Category } from '../data/mentors';
+
+// Group mentors by domain
+const domains = Object.keys(categoryLabels) as Category[];
+const mentorsByDomain = domains.reduce((acc, domain) => {
+  acc[domain] = mentors.filter(m => m.primaryCategory === domain);
+  return acc;
+}, {} as Record<Category, typeof mentors>);
+
+// Curated tools per domain
+const toolsByDomain: Record<Category, { slug: string; name: string; mentor: string }[]> = {
+  work: [
+    { slug: 'medo-na-mesa', name: 'Fear Setting', mentor: 'Tim Ferriss' },
+    { slug: 'sim-inteiro', name: 'Hell Yes or No', mentor: 'Derek Sivers' },
+  ],
+  bodyMind: [
+    { slug: 'auditoria-de-energia', name: 'Energy Audit', mentor: 'May' },
+    { slug: 'bussola-interna', name: 'Inner Compass', mentor: 'Martha Beck' },
+  ],
+  relationships: [
+    { slug: 'o-que-quero-dizer', name: 'What I Really Want to Say', mentor: 'Marshall Rosenberg' },
+  ],
+  meaning: [
+    { slug: 'tres-futuros', name: '3 Plausible Futures', mentor: 'Bill Burnett & Dave Evans' },
+  ],
+};
+
+// Domain descriptions
+const domainDescriptions: Record<Category, { title: string; sub: string }> = {
+  work: {
+    title: 'Decidir e agir',
+    sub: 'Frameworks para cortar o ruído, eliminar o medo, e tomar decisões melhores.',
+  },
+  bodyMind: {
+    title: 'Corpo e mente',
+    sub: 'Neurociência, meditação, e protocolos para sustentar energia e clareza.',
+  },
+  relationships: {
+    title: 'Conexão',
+    sub: 'Vulnerabilidade, partes internas, e a coragem de se mostrar de verdade.',
+  },
+  meaning: {
+    title: 'Sentido',
+    sub: 'Perspectiva, tempo, contemplação — o que dá significado a tudo isso.',
+  },
+};
 ---
 
-<Base title="How I Think - may.labs" description="Essays, books, frameworks, and mentors.">
+<Base title="How I Think - may.labs" description="Essays, books, frameworks, and mentors — organized by life domain.">
 
   <section class="page-header">
     <h1>How I think</h1>
@@ -43,11 +88,6 @@ import { mentors } from '../data/mentors';
           <span class="item-desc">On stopping the self-blame when the plan fails.</span>
           <span class="item-arrow">&rarr;</span>
         </a>
-        <a href="/escrita/como-foram-suas-ferias" class="item-row">
-          <span class="item-title">como foram suas férias?</span>
-          <span class="item-desc">A question that reveals more than it asks.</span>
-          <span class="item-arrow">&rarr;</span>
-        </a>
       </div>
 
       <a href="/escrita" class="see-all">All essays &rarr;</a>
@@ -55,72 +95,74 @@ import { mentors } from '../data/mentors';
 
     <div class="divider"></div>
 
-    <!-- Books -->
+    <!-- Domain sections -->
+    {domains.map((domain) => {
+      const domainMentors = mentorsByDomain[domain].slice(0, 3);
+      const domainTools = toolsByDomain[domain];
+      const info = domainDescriptions[domain];
+      const color = categoryColors[domain];
+
+      return (
+        <>
+          <div class="thinking-section">
+            <span class="section-label" style={`color: ${color}`}>{categoryLabels[domain]}</span>
+            <h2>{info.title}</h2>
+            <p class="section-sub">{info.sub}</p>
+
+            <div class="items-list">
+              {domainMentors.map(mentor => (
+                <a href={`/mentores/${mentor.slug}`} class="item-row">
+                  <span class="domain-dot" style={`background: ${color}`} />
+                  <span class="item-title">{mentor.name}</span>
+                  <span class="item-desc">{mentor.tagline}</span>
+                  <span class="item-arrow">&rarr;</span>
+                </a>
+              ))}
+              {domainTools.map(tool => (
+                <a href={`/ferramentas/${tool.slug}`} class="item-row tool-row">
+                  <span class="domain-dot tool-dot" style={`border-color: ${color}`} />
+                  <span class="item-title">{tool.name}</span>
+                  <span class="item-desc">{tool.mentor}</span>
+                  <span class="item-arrow">&rarr;</span>
+                </a>
+              ))}
+            </div>
+
+            <a href={`/referencias`} class="see-all">Ver tudo em {categoryLabels[domain]} &rarr;</a>
+          </div>
+
+          <div class="divider"></div>
+        </>
+      );
+    })}
+
+    <!-- Books by domain -->
     <div class="thinking-section">
       <span class="section-label">BOOKS</span>
       <h2>From my Kindle</h2>
       <p class="section-sub">Words that stayed with me. Highlights from books that shaped how I think.</p>
 
-      <div class="items-list">
-        {books.slice(0, 4).map(book => (
-          <div class="book-row">
-            <span class="item-title">{book.title}</span>
-            <span class="item-desc">{book.author}</span>
+      {domains.map((domain) => {
+        const domainBooks = books.filter(b => b.domain === domain);
+        if (domainBooks.length === 0) return null;
+        const color = categoryColors[domain];
+        return (
+          <div class="book-domain-group">
+            <span class="book-domain-label" style={`color: ${color}`}>{categoryLabels[domain]}</span>
+            <div class="items-list">
+              {domainBooks.map(book => (
+                <div class="book-row">
+                  <span class="domain-dot" style={`background: ${color}`} />
+                  <span class="item-title">{book.title}</span>
+                  <span class="item-desc">{book.author}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
 
       <a href="/books" class="see-all">All book highlights &rarr;</a>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Tools -->
-    <div class="thinking-section">
-      <span class="section-label">FERRAMENTAS</span>
-      <h2>Clarity tools</h2>
-      <p class="section-sub">Guided experiences to examine what you're thinking, feeling, and deciding. Each tool is based on a real thinking framework.</p>
-
-      <div class="items-list">
-        <a href="/ferramentas/medo-na-mesa" class="item-row">
-          <span class="item-title">Fear Setting</span>
-          <span class="item-desc">Name what you're avoiding. Based on Tim Ferriss.</span>
-          <span class="item-arrow">&rarr;</span>
-        </a>
-        <a href="/ferramentas/tres-futuros" class="item-row">
-          <span class="item-title">3 Plausible Futures</span>
-          <span class="item-desc">Imagine three honest versions of your next chapter.</span>
-          <span class="item-arrow">&rarr;</span>
-        </a>
-        <a href="/ferramentas/sim-inteiro" class="item-row">
-          <span class="item-title">Hell Yes or No</span>
-          <span class="item-desc">Separate a true yes from obligation. Based on Derek Sivers.</span>
-          <span class="item-arrow">&rarr;</span>
-        </a>
-      </div>
-
-      <a href="/ferramentas" class="see-all">All tools &rarr;</a>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Mentors -->
-    <div class="thinking-section">
-      <span class="section-label">MENTORES</span>
-      <h2>Lenses for thinking</h2>
-      <p class="section-sub">Mental models and frameworks from thinkers I admire — organized for when clarity matters most.</p>
-
-      <div class="items-list">
-        {mentors.slice(0, 5).map(mentor => (
-          <a href={`/mentores/${mentor.slug}`} class="item-row">
-            <span class="item-title">{mentor.name}</span>
-            <span class="item-desc">{mentor.tagline}</span>
-            <span class="item-arrow">&rarr;</span>
-          </a>
-        ))}
-      </div>
-
-      <a href="/unfold" class="see-all">Explore all mentors &rarr;</a>
     </div>
 
   </section>
@@ -217,6 +259,20 @@ import { mentors } from '../data/mentors';
     border-top: 1px solid var(--border);
   }
 
+  .domain-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    top: 2px;
+  }
+
+  .tool-dot {
+    background: transparent;
+    border: 1.5px solid;
+  }
+
   .item-title {
     font-family: var(--serif);
     font-size: 1.05rem;
@@ -265,6 +321,21 @@ import { mentors } from '../data/mentors';
 
   .see-all:hover {
     color: var(--accent);
+  }
+
+  .book-domain-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .book-domain-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+    margin-top: 1rem;
   }
 
   @media (max-width: 768px) {

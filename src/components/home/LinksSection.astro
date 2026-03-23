@@ -2,7 +2,7 @@
 import { mainLinks, mayLinks } from '../../data/navigation';
 
 // Filter out links already represented by rich sections
-const excludedHrefs = ['/lab', '/unfold', '/books'];
+const excludedHrefs = ['/lab', '/referencias', '/books'];
 const remainingLinks = [...mainLinks, ...mayLinks].filter(
   (link) => !excludedHrefs.includes(link.href)
 );
