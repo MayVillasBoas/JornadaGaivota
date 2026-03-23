@@ -170,6 +170,17 @@ const initial = getRandomQuote();
 
     let currentIndex = Math.floor(Math.random() * quotes.length);
 
+    function nextDifferentBook(): number {
+      const currentTitle = quotes[currentIndex]?.title;
+      let next = (currentIndex + 1) % quotes.length;
+      let attempts = 0;
+      while (quotes[next]?.title === currentTitle && attempts < quotes.length) {
+        next = (next + 1) % quotes.length;
+        attempts++;
+      }
+      return next;
+    }
+
     function showQuote(index: number) {
       const quote = quotes[index];
       if (!quote) return;
@@ -190,12 +201,12 @@ const initial = getRandomQuote();
     showQuote(currentIndex);
 
     nextBtn?.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % quotes.length;
+      currentIndex = nextDifferentBook();
       showQuote(currentIndex);
     });
 
     setInterval(() => {
-      currentIndex = (currentIndex + 1) % quotes.length;
+      currentIndex = nextDifferentBook();
       showQuote(currentIndex);
     }, 30000);
   } catch {
