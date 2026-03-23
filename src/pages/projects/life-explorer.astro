@@ -1,0 +1,202 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/projects.css';
+---
+
+<Base title="Life Explorer - may.labs" description="An interactive visualization built from therapy transcriptions — fed to Claude to extract themes, patterns, and connections across a life.">
+
+  <article class="project-detail">
+    <header class="project-header">
+      <a href="/projects" class="back-link">&larr; projects</a>
+      <h1>Life Explorer</h1>
+      <p class="project-subtitle">Mapping a life through therapy transcriptions and AI</p>
+    </header>
+
+    <!-- Section 1: The idea -->
+    <section class="section-idea">
+      <p class="lead">
+        I had years of therapy notes — transcriptions, personal reflections, life plans. Twenty-one documents spanning career changes, relationships, grief, identity. I fed them all to Claude and asked: what patterns do you see?
+      </p>
+      <p>
+        This was the first thing I ever built with AI. Not a to-do app, not a chatbot — a mirror. The kind that shows you the threads running through your life that you can't see when you're living them.
+      </p>
+      <p>
+        What came back was structured data: themes with subcategories, behavioral patterns with strength scores, connections between people and events, mappings to psychology frameworks I'd been reading. Raw text became a navigable map.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 2: The process -->
+    <section class="section-evolution">
+      <h2>From transcriptions to structure</h2>
+
+      <div class="evolution-timeline">
+        <div class="evo-step">
+          <div class="evo-marker past"></div>
+          <div class="evo-content">
+            <h3>Raw documents</h3>
+            <p>Twenty-one files — therapy session notes, personal reflections, a life planning spreadsheet, free-form journal entries. Unstructured, emotional, spanning years. Some in Portuguese, some in English.</p>
+          </div>
+        </div>
+
+        <div class="evo-connector"></div>
+
+        <div class="evo-step">
+          <div class="evo-marker past"></div>
+          <div class="evo-content">
+            <h3>Claude extracts patterns</h3>
+            <p>Each document was analyzed for themes (relationships, career, identity, grief, health, geography, finances, purpose), people mentioned, behavioral patterns, key quotes, and connections to psychology frameworks.</p>
+          </div>
+        </div>
+
+        <div class="evo-connector"></div>
+
+        <div class="evo-step">
+          <div class="evo-marker current"></div>
+          <div class="evo-content">
+            <h3>Interactive exploration</h3>
+            <p>The structured data became a single-page app with six different ways to navigate the same life — each revealing something the others don't.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 3: Six ways to explore -->
+    <section class="section-flow">
+      <h2>Six ways to explore</h2>
+
+      <div class="copilot-flow">
+        <div class="copilot-flow-step">
+          <span class="flow-step-number">1</span>
+          <div>
+            <h3>Discovery</h3>
+            <p>An insights grid — filterable by theme, searchable by keyword. Each insight card expands to reveal the full analysis, related quotes, and callouts connecting to other themes.</p>
+          </div>
+        </div>
+
+        <div class="copilot-flow-step">
+          <span class="flow-step-number">2</span>
+          <div>
+            <h3>Constellation</h3>
+            <p>A D3 force-directed graph where themes, people, and events become nodes. Connections emerge as you explore — who appears together, which themes cluster, what pulls toward what.</p>
+          </div>
+        </div>
+
+        <div class="copilot-flow-step">
+          <span class="flow-step-number">3</span>
+          <div>
+            <h3>Timeline</h3>
+            <p>Events laid out chronologically. Click any moment to see what themes were active, who was present, and how it connects to what came before and after.</p>
+          </div>
+        </div>
+
+        <div class="copilot-flow-step">
+          <span class="flow-step-number">4</span>
+          <div>
+            <h3>Dashboard</h3>
+            <p>A three-panel deep dive — theme tree on the left, event detail in the center, related insights on the right. Pick any theme or subcategory and see everything connected to it.</p>
+          </div>
+        </div>
+
+        <div class="copilot-flow-step">
+          <span class="flow-step-number">5</span>
+          <div>
+            <h3>Frameworks</h3>
+            <p>Maps life patterns to thinkers and authors — Peter Attia on health, Sam Harris on purpose, Derek Sivers on career. Shows where different frameworks converge on the same themes.</p>
+          </div>
+        </div>
+
+        <div class="copilot-flow-step">
+          <span class="flow-step-number">6</span>
+          <div>
+            <h3>Journal</h3>
+            <p>Write in real-time and watch the system detect themes, surface related events, suggest frameworks, and find insights — all based on what you're typing, connected to the existing data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 4: What emerges -->
+    <section class="section-idea">
+      <h2>What emerges</h2>
+      <p>
+        The surprise wasn't any single insight — it was seeing the connections. How a career decision echoed a relationship pattern. How a recurring fear mapped perfectly onto a framework I'd been reading about but never applied to myself.
+      </p>
+      <p>
+        The constellation view was the revelation. Themes that felt separate in life — grief and career ambition, body image and independence — turned out to be deeply connected. The graph made invisible threads visible.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 5: Under the hood -->
+    <section class="section-stack">
+      <h2>Under the hood</h2>
+      <div class="stack-badges">
+        <span class="stack-badge">HTML</span>
+        <span class="stack-badge">CSS</span>
+        <span class="stack-badge">JavaScript</span>
+        <span class="stack-badge">D3.js</span>
+        <span class="stack-badge">Claude</span>
+        <span class="stack-badge">localStorage</span>
+      </div>
+      <p class="stack-note">A single self-contained HTML file — ~8,000 lines of code with embedded data. D3.js powers the constellation graph and timeline. Journal reflections persist in localStorage. No server, no build step, no dependencies beyond D3.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 6: Try it -->
+    <section class="section-idea">
+      <h2>Try it</h2>
+      <p>
+        The version below uses fictional data — a realistic but invented therapy journey. The structure, interactions, and all six exploration modes work exactly as the original.
+      </p>
+      <p>
+        <a href="/projects/life-explorer-demo.html" target="_blank" rel="noopener" class="try-link">Open Life Explorer &rarr;</a>
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 7: What's next -->
+    <section class="section-roadmap">
+      <h2>What's next</h2>
+      <ul class="roadmap-list">
+        <li><span class="roadmap-marker done">&#x25CF;</span> Theme extraction from unstructured documents</li>
+        <li><span class="roadmap-marker done">&#x25CF;</span> Six exploration modes (Discovery, Constellation, Timeline, Dashboard, Frameworks, Journal)</li>
+        <li><span class="roadmap-marker done">&#x25CF;</span> D3 force-directed constellation graph</li>
+        <li><span class="roadmap-marker done">&#x25CF;</span> Real-time journal with theme detection</li>
+        <li><span class="roadmap-marker done">&#x25CF;</span> Framework mapping to authors and thinkers</li>
+        <li><span class="roadmap-marker">&#x25CB;</span> Import your own documents</li>
+        <li><span class="roadmap-marker">&#x25CB;</span> AI-powered journal analysis</li>
+        <li><span class="roadmap-marker">&#x25CB;</span> Export insights and patterns</li>
+        <li><span class="roadmap-marker">&#x25CB;</span> Cross-session pattern tracking</li>
+      </ul>
+      <p class="project-timestamp">Active &middot; Started March 2026</p>
+    </section>
+
+  </article>
+
+</Base>
+
+<style>
+  .try-link {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: border-color 0.3s;
+  }
+
+  .try-link:hover {
+    border-color: var(--accent);
+  }
+</style>

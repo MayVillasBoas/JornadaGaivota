@@ -42,4 +42,19 @@ export const projects: Project[] = [
     ],
     stack: ['TypeScript', 'Astro', 'Claude Sonnet', 'Web Speech API'],
   },
+  {
+    slug: 'life-explorer',
+    number: '03',
+    title: 'Life Explorer',
+    subtitle: 'Mapping a life through therapy transcriptions and AI',
+    description: 'An interactive visualization built from years of therapy notes — fed to Claude to extract themes, patterns, and connections. Six ways to explore: insights discovery, constellation graph, timeline, thematic dashboard, framework mapping, and reflective journal.',
+    status: 'active',
+    areas: [
+      { name: 'explore', color: 'var(--cat-perspective)', active: true },
+      { name: 'connect', color: 'var(--cat-relationships)', active: true },
+      { name: 'reflect', color: 'var(--cat-thinking)', active: true },
+      { name: 'discover', color: 'var(--cat-action)', active: true },
+    ],
+    stack: ['HTML', 'D3.js', 'Claude', 'localStorage'],
+  },
 ];

@@ -1,0 +1,4189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Explorer</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f0f;--card:#1a1a2e;--card-hover:#222244;--text:#e0e0e0;--text-dim:#888;--accent:#f4a261;--accent2:#e76f51;--border:#2a2a3e;--rel:#e74c3c;--career:#3498db;--identity:#9b59b6;--grief:#7f8c8d;--health:#2ecc71;--geo:#f39c12;--fin:#1abc9c;--purpose:#e67e22}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#1a1a2e}
+::-webkit-scrollbar-thumb{background:#444;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#666}
+.app{display:flex;flex-direction:column;height:100vh}
+.header{padding:12px 24px;background:#0a0a1a;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-shrink:0;position:relative;z-index:10}
+.header h1{font-size:18px;font-weight:600;color:var(--accent)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{padding:6px 16px;border-radius:6px;cursor:pointer;font-size:13px;color:var(--text-dim);background:transparent;border:1px solid transparent;transition:all .2s}
+.tab:hover{color:var(--text);background:#1a1a2e}
+.tab.active{color:var(--accent);background:#1a1a2e;border-color:var(--accent)}
+.content{flex:1;overflow:hidden;position:relative}
+.tab-panel{position:absolute;inset:0;overflow-y:auto;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.tab-panel.active{opacity:1;pointer-events:all}
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;transition:all .2s;cursor:pointer}
+.card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 4px 20px rgba(244,162,97,.1)}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;text-transform:uppercase}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;background:#2a2a3e;color:var(--text-dim);margin:2px}
+/* Discovery */
+.stats-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;flex:1;min-width:120px;text-align:center}
+.stat-box .num{font-size:28px;font-weight:700;color:var(--accent)}
+.stat-box .lbl{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.filter-pill{padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-dim);transition:all .2s}
+.filter-pill:hover,.filter-pill.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.search-box{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#111;color:var(--text);font-size:13px;width:200px}
+.search-box:focus{outline:none;border-color:var(--accent)}
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px}
+.insight-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .3s;overflow:hidden}
+.insight-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.insight-card.expanded{grid-column:1/-1;cursor:default}
+.insight-card .cat{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.insight-card h3{font-size:15px;margin-bottom:8px;color:#fff}
+.insight-card .preview{font-size:13px;color:var(--text-dim);line-height:1.5}
+.insight-card .full-content{display:none;font-size:13px;line-height:1.7;color:var(--text);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.insight-card.expanded .full-content{display:block}
+.insight-card.expanded .preview{display:none}
+.insight-callout{background:#1e1e38;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px;margin:10px 0;font-size:12px;line-height:1.5}
+.insight-callout h4{color:var(--accent);font-size:12px;margin-bottom:4px}
+.category-header{font-size:16px;font-weight:600;color:var(--accent);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+/* Constellation */
+#constellation-container{position:relative;width:100%;height:100%}
+#constellation-svg{width:100%;height:100%}
+.constellation-controls{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:8px;z-index:10}
+.constellation-controls label{font-size:12px;color:var(--text-dim);display:flex;align-items:center;gap:6px}
+.constellation-controls input[type=checkbox]{accent-color:var(--accent)}
+.constellation-controls input[type=range]{width:120px;accent-color:var(--accent)}
+.zoom-controls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:10}
+.zoom-btn{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.zoom-btn:hover{background:var(--accent);color:#000}
+.constellation-search{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:10}
+.node-detail{position:absolute;bottom:0;left:0;right:0;background:#0a0a1a;border-top:2px solid var(--accent);padding:16px 20px;max-height:40%;overflow-y:auto;display:none;z-index:10}
+.node-detail.show{display:block}
+.node-detail h3{color:var(--accent);margin-bottom:8px}
+.node-detail .connections{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+/* Timeline */
+#timeline-panel{overflow:hidden;display:flex;flex-direction:column}
+#timeline-svg-container{flex:1;overflow-x:auto;overflow-y:hidden;position:relative}
+.timeline-detail{position:absolute;right:0;top:0;bottom:0;width:340px;background:#0a0a1a;border-left:2px solid var(--accent);padding:16px;overflow-y:auto;display:none;z-index:10}
+.timeline-detail.show{display:block}
+.timeline-detail h3{color:var(--accent);margin-bottom:8px;font-size:14px}
+.timeline-detail .quote{border-left:3px solid var(--accent);padding:8px 12px;margin:8px 0;font-size:12px;color:var(--text-dim);font-style:italic}
+/* Dashboard */
+#dashboard-panel{display:grid;grid-template-columns:250px 1fr 320px;grid-template-rows:1fr 50px;height:100%;overflow:hidden;padding:0}
+#dashboard-panel.active{padding:0}
+.dash-left{background:#0a0a1a;border-right:1px solid var(--border);overflow-y:auto;padding:12px;grid-row:1/3}
+.dash-center{overflow-y:auto;padding:16px;grid-row:1/2}
+.dash-right{background:#0a0a1a;border-left:1px solid var(--border);overflow-y:auto;padding:12px;grid-row:1/3}
+.dash-bottom{grid-column:2;padding:8px 16px;background:#0a0a1a;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.theme-tree-item{padding:6px 8px;cursor:pointer;border-radius:6px;font-size:13px;display:flex;align-items:center;gap:8px;transition:background .2s}
+.theme-tree-item:hover{background:#1a1a2e}
+.theme-tree-item.active{background:var(--card);border:1px solid var(--accent)}
+.theme-tree-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.theme-tree-item .count{margin-left:auto;font-size:11px;color:var(--text-dim);background:#1a1a2e;padding:1px 6px;border-radius:8px}
+.theme-tree-cat{padding:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);cursor:pointer;display:flex;align-items:center;gap:6px;margin-top:8px}
+.theme-tree-cat .arrow{transition:transform .2s;font-size:10px}
+.theme-tree-cat.collapsed .arrow{transform:rotate(-90deg)}
+.theme-tree-children{overflow:hidden;transition:max-height .3s}
+.theme-tree-cat.collapsed+.theme-tree-children{max-height:0!important}
+.dash-insight{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;font-size:12px;line-height:1.5}
+.dash-insight h4{color:var(--accent);font-size:12px;margin-bottom:6px}
+.breadcrumb{font-size:12px;color:var(--text-dim);margin-bottom:12px}
+.breadcrumb span{color:var(--accent)}
+.event-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px}
+.event-card .date{font-size:11px;color:var(--accent)}
+.event-card .summary{font-size:13px;color:var(--text);margin:6px 0;line-height:1.5}
+.event-card .quote-block{border-left:3px solid var(--accent);padding:6px 10px;margin:8px 0;font-size:12px;color:var(--text-dim);font-style:italic;line-height:1.4}
+/* Frameworks */
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.fw-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .2s;border-left:4px solid}
+.fw-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.fw-card .num{font-size:32px;font-weight:700;color:var(--accent)}
+.fw-card h3{font-size:15px;margin:4px 0}
+.fw-card .book{font-size:12px;color:var(--text-dim)}
+.fw-expanded{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.fw-card.expanded .fw-expanded{display:block}
+.fw-card.expanded{grid-column:1/-1}
+.principle-item{padding:8px;border-radius:6px;background:#111;margin:6px 0}
+.principle-item h4{font-size:13px;color:#fff;margin-bottom:4px}
+.principle-item .desc{font-size:12px;color:var(--text-dim);line-height:1.4}
+.progress-bar{height:4px;background:#222;border-radius:2px;margin-top:6px;overflow:hidden}
+.progress-bar .fill{height:100%;background:var(--accent);border-radius:2px}
+.overlap-section{margin-top:20px;padding:16px;background:var(--card);border-radius:10px;border:1px solid var(--border)}
+.overlap-section h3{color:var(--accent);margin-bottom:12px}
+.overlap-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.overlap-item:last-child{border:none}
+.overlap-item .theme-name{font-size:13px;min-width:120px;color:#fff}
+.overlap-pills{display:flex;flex-wrap:wrap;gap:4px}
+/* Journal */
+#journal-panel{display:grid;grid-template-columns:60% 40%;height:100%;overflow:hidden;padding:0}
+.journal-left{padding:16px;display:flex;flex-direction:column}
+.journal-left textarea{flex:1;background:#111;border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:16px;resize:none;font-family:inherit;line-height:1.6}
+.journal-left textarea:focus{outline:none;border-color:var(--accent)}
+.journal-right{background:#0a0a1a;border-left:1px solid var(--border);padding:16px;overflow-y:auto}
+.journal-right h4{color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px}
+.add-btn{padding:8px 20px;background:var(--accent);color:#000;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+.add-btn:hover{background:var(--accent2)}
+.saved-reflections{margin-top:16px}
+.saved-ref{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;font-size:12px}
+.saved-ref .ref-date{color:var(--text-dim);font-size:10px}
+.saved-ref .ref-text{margin-top:4px;line-height:1.4}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.stagger{animation:fadeInUp .3s ease both}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<h1>Life Explorer</h1>
+<div class="tabs">
+<div class="tab active" data-tab="discovery">Discovery</div>
+<div class="tab" data-tab="constellation">Constellation</div>
+<div class="tab" data-tab="timeline">Timeline</div>
+<div class="tab" data-tab="dashboard">Dashboard</div>
+<div class="tab" data-tab="frameworks">Frameworks</div>
+<div class="tab" data-tab="journal">Journal</div>
+</div>
+</div>
+<div class="content">
+<div class="tab-panel active" id="discovery-panel"></div>
+<div class="tab-panel" id="constellation-panel"><div id="constellation-container"></div></div>
+<div class="tab-panel" id="timeline-panel"></div>
+<div class="tab-panel" id="dashboard-panel"></div>
+<div class="tab-panel" id="frameworks-panel"></div>
+<div class="tab-panel" id="journal-panel"></div>
+</div>
+</div>
+<script>
+const DATA = 
+{
+  "meta": {
+    "generated": "2026-03-23",
+    "document_count": 15,
+    "event_count": 15,
+    "date_range": {
+      "start": "2024-01-15",
+      "end": "2025-09-10"
+    }
+  },
+  "events": [
+    {
+      "id": "session_2024_01_15",
+      "date": "2024-01-15",
+      "filename": "Session January 15.pdf",
+      "type": "therapy_session",
+      "summary": "First session after the holidays. Ana describes feeling stuck between her design career in Lisbon and a product management opportunity in Berlin. She mentions Marco encouraging the move but senses her own reluctance is about more than logistics. Dr. Ferreira introduces the idea of tracking what she's actually afraid of.",
+      "themes": {
+        "career": {
+          "transition": 7,
+          "creative_identity": 3
+        },
+        "relationships": {
+          "breakup": 2,
+          "family": 1
+        },
+        "identity": {
+          "perfectionism": 5
+        },
+        "geography": {
+          "lisbon": 4,
+          "berlin": 3
+        }
+      },
+      "people": [
+        "Marco",
+        "Dr. Ferreira"
+      ],
+      "patterns": [
+        "perfectionism_paralysis",
+        "oscillation_stay_vs_go"
+      ],
+      "pattern_details": [
+        {
+          "id": "perfectionism_paralysis",
+          "strength": 6
+        },
+        {
+          "id": "oscillation_stay_vs_go",
+          "strength": 7
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "harris",
+          "principle": "mindfulness",
+          "principle_name": "Mindfulness Practice",
+          "connection_strength": 3
+        },
+        {
+          "framework": "ferriss",
+          "principle": "fear_setting",
+          "principle_name": "Fear Setting",
+          "connection_strength": 5
+        },
+        {
+          "framework": "sivers",
+          "principle": "hell_yeah_or_no",
+          "principle_name": "Hell Yeah or No",
+          "connection_strength": 3
+        }
+      ],
+      "key_quotes": [
+        "Sometimes I wonder if I'm running toward product or away from design",
+        "Marco says I overthink everything. Maybe he's right, but that doesn't help me stop."
+      ],
+      "word_count": 480
+    },
+    {
+      "id": "session_2024_02_12",
+      "date": "2024-02-12",
+      "filename": "Session February 12.pdf",
+      "type": "therapy_session",
+      "summary": "Ana's mother was diagnosed with early-stage breast cancer. Session dominated by fear and guilt about being far away in Lisbon. She talks about flying home to Porto for the first round of treatments. Notices she immediately went into 'fixing mode' rather than feeling her emotions.",
+      "themes": {
+        "grief": {
+          "mothers_illness": 9,
+          "loss_of_home": 3
+        },
+        "relationships": {
+          "family": 8
+        },
+        "identity": {
+          "perfectionism": 2
+        },
+        "health": {
+          "mental_health": 5
+        },
+        "geography": {
+          "hometown": 6
+        }
+      },
+      "people": [
+        "Mãe (Mother)",
+        "Dr. Ferreira",
+        "Marco"
+      ],
+      "patterns": [
+        "caretaker_identity",
+        "exercise_as_escape"
+      ],
+      "pattern_details": [
+        {
+          "id": "caretaker_identity",
+          "strength": 8
+        },
+        {
+          "id": "exercise_as_escape",
+          "strength": 4
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "harris",
+          "principle": "defusion",
+          "principle_name": "Cognitive Defusion",
+          "connection_strength": 6
+        },
+        {
+          "framework": "tift",
+          "principle": "emotional_processing",
+          "principle_name": "Emotional Processing",
+          "connection_strength": 7
+        }
+      ],
+      "key_quotes": [
+        "I booked the flights before I even cried. That tells you something.",
+        "If I stop moving, the fear catches up."
+      ],
+      "word_count": 520
+    },
+    {
+      "id": "journal_2024_03_01",
+      "date": "2024-03-01",
+      "filename": "Journal March Reflections.pdf",
+      "type": "journal_entry",
+      "summary": "Written from her childhood home in Porto while caring for her mother. Ana reflects on how the house feels smaller, how she reverts to old patterns with family. She notices she hasn't drawn or designed anything personal in months. A paragraph about Marco feeling distant over FaceTime.",
+      "themes": {
+        "grief": {
+          "mothers_illness": 7,
+          "loss_of_home": 5
+        },
+        "relationships": {
+          "breakup": 4,
+          "family": 7
+        },
+        "purpose": {
+          "creativity": 6
+        },
+        "identity": {
+          "cultural_belonging": 4
+        },
+        "geography": {
+          "hometown": 8
+        }
+      },
+      "people": [
+        "Mãe (Mother)",
+        "Marco",
+        "Tia Lúcia"
+      ],
+      "patterns": [
+        "creative_suppression",
+        "caretaker_identity",
+        "avoidant_attachment"
+      ],
+      "pattern_details": [
+        {
+          "id": "creative_suppression",
+          "strength": 6
+        },
+        {
+          "id": "caretaker_identity",
+          "strength": 7
+        },
+        {
+          "id": "avoidant_attachment",
+          "strength": 4
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "tift",
+          "principle": "emotional_processing",
+          "principle_name": "Emotional Processing",
+          "connection_strength": 5
+        },
+        {
+          "framework": "huberman",
+          "principle": "stress_regulation",
+          "principle_name": "Stress Regulation Protocols",
+          "connection_strength": 3
+        }
+      ],
+      "key_quotes": [
+        "This house holds every version of me I tried to leave behind.",
+        "I told Marco I was fine. I wasn't fine. But saying that felt like opening a door I couldn't close."
+      ],
+      "word_count": 610
+    },
+    {
+      "id": "session_2024_04_08",
+      "date": "2024-04-08",
+      "filename": "Session April 8.pdf",
+      "type": "therapy_session",
+      "summary": "Back in Lisbon after six weeks in Porto. Mother's treatment is going well. Ana describes feeling 'between worlds' — relieved but guilty for feeling relieved. First mention of the Berlin product role becoming concrete: an offer from a fintech startup. Marco is supportive but Ana suspects he wants her to go so he can follow later.",
+      "themes": {
+        "career": {
+          "transition": 8,
+          "corporate_life": 3,
+          "salary": 4
+        },
+        "grief": {
+          "mothers_illness": 4
+        },
+        "relationships": {
+          "breakup": 3
+        },
+        "geography": {
+          "lisbon": 5,
+          "berlin": 6
+        },
+        "finances": {
+          "savings": 3
+        }
+      },
+      "people": [
+        "Marco",
+        "Dr. Ferreira",
+        "Mãe (Mother)"
+      ],
+      "patterns": [
+        "oscillation_stay_vs_go",
+        "geographical_cure"
+      ],
+      "pattern_details": [
+        {
+          "id": "oscillation_stay_vs_go",
+          "strength": 8
+        },
+        {
+          "id": "geographical_cure",
+          "strength": 5
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "hell_yeah_or_no",
+          "principle_name": "Hell Yeah or No",
+          "connection_strength": 6
+        },
+        {
+          "framework": "ferriss",
+          "principle": "fear_setting",
+          "principle_name": "Fear Setting",
+          "connection_strength": 7
+        },
+        {
+          "framework": "attia",
+          "principle": "longevity_framework",
+          "principle_name": "Long-term Health Framework",
+          "connection_strength": 2
+        }
+      ],
+      "key_quotes": [
+        "Berlin feels like the answer to a question I haven't fully asked yet.",
+        "The salary is 40% more. But I keep thinking about what it costs that isn't money."
+      ],
+      "word_count": 490
+    },
+    {
+      "id": "session_2024_05_20",
+      "date": "2024-05-20",
+      "filename": "Session May 20.pdf",
+      "type": "therapy_session",
+      "summary": "Ana accepted the Berlin offer. She and Marco had a fight about timelines — he wanted to wait six more months, she felt that was him stalling. Session explores the tension between her need for forward motion and her pattern of using geography to solve emotional problems. Dr. Ferreira challenges her on whether she's choosing Berlin or fleeing Lisbon.",
+      "themes": {
+        "career": {
+          "transition": 9,
+          "salary": 2
+        },
+        "relationships": {
+          "breakup": 6
+        },
+        "geography": {
+          "lisbon": 3,
+          "berlin": 7
+        },
+        "identity": {
+          "independence": 6
+        }
+      },
+      "people": [
+        "Marco",
+        "Dr. Ferreira"
+      ],
+      "patterns": [
+        "geographical_cure",
+        "oscillation_stay_vs_go",
+        "avoidant_attachment"
+      ],
+      "pattern_details": [
+        {
+          "id": "geographical_cure",
+          "strength": 7
+        },
+        {
+          "id": "oscillation_stay_vs_go",
+          "strength": 5
+        },
+        {
+          "id": "avoidant_attachment",
+          "strength": 6
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "revolution",
+          "principle_name": "Personal Revolution",
+          "connection_strength": 5
+        },
+        {
+          "framework": "harris",
+          "principle": "values_clarification",
+          "principle_name": "Values Clarification",
+          "connection_strength": 7
+        }
+      ],
+      "key_quotes": [
+        "I chose Berlin. Or Berlin chose me. I'm not sure it matters which.",
+        "He said 'you always leave.' And I thought — yes. Maybe that's who I am."
+      ],
+      "word_count": 530
+    },
+    {
+      "id": "session_2024_06_17",
+      "date": "2024-06-17",
+      "filename": "Session June 17.pdf",
+      "type": "therapy_session",
+      "summary": "The breakup happened. Marco said he couldn't do long-distance again. Ana describes feeling both devastated and strangely relieved, which confuses her. She's been running 10K every morning since. Explores whether the relief means she didn't love him enough or whether it means she was already gone emotionally.",
+      "themes": {
+        "relationships": {
+          "breakup": 10,
+          "dating": 1
+        },
+        "health": {
+          "fitness": 7,
+          "mental_health": 5
+        },
+        "identity": {
+          "independence": 5
+        },
+        "grief": {
+          "loss_of_home": 3
+        }
+      },
+      "people": [
+        "Marco",
+        "Dr. Ferreira",
+        "Joana"
+      ],
+      "patterns": [
+        "exercise_as_escape",
+        "avoidant_attachment"
+      ],
+      "pattern_details": [
+        {
+          "id": "exercise_as_escape",
+          "strength": 8
+        },
+        {
+          "id": "avoidant_attachment",
+          "strength": 7
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "harris",
+          "principle": "acceptance",
+          "principle_name": "Acceptance and Willingness",
+          "connection_strength": 6
+        },
+        {
+          "framework": "tift",
+          "principle": "emotional_processing",
+          "principle_name": "Emotional Processing",
+          "connection_strength": 8
+        },
+        {
+          "framework": "huberman",
+          "principle": "dopamine_regulation",
+          "principle_name": "Dopamine Regulation",
+          "connection_strength": 4
+        }
+      ],
+      "key_quotes": [
+        "I cried for two hours and then I laced up my running shoes. I don't know what that means.",
+        "Three years. And the thing I miss most is the way he made coffee. Is that love or just habit?"
+      ],
+      "word_count": 560
+    },
+    {
+      "id": "reflection_2024_07_05",
+      "date": "2024-07-05",
+      "filename": "Berlin First Weeks Reflection.pdf",
+      "type": "personal_reflection",
+      "summary": "Ana's first written reflection from Berlin. She describes the city as both exciting and alienating. The apartment is spare, the language barrier real. She joined a running club and a coworking creative space. Mentions feeling like an imposter in her new product role — everyone seems more technical. Late-night paragraph about missing Marco's laugh.",
+      "themes": {
+        "geography": {
+          "berlin": 9
+        },
+        "career": {
+          "transition": 6,
+          "corporate_life": 5
+        },
+        "relationships": {
+          "breakup": 4,
+          "friendships": 3
+        },
+        "identity": {
+          "cultural_belonging": 6,
+          "perfectionism": 4
+        },
+        "health": {
+          "fitness": 3
+        }
+      },
+      "people": [
+        "Marco",
+        "Katja",
+        "Luis"
+      ],
+      "patterns": [
+        "geographical_cure",
+        "comparison_spiral",
+        "perfectionism_paralysis"
+      ],
+      "pattern_details": [
+        {
+          "id": "geographical_cure",
+          "strength": 4
+        },
+        {
+          "id": "comparison_spiral",
+          "strength": 6
+        },
+        {
+          "id": "perfectionism_paralysis",
+          "strength": 5
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "useful_not_true",
+          "principle_name": "Useful, Not True",
+          "connection_strength": 4
+        },
+        {
+          "framework": "ferriss",
+          "principle": "80_20",
+          "principle_name": "80/20 Principle",
+          "connection_strength": 3
+        }
+      ],
+      "key_quotes": [
+        "Berlin doesn't care who you were before. That's either freedom or loneliness depending on the day.",
+        "In product meetings I nod and Google the acronyms after."
+      ],
+      "word_count": 640
+    },
+    {
+      "id": "session_2024_08_19",
+      "date": "2024-08-19",
+      "filename": "Session August 19.pdf",
+      "type": "therapy_session",
+      "summary": "Online session from Berlin. Ana talks about comparison spirals at work — a colleague her age is already a senior PM. She's been staying late, skipping the creative coworking sessions. Describes a dream about her mother's hospital. Dr. Ferreira points out the caretaker pattern reemerging — this time she's 'taking care of' her career the way she took care of her mother.",
+      "themes": {
+        "career": {
+          "transition": 7,
+          "corporate_life": 6
+        },
+        "identity": {
+          "perfectionism": 7
+        },
+        "health": {
+          "mental_health": 4,
+          "sleep": 3
+        },
+        "grief": {
+          "mothers_illness": 3
+        },
+        "purpose": {
+          "creativity": 2
+        }
+      },
+      "people": [
+        "Dr. Ferreira",
+        "Sophia",
+        "Mãe (Mother)"
+      ],
+      "patterns": [
+        "comparison_spiral",
+        "caretaker_identity",
+        "creative_suppression"
+      ],
+      "pattern_details": [
+        {
+          "id": "comparison_spiral",
+          "strength": 8
+        },
+        {
+          "id": "caretaker_identity",
+          "strength": 5
+        },
+        {
+          "id": "creative_suppression",
+          "strength": 6
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "ferriss",
+          "principle": "fear_setting",
+          "principle_name": "Fear Setting",
+          "connection_strength": 5
+        },
+        {
+          "framework": "huberman",
+          "principle": "focus_protocols",
+          "principle_name": "Focus and Attention Protocols",
+          "connection_strength": 4
+        },
+        {
+          "framework": "attia",
+          "principle": "sleep_optimization",
+          "principle_name": "Sleep Optimization",
+          "connection_strength": 3
+        }
+      ],
+      "key_quotes": [
+        "Sophia has five years of PM experience and I keep measuring myself against her timeline.",
+        "Dr. Ferreira said: 'You're mothering your career.' That landed."
+      ],
+      "word_count": 470
+    },
+    {
+      "id": "session_2024_10_07",
+      "date": "2024-10-07",
+      "filename": "Session October 7.pdf",
+      "type": "therapy_session",
+      "summary": "Turning point session. Ana went to a typography exhibition and felt something 'wake up.' She describes crying in the gallery — not from sadness but from recognition. She's been sketching again in the evenings. Discussion about whether product management is a betrayal of her creative self or an evolution of it. First session where she doesn't mention Marco.",
+      "themes": {
+        "purpose": {
+          "creativity": 9,
+          "meaning": 6
+        },
+        "career": {
+          "creative_identity": 8,
+          "transition": 4
+        },
+        "identity": {
+          "perfectionism": 2,
+          "independence": 4
+        },
+        "health": {
+          "mental_health": 3
+        }
+      },
+      "people": [
+        "Dr. Ferreira"
+      ],
+      "patterns": [
+        "creative_suppression"
+      ],
+      "pattern_details": [
+        {
+          "id": "creative_suppression",
+          "strength": 3
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "hell_yeah_or_no",
+          "principle_name": "Hell Yeah or No",
+          "connection_strength": 7
+        },
+        {
+          "framework": "tift",
+          "principle": "deep_feelings",
+          "principle_name": "Deep Feelings Integration",
+          "connection_strength": 6
+        },
+        {
+          "framework": "harris",
+          "principle": "values_clarification",
+          "principle_name": "Values Clarification",
+          "connection_strength": 5
+        }
+      ],
+      "key_quotes": [
+        "I cried at a typography exhibition. The letters were so beautiful and I thought — I used to make things like this.",
+        "Maybe product and design aren't enemies. Maybe I've been setting up a war that doesn't need to happen."
+      ],
+      "word_count": 510
+    },
+    {
+      "id": "journal_2024_11_14",
+      "date": "2024-11-14",
+      "filename": "Journal November Friendships.pdf",
+      "type": "journal_entry",
+      "summary": "Extended journal entry about friendship. Ana describes building a small circle in Berlin: Katja from running club, Luis from the coworking space, Nina from work. Compares the effort of making friends at 32 versus 22. Admits she's been keeping people at arm's length — the same pattern Dr. Ferreira identified in her romantic relationships.",
+      "themes": {
+        "relationships": {
+          "friendships": 9,
+          "dating": 2
+        },
+        "geography": {
+          "berlin": 5,
+          "lisbon": 2
+        },
+        "identity": {
+          "cultural_belonging": 5,
+          "independence": 3
+        },
+        "purpose": {
+          "community": 5
+        }
+      },
+      "people": [
+        "Katja",
+        "Luis",
+        "Nina",
+        "Joana"
+      ],
+      "patterns": [
+        "avoidant_attachment",
+        "geographical_cure"
+      ],
+      "pattern_details": [
+        {
+          "id": "avoidant_attachment",
+          "strength": 5
+        },
+        {
+          "id": "geographical_cure",
+          "strength": 2
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "revolution",
+          "principle_name": "Personal Revolution",
+          "connection_strength": 3
+        },
+        {
+          "framework": "harris",
+          "principle": "committed_action",
+          "principle_name": "Committed Action",
+          "connection_strength": 4
+        }
+      ],
+      "key_quotes": [
+        "Making friends at 32 is like dating but with lower stakes and higher awkwardness.",
+        "Joana said on the phone: 'You moved to Berlin but your walls came with you.'"
+      ],
+      "word_count": 580
+    },
+    {
+      "id": "session_2024_12_16",
+      "date": "2024-12-16",
+      "filename": "Session December 16.pdf",
+      "type": "therapy_session",
+      "summary": "End-of-year session. Ana reflects on the past 12 months — mother's illness, the breakup, the move. She describes feeling 'more broken and more whole simultaneously.' Has been doing a side project: a visual essay about migration and identity using her design skills. Dr. Ferreira notes this is the first time Ana has talked about a personal project with genuine excitement.",
+      "themes": {
+        "purpose": {
+          "creativity": 8,
+          "meaning": 7
+        },
+        "grief": {
+          "mothers_illness": 2,
+          "loss_of_home": 4
+        },
+        "identity": {
+          "cultural_belonging": 6,
+          "independence": 5
+        },
+        "career": {
+          "creative_identity": 6
+        },
+        "geography": {
+          "berlin": 3,
+          "lisbon": 2,
+          "hometown": 2
+        }
+      },
+      "people": [
+        "Dr. Ferreira",
+        "Mãe (Mother)"
+      ],
+      "patterns": [
+        "creative_suppression",
+        "oscillation_stay_vs_go"
+      ],
+      "pattern_details": [
+        {
+          "id": "creative_suppression",
+          "strength": 2
+        },
+        {
+          "id": "oscillation_stay_vs_go",
+          "strength": 3
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "tift",
+          "principle": "deep_feelings",
+          "principle_name": "Deep Feelings Integration",
+          "connection_strength": 7
+        },
+        {
+          "framework": "sivers",
+          "principle": "hell_yeah_or_no",
+          "principle_name": "Hell Yeah or No",
+          "connection_strength": 6
+        },
+        {
+          "framework": "harris",
+          "principle": "values_clarification",
+          "principle_name": "Values Clarification",
+          "connection_strength": 6
+        }
+      ],
+      "key_quotes": [
+        "This year broke me open. I'm not sure I want to be put back together the way I was before.",
+        "The visual essay feels like the first honest thing I've made in years."
+      ],
+      "word_count": 500
+    },
+    {
+      "id": "planning_2025_01_06",
+      "date": "2025-01-06",
+      "filename": "Life Planning January 2025.pdf",
+      "type": "life_planning",
+      "summary": "New year planning document. Ana sets intentions rather than resolutions: maintain the creative side project, stop comparing her PM timeline to others, call her mother weekly instead of crisis-only, train for a half marathon, explore whether freelance design could supplement income. Financial review shows she's saved enough for a three-month runway if she wanted to go independent.",
+      "themes": {
+        "career": {
+          "transition": 5,
+          "creative_identity": 6
+        },
+        "health": {
+          "fitness": 7,
+          "nutrition": 3,
+          "mental_health": 4
+        },
+        "finances": {
+          "savings": 6,
+          "freelance_income": 4
+        },
+        "purpose": {
+          "creativity": 7,
+          "meaning": 4
+        },
+        "relationships": {
+          "family": 4
+        }
+      },
+      "people": [
+        "Mãe (Mother)"
+      ],
+      "patterns": [
+        "comparison_spiral",
+        "exercise_as_escape",
+        "creative_suppression"
+      ],
+      "pattern_details": [
+        {
+          "id": "comparison_spiral",
+          "strength": 3
+        },
+        {
+          "id": "exercise_as_escape",
+          "strength": 4
+        },
+        {
+          "id": "creative_suppression",
+          "strength": 2
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "attia",
+          "principle": "longevity_framework",
+          "principle_name": "Long-term Health Framework",
+          "connection_strength": 6
+        },
+        {
+          "framework": "ferriss",
+          "principle": "80_20",
+          "principle_name": "80/20 Principle",
+          "connection_strength": 5
+        },
+        {
+          "framework": "huberman",
+          "principle": "dopamine_regulation",
+          "principle_name": "Dopamine Regulation",
+          "connection_strength": 3
+        }
+      ],
+      "key_quotes": [
+        "Intentions, not resolutions. Directions, not destinations.",
+        "Three months of savings. That's not freedom yet, but it's the outline of a door."
+      ],
+      "word_count": 420
+    },
+    {
+      "id": "session_2025_03_24",
+      "date": "2025-03-24",
+      "filename": "Session March 24.pdf",
+      "type": "therapy_session",
+      "summary": "Ana describes a shift at work — she proposed redesigning the onboarding flow using her design background and the team loved it. She's finding where design thinking and product strategy overlap. Also discusses bumping into Marco's Instagram and the feelings it triggered. Running the half marathon in two weeks. Mother is in remission.",
+      "themes": {
+        "career": {
+          "transition": 6,
+          "creative_identity": 8,
+          "corporate_life": 4
+        },
+        "relationships": {
+          "breakup": 4
+        },
+        "health": {
+          "fitness": 6
+        },
+        "grief": {
+          "mothers_illness": 2
+        },
+        "purpose": {
+          "creativity": 5
+        }
+      },
+      "people": [
+        "Dr. Ferreira",
+        "Marco",
+        "Mãe (Mother)",
+        "Nina"
+      ],
+      "patterns": [
+        "comparison_spiral",
+        "exercise_as_escape"
+      ],
+      "pattern_details": [
+        {
+          "id": "comparison_spiral",
+          "strength": 2
+        },
+        {
+          "id": "exercise_as_escape",
+          "strength": 3
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "useful_not_true",
+          "principle_name": "Useful, Not True",
+          "connection_strength": 5
+        },
+        {
+          "framework": "harris",
+          "principle": "mindfulness",
+          "principle_name": "Mindfulness Practice",
+          "connection_strength": 4
+        },
+        {
+          "framework": "huberman",
+          "principle": "stress_regulation",
+          "principle_name": "Stress Regulation Protocols",
+          "connection_strength": 5
+        }
+      ],
+      "key_quotes": [
+        "I proposed the redesign and for the first time product and design felt like the same muscle.",
+        "His Instagram showed him in Lisbon with someone. I felt it in my chest. But I also felt it pass."
+      ],
+      "word_count": 480
+    },
+    {
+      "id": "session_2025_06_09",
+      "date": "2025-06-09",
+      "filename": "Session June 9.pdf",
+      "type": "therapy_session",
+      "summary": "Mid-year session. Ana's visual essay was accepted into a small Berlin gallery show. She's terrified and excited. At work, she's been promoted to Senior PM — earlier than expected. Discusses the dissonance between external success and internal doubt. Joana is visiting from Lisbon next month. First mention of a new connection — 'Thomas from the gallery.'",
+      "themes": {
+        "purpose": {
+          "creativity": 9,
+          "meaning": 7,
+          "community": 4
+        },
+        "career": {
+          "transition": 3,
+          "creative_identity": 7,
+          "salary": 3
+        },
+        "relationships": {
+          "friendships": 5,
+          "dating": 4
+        },
+        "identity": {
+          "perfectionism": 3,
+          "independence": 6
+        }
+      },
+      "people": [
+        "Dr. Ferreira",
+        "Joana",
+        "Thomas",
+        "Katja"
+      ],
+      "patterns": [
+        "perfectionism_paralysis",
+        "avoidant_attachment"
+      ],
+      "pattern_details": [
+        {
+          "id": "perfectionism_paralysis",
+          "strength": 4
+        },
+        {
+          "id": "avoidant_attachment",
+          "strength": 3
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "hell_yeah_or_no",
+          "principle_name": "Hell Yeah or No",
+          "connection_strength": 8
+        },
+        {
+          "framework": "tift",
+          "principle": "deep_feelings",
+          "principle_name": "Deep Feelings Integration",
+          "connection_strength": 5
+        },
+        {
+          "framework": "harris",
+          "principle": "committed_action",
+          "principle_name": "Committed Action",
+          "connection_strength": 6
+        }
+      ],
+      "key_quotes": [
+        "A gallery show. Me. The girl who gave up design for a salary.",
+        "I catch myself wanting to sabotage the Thomas thing before it starts. At least now I see the pattern."
+      ],
+      "word_count": 510
+    },
+    {
+      "id": "session_2025_09_10",
+      "date": "2025-09-10",
+      "filename": "Session September 10.pdf",
+      "type": "therapy_session",
+      "summary": "Integration session. Ana describes feeling like she's finally living 'in Berlin' rather than 'from Lisbon.' The gallery show went well. She and Thomas are dating — slowly, intentionally. She's started a freelance design practice on the side. Mother is healthy. The career no longer feels like a betrayal. Dr. Ferreira reflects back how far she's come. Ana says she's not done but she's no longer running.",
+      "themes": {
+        "purpose": {
+          "creativity": 8,
+          "meaning": 8,
+          "community": 5
+        },
+        "career": {
+          "creative_identity": 9,
+          "transition": 2
+        },
+        "relationships": {
+          "dating": 6,
+          "friendships": 5,
+          "family": 4
+        },
+        "identity": {
+          "independence": 7,
+          "cultural_belonging": 5
+        },
+        "geography": {
+          "berlin": 6
+        },
+        "finances": {
+          "freelance_income": 5
+        },
+        "health": {
+          "fitness": 4,
+          "mental_health": 3
+        }
+      },
+      "people": [
+        "Dr. Ferreira",
+        "Thomas",
+        "Mãe (Mother)",
+        "Katja",
+        "Joana"
+      ],
+      "patterns": [
+        "avoidant_attachment",
+        "creative_suppression"
+      ],
+      "pattern_details": [
+        {
+          "id": "avoidant_attachment",
+          "strength": 2
+        },
+        {
+          "id": "creative_suppression",
+          "strength": 1
+        }
+      ],
+      "framework_mappings": [
+        {
+          "framework": "sivers",
+          "principle": "revolution",
+          "principle_name": "Personal Revolution",
+          "connection_strength": 7
+        },
+        {
+          "framework": "harris",
+          "principle": "values_clarification",
+          "principle_name": "Values Clarification",
+          "connection_strength": 8
+        },
+        {
+          "framework": "tift",
+          "principle": "emotional_processing",
+          "principle_name": "Emotional Processing",
+          "connection_strength": 5
+        },
+        {
+          "framework": "attia",
+          "principle": "longevity_framework",
+          "principle_name": "Long-term Health Framework",
+          "connection_strength": 4
+        }
+      ],
+      "key_quotes": [
+        "I'm not done. But I'm no longer running.",
+        "Berlin isn't the answer. But it's where I found better questions."
+      ],
+      "word_count": 540
+    }
+  ],
+  "themes": {
+    "relationships": {
+      "label": "Relationships",
+      "subcategories": {
+        "breakup": {
+          "label": "Breakup",
+          "mentions": 34,
+          "events": [
+            "session_2024_01_15",
+            "journal_2024_03_01",
+            "session_2024_05_20",
+            "session_2024_06_17",
+            "reflection_2024_07_05",
+            "session_2025_03_24"
+          ]
+        },
+        "family": {
+          "label": "Family",
+          "mentions": 26,
+          "events": [
+            "session_2024_01_15",
+            "session_2024_02_12",
+            "journal_2024_03_01",
+            "planning_2025_01_06",
+            "session_2025_09_10"
+          ]
+        },
+        "friendships": {
+          "label": "Friendships",
+          "mentions": 22,
+          "events": [
+            "reflection_2024_07_05",
+            "journal_2024_11_14",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        },
+        "dating": {
+          "label": "Dating",
+          "mentions": 13,
+          "events": [
+            "session_2024_06_17",
+            "journal_2024_11_14",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        }
+      }
+    },
+    "career": {
+      "label": "Career",
+      "subcategories": {
+        "transition": {
+          "label": "Career Transition",
+          "mentions": 57,
+          "events": [
+            "session_2024_01_15",
+            "session_2024_04_08",
+            "session_2024_05_20",
+            "reflection_2024_07_05",
+            "session_2024_08_19",
+            "planning_2025_01_06",
+            "session_2025_03_24",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        },
+        "creative_identity": {
+          "label": "Creative Identity",
+          "mentions": 43,
+          "events": [
+            "session_2024_01_15",
+            "session_2024_10_07",
+            "session_2024_12_16",
+            "planning_2025_01_06",
+            "session_2025_03_24",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        },
+        "corporate_life": {
+          "label": "Corporate Life",
+          "mentions": 18,
+          "events": [
+            "session_2024_04_08",
+            "reflection_2024_07_05",
+            "session_2024_08_19",
+            "session_2025_03_24"
+          ]
+        },
+        "salary": {
+          "label": "Salary & Compensation",
+          "mentions": 9,
+          "events": [
+            "session_2024_04_08",
+            "session_2024_05_20",
+            "session_2025_06_09"
+          ]
+        }
+      }
+    },
+    "identity": {
+      "label": "Identity",
+      "subcategories": {
+        "perfectionism": {
+          "label": "Perfectionism",
+          "mentions": 28,
+          "events": [
+            "session_2024_01_15",
+            "session_2024_02_12",
+            "reflection_2024_07_05",
+            "session_2024_08_19",
+            "session_2024_10_07",
+            "session_2025_06_09"
+          ]
+        },
+        "independence": {
+          "label": "Independence",
+          "mentions": 31,
+          "events": [
+            "session_2024_05_20",
+            "session_2024_06_17",
+            "session_2024_12_16",
+            "journal_2024_11_14",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        },
+        "cultural_belonging": {
+          "label": "Cultural Belonging",
+          "mentions": 21,
+          "events": [
+            "journal_2024_03_01",
+            "reflection_2024_07_05",
+            "journal_2024_11_14",
+            "session_2024_12_16",
+            "session_2025_09_10"
+          ]
+        }
+      }
+    },
+    "grief": {
+      "label": "Grief & Loss",
+      "subcategories": {
+        "mothers_illness": {
+          "label": "Mother's Illness",
+          "mentions": 27,
+          "events": [
+            "session_2024_02_12",
+            "journal_2024_03_01",
+            "session_2024_04_08",
+            "session_2024_08_19",
+            "session_2025_03_24"
+          ]
+        },
+        "loss_of_home": {
+          "label": "Loss of Home",
+          "mentions": 15,
+          "events": [
+            "journal_2024_03_01",
+            "session_2024_06_17",
+            "session_2024_12_16"
+          ]
+        }
+      }
+    },
+    "health": {
+      "label": "Health & Body",
+      "subcategories": {
+        "fitness": {
+          "label": "Fitness & Exercise",
+          "mentions": 28,
+          "events": [
+            "session_2024_06_17",
+            "reflection_2024_07_05",
+            "planning_2025_01_06",
+            "session_2025_03_24",
+            "session_2025_09_10"
+          ]
+        },
+        "nutrition": {
+          "label": "Nutrition",
+          "mentions": 4,
+          "events": [
+            "planning_2025_01_06"
+          ]
+        },
+        "mental_health": {
+          "label": "Mental Health",
+          "mentions": 19,
+          "events": [
+            "session_2024_02_12",
+            "session_2024_06_17",
+            "session_2024_08_19",
+            "session_2024_10_07",
+            "planning_2025_01_06",
+            "session_2025_09_10"
+          ]
+        },
+        "sleep": {
+          "label": "Sleep",
+          "mentions": 3,
+          "events": [
+            "session_2024_08_19"
+          ]
+        }
+      }
+    },
+    "geography": {
+      "label": "Geography & Place",
+      "subcategories": {
+        "lisbon": {
+          "label": "Lisbon",
+          "mentions": 16,
+          "events": [
+            "session_2024_01_15",
+            "session_2024_04_08",
+            "session_2024_05_20",
+            "journal_2024_11_14",
+            "session_2024_12_16"
+          ]
+        },
+        "berlin": {
+          "label": "Berlin",
+          "mentions": 39,
+          "events": [
+            "session_2024_01_15",
+            "session_2024_04_08",
+            "session_2024_05_20",
+            "reflection_2024_07_05",
+            "journal_2024_11_14",
+            "session_2024_12_16",
+            "session_2025_09_10"
+          ]
+        },
+        "hometown": {
+          "label": "Porto (Hometown)",
+          "mentions": 16,
+          "events": [
+            "session_2024_02_12",
+            "journal_2024_03_01",
+            "session_2024_12_16"
+          ]
+        }
+      }
+    },
+    "finances": {
+      "label": "Finances",
+      "subcategories": {
+        "savings": {
+          "label": "Savings",
+          "mentions": 9,
+          "events": [
+            "session_2024_04_08",
+            "planning_2025_01_06"
+          ]
+        },
+        "freelance_income": {
+          "label": "Freelance Income",
+          "mentions": 9,
+          "events": [
+            "planning_2025_01_06",
+            "session_2025_09_10"
+          ]
+        }
+      }
+    },
+    "purpose": {
+      "label": "Purpose & Meaning",
+      "subcategories": {
+        "creativity": {
+          "label": "Creativity",
+          "mentions": 46,
+          "events": [
+            "journal_2024_03_01",
+            "session_2024_08_19",
+            "session_2024_10_07",
+            "session_2024_12_16",
+            "planning_2025_01_06",
+            "session_2025_03_24",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        },
+        "meaning": {
+          "label": "Meaning & Purpose",
+          "mentions": 32,
+          "events": [
+            "session_2024_10_07",
+            "session_2024_12_16",
+            "planning_2025_01_06",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        },
+        "community": {
+          "label": "Community",
+          "mentions": 14,
+          "events": [
+            "journal_2024_11_14",
+            "session_2025_06_09",
+            "session_2025_09_10"
+          ]
+        }
+      }
+    }
+  },
+  "patterns": [
+    {
+      "id": "perfectionism_paralysis",
+      "name": "Perfectionism as Paralysis",
+      "description": "Uses the need for perfection as a reason to delay decisions and avoid risk. Shows up in career choices, creative projects, and relationship milestones — if it can't be done perfectly, it shouldn't be started.",
+      "frameworks": [
+        "harris.mindfulness",
+        "ferriss.fear_setting"
+      ]
+    },
+    {
+      "id": "exercise_as_escape",
+      "name": "Exercise as Emotional Escape",
+      "description": "Channels difficult emotions into intense physical training rather than processing them. Running becomes a way to outpace grief, anxiety, and loneliness instead of sitting with them.",
+      "frameworks": [
+        "huberman.dopamine_regulation",
+        "tift.emotional_processing"
+      ]
+    },
+    {
+      "id": "geographical_cure",
+      "name": "The Geographical Cure",
+      "description": "Believes that moving to a new city or country will resolve internal conflicts. Each relocation carries the hope that a change in scenery equals a change in self.",
+      "frameworks": [
+        "sivers.revolution",
+        "harris.values_clarification"
+      ]
+    },
+    {
+      "id": "creative_suppression",
+      "name": "Creative Suppression for Stability",
+      "description": "Buries creative desires and design instincts in favor of the perceived safety of a corporate product career. Treats artistic impulses as impractical rather than essential.",
+      "frameworks": [
+        "sivers.hell_yeah_or_no",
+        "tift.deep_feelings"
+      ]
+    },
+    {
+      "id": "caretaker_identity",
+      "name": "Caretaker Identity",
+      "description": "Defines self-worth through helping and caring for others — mother, partner, friends — while systematically neglecting her own emotional needs. Exhaustion becomes proof of value.",
+      "frameworks": [
+        "harris.acceptance",
+        "tift.emotional_processing"
+      ]
+    },
+    {
+      "id": "comparison_spiral",
+      "name": "Comparison Spiral",
+      "description": "Compulsively measures career progress, creative output, and life milestones against peers. Each comparison reinforces the feeling of being behind, fueling anxiety and perfectionism.",
+      "frameworks": [
+        "ferriss.80_20",
+        "sivers.useful_not_true"
+      ]
+    },
+    {
+      "id": "avoidant_attachment",
+      "name": "Avoidant Attachment Pattern",
+      "description": "Pulls away emotionally when relationships become intimate or demanding. Interprets closeness as a threat to independence. The pattern appears in romantic relationships, friendships, and even with her therapist.",
+      "frameworks": [
+        "harris.acceptance",
+        "tift.emotional_processing"
+      ]
+    },
+    {
+      "id": "oscillation_stay_vs_go",
+      "name": "Stay vs. Go Oscillation",
+      "description": "Chronic indecision between staying in what's stable and comfortable versus leaving for what promises growth but demands risk. The oscillation itself becomes a way to avoid committing to either path.",
+      "frameworks": [
+        "sivers.hell_yeah_or_no",
+        "ferriss.fear_setting"
+      ]
+    }
+  ],
+  "frameworks": {
+    "sivers": {
+      "id": "sivers",
+      "name": "Derek Sivers",
+      "book": "Anything You Want / Hell Yeah or No",
+      "color": "#FF6B6B",
+      "principles": {
+        "hell_yeah_or_no": {
+          "name": "Hell Yeah or No",
+          "description": "If you're not saying 'hell yeah!' about something, say no. Applied to career decisions, relationships, and creative commitments.",
+          "connections": [
+            {
+              "event_id": "session_2024_01_15",
+              "strength": 3
+            },
+            {
+              "event_id": "session_2024_04_08",
+              "strength": 6
+            },
+            {
+              "event_id": "session_2024_10_07",
+              "strength": 7
+            },
+            {
+              "event_id": "session_2024_12_16",
+              "strength": 6
+            },
+            {
+              "event_id": "session_2025_06_09",
+              "strength": 8
+            }
+          ],
+          "connection_count": 5
+        },
+        "useful_not_true": {
+          "name": "Useful, Not True",
+          "description": "Beliefs don't have to be true to be useful. Helps Ana reframe limiting narratives about her career and identity.",
+          "connections": [
+            {
+              "event_id": "reflection_2024_07_05",
+              "strength": 4
+            },
+            {
+              "event_id": "session_2025_03_24",
+              "strength": 5
+            }
+          ],
+          "connection_count": 2
+        },
+        "revolution": {
+          "name": "Personal Revolution",
+          "description": "Major life changes as deliberate acts of self-reinvention rather than escape. The distinction between running from and running toward.",
+          "connections": [
+            {
+              "event_id": "session_2024_05_20",
+              "strength": 5
+            },
+            {
+              "event_id": "journal_2024_11_14",
+              "strength": 3
+            },
+            {
+              "event_id": "session_2025_09_10",
+              "strength": 7
+            }
+          ],
+          "connection_count": 3
+        }
+      },
+      "total_connections": 10
+    },
+    "harris": {
+      "id": "harris",
+      "name": "Russ Harris",
+      "book": "The Happiness Trap / ACT Made Simple",
+      "color": "#4ECDC4",
+      "principles": {
+        "mindfulness": {
+          "name": "Mindfulness Practice",
+          "description": "Present-moment awareness without judgment. Helps Ana notice her patterns of avoidance and perfectionism as they arise.",
+          "connections": [
+            {
+              "event_id": "session_2024_01_15",
+              "strength": 3
+            },
+            {
+              "event_id": "session_2025_03_24",
+              "strength": 4
+            }
+          ],
+          "connection_count": 2
+        },
+        "defusion": {
+          "name": "Cognitive Defusion",
+          "description": "Creating distance from unhelpful thoughts rather than being consumed by them. Applied to catastrophic thinking about mother's illness and career failure.",
+          "connections": [
+            {
+              "event_id": "session_2024_02_12",
+              "strength": 6
+            }
+          ],
+          "connection_count": 1
+        },
+        "acceptance": {
+          "name": "Acceptance and Willingness",
+          "description": "Making room for painful emotions rather than fighting them. Central to processing the breakup and the grief around her mother's diagnosis.",
+          "connections": [
+            {
+              "event_id": "session_2024_06_17",
+              "strength": 6
+            }
+          ],
+          "connection_count": 1
+        },
+        "values_clarification": {
+          "name": "Values Clarification",
+          "description": "Identifying what truly matters versus what's driven by fear or habit. Helped Ana distinguish between wanting product management and wanting to escape design.",
+          "connections": [
+            {
+              "event_id": "session_2024_05_20",
+              "strength": 7
+            },
+            {
+              "event_id": "session_2024_10_07",
+              "strength": 5
+            },
+            {
+              "event_id": "session_2024_12_16",
+              "strength": 6
+            },
+            {
+              "event_id": "session_2025_09_10",
+              "strength": 8
+            }
+          ],
+          "connection_count": 4
+        },
+        "committed_action": {
+          "name": "Committed Action",
+          "description": "Taking concrete steps aligned with values even when it's uncomfortable. Applied to Ana's decision to show her creative work publicly.",
+          "connections": [
+            {
+              "event_id": "journal_2024_11_14",
+              "strength": 4
+            },
+            {
+              "event_id": "session_2025_06_09",
+              "strength": 6
+            }
+          ],
+          "connection_count": 2
+        }
+      },
+      "total_connections": 10
+    },
+    "tift": {
+      "id": "tift",
+      "name": "Jeffery Smith (Tift)",
+      "book": "How We Heal and Recover",
+      "color": "#45B7D1",
+      "principles": {
+        "emotional_processing": {
+          "name": "Emotional Processing",
+          "description": "Allowing emotions to be fully felt and metabolized rather than suppressed or acted out. Central to Ana's work on grief, loss, and the breakup.",
+          "connections": [
+            {
+              "event_id": "session_2024_02_12",
+              "strength": 7
+            },
+            {
+              "event_id": "journal_2024_03_01",
+              "strength": 5
+            },
+            {
+              "event_id": "session_2024_06_17",
+              "strength": 8
+            },
+            {
+              "event_id": "session_2025_09_10",
+              "strength": 5
+            }
+          ],
+          "connection_count": 4
+        },
+        "deep_feelings": {
+          "name": "Deep Feelings Integration",
+          "description": "Accessing and integrating feelings that have been buried or avoided. The typography exhibition moment and the visual essay represent breakthroughs in this area.",
+          "connections": [
+            {
+              "event_id": "session_2024_10_07",
+              "strength": 6
+            },
+            {
+              "event_id": "session_2024_12_16",
+              "strength": 7
+            },
+            {
+              "event_id": "session_2025_06_09",
+              "strength": 5
+            }
+          ],
+          "connection_count": 3
+        }
+      },
+      "total_connections": 7
+    },
+    "attia": {
+      "id": "attia",
+      "name": "Peter Attia",
+      "book": "Outlive: The Science and Art of Longevity",
+      "color": "#96CEB4",
+      "principles": {
+        "longevity_framework": {
+          "name": "Long-term Health Framework",
+          "description": "Thinking about health in decades rather than weeks. Helped Ana reframe exercise from escape mechanism to sustainable self-care practice.",
+          "connections": [
+            {
+              "event_id": "session_2024_04_08",
+              "strength": 2
+            },
+            {
+              "event_id": "planning_2025_01_06",
+              "strength": 6
+            },
+            {
+              "event_id": "session_2025_09_10",
+              "strength": 4
+            }
+          ],
+          "connection_count": 3
+        },
+        "sleep_optimization": {
+          "name": "Sleep Optimization",
+          "description": "Sleep as a foundational health behavior. Relevant when Ana's sleep deteriorated during the comparison spiral and overwork phase.",
+          "connections": [
+            {
+              "event_id": "session_2024_08_19",
+              "strength": 3
+            }
+          ],
+          "connection_count": 1
+        }
+      },
+      "total_connections": 4
+    },
+    "huberman": {
+      "id": "huberman",
+      "name": "Andrew Huberman",
+      "book": "Huberman Lab Protocols",
+      "color": "#FFEAA7",
+      "principles": {
+        "stress_regulation": {
+          "name": "Stress Regulation Protocols",
+          "description": "Physiological tools for managing acute and chronic stress. Applied to Ana's caregiving period and the Berlin adjustment phase.",
+          "connections": [
+            {
+              "event_id": "journal_2024_03_01",
+              "strength": 3
+            },
+            {
+              "event_id": "session_2025_03_24",
+              "strength": 5
+            }
+          ],
+          "connection_count": 2
+        },
+        "dopamine_regulation": {
+          "name": "Dopamine Regulation",
+          "description": "Understanding the dopamine system to break cycles of comparison and compulsive exercise. Helps Ana recognize when running is self-care versus escape.",
+          "connections": [
+            {
+              "event_id": "session_2024_06_17",
+              "strength": 4
+            },
+            {
+              "event_id": "planning_2025_01_06",
+              "strength": 3
+            }
+          ],
+          "connection_count": 2
+        },
+        "focus_protocols": {
+          "name": "Focus and Attention Protocols",
+          "description": "Neurobiological approaches to sustained focus. Applied when Ana struggled with concentration during the overwork phase.",
+          "connections": [
+            {
+              "event_id": "session_2024_08_19",
+              "strength": 4
+            }
+          ],
+          "connection_count": 1
+        }
+      },
+      "total_connections": 5
+    }
+  },
+  "insights": [
+    {
+      "id": "top_themes",
+      "title": "Most Explored Themes",
+      "type": "frequency",
+      "content": "Career transition and creative identity dominate Ana's therapeutic landscape, appearing in nearly every session. Relationships — particularly the breakup with Marco — peak in mid-2024 then recede. Purpose and creativity surge in late 2024 and become the dominant thread by 2025.",
+      "data": [
+        {
+          "theme": "career.transition",
+          "count": 57
+        },
+        {
+          "theme": "purpose.creativity",
+          "count": 46
+        },
+        {
+          "theme": "career.creative_identity",
+          "count": 43
+        },
+        {
+          "theme": "geography.berlin",
+          "count": 39
+        },
+        {
+          "theme": "relationships.breakup",
+          "count": 34
+        },
+        {
+          "theme": "purpose.meaning",
+          "count": 32
+        },
+        {
+          "theme": "identity.independence",
+          "count": 31
+        },
+        {
+          "theme": "health.fitness",
+          "count": 28
+        },
+        {
+          "theme": "identity.perfectionism",
+          "count": 28
+        },
+        {
+          "theme": "grief.mothers_illness",
+          "count": 27
+        }
+      ],
+      "frameworks": []
+    },
+    {
+      "id": "key_people",
+      "title": "Key People in Ana's Journey",
+      "type": "people",
+      "content": "Dr. Ferreira appears in every therapy session as the consistent guide. Marco dominates the first half of the journey, then fades. Ana's mother is a steady presence throughout, shifting from crisis to connection. New figures — Katja, Thomas — emerge as Ana builds her Berlin life.",
+      "data": [
+        {
+          "person": "Dr. Ferreira",
+          "count": 11,
+          "role": "therapist"
+        },
+        {
+          "person": "Marco",
+          "count": 8,
+          "role": "ex-partner"
+        },
+        {
+          "person": "Mãe (Mother)",
+          "count": 7,
+          "role": "family"
+        },
+        {
+          "person": "Katja",
+          "count": 3,
+          "role": "friend (Berlin)"
+        },
+        {
+          "person": "Joana",
+          "count": 3,
+          "role": "friend (Lisbon)"
+        },
+        {
+          "person": "Nina",
+          "count": 2,
+          "role": "colleague"
+        },
+        {
+          "person": "Luis",
+          "count": 2,
+          "role": "friend (Berlin)"
+        },
+        {
+          "person": "Thomas",
+          "count": 2,
+          "role": "romantic interest"
+        },
+        {
+          "person": "Sophia",
+          "count": 1,
+          "role": "colleague"
+        },
+        {
+          "person": "Tia Lúcia",
+          "count": 1,
+          "role": "family"
+        }
+      ],
+      "frameworks": []
+    },
+    {
+      "id": "theme_evolution",
+      "title": "How Themes Evolved Over Time",
+      "type": "evolution",
+      "content": "Ana's therapeutic focus shifts dramatically across three phases. Early sessions (Jan-Apr 2024) center on crisis — mother's illness, career paralysis. Mid-phase (May-Nov 2024) is dominated by the breakup, the move, and identity questions. Late phase (Dec 2024-Sep 2025) sees purpose and creativity emerge as the central threads, with relationships becoming healthier and more intentional.",
+      "data": {
+        "relationships": {
+          "early": 8,
+          "mid": 7,
+          "late": 4
+        },
+        "career": {
+          "early": 6,
+          "mid": 7,
+          "late": 6
+        },
+        "identity": {
+          "early": 3,
+          "mid": 6,
+          "late": 5
+        },
+        "grief": {
+          "early": 9,
+          "mid": 3,
+          "late": 1
+        },
+        "health": {
+          "early": 2,
+          "mid": 5,
+          "late": 5
+        },
+        "geography": {
+          "early": 5,
+          "mid": 7,
+          "late": 3
+        },
+        "purpose": {
+          "early": 2,
+          "mid": 4,
+          "late": 9
+        },
+        "finances": {
+          "early": 1,
+          "mid": 1,
+          "late": 4
+        }
+      },
+      "frameworks": [
+        "harris.values_clarification"
+      ]
+    },
+    {
+      "id": "pattern_recognition",
+      "title": "Pattern Recognition: The Threads That Bind",
+      "type": "pattern",
+      "content": "Eight recurring patterns were identified across Ana's therapy journey. The most persistent are perfectionism_paralysis and avoidant_attachment, which appear throughout. Notably, exercise_as_escape peaks during the breakup period and diminishes as Ana develops healthier coping mechanisms. Creative_suppression shows the most dramatic arc — dominant early, nearly resolved by the final sessions.",
+      "data": [
+        {
+          "pattern": "perfectionism_paralysis",
+          "peak_strength": 6,
+          "current_strength": 4,
+          "trend": "decreasing"
+        },
+        {
+          "pattern": "exercise_as_escape",
+          "peak_strength": 8,
+          "current_strength": 3,
+          "trend": "decreasing"
+        },
+        {
+          "pattern": "geographical_cure",
+          "peak_strength": 7,
+          "current_strength": 2,
+          "trend": "resolved"
+        },
+        {
+          "pattern": "creative_suppression",
+          "peak_strength": 6,
+          "current_strength": 1,
+          "trend": "resolved"
+        },
+        {
+          "pattern": "caretaker_identity",
+          "peak_strength": 8,
+          "current_strength": 3,
+          "trend": "decreasing"
+        },
+        {
+          "pattern": "comparison_spiral",
+          "peak_strength": 8,
+          "current_strength": 2,
+          "trend": "decreasing"
+        },
+        {
+          "pattern": "avoidant_attachment",
+          "peak_strength": 7,
+          "current_strength": 2,
+          "trend": "decreasing"
+        },
+        {
+          "pattern": "oscillation_stay_vs_go",
+          "peak_strength": 8,
+          "current_strength": 1,
+          "trend": "resolved"
+        }
+      ],
+      "frameworks": [
+        "harris.mindfulness",
+        "tift.emotional_processing"
+      ]
+    },
+    {
+      "id": "career_identity_link",
+      "title": "Career and Creative Identity Are the Same Wound",
+      "type": "connection",
+      "content": "Ana's career anxiety and creative suppression are deeply intertwined. The transition from design to product management was framed as 'growing up,' but it was actually a form of self-abandonment. The breakthrough came when she realized product thinking and design thinking could coexist — first at the typography exhibition, then through her visual essay, and finally in her work proposal to redesign onboarding.",
+      "related_themes": [
+        "career.transition",
+        "career.creative_identity",
+        "purpose.creativity"
+      ],
+      "related_patterns": [
+        "creative_suppression",
+        "perfectionism_paralysis"
+      ],
+      "frameworks": [
+        "sivers.hell_yeah_or_no",
+        "tift.deep_feelings"
+      ]
+    },
+    {
+      "id": "body_mind_connection",
+      "title": "The Body Keeps Running",
+      "type": "connection",
+      "content": "Ana's relationship with exercise mirrors her emotional state with remarkable precision. During the breakup, she ran 10K every morning — not for fitness but to outpace her feelings. As she began processing emotions through therapy and creative work, her running became less compulsive and more sustainable. The half-marathon training in 2025 represents exercise as choice rather than escape.",
+      "related_themes": [
+        "health.fitness",
+        "health.mental_health",
+        "identity.independence"
+      ],
+      "related_patterns": [
+        "exercise_as_escape"
+      ],
+      "frameworks": [
+        "huberman.dopamine_regulation",
+        "attia.longevity_framework"
+      ]
+    },
+    {
+      "id": "geography_as_metaphor",
+      "title": "Geography as Metaphor: Cities as Emotional States",
+      "type": "connection",
+      "content": "Each city in Ana's narrative carries emotional weight beyond geography. Porto is childhood and obligation. Lisbon is the relationship with Marco and the design career she outgrew. Berlin is possibility and reinvention. The therapeutic work involved untangling the cities from the emotions — Berlin isn't freedom, Porto isn't a cage, Lisbon isn't failure.",
+      "related_themes": [
+        "geography.lisbon",
+        "geography.berlin",
+        "geography.hometown"
+      ],
+      "related_patterns": [
+        "geographical_cure",
+        "oscillation_stay_vs_go"
+      ],
+      "frameworks": [
+        "sivers.revolution",
+        "harris.values_clarification"
+      ]
+    },
+    {
+      "id": "breakup_catalyst",
+      "title": "The Breakup as Catalyst, Not Catastrophe",
+      "type": "connection",
+      "content": "The end of Ana's relationship with Marco, while painful, functioned as a catalyst for growth rather than a source of lasting damage. The relief she felt alongside the grief was an early signal that she had already outgrown the relationship. Marco's absence created space for Ana to confront her avoidant patterns and eventually approach Thomas with more self-awareness.",
+      "related_themes": [
+        "relationships.breakup",
+        "relationships.dating",
+        "identity.independence"
+      ],
+      "related_patterns": [
+        "avoidant_attachment"
+      ],
+      "frameworks": [
+        "tift.emotional_processing",
+        "harris.acceptance"
+      ]
+    },
+    {
+      "id": "creative_underground",
+      "title": "Creativity Never Disappeared — It Went Underground",
+      "type": "connection",
+      "content": "Even during the months when Ana claimed she had 'given up' design, creative impulses surfaced in unexpected ways: the way she structured her journal entries, her attention to the typography exhibition, her visual approach to the life planning document. The suppression was never total — creativity was compressed, not eliminated, and when given permission to surface (the visual essay), it emerged with force.",
+      "related_themes": [
+        "purpose.creativity",
+        "career.creative_identity",
+        "purpose.meaning"
+      ],
+      "related_patterns": [
+        "creative_suppression"
+      ],
+      "frameworks": [
+        "sivers.hell_yeah_or_no",
+        "tift.deep_feelings"
+      ]
+    },
+    {
+      "id": "friendship_evolution",
+      "title": "Friendship at 32: Building Chosen Family",
+      "type": "connection",
+      "content": "Ana's friendship dynamics shifted dramatically through the journey. Old friendships (Joana) survived the distance and provided grounding continuity. New friendships (Katja, Luis, Nina) required vulnerability that initially triggered her avoidant patterns. The insight that making friends at 32 requires the same intentionality as romantic relationships was a key therapeutic milestone.",
+      "related_themes": [
+        "relationships.friendships",
+        "identity.cultural_belonging",
+        "purpose.community"
+      ],
+      "related_patterns": [
+        "avoidant_attachment",
+        "geographical_cure"
+      ],
+      "frameworks": [
+        "harris.committed_action"
+      ]
+    },
+    {
+      "id": "turning_points",
+      "title": "Three Turning Points",
+      "type": "turning_point",
+      "content": "Three moments mark inflection points in Ana's journey: (1) Her mother's diagnosis in February 2024, which shattered the illusion that she could plan her way to safety; (2) The typography exhibition in October 2024, which reconnected her to her creative core; (3) The gallery acceptance in June 2025, which proved that professional identity and creative identity could coexist.",
+      "data": [
+        {
+          "event_id": "session_2024_02_12",
+          "label": "Mother's diagnosis",
+          "significance": "Shattered the planning illusion"
+        },
+        {
+          "event_id": "session_2024_10_07",
+          "label": "Typography exhibition",
+          "significance": "Reconnected to creative core"
+        },
+        {
+          "event_id": "session_2025_06_09",
+          "label": "Gallery acceptance",
+          "significance": "Integration of identities"
+        }
+      ],
+      "frameworks": [
+        "tift.deep_feelings",
+        "sivers.hell_yeah_or_no"
+      ]
+    },
+    {
+      "id": "mother_mirror",
+      "title": "Mother as Mirror",
+      "type": "connection",
+      "content": "Ana's mother's illness and recovery parallel Ana's own therapeutic journey in striking ways. Both involved a period of crisis, followed by treatment that required patience, followed by a recovery that didn't mean returning to 'normal' but arriving at something new. Ana's caretaker identity was both tested and transformed through this experience.",
+      "related_themes": [
+        "grief.mothers_illness",
+        "relationships.family",
+        "identity.independence"
+      ],
+      "related_patterns": [
+        "caretaker_identity"
+      ],
+      "frameworks": [
+        "tift.emotional_processing"
+      ]
+    },
+    {
+      "id": "perfectionism_career_loop",
+      "title": "The Perfectionism-Career Feedback Loop",
+      "type": "connection",
+      "content": "Ana's perfectionism fed directly into her career paralysis: she couldn't choose between design and product because neither choice could be perfect. The comparison spiral at work intensified the loop — watching Sophia's senior PM career made Ana feel she was failing at a choice she hadn't even fully committed to. Breaking the loop required accepting that 'good enough and moving' beats 'perfect and stuck.'",
+      "related_themes": [
+        "identity.perfectionism",
+        "career.transition",
+        "career.corporate_life"
+      ],
+      "related_patterns": [
+        "perfectionism_paralysis",
+        "comparison_spiral"
+      ],
+      "frameworks": [
+        "ferriss.fear_setting",
+        "ferriss.80_20"
+      ]
+    },
+    {
+      "id": "financial_freedom_thread",
+      "title": "Money as Freedom Architecture",
+      "type": "connection",
+      "content": "Financial themes are understated but structurally important. The Berlin salary enabled the move. The savings runway gave Ana psychological permission to consider freelancing. The freelance income in 2025 represents the first time her creative and financial lives aligned. Money appears less as a theme and more as an enabler of the choices therapy helped her clarify.",
+      "related_themes": [
+        "finances.savings",
+        "finances.freelance_income",
+        "career.salary"
+      ],
+      "related_patterns": [
+        "oscillation_stay_vs_go"
+      ],
+      "frameworks": [
+        "ferriss.fear_setting"
+      ]
+    },
+    {
+      "id": "avoidance_to_intention",
+      "title": "From Avoidance to Intention",
+      "type": "evolution",
+      "content": "The overarching arc of Ana's journey is a shift from avoidance-based decisions to intention-based ones. Early sessions show a pattern of choosing through negation — moving to avoid stagnation, exercising to avoid feeling, working to avoid creative disappointment. Later sessions reveal a woman making active choices: pursuing the gallery show, dating Thomas slowly, building freelance work deliberately.",
+      "data": {
+        "avoidance_behaviors": {
+          "early": 8,
+          "mid": 6,
+          "late": 2
+        },
+        "intentional_actions": {
+          "early": 2,
+          "mid": 4,
+          "late": 8
+        }
+      },
+      "frameworks": [
+        "harris.values_clarification",
+        "harris.committed_action"
+      ]
+    },
+    {
+      "id": "sleep_stress_axis",
+      "title": "Sleep as Early Warning System",
+      "type": "temporal",
+      "content": "Sleep disruption appeared as the first physiological signal of emotional overload, particularly during the comparison spiral phase in August 2024. When Ana was staying late at work and skipping creative activities, her sleep deteriorated first. Recognizing sleep quality as a canary-in-the-coal-mine became a practical tool for self-monitoring.",
+      "data": {
+        "event_id": "session_2024_08_19",
+        "temporal_markers": [
+          "overwork_phase",
+          "comparison_peak"
+        ]
+      },
+      "frameworks": [
+        "attia.sleep_optimization",
+        "huberman.stress_regulation"
+      ]
+    },
+    {
+      "id": "language_of_leaving",
+      "title": "The Language of Leaving",
+      "type": "pattern",
+      "content": "Ana's vocabulary around departure evolved significantly. Early sessions use passive language — 'it happened,' 'we drifted,' 'the opportunity came.' By mid-journey, she uses active but defensive language — 'I chose,' 'I had to.' In later sessions, the language becomes integrated — 'I wanted to and it was hard,' 'I left and I also stayed in some ways.' This linguistic evolution mirrors her psychological growth.",
+      "data": [
+        {
+          "phase": "early",
+          "language_pattern": "passive/avoidant",
+          "examples": [
+            "it happened",
+            "things changed",
+            "the opportunity came"
+          ]
+        },
+        {
+          "phase": "mid",
+          "language_pattern": "active/defensive",
+          "examples": [
+            "I chose Berlin",
+            "I had to leave",
+            "he couldn't handle it"
+          ]
+        },
+        {
+          "phase": "late",
+          "language_pattern": "integrated/honest",
+          "examples": [
+            "I wanted to and it was hard",
+            "I left and I miss what I left",
+            "I'm here by choice"
+          ]
+        }
+      ],
+      "frameworks": [
+        "harris.defusion"
+      ]
+    },
+    {
+      "id": "therapeutic_alliance",
+      "title": "The Therapeutic Relationship as Model",
+      "type": "connection",
+      "content": "Ana's relationship with Dr. Ferreira subtly models the kind of secure attachment she struggles with elsewhere. The consistency of sessions through upheaval — maintained even after moving to Berlin — demonstrates that connection can survive distance and change. Dr. Ferreira's presence across 11 of 15 documents makes the therapeutic alliance itself a data point about what sustained relationship looks like.",
+      "related_themes": [
+        "relationships.friendships",
+        "identity.independence"
+      ],
+      "related_patterns": [
+        "avoidant_attachment",
+        "caretaker_identity"
+      ],
+      "frameworks": [
+        "tift.emotional_processing",
+        "harris.acceptance"
+      ]
+    },
+    {
+      "id": "marco_to_thomas_arc",
+      "title": "From Marco to Thomas: A Relationship Rewrite",
+      "type": "evolution",
+      "content": "The contrast between how Ana describes Marco and Thomas reveals her growth. Marco appears in crisis contexts — fights, distance, Instagram stalking. Thomas appears in the context of choice and awareness. Ana explicitly names her avoidant pattern when discussing Thomas, something she never did with Marco. The shift from 'he said I always leave' to 'I catch myself wanting to sabotage this' represents a fundamental change in relational self-awareness.",
+      "data": {
+        "marco_mentions": {
+          "early": 5,
+          "mid": 3,
+          "late": 1
+        },
+        "thomas_mentions": {
+          "early": 0,
+          "mid": 0,
+          "late": 2
+        },
+        "relational_awareness": {
+          "early": 2,
+          "mid": 4,
+          "late": 8
+        }
+      },
+      "frameworks": [
+        "tift.emotional_processing",
+        "harris.mindfulness"
+      ]
+    },
+    {
+      "id": "identity_integration",
+      "title": "The Designer Who Became a Product Manager Who Became Both",
+      "type": "evolution",
+      "content": "Ana's professional identity follows a thesis-antithesis-synthesis arc. She starts as a designer questioning her path (thesis), commits to product management as a rejection of design (antithesis), and ultimately integrates both — the onboarding redesign at work, the visual essay, the freelance practice. The final identity isn't 'designer' or 'product manager' but something that contains and transcends both.",
+      "data": {
+        "designer_identity": {
+          "early": 7,
+          "mid": 3,
+          "late": 6
+        },
+        "product_identity": {
+          "early": 2,
+          "mid": 8,
+          "late": 5
+        },
+        "integrated_identity": {
+          "early": 0,
+          "mid": 2,
+          "late": 8
+        }
+      },
+      "frameworks": [
+        "sivers.hell_yeah_or_no",
+        "harris.values_clarification"
+      ]
+    }
+  ],
+  "people": [
+    {
+      "id": "Marco",
+      "name": "Marco",
+      "role": "Ex-boyfriend",
+      "description": "3-year relationship, architect, difficulty letting go after breakup during career transition",
+      "events": [
+        "session_2024_01_15",
+        "session_2024_02_12",
+        "journal_2024_03_01",
+        "session_2024_04_08",
+        "session_2024_05_20",
+        "session_2024_06_17",
+        "reflection_2024_07_05",
+        "session_2025_03_24"
+      ],
+      "event_count": 8
+    },
+    {
+      "id": "Dr. Ferreira",
+      "name": "Dr. Ferreira",
+      "role": "Therapist",
+      "description": "Primary therapist through the entire journey, consistent presence across career and relationship shifts",
+      "events": [
+        "session_2024_01_15",
+        "session_2024_02_12",
+        "session_2024_04_08",
+        "session_2024_05_20",
+        "session_2024_06_17",
+        "session_2024_08_19",
+        "session_2024_10_07",
+        "session_2024_12_16",
+        "session_2025_03_24",
+        "session_2025_06_09",
+        "session_2025_09_10"
+      ],
+      "event_count": 11
+    },
+    {
+      "id": "Sofia",
+      "name": "Sofia",
+      "role": "Best friend",
+      "description": "Close friend from design school, based in Lisbon, grounding presence during upheaval",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "id": "Mãe (Mother)",
+      "name": "Mãe (Mother)",
+      "role": "Family",
+      "description": "Mother's illness was a catalyst for re-evaluating priorities and confronting caretaker identity",
+      "events": [
+        "session_2024_02_12",
+        "journal_2024_03_01",
+        "session_2024_04_08",
+        "session_2024_08_19",
+        "session_2024_12_16",
+        "planning_2025_01_06",
+        "session_2025_03_24",
+        "session_2025_09_10"
+      ],
+      "event_count": 8
+    },
+    {
+      "id": "Thomas",
+      "name": "Thomas",
+      "role": "New partner",
+      "description": "German photographer, met in Berlin, represents new attachment pattern",
+      "events": [
+        "session_2025_06_09",
+        "session_2025_09_10"
+      ],
+      "event_count": 2
+    },
+    {
+      "id": "Klaus",
+      "name": "Klaus",
+      "role": "Manager / Mentor",
+      "description": "Product lead at Berlin company, encouraged the transition from design to product",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "id": "Pai (Father)",
+      "name": "Pai (Father)",
+      "role": "Family",
+      "description": "Father figure, mentioned in context of family dynamics and hometown",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "id": "Lena",
+      "name": "Lena",
+      "role": "Friend / colleague",
+      "description": "New friend in Berlin, UX researcher, shared professional growth journey",
+      "events": [],
+      "event_count": 0
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2024-01-15",
+      "event_id": "session_2024_01_15",
+      "summary": "First session after the holidays. Ana describes feeling stuck between her design career in Lisbon and a product management opportunity in Berlin. She mentions M",
+      "themes": [
+        "career",
+        "relationships",
+        "identity",
+        "geography"
+      ],
+      "people": [
+        "Marco",
+        "Dr. Ferreira"
+      ]
+    },
+    {
+      "date": "2024-02-12",
+      "event_id": "session_2024_02_12",
+      "summary": "Ana's mother was diagnosed with early-stage breast cancer. Session dominated by fear and guilt about being far away in Lisbon. She talks about flying home to Po",
+      "themes": [
+        "grief",
+        "relationships",
+        "identity",
+        "health",
+        "geography"
+      ],
+      "people": [
+        "Mãe (Mother)",
+        "Dr. Ferreira",
+        "Marco"
+      ]
+    },
+    {
+      "date": "2024-03-01",
+      "event_id": "journal_2024_03_01",
+      "summary": "Written from her childhood home in Porto while caring for her mother. Ana reflects on how the house feels smaller, how she reverts to old patterns with family. ",
+      "themes": [
+        "grief",
+        "relationships",
+        "purpose",
+        "identity",
+        "geography"
+      ],
+      "people": [
+        "Mãe (Mother)",
+        "Marco",
+        "Tia Lúcia"
+      ]
+    },
+    {
+      "date": "2024-04-08",
+      "event_id": "session_2024_04_08",
+      "summary": "Back in Lisbon after six weeks in Porto. Mother's treatment is going well. Ana describes feeling 'between worlds' — relieved but guilty for feeling relieved. Fi",
+      "themes": [
+        "career",
+        "grief",
+        "relationships",
+        "geography",
+        "finances"
+      ],
+      "people": [
+        "Marco",
+        "Dr. Ferreira",
+        "Mãe (Mother)"
+      ]
+    },
+    {
+      "date": "2024-05-20",
+      "event_id": "session_2024_05_20",
+      "summary": "Ana accepted the Berlin offer. She and Marco had a fight about timelines — he wanted to wait six more months, she felt that was him stalling. Session explores t",
+      "themes": [
+        "career",
+        "relationships",
+        "geography",
+        "identity"
+      ],
+      "people": [
+        "Marco",
+        "Dr. Ferreira"
+      ]
+    },
+    {
+      "date": "2024-06-17",
+      "event_id": "session_2024_06_17",
+      "summary": "The breakup happened. Marco said he couldn't do long-distance again. Ana describes feeling both devastated and strangely relieved, which confuses her. She's bee",
+      "themes": [
+        "relationships",
+        "health",
+        "identity",
+        "grief"
+      ],
+      "people": [
+        "Marco",
+        "Dr. Ferreira",
+        "Joana"
+      ]
+    },
+    {
+      "date": "2024-07-05",
+      "event_id": "reflection_2024_07_05",
+      "summary": "Ana's first written reflection from Berlin. She describes the city as both exciting and alienating. The apartment is spare, the language barrier real. She joine",
+      "themes": [
+        "geography",
+        "career",
+        "relationships",
+        "identity",
+        "health"
+      ],
+      "people": [
+        "Marco",
+        "Katja",
+        "Luis"
+      ]
+    },
+    {
+      "date": "2024-08-19",
+      "event_id": "session_2024_08_19",
+      "summary": "Online session from Berlin. Ana talks about comparison spirals at work — a colleague her age is already a senior PM. She's been staying late, skipping the creat",
+      "themes": [
+        "career",
+        "identity",
+        "health",
+        "grief",
+        "purpose"
+      ],
+      "people": [
+        "Dr. Ferreira",
+        "Sophia",
+        "Mãe (Mother)"
+      ]
+    },
+    {
+      "date": "2024-10-07",
+      "event_id": "session_2024_10_07",
+      "summary": "Turning point session. Ana went to a typography exhibition and felt something 'wake up.' She describes crying in the gallery — not from sadness but from recogni",
+      "themes": [
+        "purpose",
+        "career",
+        "identity",
+        "health"
+      ],
+      "people": [
+        "Dr. Ferreira"
+      ]
+    },
+    {
+      "date": "2024-11-14",
+      "event_id": "journal_2024_11_14",
+      "summary": "Extended journal entry about friendship. Ana describes building a small circle in Berlin: Katja from running club, Luis from the coworking space, Nina from work",
+      "themes": [
+        "relationships",
+        "geography",
+        "identity",
+        "purpose"
+      ],
+      "people": [
+        "Katja",
+        "Luis",
+        "Nina",
+        "Joana"
+      ]
+    },
+    {
+      "date": "2024-12-16",
+      "event_id": "session_2024_12_16",
+      "summary": "End-of-year session. Ana reflects on the past 12 months — mother's illness, the breakup, the move. She describes feeling 'more broken and more whole simultaneou",
+      "themes": [
+        "purpose",
+        "grief",
+        "identity",
+        "career",
+        "geography"
+      ],
+      "people": [
+        "Dr. Ferreira",
+        "Mãe (Mother)"
+      ]
+    },
+    {
+      "date": "2025-01-06",
+      "event_id": "planning_2025_01_06",
+      "summary": "New year planning document. Ana sets intentions rather than resolutions: maintain the creative side project, stop comparing her PM timeline to others, call her ",
+      "themes": [
+        "career",
+        "health",
+        "finances",
+        "purpose",
+        "relationships"
+      ],
+      "people": [
+        "Mãe (Mother)"
+      ]
+    },
+    {
+      "date": "2025-03-24",
+      "event_id": "session_2025_03_24",
+      "summary": "Ana describes a shift at work — she proposed redesigning the onboarding flow using her design background and the team loved it. She's finding where design think",
+      "themes": [
+        "career",
+        "relationships",
+        "health",
+        "grief",
+        "purpose"
+      ],
+      "people": [
+        "Dr. Ferreira",
+        "Marco",
+        "Mãe (Mother)",
+        "Nina"
+      ]
+    },
+    {
+      "date": "2025-06-09",
+      "event_id": "session_2025_06_09",
+      "summary": "Mid-year session. Ana's visual essay was accepted into a small Berlin gallery show. She's terrified and excited. At work, she's been promoted to Senior PM — ear",
+      "themes": [
+        "purpose",
+        "career",
+        "relationships",
+        "identity"
+      ],
+      "people": [
+        "Dr. Ferreira",
+        "Joana",
+        "Thomas",
+        "Katja"
+      ]
+    },
+    {
+      "date": "2025-09-10",
+      "event_id": "session_2025_09_10",
+      "summary": "Integration session. Ana describes feeling like she's finally living 'in Berlin' rather than 'from Lisbon.' The gallery show went well. She and Thomas are datin",
+      "themes": [
+        "purpose",
+        "career",
+        "relationships",
+        "identity",
+        "geography",
+        "finances",
+        "health"
+      ],
+      "people": [
+        "Dr. Ferreira",
+        "Thomas",
+        "Mãe (Mother)",
+        "Katja",
+        "Joana"
+      ]
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "theme_relationships",
+        "label": "Relationships",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "session_2024_05_20",
+          "session_2025_09_10",
+          "session_2024_01_15",
+          "session_2025_03_24",
+          "reflection_2024_07_05",
+          "session_2024_06_17",
+          "planning_2025_01_06",
+          "journal_2024_03_01",
+          "session_2025_06_09",
+          "session_2024_02_12",
+          "journal_2024_11_14"
+        ]
+      },
+      {
+        "id": "theme_career",
+        "label": "Career",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "session_2024_05_20",
+          "session_2024_08_19",
+          "session_2024_01_15",
+          "session_2025_09_10",
+          "reflection_2024_07_05",
+          "session_2024_04_08",
+          "session_2024_10_07",
+          "session_2024_12_16",
+          "planning_2025_01_06",
+          "session_2025_03_24",
+          "session_2025_06_09"
+        ]
+      },
+      {
+        "id": "theme_identity",
+        "label": "Identity",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "journal_2024_03_01",
+          "session_2024_05_20",
+          "session_2024_08_19",
+          "session_2024_01_15",
+          "session_2025_09_10",
+          "session_2024_10_07",
+          "reflection_2024_07_05",
+          "session_2024_06_17",
+          "session_2024_12_16",
+          "session_2025_06_09",
+          "session_2024_02_12",
+          "journal_2024_11_14"
+        ]
+      },
+      {
+        "id": "theme_grief",
+        "label": "Grief & Loss",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "session_2024_08_19",
+          "session_2025_03_24",
+          "session_2024_04_08",
+          "session_2024_12_16",
+          "session_2024_06_17",
+          "journal_2024_03_01",
+          "session_2024_02_12"
+        ]
+      },
+      {
+        "id": "theme_health",
+        "label": "Health & Body",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "session_2025_09_10",
+          "session_2024_08_19",
+          "reflection_2024_07_05",
+          "session_2024_10_07",
+          "session_2024_06_17",
+          "planning_2025_01_06",
+          "session_2025_03_24",
+          "session_2024_02_12"
+        ]
+      },
+      {
+        "id": "theme_geography",
+        "label": "Geography & Place",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "journal_2024_03_01",
+          "session_2024_05_20",
+          "session_2025_09_10",
+          "session_2024_01_15",
+          "session_2024_04_08",
+          "reflection_2024_07_05",
+          "session_2024_12_16",
+          "session_2024_02_12",
+          "journal_2024_11_14"
+        ]
+      },
+      {
+        "id": "theme_finances",
+        "label": "Finances",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "planning_2025_01_06",
+          "session_2024_04_08",
+          "session_2025_09_10"
+        ]
+      },
+      {
+        "id": "theme_purpose",
+        "label": "Purpose & Meaning",
+        "type": "theme",
+        "size": 100,
+        "events": [
+          "session_2024_08_19",
+          "session_2025_09_10",
+          "session_2025_03_24",
+          "session_2024_10_07",
+          "session_2024_12_16",
+          "planning_2025_01_06",
+          "journal_2024_03_01",
+          "session_2025_06_09",
+          "journal_2024_11_14"
+        ]
+      },
+      {
+        "id": "person_Marco",
+        "label": "Marco",
+        "type": "person",
+        "size": 40,
+        "events": [
+          "session_2024_01_15",
+          "session_2024_02_12",
+          "journal_2024_03_01",
+          "session_2024_04_08",
+          "session_2024_05_20",
+          "session_2024_06_17",
+          "reflection_2024_07_05",
+          "session_2025_03_24"
+        ]
+      },
+      {
+        "id": "person_Dr. Ferreira",
+        "label": "Dr. Ferreira",
+        "type": "person",
+        "size": 55,
+        "events": [
+          "session_2024_01_15",
+          "session_2024_02_12",
+          "session_2024_04_08",
+          "session_2024_05_20",
+          "session_2024_06_17",
+          "session_2024_08_19",
+          "session_2024_10_07",
+          "session_2024_12_16",
+          "session_2025_03_24",
+          "session_2025_06_09",
+          "session_2025_09_10"
+        ]
+      },
+      {
+        "id": "person_Mãe (Mother)",
+        "label": "Mãe (Mother)",
+        "type": "person",
+        "size": 40,
+        "events": [
+          "session_2024_02_12",
+          "journal_2024_03_01",
+          "session_2024_04_08",
+          "session_2024_08_19",
+          "session_2024_12_16",
+          "planning_2025_01_06",
+          "session_2025_03_24",
+          "session_2025_09_10"
+        ]
+      },
+      {
+        "id": "person_Thomas",
+        "label": "Thomas",
+        "type": "person",
+        "size": 10,
+        "events": [
+          "session_2025_06_09",
+          "session_2025_09_10"
+        ]
+      },
+      {
+        "id": "pattern_perfectionism_paralysis",
+        "label": "Perfectionism as Paralysis",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_exercise_as_escape",
+        "label": "Exercise as Emotional Escape",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_geographical_cure",
+        "label": "The Geographical Cure",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_creative_suppression",
+        "label": "Creative Suppression for Stability",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_caretaker_identity",
+        "label": "Caretaker Identity",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_comparison_spiral",
+        "label": "Comparison Spiral",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_avoidant_attachment",
+        "label": "Avoidant Attachment Pattern",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      },
+      {
+        "id": "pattern_oscillation_stay_vs_go",
+        "label": "Stay vs. Go Oscillation",
+        "type": "pattern",
+        "size": 40,
+        "events": []
+      }
+    ],
+    "edges": [
+      {
+        "source": "person_Marco",
+        "target": "theme_relationships",
+        "weight": 7
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_career",
+        "weight": 5
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_identity",
+        "weight": 6
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_grief",
+        "weight": 5
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_health",
+        "weight": 4
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_geography",
+        "weight": 6
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_finances",
+        "weight": 1
+      },
+      {
+        "source": "person_Marco",
+        "target": "theme_purpose",
+        "weight": 2
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_relationships",
+        "weight": 7
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_career",
+        "weight": 9
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_identity",
+        "weight": 9
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_grief",
+        "weight": 6
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_health",
+        "weight": 6
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_geography",
+        "weight": 6
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_finances",
+        "weight": 2
+      },
+      {
+        "source": "person_Dr. Ferreira",
+        "target": "theme_purpose",
+        "weight": 6
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_relationships",
+        "weight": 5
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_career",
+        "weight": 6
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_identity",
+        "weight": 5
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_grief",
+        "weight": 6
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_health",
+        "weight": 5
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_geography",
+        "weight": 5
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "person_Mãe (Mother)",
+        "target": "theme_purpose",
+        "weight": 6
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_relationships",
+        "weight": 2
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_career",
+        "weight": 2
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_identity",
+        "weight": 2
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_health",
+        "weight": 1
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_geography",
+        "weight": 1
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_finances",
+        "weight": 1
+      },
+      {
+        "source": "person_Thomas",
+        "target": "theme_purpose",
+        "weight": 2
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_perfectionism_paralysis",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_exercise_as_escape",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_geographical_cure",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_creative_suppression",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_caretaker_identity",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_comparison_spiral",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_avoidant_attachment",
+        "target": "theme_purpose",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_relationships",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_career",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_identity",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_grief",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_health",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_geography",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_finances",
+        "weight": 3
+      },
+      {
+        "source": "pattern_oscillation_stay_vs_go",
+        "target": "theme_purpose",
+        "weight": 3
+      }
+    ]
+  }
+};
+
+
+// ===== UTILITY FUNCTIONS =====
+const THEME_COLORS = {relationships:'#e74c3c',career:'#3498db',identity:'#9b59b6',grief:'#7f8c8d',health:'#2ecc71',geography:'#f39c12',finances:'#1abc9c',purpose:'#e67e22'};
+const INSIGHT_CATEGORIES = {
+  'Self-Knowledge':['top_themes','strengths','core_values','strengths_unseen'],
+  'Patterns':['recurring_patterns','repetitive_thought_loops','body_relationship_link','attachment_style_evidence'],
+  'Correlations':['relationship_career_correlation','body_relationship_link','geographic_emotional_map','energy_patterns','social_connection_map'],
+  'Growth':['growth_evidence','theme_evolution'],
+  'Framework Analysis':['tift_analysis','framework_convergence','risk_assessment','values_actions_alignment'],
+  'People':['key_people','social_connection_map'],
+  'Blind Spots':['blind_spots','financial_anxiety_vs_reality','independence_paradox'],
+  'Decisions':['decision_patterns','unlived_life_inventory','trigger_mapping'],
+  'Therapy':['therapist_pattern_recognition','season_of_grief','attachment_style_evidence']
+};
+const CAT_COLORS={'Self-Knowledge':'#3498db','Patterns':'#e74c3c','Correlations':'#9b59b6','Growth':'#2ecc71','Framework Analysis':'#f39c12','People':'#4ecdc4','Blind Spots':'#e67e22','Decisions':'#1abc9c','Therapy':'#7f8c8d'};
+
+function getInsightCategory(insight){
+  for(const[cat,ids]of Object.entries(INSIGHT_CATEGORIES)){
+    if(ids.includes(insight.id))return cat;
+  }
+  return 'Self-Knowledge';
+}
+
+function getRelatedInsights(keywords){
+  if(!keywords||!keywords.length)return[];
+  const kw=keywords.map(k=>k.toLowerCase());
+  return DATA.insights.filter(ins=>{
+    const txt=(ins.title+' '+ins.content+(ins.id||'')).toLowerCase();
+    return kw.some(k=>txt.includes(k));
+  });
+}
+
+function getEventById(id){return DATA.events.find(e=>e.id===id)}
+function truncate(s,n){return s&&s.length>n?s.substring(0,n)+'...':s||''}
+function fmtDate(d){if(!d)return'No date';const p=d.split('-');return`${p[2]}/${p[1]}/${p[0]}`}
+function escHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+// ===== TAB SWITCHING =====
+let currentTab='discovery';
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const tab=t.dataset.tab;
+    document.getElementById(tab+'-panel').classList.add('active');
+    if(tab!==currentTab){currentTab=tab;initTab(tab)}
+  });
+});
+const initializedTabs={};
+function initTab(tab){
+  if(initializedTabs[tab])return;
+  initializedTabs[tab]=true;
+  switch(tab){
+    case'discovery':renderDiscovery();break;
+    case'constellation':renderConstellation();break;
+    case'timeline':renderTimeline();break;
+    case'dashboard':renderDashboard();break;
+    case'frameworks':renderFrameworks();break;
+    case'journal':renderJournal();break;
+  }
+}
+
+// ===== DISCOVERY TAB =====
+function renderDiscovery(){
+  const p=document.getElementById('discovery-panel');
+  const patternCount=DATA.patterns.length;
+  const peopleCount=DATA.people.length;
+  const fwCount=Object.keys(DATA.frameworks).length;
+  let html=`
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">${DATA.insights.length}</div><div class="lbl">Insights</div></div>
+    <div class="stat-box"><div class="num">${DATA.events.length}</div><div class="lbl">Sessions</div></div>
+    <div class="stat-box"><div class="num">${peopleCount}</div><div class="lbl">People</div></div>
+    <div class="stat-box"><div class="num">${fwCount}</div><div class="lbl">Frameworks</div></div>
+    <div class="stat-box"><div class="num">${patternCount}</div><div class="lbl">Patterns</div></div>
+  </div>
+  <div class="filter-row">
+    <div class="filter-pill active" data-cat="All">All</div>
+    ${Object.keys(INSIGHT_CATEGORIES).map(c=>`<div class="filter-pill" data-cat="${c}">${c}</div>`).join('')}
+    <input class="search-box" placeholder="Search insights..." id="insight-search">
+  </div>
+  <div class="insight-grid" id="insight-grid"></div>`;
+  p.innerHTML=html;
+  renderInsightGrid('All','');
+  p.querySelectorAll('.filter-pill').forEach(fp=>{
+    fp.addEventListener('click',()=>{
+      p.querySelectorAll('.filter-pill').forEach(x=>x.classList.remove('active'));
+      fp.classList.add('active');
+      renderInsightGrid(fp.dataset.cat,document.getElementById('insight-search').value);
+    });
+  });
+  document.getElementById('insight-search').addEventListener('input',e=>{
+    const activeCat=p.querySelector('.filter-pill.active').dataset.cat;
+    renderInsightGrid(activeCat,e.target.value);
+  });
+}
+
+function renderInsightGrid(cat,search){
+  const grid=document.getElementById('insight-grid');
+  let insights=DATA.insights;
+  if(cat!=='All'){
+    const ids=INSIGHT_CATEGORIES[cat]||[];
+    insights=insights.filter(i=>ids.includes(i.id));
+  }
+  if(search){
+    const s=search.toLowerCase();
+    insights=insights.filter(i=>(i.title+i.content).toLowerCase().includes(s));
+  }
+  // Group by category
+  const grouped={};
+  insights.forEach(ins=>{
+    const c=getInsightCategory(ins);
+    if(!grouped[c])grouped[c]=[];
+    grouped[c].push(ins);
+  });
+  let html='';
+  for(const[catName,items]of Object.entries(grouped)){
+    if(cat==='All')html+=`<div class="category-header" style="grid-column:1/-1">${catName}</div>`;
+    items.forEach((ins,i)=>{
+      const color=CAT_COLORS[catName]||'#f4a261';
+      const fws=(ins.frameworks||[]).map(f=>{
+        const parts=f.split('.');
+        const fw=DATA.frameworks[parts[0]];
+        return fw?`<span class="pill">${fw.name}</span>`:'';
+      }).join('');
+      html+=`<div class="insight-card stagger" style="animation-delay:${i*50}ms" data-id="${ins.id}">
+        <div class="cat" style="color:${color}">${catName}</div>
+        <h3>${escHtml(ins.title)}</h3>
+        <div class="preview">${escHtml(truncate(ins.content,200))}</div>
+        <div class="full-content">${escHtml(ins.content)}<div style="margin-top:8px">${fws}</div></div>
+      </div>`;
+    });
+  }
+  grid.innerHTML=html;
+  grid.querySelectorAll('.insight-card').forEach(card=>{
+    card.addEventListener('click',()=>{
+      if(card.classList.contains('expanded')){card.classList.remove('expanded');return}
+      grid.querySelectorAll('.insight-card').forEach(c=>c.classList.remove('expanded'));
+      card.classList.add('expanded');
+    });
+  });
+}
+
+// ===== CONSTELLATION TAB =====
+function renderConstellation(){
+  const container=document.getElementById('constellation-container');
+  const panel=document.getElementById('constellation-panel');
+  panel.style.overflow='hidden';
+  panel.style.padding='0';
+  container.innerHTML=`
+    <div class="constellation-controls" id="const-controls">
+      <label><input type="checkbox" checked data-type="theme"> Themes</label>
+      <label><input type="checkbox" checked data-type="person"> People</label>
+      <label><input type="checkbox" checked data-type="pattern"> Patterns</label>
+      <div style="margin-top:8px;font-size:11px;color:var(--text-dim)">Min edge weight</div>
+      <input type="range" min="1" max="18" value="3" id="edge-weight-slider">
+      <span id="edge-weight-val" style="font-size:11px;color:var(--text-dim)">3</span>
+    </div>
+    <div class="constellation-search"><input class="search-box" placeholder="Search nodes..." id="node-search"></div>
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoom-in">+</button>
+      <button class="zoom-btn" id="zoom-out">-</button>
+      <button class="zoom-btn" id="zoom-reset">R</button>
+    </div>
+    <svg id="constellation-svg"></svg>
+    <div class="node-detail" id="node-detail"></div>`;
+  
+  const svg=d3.select('#constellation-svg');
+  const w=container.clientWidth,h=container.clientHeight;
+  svg.attr('width',w).attr('height',h);
+  
+  const nodes=DATA.graph.nodes.map(n=>({...n,r:Math.max(8,Math.sqrt(n.size)*3)}));
+  let minWeight=3;
+  let edges=DATA.graph.edges.filter(e=>e.weight>=minWeight);
+  
+  const nodeColors={theme:'#f4a261',person:'#4ecdc4',pattern:'#e74c3c'};
+  const g=svg.append('g');
+  
+  const zoom=d3.zoom().scaleExtent([.2,5]).on('zoom',e=>g.attr('transform',e.transform));
+  svg.call(zoom);
+  
+  document.getElementById('zoom-in').onclick=()=>svg.transition().call(zoom.scaleBy,1.3);
+  document.getElementById('zoom-out').onclick=()=>svg.transition().call(zoom.scaleBy,.7);
+  document.getElementById('zoom-reset').onclick=()=>svg.transition().call(zoom.transform,d3.zoomIdentity);
+  
+  const linkG=g.append('g');
+  const nodeG=g.append('g');
+  const labelG=g.append('g');
+  
+  let linkSel,nodeSel,labelSel;
+  
+  const sim=d3.forceSimulation(nodes)
+    .force('charge',d3.forceManyBody().strength(-1000))
+    .force('center',d3.forceCenter(w/2,h/2))
+    .force('collision',d3.forceCollide().radius(d=>d.r+40))
+    .force('x',d3.forceX(w/2).strength(.03))
+    .force('y',d3.forceY(h/2).strength(.03));
+  
+  function updateGraph(){
+    edges=DATA.graph.edges.filter(e=>e.weight>=minWeight);
+    const visibleTypes=new Set();
+    container.querySelectorAll('#const-controls input[type=checkbox]:checked').forEach(cb=>visibleTypes.add(cb.dataset.type));
+    const visNodes=nodes.filter(n=>visibleTypes.has(n.type));
+    const visIds=new Set(visNodes.map(n=>n.id));
+    const visEdges=edges.filter(e=>visIds.has(e.source.id||e.source)&&visIds.has(e.target.id||e.target));
+    
+    linkSel=linkG.selectAll('line').data(visEdges,d=>(d.source.id||d.source)+'-'+(d.target.id||d.target));
+    linkSel.exit().remove();
+    linkSel=linkSel.enter().append('line')
+      .attr('stroke','#444').attr('stroke-opacity',.1).attr('stroke-width',d=>Math.max(.5,d.weight/6))
+      .merge(linkSel);
+    
+    nodeSel=nodeG.selectAll('circle').data(visNodes,d=>d.id);
+    nodeSel.exit().remove();
+    nodeSel=nodeSel.enter().append('circle')
+      .attr('r',d=>d.r).attr('fill',d=>nodeColors[d.type]).attr('stroke','#000').attr('stroke-width',1)
+      .attr('cursor','pointer').attr('opacity',.85)
+      .call(d3.drag().on('start',(e,d)=>{if(!e.active)sim.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y})
+        .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y})
+        .on('end',(e,d)=>{if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}))
+      .merge(nodeSel);
+    
+    nodeSel.on('mouseover',(e,d)=>{
+      const connIds=new Set();
+      connIds.add(d.id);
+      visEdges.forEach(ed=>{
+        const s=ed.source.id||ed.source,t=ed.target.id||ed.target;
+        if(s===d.id)connIds.add(t);
+        if(t===d.id)connIds.add(s);
+      });
+      nodeSel.attr('opacity',n=>connIds.has(n.id)?.95:.15);
+      labelSel.attr('opacity',n=>connIds.has(n.id)?1:.1);
+      linkSel.attr('stroke-opacity',ed=>{
+        const s=ed.source.id||ed.source,t=ed.target.id||ed.target;
+        return(s===d.id||t===d.id)?.4:.02;
+      });
+    }).on('mouseout',()=>{
+      nodeSel.attr('opacity',.85);
+      labelSel.attr('opacity',1);
+      linkSel.attr('stroke-opacity',.1);
+    }).on('click',(e,d)=>showNodeDetail(d));
+    
+    labelSel=labelG.selectAll('text').data(visNodes,d=>d.id);
+    labelSel.exit().remove();
+    labelSel=labelSel.enter().append('text')
+      .attr('text-anchor','middle').attr('fill','#fff')
+      .attr('font-size',d=>d.type==='theme'?11:d.type==='person'?10:9)
+      .attr('pointer-events','none')
+      .style('text-shadow','0 0 4px #000, 0 0 8px #000')
+      .text(d=>d.label)
+      .merge(labelSel);
+    
+    sim.nodes(visNodes);
+    sim.force('link',d3.forceLink(visEdges).id(d=>d.id).distance(180).strength(d=>d.weight/40));
+    sim.alpha(1).restart();
+  }
+  
+  sim.on('tick',()=>{
+    if(linkSel)linkSel.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    if(nodeSel)nodeSel.attr('cx',d=>d.x).attr('cy',d=>d.y);
+    if(labelSel)labelSel.attr('x',d=>d.x).attr('y',d=>d.y-d.r-6);
+  });
+  
+  updateGraph();
+  
+  document.getElementById('edge-weight-slider').addEventListener('input',e=>{
+    minWeight=+e.target.value;
+    document.getElementById('edge-weight-val').textContent=minWeight;
+    updateGraph();
+  });
+  container.querySelectorAll('#const-controls input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change',updateGraph);
+  });
+  document.getElementById('node-search').addEventListener('input',e=>{
+    const q=e.target.value.toLowerCase();
+    if(!q){nodeSel.attr('opacity',.85);labelSel.attr('opacity',1);return}
+    nodeSel.attr('opacity',d=>d.label.toLowerCase().includes(q)?.95:.1);
+    labelSel.attr('opacity',d=>d.label.toLowerCase().includes(q)?1:.1);
+  });
+  
+  function showNodeDetail(d){
+    const det=document.getElementById('node-detail');
+    const connEdges=DATA.graph.edges.filter(e=>(e.source.id||e.source)===d.id||(e.target.id||e.target)===d.id);
+    const connNodeIds=[...new Set(connEdges.map(e=>{const s=e.source.id||e.source,t=e.target.id||e.target;return s===d.id?t:s}))];
+    const connNodes=connNodeIds.map(id=>DATA.graph.nodes.find(n=>n.id===id)).filter(Boolean);
+    
+    // Related insights
+    const kws=[d.label,d.id.replace('theme_','').replace('person_','').replace('pattern_','')];
+    if(d.description)kws.push(...d.description.split(' ').filter(w=>w.length>4));
+    const relInsights=getRelatedInsights(kws).slice(0,5);
+    
+    let insightsHtml=relInsights.length?'<h4 style="color:var(--accent);margin:12px 0 6px">Related Insights</h4>'+
+      relInsights.map(i=>`<div class="insight-callout"><h4>${escHtml(i.title)}</h4>${escHtml(truncate(i.content,200))}</div>`).join(''):'';
+    
+    det.innerHTML=`<h3>${escHtml(d.label)}</h3>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">${d.type} ${d.role?'- '+d.role:''} ${d.description?'- '+escHtml(truncate(d.description,150)):''}</div>
+      <h4 style="font-size:12px;margin:8px 0 4px">Connections (${connNodes.length})</h4>
+      <div class="connections">${connNodes.map(n=>`<span class="pill" style="background:${nodeColors[n.type]}22;color:${nodeColors[n.type]};border:1px solid ${nodeColors[n.type]}44">${n.label}</span>`).join('')}</div>
+      ${insightsHtml}`;
+    det.classList.add('show');
+  }
+  
+  svg.on('click',e=>{if(e.target===svg.node())document.getElementById('node-detail').classList.remove('show')});
+}
+
+// ===== TIMELINE TAB =====
+function renderTimeline(){
+  const panel=document.getElementById('timeline-panel');
+  panel.style.padding='0';
+  panel.style.display='flex';
+  panel.style.flexDirection='column';
+  
+  const datedEvents=DATA.events.filter(e=>e.date).sort((a,b)=>a.date.localeCompare(b.date));
+  const timelineData=DATA.timeline.filter(t=>t.date).sort((a,b)=>a.date.localeCompare(b.date));
+  
+  const themes=Object.keys(THEME_COLORS);
+  const margin={top:40,right:40,bottom:20,left:120};
+  const totalW=Math.max(900,timelineData.length*100+margin.left+margin.right);
+  const bandH=40;
+  const totalH=120+themes.length*bandH+margin.top+margin.bottom;
+  
+  panel.innerHTML=`<div id="timeline-svg-container" style="flex:1;overflow-x:auto;overflow-y:auto;position:relative">
+    <svg id="timeline-svg" width="${totalW}" height="${totalH}"></svg>
+    <div class="timeline-detail" id="timeline-detail"></div>
+  </div>`;
+  
+  const svg=d3.select('#timeline-svg');
+  const dates=timelineData.map(t=>new Date(t.date));
+  const x=d3.scaleTime().domain(d3.extent(dates)).range([margin.left,totalW-margin.right]);
+  
+  // Axis
+  svg.append('g').attr('transform',`translate(0,${margin.top+60})`).call(d3.axisTop(x).ticks(timelineData.length).tickFormat(d3.timeFormat('%b %y')))
+    .selectAll('text').attr('fill','#888').attr('font-size',10);
+  svg.selectAll('.domain,.tick line').attr('stroke','#333');
+  
+  // Session markers
+  timelineData.forEach(t=>{
+    const cx=x(new Date(t.date));
+    svg.append('circle').attr('cx',cx).attr('cy',margin.top+40).attr('r',8)
+      .attr('fill','var(--accent)').attr('stroke','#000').attr('stroke-width',1.5)
+      .attr('cursor','pointer').attr('opacity',.8)
+      .on('click',()=>showTimelineDetail(t))
+      .on('mouseover',function(){d3.select(this).attr('r',12).attr('opacity',1)})
+      .on('mouseout',function(){d3.select(this).attr('r',8).attr('opacity',.8)});
+  });
+  
+  // Theme river bands
+  const bandTop=margin.top+80;
+  themes.forEach((theme,ti)=>{
+    const y0=bandTop+ti*bandH;
+    const color=THEME_COLORS[theme];
+    
+    // Label
+    svg.append('text').attr('x',margin.left-10).attr('y',y0+bandH/2+4)
+      .attr('text-anchor','end').attr('fill',color).attr('font-size',11).text(theme.charAt(0).toUpperCase()+theme.slice(1));
+    
+    // Compute intensity at each date
+    const points=timelineData.map(t=>{
+      const ev=getEventById(t.event_id);
+      if(!ev||!ev.themes||!ev.themes[theme])return{x:x(new Date(t.date)),y:0};
+      const total=Object.values(ev.themes[theme]).reduce((a,b)=>a+b,0);
+      return{x:x(new Date(t.date)),y:Math.min(total,bandH-4)};
+    });
+    
+    // Area
+    const area=d3.area().x(d=>d.x).y0(d=>y0+bandH/2+d.y/2).y1(d=>y0+bandH/2-d.y/2).curve(d3.curveMonotoneX);
+    svg.append('path').datum(points).attr('d',area).attr('fill',color).attr('opacity',.35);
+    
+    // Line
+    const lineTop=d3.line().x(d=>d.x).y(d=>y0+bandH/2-d.y/2).curve(d3.curveMonotoneX);
+    const lineBot=d3.line().x(d=>d.x).y(d=>y0+bandH/2+d.y/2).curve(d3.curveMonotoneX);
+    svg.append('path').datum(points).attr('d',lineTop).attr('fill','none').attr('stroke',color).attr('stroke-width',1.5).attr('opacity',.6);
+    svg.append('path').datum(points).attr('d',lineBot).attr('fill','none').attr('stroke',color).attr('stroke-width',1.5).attr('opacity',.6);
+    
+    // Baseline
+    svg.append('line').attr('x1',margin.left).attr('x2',totalW-margin.right).attr('y1',y0+bandH/2).attr('y2',y0+bandH/2)
+      .attr('stroke','#222').attr('stroke-width',.5);
+  });
+  
+  function showTimelineDetail(t){
+    const det=document.getElementById('timeline-detail');
+    const ev=getEventById(t.event_id);
+    const quotes=(ev?.key_quotes||[]).map(q=>`<div class="quote">${escHtml(truncate(q,250))}</div>`).join('');
+    const fws=(ev?.framework_mappings||[]).map(f=>`<span class="pill">${f.principle_name}</span>`).join('');
+    const themeKws=t.themes||[];
+    const relInsights=getRelatedInsights(themeKws).slice(0,4);
+    const insHtml=relInsights.length?'<h4 style="color:var(--accent);margin:12px 0 6px;font-size:12px">Related Insights</h4>'+
+      relInsights.map(i=>`<div class="insight-callout"><h4>${escHtml(i.title)}</h4>${escHtml(truncate(i.content,180))}</div>`).join(''):'';
+    
+    det.innerHTML=`<h3>${fmtDate(t.date)}</h3>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px">${escHtml(ev?.filename||'')}</div>
+      <div style="font-size:13px;line-height:1.6;margin-bottom:12px">${escHtml(truncate(t.summary||ev?.summary||'',300))}</div>
+      <div style="margin-bottom:8px">${(t.themes||[]).map(th=>`<span class="pill" style="background:${THEME_COLORS[th]||'#333'}33;color:${THEME_COLORS[th]||'#888'}">${th}</span>`).join('')}</div>
+      ${quotes?'<h4 style="font-size:12px;color:var(--text-dim);margin:8px 0 4px">Key Quotes</h4>'+quotes:''}
+      ${fws?'<div style="margin:8px 0">'+fws+'</div>':''}
+      ${insHtml}
+      <button onclick="document.getElementById('timeline-detail').classList.remove('show')" style="margin-top:12px;padding:4px 12px;background:var(--border);color:var(--text);border:none;border-radius:4px;cursor:pointer">Close</button>`;
+    det.classList.add('show');
+  }
+}
+
+// ===== DASHBOARD TAB =====
+function renderDashboard(){
+  const panel=document.getElementById('dashboard-panel');
+  panel.innerHTML=`<div class="dash-left" id="dash-left"></div>
+    <div class="dash-center" id="dash-center"></div>
+    <div class="dash-right" id="dash-right"></div>
+    <div class="dash-bottom"><span style="font-size:11px;color:var(--text-dim)">Date range:</span>
+      <input type="range" min="0" max="100" value="0" id="date-range-start" style="flex:1;accent-color:var(--accent)">
+      <input type="range" min="0" max="100" value="100" id="date-range-end" style="flex:1;accent-color:var(--accent)">
+    </div>`;
+  
+  // Build theme tree
+  const left=document.getElementById('dash-left');
+  let treeHtml='<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:12px">Themes</div>';
+  for(const[themeKey,theme]of Object.entries(DATA.themes)){
+    const color=THEME_COLORS[themeKey]||'#888';
+    treeHtml+=`<div class="theme-tree-cat" data-theme="${themeKey}"><span class="arrow">&#9660;</span> <span class="dot" style="background:${color};display:inline-block;width:8px;height:8px;border-radius:50%"></span> ${theme.label} <span class="count" style="margin-left:auto">${theme.total_mentions}</span></div>
+    <div class="theme-tree-children" style="max-height:500px">`;
+    for(const[subKey,sub]of Object.entries(theme.subcategories)){
+      treeHtml+=`<div class="theme-tree-item" data-theme="${themeKey}" data-sub="${subKey}"><span class="dot" style="background:${color}"></span>${sub.label}<span class="count">${sub.mentions}</span></div>`;
+    }
+    treeHtml+=`</div>`;
+  }
+  left.innerHTML=treeHtml;
+  
+  // Category collapse
+  left.querySelectorAll('.theme-tree-cat').forEach(cat=>{
+    cat.addEventListener('click',e=>{
+      cat.classList.toggle('collapsed');
+    });
+  });
+  
+  // Theme item click
+  left.querySelectorAll('.theme-tree-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      left.querySelectorAll('.theme-tree-item').forEach(x=>x.classList.remove('active'));
+      item.classList.add('active');
+      showThemeContent(item.dataset.theme,item.dataset.sub);
+    });
+  });
+  
+  // Initial state
+  showDashWelcome();
+  showDashInsights(null);
+  
+  function showDashWelcome(){
+    const center=document.getElementById('dash-center');
+    const topInsights=DATA.insights.slice(0,5);
+    center.innerHTML=`<div style="text-align:center;padding:40px 0"><h2 style="color:var(--accent);margin-bottom:8px">Welcome</h2><p style="color:var(--text-dim)">Select a theme from the left panel to explore</p></div>
+    <h3 style="color:var(--accent);margin:20px 0 12px">Top Insights</h3>
+    ${topInsights.map(i=>`<div class="insight-callout"><h4>${escHtml(i.title)}</h4>${escHtml(truncate(i.content,200))}</div>`).join('')}`;
+  }
+  
+  function showDashInsights(themeKey){
+    const right=document.getElementById('dash-right');
+    let insights=DATA.insights;
+    if(themeKey){
+      insights=insights.filter(ins=>{
+        const txt=(ins.title+' '+ins.content+' '+(ins.id||'')).toLowerCase();
+        return txt.includes(themeKey);
+      });
+    }
+    right.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:12px">Insights ${themeKey?'('+themeKey+')':''}</div>
+    ${insights.map(i=>`<div class="dash-insight"><h4>${escHtml(i.title)}</h4><div>${escHtml(i.content)}</div>
+    <div style="margin-top:6px">${(i.frameworks||[]).map(f=>{const parts=f.split('.');const fw=DATA.frameworks[parts[0]];return fw?`<span class="pill">${fw.name}</span>`:''}).join('')}</div></div>`).join('')}`;
+  }
+  
+  function showThemeContent(themeKey,subKey){
+    const center=document.getElementById('dash-center');
+    const theme=DATA.themes[themeKey];
+    const sub=theme?.subcategories[subKey];
+    if(!sub)return;
+    const color=THEME_COLORS[themeKey]||'#888';
+    
+    const eventIds=sub.events||[];
+    const events=eventIds.map(getEventById).filter(Boolean);
+    
+    // Related insights inline
+    const relInsights=getRelatedInsights([themeKey,subKey,sub.label]).slice(0,3);
+    
+    let html=`<div class="breadcrumb"><span>${theme.label}</span> > <span>${sub.label}</span> (${sub.mentions} mentions)</div>`;
+    
+    events.forEach(ev=>{
+      const quotes=(ev.key_quotes||[]).slice(0,2).map(q=>`<div class="quote-block">${escHtml(truncate(q,200))}</div>`).join('');
+      const fws=(ev.framework_mappings||[]).slice(0,4).map(f=>`<span class="pill">${f.principle_name}</span>`).join('');
+      html+=`<div class="event-card">
+        <div class="date">${fmtDate(ev.date)} - ${escHtml(ev.filename)}</div>
+        <div class="summary">${escHtml(truncate(ev.summary,250))}</div>
+        ${quotes}${fws?'<div style="margin-top:6px">'+fws+'</div>':''}
+      </div>`;
+    });
+    
+    // Inline insight callouts
+    if(relInsights.length){
+      html+=`<div style="margin-top:16px"><h3 style="color:var(--accent);margin-bottom:8px">Related Insights</h3>`;
+      relInsights.forEach(i=>{
+        html+=`<div class="insight-callout"><h4>${escHtml(i.title)}</h4>${escHtml(truncate(i.content,250))}</div>`;
+      });
+      html+=`</div>`;
+    }
+    
+    center.innerHTML=html;
+    showDashInsights(themeKey);
+  }
+}
+
+// ===== FRAMEWORKS TAB =====
+function renderFrameworks(){
+  const panel=document.getElementById('frameworks-panel');
+  const overlapData=[
+    {theme:'Health',frameworks:['Attia','Huberman','Tift']},
+    {theme:'Purpose',frameworks:['Harris','Schukman','Tift','Sivers']},
+    {theme:'Career',frameworks:['Sivers','Ferriss']},
+    {theme:'Relationships',frameworks:['Tift','Harris']},
+    {theme:'Decision Making',frameworks:['Ferriss','Sivers','Harris']}
+  ];
+  
+  let html='<div class="fw-grid" id="fw-grid">';
+  for(const[key,fw]of Object.entries(DATA.frameworks)){
+    html+=`<div class="fw-card" data-fw="${key}" style="border-left-color:${fw.color}">
+      <div class="num">${fw.total_connections}</div>
+      <h3>${fw.name}</h3>
+      <div class="book">${fw.book}</div>
+      <div class="fw-expanded">`;
+    for(const[pk,pr]of Object.entries(fw.principles)){
+      const maxConn=Math.max(...Object.values(fw.principles).map(p=>p.connection_count),1);
+      const pct=Math.round(pr.connection_count/maxConn*100);
+      html+=`<div class="principle-item"><h4>${pr.name} <span style="color:var(--text-dim);font-weight:normal">(${pr.connection_count})</span></h4>
+        <div class="desc">${escHtml(pr.description)}</div>
+        <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div></div>`;
+    }
+    // Related insights
+    const relIns=getRelatedInsights([fw.name,key]).slice(0,3);
+    if(relIns.length){
+      html+=`<h4 style="color:var(--accent);margin:12px 0 6px">Related Insights</h4>`;
+      relIns.forEach(i=>{html+=`<div class="insight-callout"><h4>${escHtml(i.title)}</h4>${escHtml(truncate(i.content,200))}</div>`});
+    }
+    html+=`</div></div>`;
+  }
+  html+=`</div>`;
+  
+  // Overlap
+  html+=`<div class="overlap-section"><h3>Framework Convergence</h3>`;
+  overlapData.forEach(o=>{
+    html+=`<div class="overlap-item"><div class="theme-name">${o.theme}</div><div class="overlap-pills">${o.frameworks.map(f=>`<span class="pill" style="background:var(--accent)22;color:var(--accent)">${f}</span>`).join('')}</div></div>`;
+  });
+  html+=`</div>`;
+  
+  panel.innerHTML=html;
+  panel.querySelectorAll('.fw-card').forEach(card=>{
+    card.addEventListener('click',()=>{
+      const wasExpanded=card.classList.contains('expanded');
+      panel.querySelectorAll('.fw-card').forEach(c=>c.classList.remove('expanded'));
+      if(!wasExpanded)card.classList.add('expanded');
+    });
+  });
+}
+
+// ===== JOURNAL TAB =====
+function renderJournal(){
+  const panel=document.getElementById('journal-panel');
+  panel.innerHTML=`<div class="journal-left">
+    <textarea id="journal-text" placeholder="Start writing..."></textarea>
+    <button class="add-btn" id="save-reflection">Add to Library</button>
+    <div class="saved-reflections" id="saved-reflections"></div>
+  </div>
+  <div class="journal-right" id="journal-connections">
+    <h4>Detected Themes</h4><div id="j-themes"></div>
+    <h4>Related Events</h4><div id="j-events"></div>
+    <h4>Framework Suggestions</h4><div id="j-frameworks"></div>
+    <h4>Related Insights</h4><div id="j-insights"></div>
+  </div>`;
+  
+  let debounce;
+  document.getElementById('journal-text').addEventListener('input',e=>{
+    clearTimeout(debounce);
+    debounce=setTimeout(()=>updateJournalConnections(e.target.value),300);
+  });
+  
+  document.getElementById('save-reflection').addEventListener('click',()=>{
+    const text=document.getElementById('journal-text').value.trim();
+    if(!text)return;
+    const reflections=JSON.parse(localStorage.getItem('life_explorer_reflections')||'[]');
+    reflections.unshift({text,date:new Date().toISOString()});
+    localStorage.setItem('life_explorer_reflections',JSON.stringify(reflections));
+    document.getElementById('journal-text').value='';
+    loadReflections();
+  });
+  
+  loadReflections();
+  
+  function loadReflections(){
+    const reflections=JSON.parse(localStorage.getItem('life_explorer_reflections')||'[]');
+    const el=document.getElementById('saved-reflections');
+    el.innerHTML=reflections.slice(0,10).map(r=>`<div class="saved-ref"><div class="ref-date">${new Date(r.date).toLocaleString()}</div><div class="ref-text">${escHtml(truncate(r.text,200))}</div></div>`).join('');
+  }
+  
+  function updateJournalConnections(text){
+    if(!text||text.length<3)return;
+    const lower=text.toLowerCase();
+    
+    // Detect themes
+    const detectedThemes=[];
+    for(const[key,theme]of Object.entries(DATA.themes)){
+      const words=[key,theme.label.toLowerCase(),...Object.keys(theme.subcategories).map(s=>s.replace(/_/g,' '))];
+      if(words.some(w=>lower.includes(w)))detectedThemes.push({key,label:theme.label});
+    }
+    document.getElementById('j-themes').innerHTML=detectedThemes.map(t=>`<span class="pill" style="background:${THEME_COLORS[t.key]}33;color:${THEME_COLORS[t.key]}">${t.label}</span>`).join('')||'<span style="font-size:12px;color:var(--text-dim)">Keep writing...</span>';
+    
+    // Related events
+    const matchEvents=DATA.events.filter(ev=>{
+      const evText=(ev.summary+' '+(ev.key_quotes||[]).join(' ')).toLowerCase();
+      const words=lower.split(/\s+/).filter(w=>w.length>3);
+      return words.filter(w=>evText.includes(w)).length>=2;
+    }).slice(0,5);
+    document.getElementById('j-events').innerHTML=matchEvents.map(ev=>`<div style="padding:4px 0;font-size:12px;color:var(--text-dim)">${fmtDate(ev.date)} - ${escHtml(truncate(ev.filename,40))}</div>`).join('')||'<span style="font-size:12px;color:var(--text-dim)">No matches yet</span>';
+    
+    // Framework suggestions
+    const fwMatches=[];
+    for(const[fk,fw]of Object.entries(DATA.frameworks)){
+      for(const[pk,pr]of Object.entries(fw.principles)){
+        if(lower.includes(pr.name.toLowerCase().split(' ')[0])||lower.includes(pk.replace(/_/g,' '))){
+          fwMatches.push(`${fw.name}: ${pr.name}`);
+        }
+      }
+    }
+    document.getElementById('j-frameworks').innerHTML=fwMatches.slice(0,5).map(f=>`<span class="pill">${f}</span>`).join('')||'<span style="font-size:12px;color:var(--text-dim)">No matches yet</span>';
+    
+    // Related insights
+    const kws=detectedThemes.map(t=>t.key);
+    const words=lower.split(/\s+/).filter(w=>w.length>4).slice(0,5);
+    const relIns=getRelatedInsights([...kws,...words]).slice(0,4);
+    document.getElementById('j-insights').innerHTML=relIns.map(i=>`<div class="insight-callout"><h4>${escHtml(i.title)}</h4>${escHtml(truncate(i.content,150))}</div>`).join('')||'<span style="font-size:12px;color:var(--text-dim)">Keep writing to discover connections...</span>';
+  }
+}
+
+// Initialize first tab
+initTab('discovery');
+</script>
+</body>
+</html>
