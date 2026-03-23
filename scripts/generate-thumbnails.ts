@@ -15,16 +15,19 @@ const PAGES = [
     url: 'http://localhost:4321/fractais',
     selector: '.fractal-section',
     vizAttr: 'data-viz',
+    infoSelector: '.fractal-info',
   },
   {
     url: 'http://localhost:4321/complexity',
     selector: '.complexity-section',
     vizAttr: 'data-viz',
+    infoSelector: '.complexity-info',
   },
   {
     url: 'http://localhost:4321/patterns',
     selector: '.lab-section',
     vizAttr: 'data-viz',
+    infoSelector: '.lab-info',
   },
 ];
 
@@ -43,6 +46,13 @@ async function main() {
     await page.goto(pageConfig.url, { waitUntil: 'networkidle' });
     await page.waitForTimeout(2000);
 
+    // Hide ALL info overlays before taking any screenshots
+    await page.evaluate((infoSel) => {
+      document.querySelectorAll(infoSel).forEach((el) => {
+        (el as HTMLElement).style.display = 'none';
+      });
+    }, pageConfig.infoSelector);
+
     const sections = await page.$$(pageConfig.selector);
     console.log(`Found ${sections.length} visualization sections`);
 
@@ -50,20 +60,16 @@ async function main() {
       const slug = await section.getAttribute(pageConfig.vizAttr);
       if (!slug) continue;
 
-      // Use JS to scroll the section into the scroll-snap container viewport
+      // Scroll into view
       await page.evaluate((el) => {
         el.scrollIntoView({ block: 'center', behavior: 'instant' });
       }, section);
 
-      // Give the canvas time to render after scrolling
       await page.waitForTimeout(3000);
 
-      // Take a screenshot of the section (not just the canvas) to capture the full visualization
-      const outputPath = join(OUTPUT_DIR, `${slug}.webp`);
       const pngPath = join(OUTPUT_DIR, `${slug}.png`);
 
       try {
-        // Try screenshotting the canvas first
         const canvas = await section.$('canvas');
         if (canvas) {
           const box = await canvas.boundingBox();
@@ -74,13 +80,13 @@ async function main() {
           }
         }
       } catch {
-        // fallback to section screenshot
+        // fallback
       }
 
-      // Fallback: screenshot the whole section
+      // Fallback: screenshot the section (now without info overlay)
       try {
         await section.screenshot({ path: pngPath, type: 'png', timeout: 5000 });
-        console.log(`  Captured ${slug} (section fallback) -> ${pngPath}`);
+        console.log(`  Captured ${slug} (section) -> ${pngPath}`);
       } catch (err) {
         console.log(`  Failed to capture ${slug}: ${(err as Error).message}`);
       }

@@ -11,6 +11,7 @@ const selectedVizzes = selectedSlugs
 <section class="labs-section">
   <div class="labs-content">
     <span class="section-label">LAB</span>
+    <h2 class="labs-title">Where math meets nature — interactive explorations I'm building now.</h2>
     <div class="labs-grid">
       {selectedVizzes.map((viz) => (
         <LabPreviewCard viz={viz!} />
@@ -38,6 +39,14 @@ const selectedVizzes = selectedSlugs
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ink-muted);
+    margin-bottom: 2rem;
+  }
+
+  .labs-title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ink);
     margin-bottom: 2rem;
   }
 

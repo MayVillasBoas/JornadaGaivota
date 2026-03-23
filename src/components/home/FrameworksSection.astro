@@ -7,6 +7,7 @@ import { frameworkCategories } from '../../data/framework-categories';
   <div class="frameworks-content">
     <span class="section-label">FRAMEWORKS</span>
     <h2>Lenses for Thinking</h2>
+    <p class="section-subtitle">Mental models and frameworks from thinkers I admire — organized for when clarity matters most.</p>
     <div class="frameworks-grid">
       {frameworkCategories.map((cat) => (
         <FrameworkCard category={cat} />
@@ -41,6 +42,15 @@ import { frameworkCategories } from '../../data/framework-categories';
     font-size: 1.6rem;
     font-weight: 400;
     color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-subtitle {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink-light);
     margin-bottom: 2rem;
   }
 

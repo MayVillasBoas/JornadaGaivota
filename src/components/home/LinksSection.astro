@@ -9,7 +9,8 @@ const remainingLinks = [...mainLinks, ...mayLinks].filter(
 ---
 
 <section class="links-section">
-  <div class="links-content narrow">
+  <div class="links-content">
+    <span class="section-label">EXPLORE</span>
     <div class="links-list">
       {remainingLinks.map((link) => (
         <a href={link.href} class="link-item">
@@ -28,8 +29,19 @@ const remainingLinks = [...mainLinks, ...mayLinks].filter(
   }
 
   .links-content {
-    max-width: 680px;
+    max-width: 900px;
     margin: 0 auto;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 2rem;
   }
 
   .links-list {

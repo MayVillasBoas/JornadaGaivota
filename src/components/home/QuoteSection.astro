@@ -197,7 +197,7 @@ const initial = getRandomQuote();
     setInterval(() => {
       currentIndex = (currentIndex + 1) % quotes.length;
       showQuote(currentIndex);
-    }, 12000);
+    }, 30000);
   } catch {
     // SSR fallback is already rendered
   }
