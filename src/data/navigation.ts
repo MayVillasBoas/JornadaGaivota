@@ -16,7 +16,7 @@ export const mainLinks: NavLink[] = [
     description: 'lab visualizations, projects, and tools',
     children: [
       { href: '/lab', label: 'lab' },
-      { href: '/projects/personal-hub', label: 'may.os' },
+      { href: '/diario', label: 'may.os' },
       { href: '/copilot', label: 'copilot' },
       { href: '/copilot2', label: 'copilot 2.0' },
     ],
