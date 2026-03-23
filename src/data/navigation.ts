@@ -15,7 +15,7 @@ export const mainLinks: NavLink[] = [
     label: 'what I build',
     description: 'lab visualizations, projects, and tools',
     children: [
-      { href: '/projects', label: 'projects' },
+      { href: '/work', label: 'what I build' },
       { href: '/lab', label: 'lab' },
       { href: '/diario', label: 'may.os' },
       { href: '/copilot', label: 'copilot' },
@@ -28,8 +28,10 @@ export const mainLinks: NavLink[] = [
     label: 'how I think',
     description: 'essays, books, frameworks, and mentors',
     children: [
-      { href: '/escrita', label: 'escrita' },
-      { href: '/referencias', label: 'referências' },
+      { href: '/thinking', label: 'how I think' },
+      { href: '/escrita', label: 'essays' },
+      { href: '/referencias', label: 'mentors' },
+      { href: '/books', label: 'books' },
     ],
   },
 ];

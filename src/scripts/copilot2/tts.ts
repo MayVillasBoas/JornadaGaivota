@@ -1,4 +1,4 @@
-// src/scripts/copilot2/tts.ts — ElevenLabs TTS via /api/tts proxy
+// src/scripts/copilot2/tts.ts - ElevenLabs TTS via /api/tts proxy
 // Falls back to Web Speech API if ElevenLabs fails
 
 export class TTSService {

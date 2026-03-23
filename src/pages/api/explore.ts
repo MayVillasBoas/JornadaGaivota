@@ -65,7 +65,7 @@ ${buildPrinciplesCatalog()}
 </principles>
 
 INSTRUCTIONS:
-1. Analyze what the user shared — their dilemma, situation, or question
+1. Analyze what the user shared - their dilemma, situation, or question
 2. Select 3-5 principles from the catalog that are MOST relevant to this specific situation
 3. For each selected principle, write a PERSONALIZED insight of 1-2 sentences explaining how that principle applies to the user's specific case. Never be generic.
 4. Assign a relevance score of 0.0 to 1.0 for each principle (how central it is to the dilemma)
@@ -90,7 +90,7 @@ Return ONLY valid JSON (no markdown, no backticks) in this format:
 }
 
 RULES:
-- Use ONLY principleIds from the catalog — never invent new ones
+- Use ONLY principleIds from the catalog - never invent new ones
 - Insights must be specific to the user's situation, never generic
 - Higher relevance = more central to the dilemma
 - Maximum 5 lenses per response

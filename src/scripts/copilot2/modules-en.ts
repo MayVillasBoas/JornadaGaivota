@@ -1,4 +1,4 @@
-// src/scripts/copilot2/modules-en.ts — English modules for Copilot 2.0
+// src/scripts/copilot2/modules-en.ts - English modules for Copilot 2.0
 
 import type { ModuleDefinition } from '../copilot/modules';
 
@@ -32,12 +32,12 @@ export const MODULES_EN: Record<string, ModuleDefinition> = {
     activity: 'Let\'s map the inner voices pulling you in different directions.',
     steps: [
       {
-        question: 'There\'s a voice inside you that wants one thing, and another pulling differently. Describe them both — what does each want? What does each fear?',
+        question: 'There\'s a voice inside you that wants one thing, and another pulling differently. Describe them both - what does each want? What does each fear?',
         guidance: 'Give them names if you can. "The Provider" or "The Adventurer." What is each part protecting you from?',
         placeholder: 'One part of me wants... because it fears...\nAnother part wants... because it fears...',
       },
       {
-        question: 'Stepping back from both parts — like a wise mediator — what do you notice? Is there a way to honor what both truly need?',
+        question: 'Stepping back from both parts - like a wise mediator - what do you notice? Is there a way to honor what both truly need?',
         guidance: 'You are not your parts. You are the one who can see them both. What does that perspective reveal?',
         placeholder: 'Stepping back, I notice...',
       },
@@ -52,12 +52,12 @@ export const MODULES_EN: Record<string, ModuleDefinition> = {
     activity: 'Let\'s separate verifiable facts from assumptions you\'re treating as truth.',
     steps: [
       {
-        question: 'Write down every belief about this situation — every "I have to," "I can\'t," "they expect me to." Then mark each one: is it a verifiable FACT or an assumption?',
+        question: 'Write down every belief about this situation - every "I have to," "I can\'t," "they expect me to." Then mark each one: is it a verifiable FACT or an assumption?',
         guidance: 'A fact: "My contract ends in June." An assumption: "They\'ll never hire me again." Be ruthless.',
         placeholder: 'Facts:\n\nAssumptions:',
       },
       {
-        question: 'Looking only at the facts — which assumption have you been treating as fact that, if challenged, would change everything?',
+        question: 'Looking only at the facts - which assumption have you been treating as fact that, if challenged, would change everything?',
         guidance: 'This is usually the hidden lever. The thing everyone "knows" but that might not be true.',
         placeholder: 'The assumption that would change everything is...',
       },
@@ -92,7 +92,7 @@ export const MODULES_EN: Record<string, ModuleDefinition> = {
     activity: 'Let\'s compile everything into concrete options, trade-offs, and a next step.',
     steps: [
       {
-        question: 'Based on everything — body signals, inner parts, facts vs assumptions, regret — what are your REAL OPTIONS and their trade-offs?',
+        question: 'Based on everything - body signals, inner parts, facts vs assumptions, regret - what are your REAL OPTIONS and their trade-offs?',
         guidance: 'Include the option you\'re afraid to write down. It might be the real one.',
         placeholder: 'Option 1: I gain... but give up...\nOption 2: I gain... but give up...',
       },

@@ -17,7 +17,7 @@ const BLOB_COLORS = [
   'rgba(200, 140, 100, 0.12)', // warm amber
 ];
 
-// Prime-number cycle durations (seconds) — non-repeating patterns
+// Prime-number cycle durations (seconds) - non-repeating patterns
 const CYCLES = [13, 17, 23];
 
 interface Blob {

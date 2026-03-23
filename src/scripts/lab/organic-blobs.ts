@@ -1,4 +1,4 @@
-// Organic Blob Morphing — smooth metaballs driven by simplex noise
+// Organic Blob Morphing - smooth metaballs driven by simplex noise
 // Mouse attracts blobs. Blobs merge and split organically.
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';

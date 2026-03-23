@@ -1,4 +1,4 @@
-// Flow Field — thousands of particles steered by curl noise
+// Flow Field - thousands of particles steered by curl noise
 // Curl noise produces divergence-free flow (like real fluid). Mouse pushes particles.
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';
@@ -56,7 +56,7 @@ export class FlowField extends BaseVisualization {
       p.prevY = p.y;
 
       // Curl noise: take the curl of the scalar noise field for divergence-free flow
-      // curl(N) = (dN/dy, -dN/dx) — particles never bunch up or spread apart
+      // curl(N) = (dN/dy, -dN/dx) - particles never bunch up or spread apart
       const eps = 0.5;
       const px = p.x * this.scale;
       const py = p.y * this.scale;
@@ -101,7 +101,7 @@ export class FlowField extends BaseVisualization {
   }
 
   protected draw() {
-    // Fade trail effect — overlay semi-transparent bg
+    // Fade trail effect - overlay semi-transparent bg
     this.ctx.fillStyle = 'rgba(26, 26, 26, 0.03)';
     this.ctx.fillRect(0, 0, this.width, this.height);
 

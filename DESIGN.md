@@ -1,14 +1,14 @@
-# Design System — may.labs
+# Design System - may.labs
 
 ## Product Context
-- **What this is:** A personal site and thinking lab — part library, part journal, part interactive tools for clarity and self-knowledge
+- **What this is:** A personal site and thinking lab - part library, part journal, part interactive tools for clarity and self-knowledge
 - **Who it's for:** People in moments of transition, career change, or deep personal reflection
 - **Space/industry:** Personal development, AI-assisted thinking, editorial/reflective content
-- **Project type:** Hybrid — editorial content site + interactive tools (copilot, guided exercises, journal)
+- **Project type:** Hybrid - editorial content site + interactive tools (copilot, guided exercises, journal)
 
 ## Aesthetic Direction
-- **Direction:** Editorial/Magazine — strong typographic hierarchy, content-first, minimal decoration
-- **Decoration level:** Intentional — thin borders as visual structure, subtle hover animations, typography does the heavy lifting
+- **Direction:** Editorial/Magazine - strong typographic hierarchy, content-first, minimal decoration
+- **Decoration level:** Intentional - thin borders as visual structure, subtle hover animations, typography does the heavy lifting
 - **Mood:** Calm, contemplative, precise. Like a beautifully typeset personal essay. Warm and human but not playful. Intellectual but not cold. The visual equivalent of a well-organized mind.
 - **Anti-patterns (never use):**
   - Purple/violet gradients as default accent
@@ -16,13 +16,13 @@
   - Uniform bubbly border-radius on everything
   - Gradient buttons
   - Generic stock-photo hero sections
-  - Emojis as visual markers — use SVG line art or typographic symbols instead
+  - Emojis as visual markers - use SVG line art or typographic symbols instead
 
 ## Typography
 
 ### Fonts
-- **Serif (Display/Headers):** EB Garamond — elegant, literary, warm. Used for all headings, lead paragraphs, quotes, and emotional/reflective text
-- **Sans (Body/UI):** Inter — clean, legible, modern. Used for body text, labels, navigation, metadata, and interactive elements
+- **Serif (Display/Headers):** EB Garamond - elegant, literary, warm. Used for all headings, lead paragraphs, quotes, and emotional/reflective text
+- **Sans (Body/UI):** Inter - clean, legible, modern. Used for body text, labels, navigation, metadata, and interactive elements
 - **Loading:** Google Fonts CDN
   - EB Garamond: weights 400, 500, 600, italic
   - Inter: weights 300, 400, 500
@@ -31,27 +31,27 @@
 | Element | Font | Size | Weight | Line-height | Letter-spacing | Color |
 |---------|------|------|--------|-------------|----------------|-------|
 | h1 | EB Garamond | 3.2rem (mobile: 2.4rem) | 400 | 1.15 | -0.01em | --ink |
-| h2 | EB Garamond | 1.6rem (mobile: 1.35rem) | 400 | 1.3 | — | --ink |
-| h3 | EB Garamond | 1.3rem | 500 | 1.3 | — | --ink |
-| Lead paragraph | EB Garamond | 1.3rem | 400 | 1.6 | — | --ink |
-| Body | Inter | 1rem | 300 | 1.75 | — | --ink-light |
-| Small body | Inter | 0.95rem | 300 | 1.7 | — | --ink-light |
-| Section label | Inter | 0.8rem | 500 | — | 0.1em | --ink-muted |
-| Metadata/dates | Inter | 0.78rem | 400 | — | — | --ink-muted |
-| Button text | Inter | 0.9rem | 400 | — | 0.03em | — |
-| Navigation | Inter | 0.85rem | 400 | — | — | --ink-light |
+| h2 | EB Garamond | 1.6rem (mobile: 1.35rem) | 400 | 1.3 | - | --ink |
+| h3 | EB Garamond | 1.3rem | 500 | 1.3 | - | --ink |
+| Lead paragraph | EB Garamond | 1.3rem | 400 | 1.6 | - | --ink |
+| Body | Inter | 1rem | 300 | 1.75 | - | --ink-light |
+| Small body | Inter | 0.95rem | 300 | 1.7 | - | --ink-light |
+| Section label | Inter | 0.8rem | 500 | - | 0.1em | --ink-muted |
+| Metadata/dates | Inter | 0.78rem | 400 | - | - | --ink-muted |
+| Button text | Inter | 0.9rem | 400 | - | 0.03em | - |
+| Navigation | Inter | 0.85rem | 400 | - | - | --ink-light |
 
 ### Typography Rules
 - **Headers (h1-h3):** Always EB Garamond. Never Inter for headers.
 - **Section labels (uppercase):** Always Inter, small (0.7-0.8rem), uppercase, letter-spacing 0.08-0.12em
 - **Quotes and reflective text:** EB Garamond italic
 - **Body text:** Always Inter weight 300. Never weight 400 for body (too heavy for the editorial feel)
-- **Italic text legibility:** When using italic text, never combine with `--ink-muted` — use at minimum `--ink-light` for readability
+- **Italic text legibility:** When using italic text, never combine with `--ink-muted` - use at minimum `--ink-light` for readability
 
 ## Color
 
 ### Palette
-- **Approach:** Restrained — color is rare and meaningful. The palette is warm and muted.
+- **Approach:** Restrained - color is rare and meaningful. The palette is warm and muted.
 
 | Token | Hex | Usage |
 |-------|-----|-------|
@@ -87,8 +87,8 @@
 - Background is always `--cream`. Dark backgrounds are only used for special immersive experiences (Lab page)
 - Links: `--accent` with underline, `text-underline-offset: 3px`
 - Hover states: transition to `--accent`
-- Never use pure black (#000) or pure white (#fff) — always use the warm variants
-- Category colors are reserved for their specific semantic purpose (dots, tags, borders) — never used for general UI
+- Never use pure black (#000) or pure white (#fff) - always use the warm variants
+- Category colors are reserved for their specific semantic purpose (dots, tags, borders) - never used for general UI
 
 ## Spacing
 
@@ -110,8 +110,8 @@ All spacing should be multiples of this base.
 
 ### Container Widths
 - **Full container:** max-width 1200px, padding 0 2rem (desktop), 0 1.5rem (mobile)
-- **Narrow content:** max-width 680px — used for reading-length content (essays, about, now)
-- **Compact content:** max-width 520px — used for centered forms (copilot input)
+- **Narrow content:** max-width 680px - used for reading-length content (essays, about, now)
+- **Compact content:** max-width 520px - used for centered forms (copilot input)
 
 ## Layout
 
@@ -182,12 +182,12 @@ All spacing should be multiples of this base.
 - Fill: none
 - Line-cap/join: round
 - Hover: stroke transitions to `--accent`
-- Never use emojis as section markers — always SVG or typographic symbols (—, ·, →)
+- Never use emojis as section markers - always SVG or typographic symbols (·, →)
 
 ## Border Radius Scale
 | Token | Value | Usage |
 |-------|-------|-------|
-| none | 0 | — |
+| none | 0 | - |
 | sm | 4px | Buttons, small elements |
 | md | 8px | Inputs, reflection cards, principle cards |
 | lg | 12px | Cards, textareas, modal surfaces |
@@ -239,7 +239,7 @@ border: 1px solid rgba(43, 74, 62, 0.08);
 ## Special Sections
 
 ### Lab Page (Exception)
-The Lab page intentionally breaks the editorial aesthetic with a dark (#1a1a1a) immersive background. This is deliberate — it's the "experimental" space. When building lab features, use the inverted palette (light text on dark bg) but maintain the same typography and spacing rules.
+The Lab page intentionally breaks the editorial aesthetic with a dark (#1a1a1a) immersive background. This is deliberate - it's the "experimental" space. When building lab features, use the inverted palette (light text on dark bg) but maintain the same typography and spacing rules.
 
 ### Explore Page (Canvas)
 The Explore page uses canvas-based visualization with floating orbs. It uses the category color palette for orbs and maintains the cream background.
@@ -249,6 +249,6 @@ The Explore page uses canvas-based visualization with floating orbs. It uses the
 | Date | Decision | Rationale |
 |------|----------|-----------|
 | 2026-03-22 | Initial design system documented | Codified from existing site patterns via /design-consultation |
-| 2026-03-22 | SVG line art replaces emojis on Now page | Emojis broke editorial aesthetic — SVG stroke icons match the minimal, typographic feel |
+| 2026-03-22 | SVG line art replaces emojis on Now page | Emojis broke editorial aesthetic - SVG stroke icons match the minimal, typographic feel |
 | 2026-03-22 | Standardized card hover to translateY(-3px) | Was inconsistent (-1px to -4px) across pages |
 | 2026-03-22 | Italic text must use --ink-light minimum | Per user feedback: italic + light gray is not legible |

@@ -1,5 +1,5 @@
-// src/scripts/copilot2/ambient.ts — Synthesized ambient audio layer
-// No external files needed — generates everything with Web Audio API
+// src/scripts/copilot2/ambient.ts - Synthesized ambient audio layer
+// No external files needed - generates everything with Web Audio API
 
 export class AmbientLayer {
   private ctx: AudioContext | null = null;
@@ -18,7 +18,7 @@ export class AmbientLayer {
   }
 
   /**
-   * Start a warm ambient drone — subtle singing bowl + pad feel
+   * Start a warm ambient drone - subtle singing bowl + pad feel
    */
   start(fadeInMs = 3000): void {
     if (this.playing) return;
@@ -27,10 +27,10 @@ export class AmbientLayer {
 
     // Base frequencies for a warm, meditative chord (D minor-ish, very low)
     const frequencies = [
-      { freq: 110, type: 'sine' as OscillatorType, gain: 0.08 },    // A2 — root
+      { freq: 110, type: 'sine' as OscillatorType, gain: 0.08 },    // A2 - root
       { freq: 146.83, type: 'sine' as OscillatorType, gain: 0.05 }, // D3
-      { freq: 220, type: 'sine' as OscillatorType, gain: 0.03 },    // A3 — octave
-      { freq: 329.63, type: 'sine' as OscillatorType, gain: 0.02 }, // E4 — fifth
+      { freq: 220, type: 'sine' as OscillatorType, gain: 0.03 },    // A3 - octave
+      { freq: 329.63, type: 'sine' as OscillatorType, gain: 0.02 }, // E4 - fifth
     ];
 
     for (const f of frequencies) {
@@ -107,7 +107,7 @@ export class AmbientLayer {
     const ctx = this.init();
     if (ctx.state === 'suspended') await ctx.resume();
 
-    const frequencies = [264, 330, 396]; // C4, E4, G4 — major chord
+    const frequencies = [264, 330, 396]; // C4, E4, G4 - major chord
     for (const freq of frequencies) {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();

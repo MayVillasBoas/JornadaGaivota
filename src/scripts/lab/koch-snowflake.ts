@@ -1,4 +1,4 @@
-// Koch Snowflake — recursive geometric subdivision
+// Koch Snowflake - recursive geometric subdivision
 // Start with equilateral triangle, subdivide each edge recursively
 // Animates from triangle → level 5 snowflake over ~8 seconds
 
@@ -128,7 +128,7 @@ export class KochSnowflake extends BaseVisualization {
     ctx.fillStyle = 'rgba(184, 212, 227, 0.03)';
     ctx.fill();
 
-    // Base stroke — thinner at higher levels
+    // Base stroke - thinner at higher levels
     ctx.strokeStyle = 'rgba(184, 212, 227, 0.5)';
     ctx.lineWidth = level > 3 ? 0.5 : 1;
     ctx.stroke();

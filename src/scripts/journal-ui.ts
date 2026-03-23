@@ -73,7 +73,7 @@ function renderTrackers(): void {
   if (!container) return;
 
   if (trackers.length === 0) {
-    container.innerHTML = '<span style="font-size:0.8rem;color:var(--ink-muted);font-style:italic">no trackers yet — click + to add</span>';
+    container.innerHTML = '<span style="font-size:0.8rem;color:var(--ink-muted);font-style:italic">no trackers yet - click + to add</span>';
     return;
   }
 
@@ -285,7 +285,7 @@ function showReflection(result: any): void {
     currentSuggestion = result.tracker_suggestions[0];
     const suggEl = document.getElementById('tracker-suggestion')!;
     document.getElementById('suggestion-text')!.textContent =
-      `"${currentSuggestion!.label}" ${currentSuggestion!.emoji} — ${currentSuggestion!.reason}`;
+      `"${currentSuggestion!.label}" ${currentSuggestion!.emoji} - ${currentSuggestion!.reason}`;
     suggEl.style.display = 'block';
 
     document.getElementById('btn-accept-suggestion')?.addEventListener('click', async () => {

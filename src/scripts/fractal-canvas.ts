@@ -1,5 +1,5 @@
 // src/scripts/fractal-canvas.ts
-// Unified fractal visualization — inline, grows with steps, hosts theme words at nodes
+// Unified fractal visualization - inline, grows with steps, hosts theme words at nodes
 
 export interface FractalConfig {
   type: 'spiral' | 'branch' | 'mixed';

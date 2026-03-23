@@ -1,4 +1,4 @@
-// Romanesco — Julia Set fractal with organic spiral structures
+// Romanesco - Julia Set fractal with organic spiral structures
 // GPU-accelerated via WebGL fragment shader
 // z = z² + c produces infinite self-similar detail at any zoom level
 
@@ -56,7 +56,7 @@ void main() {
   vec3 bg = vec3(0.102, 0.102, 0.102);
 
   if (dot(z, z) <= 4.0) {
-    // Inside the set — dark
+    // Inside the set - dark
     gl_FragColor = vec4(bg * 0.8, 1.0);
     return;
   }

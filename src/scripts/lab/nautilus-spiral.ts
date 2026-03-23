@@ -1,4 +1,4 @@
-// Nautilus — Logarithmic spiral with chambered cross-section
+// Nautilus - Logarithmic spiral with chambered cross-section
 // r = a * e^(b*θ) where b relates to the golden ratio
 // Chambers drawn as arcs with curved septa (dividing walls)
 
@@ -118,7 +118,7 @@ export class NautilusSpiral extends BaseVisualization {
       const innerX = cx + Math.cos(theta) * rInner;
       const innerY = cy + Math.sin(theta) * rInner;
 
-      // Septa are slightly curved — approximate with quadratic bezier
+      // Septa are slightly curved - approximate with quadratic bezier
       const midTheta = theta - 0.15;
       const midR = (rOuter + rInner) * 0.5;
       const cpX = cx + Math.cos(midTheta) * midR;
@@ -214,7 +214,7 @@ export class NautilusSpiral extends BaseVisualization {
 
       const ratio = this.highlightChamber > 0
         ? (this.spiralR((this.highlightChamber + 1) * Math.PI / 4) / this.spiralR(this.highlightChamber * Math.PI / 4)).toFixed(3)
-        : '—';
+        : '-';
 
       ctx.fillStyle = 'rgba(245, 240, 232, 0.5)';
       ctx.font = '11px Inter, sans-serif';

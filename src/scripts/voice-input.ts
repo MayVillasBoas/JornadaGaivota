@@ -104,7 +104,7 @@ export function initVoiceInput(
     };
 
     recognition.onend = () => {
-      // onend fires after stop() too — only reset if we're still in recording state
+      // onend fires after stop() too - only reset if we're still in recording state
       if (state === 'recording') {
         setState('done');
         // Brief "done" flash, then return to idle

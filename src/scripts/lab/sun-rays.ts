@@ -1,4 +1,4 @@
-// Sun Rays — radial god rays (crepuscular rays) with noise modulation
+// Sun Rays - radial god rays (crepuscular rays) with noise modulation
 // GPU-accelerated via WebGL fragment shader
 
 import { BaseWebGLVisualization } from './base-webgl-visualization';

@@ -1,4 +1,4 @@
-// src/scripts/copilot/engine.ts — Flowing Session Engine
+// src/scripts/copilot/engine.ts - Flowing Session Engine
 
 import { MODULES, PICKABLE_MODULES } from './modules';
 import { buildRoute, describeTypes } from './routing';
@@ -143,7 +143,7 @@ export class CopilotEngine {
       if (this.state === 'intake' && this.els.timeline.children.length === 0) {
         this.appendQuestion(
           "O que está na sua cabeça?",
-          'Descreva a decisão com a qual está lutando. Pode ser bagunçado, pode ser honesto — é só pra você.',
+          'Descreva a decisão com a qual está lutando. Pode ser bagunçado, pode ser honesto - é só pra você.',
           'intake'
         );
       }
@@ -154,7 +154,7 @@ export class CopilotEngine {
     this.state = 'intake';
     const welcome = document.getElementById('copilot-welcome');
     if (welcome && !welcome.classList.contains('hidden')) {
-      // Welcome is visible — skip rendering the intake question block.
+      // Welcome is visible - skip rendering the intake question block.
       // The welcome section itself acts as the onboarding.
       this.els.timeline.classList.add('timeline-hidden');
       this.els.textarea.placeholder = "Descreva a decisão que te trava...";
@@ -162,7 +162,7 @@ export class CopilotEngine {
       // Welcome was already hidden (e.g. page reload mid-session)
       this.appendQuestion(
         "O que está na sua cabeça?",
-        'Descreva a decisão com a qual está lutando. Pode ser bagunçado, pode ser honesto — é só pra você.',
+        'Descreva a decisão com a qual está lutando. Pode ser bagunçado, pode ser honesto - é só pra você.',
         'intake'
       );
       this.els.textarea.placeholder = "Fico indo e voltando sobre...";
@@ -581,7 +581,7 @@ export class CopilotEngine {
           this.els.textarea.placeholder = 'respire fundo e tente de novo...';
           this.els.textarea.focus();
           this.scrollToBottom();
-          return; // Don't increment step — let them try again
+          return; // Don't increment step - let them try again
         }
 
         this.journey.moduleInsights[moduleSlug][this.currentStepIndex] = data.insight;
@@ -595,7 +595,7 @@ export class CopilotEngine {
     } catch {
       this.removeBlock(thinkingBlock);
       await this.streamReflection(
-        "Não consegui refletir sobre isso — mas sua resposta está salva. Vamos continuar.",
+        "Não consegui refletir sobre isso - mas sua resposta está salva. Vamos continuar.",
         [], mod.layer
       );
     }
@@ -647,7 +647,7 @@ export class CopilotEngine {
 
       const desc = document.createElement('p');
       desc.style.cssText = 'font-family:var(--serif);color:var(--ink-light);margin-bottom:1rem';
-      desc.innerHTML = `Próximo: <strong>${escapeHtml(nextMod.title)}</strong> — ${escapeHtml(nextMod.description)}`;
+      desc.innerHTML = `Próximo: <strong>${escapeHtml(nextMod.title)}</strong> - ${escapeHtml(nextMod.description)}`;
       actionDiv.appendChild(desc);
 
       const btnRow = document.createElement('div');
@@ -702,7 +702,7 @@ export class CopilotEngine {
 
     const question = document.createElement('p');
     question.style.cssText = 'font-family:var(--serif);font-size:1.15rem;color:var(--ink);margin-bottom:0.5rem';
-    question.textContent = "Antes de compilar seu Memo de Decisão — tem mais alguma coisa que gostaria de acrescentar?";
+    question.textContent = "Antes de compilar seu Memo de Decisão - tem mais alguma coisa que gostaria de acrescentar?";
 
     const hint = document.createElement('p');
     hint.style.cssText = 'font-family:var(--serif);font-size:0.95rem;color:var(--ink-muted);font-style:italic;margin-bottom:1.5rem';
@@ -719,7 +719,7 @@ export class CopilotEngine {
       this.state = 'awaiting-additional';
       this.appendQuestion(
         "O que mais gostaria de acrescentar?",
-        "Qualquer coisa — um pensamento, um medo, uma esperança, algo que segurou antes. Isso vai pro seu memo.",
+        "Qualquer coisa - um pensamento, um medo, uma esperança, algo que segurou antes. Isso vai pro seu memo.",
         'act'
       );
       this.els.textarea.placeholder = 'tem mais uma coisa que quero dizer...';
@@ -729,7 +729,7 @@ export class CopilotEngine {
 
     const generateBtn = document.createElement('button');
     generateBtn.className = 'btn-primary';
-    generateBtn.textContent = 'estou pronto — gerar meu memo';
+    generateBtn.textContent = 'estou pronto - gerar meu memo';
     generateBtn.addEventListener('click', () => {
       generateBtn.disabled = true;
       this.generateAndShowMemo();
@@ -1110,7 +1110,7 @@ export class CopilotEngine {
 
     header.innerHTML = layers.map(l =>
       `<div class="layer-dot ${l} ${doneLayers.has(l) ? 'done' : ''} ${l === currentLayer ? 'active' : ''}"></div>`
-    ).join('') + `<span class="layer-label">${labels[currentLayer] || ''} — ${currentMod?.title || ''}</span>`;
+    ).join('') + `<span class="layer-label">${labels[currentLayer] || ''} - ${currentMod?.title || ''}</span>`;
   }
 
   private scrollToBottom(): void {
@@ -1122,7 +1122,7 @@ export class CopilotEngine {
   private memoToText(): string {
     const m = this.journey.memo!;
     return [
-      `MEMO DE DECISÃO — ${new Date(m.generatedAt).toLocaleDateString('pt-BR')}`, '',
+      `MEMO DE DECISÃO - ${new Date(m.generatedAt).toLocaleDateString('pt-BR')}`, '',
       `A DECISÃO: ${m.situation}`,
       `O QUE TORNAVA DIFÍCIL: ${m.classification}`,
       m.bodyInsights ? `SINAIS DO CORPO: ${m.bodyInsights}` : '',
@@ -1133,7 +1133,7 @@ export class CopilotEngine {
       m.gutFeeling ? `CLAREZA EMERGENTE: ${m.gutFeeling}` : '',
       m.nextStep ? `PRÓXIMO PASSO: ${m.nextStep}` : '',
       m.openQuestions ? `PERGUNTAS PRA SENTAR COM: ${m.openQuestions}` : '',
-      '', '— Gerado pelo May Copiloto de Decisão',
+      '', '- Gerado pelo May Copiloto de Decisão',
     ].filter(Boolean).join('\n\n');
   }
 }

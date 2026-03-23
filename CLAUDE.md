@@ -9,7 +9,7 @@ Do not deviate without explicit user approval.
 In QA mode, flag any code that doesn't match DESIGN.md.
 
 Key rules:
-- Never use emojis as visual markers — use SVG line art (stroke-only, 18px, 1.5px stroke) or typographic symbols (—, ·, →)
+- Never use emojis as visual markers - use SVG line art (stroke-only, 18px, 1.5px stroke) or typographic symbols (·, →)
 - Italic text must use `--ink-light` at minimum, never `--ink-muted` (legibility)
 - Card hover: standardized at `translateY(-3px)` with medium shadow
 - All colors must use CSS variables, never hardcoded hex values in components

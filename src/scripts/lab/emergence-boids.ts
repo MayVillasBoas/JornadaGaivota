@@ -1,4 +1,4 @@
-// Emergence Boids — flocking simulation
+// Emergence Boids - flocking simulation
 // Concept: EMERGENCE from "Notes on Complexity"
 // Simple local rules (separation, alignment, cohesion) → complex global behavior
 // Visual: realistic bird murmuration with seagull-like silhouettes
@@ -77,7 +77,7 @@ export class EmergenceBoids extends BaseVisualization {
     const { boids, width, height } = this;
     const n = boids.length;
 
-    // O(n²) neighbor check — fine for 120 boids
+    // O(n²) neighbor check - fine for 120 boids
     for (let i = 0; i < n; i++) {
       const b = boids[i];
 

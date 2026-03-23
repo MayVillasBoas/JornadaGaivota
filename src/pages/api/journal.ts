@@ -32,39 +32,39 @@ Respond in the same language the user writes in. If they write in Portuguese, re
 Return ONLY valid JSON (no markdown, no backticks) with:
 {
   "energy_level": number from -1.0 (completely drained) to 1.0 (buzzing with energy),
-  "tone": string — the dominant tone of the day. Use EXACTLY one of these 16 tones:
+  "tone": string - the dominant tone of the day. Use EXACTLY one of these 16 tones:
 
   High energy + positive:
-  - "fire" — creative impulse, intense motivation, body in motion (Huberman/dopamine, Ferriss)
-  - "encantamento" — surprised wonder, the world larger than you thought (Shukman/ordinary awakening, mudita)
-  - "joy" — laughter, lightness, celebration, full presence in pleasure (mudita, Sivers/hell yes)
+  - "fire" - creative impulse, intense motivation, body in motion (Huberman/dopamine, Ferriss)
+  - "encantamento" - surprised wonder, the world larger than you thought (Shukman/ordinary awakening, mudita)
+  - "joy" - laughter, lightness, celebration, full presence in pleasure (mudita, Sivers/hell yes)
 
   Low energy + positive:
-  - "serenity" — deep calm, effortless peace, nothing needs to change (upekkha, Tift/already whole)
-  - "gratitude" — gentle recognition of what exists, the softened heart (Fredrickson, Shukman)
-  - "acolhimento" — tenderness, care, soft connection, caring or being cared for (metta + karuna, Tift)
+  - "serenity" - deep calm, effortless peace, nothing needs to change (upekkha, Tift/already whole)
+  - "gratitude" - gentle recognition of what exists, the softened heart (Fredrickson, Shukman)
+  - "acolhimento" - tenderness, care, soft connection, caring or being cared for (metta + karuna, Tift)
 
   Low energy + difficult:
-  - "heaviness" — deep fatigue, the lived asking for rest, not sadness (dukkha)
-  - "melancholy" — soft sadness, longing, beauty of what has passed (anicca, Harris)
-  - "fog" — confusion, disconnection, not knowing what you feel (avidya, Tift/unlived life)
+  - "heaviness" - deep fatigue, the lived asking for rest, not sadness (dukkha)
+  - "melancholy" - soft sadness, longing, beauty of what has passed (anicca, Harris)
+  - "fog" - confusion, disconnection, not knowing what you feel (avidya, Tift/unlived life)
 
   High energy + difficult:
-  - "inquietacao" — directionless energy, anxiety, restless body (5th hindrance, Huberman/cortisol)
-  - "revolt" — anger, indignation, fire that wants justice or change (dvesha)
-  - "aperto" — fear, contraction, chest closed, body in protection (bhaya, Tift)
+  - "inquietacao" - directionless energy, anxiety, restless body (5th hindrance, Huberman/cortisol)
+  - "revolt" - anger, indignation, fire that wants justice or change (dvesha)
+  - "aperto" - fear, contraction, chest closed, body in protection (bhaya, Tift)
 
   Transition / meta-states:
-  - "travessia" — between states, discomfort of growth, chrysalis (Tift/dev vs fruit, bardo)
-  - "presence" — here and now, mindful attention without judgment (sati, Harris, Shukman)
-  - "determination" — clarity of purpose, alignment between what matters and what you do (virya, Ferriss/80-20, Sivers)
-  - "entrega" — letting go of control, accepting what is, not fighting the river (upekkha, Shukman)
+  - "travessia" - between states, discomfort of growth, chrysalis (Tift/dev vs fruit, bardo)
+  - "presence" - here and now, mindful attention without judgment (sati, Harris, Shukman)
+  - "determination" - clarity of purpose, alignment between what matters and what you do (virya, Ferriss/80-20, Sivers)
+  - "entrega" - letting go of control, accepting what is, not fighting the river (upekkha, Shukman)
 
   "tone_emoji": a single emoji that captures the tone,
   "themes": array of 2-4 detected themes (in the same language the user wrote in),
-  "celebrations": array of strings — achievements, good things, progress mentioned (can be empty),
+  "celebrations": array of strings - achievements, good things, progress mentioned (can be empty),
   "ai_reflection": 1-2 short sentences. Notice something the person may not have seen. Warm, honest, informal. Can reference recent patterns if context is available.
-  "tracker_suggestions": array of { "label": string, "emoji": string, "category": "body"|"mind"|"relationships"|"soul", "reason": string } — suggest ONLY if something new and recurring appeared that the person is not tracking. Maximum 1 suggestion per entry. If nothing new appeared, return empty array.
+  "tracker_suggestions": array of { "label": string, "emoji": string, "category": "body"|"mind"|"relationships"|"soul", "reason": string } - suggest ONLY if something new and recurring appeared that the person is not tracking. Maximum 1 suggestion per entry. If nothing new appeared, return empty array.
 }
 
 Rules:

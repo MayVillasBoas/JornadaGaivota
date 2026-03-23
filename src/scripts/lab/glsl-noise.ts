@@ -1,4 +1,4 @@
-// Shared GLSL noise functions — simplex 3D + FBM
+// Shared GLSL noise functions - simplex 3D + FBM
 // Extracted from cloud-fractal.ts to avoid duplication across shaders
 
 export const GLSL_SIMPLEX_3D = `

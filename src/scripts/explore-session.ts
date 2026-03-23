@@ -79,7 +79,7 @@ export function addLenses(
     });
   }
 
-  // Trim to max visible — remove oldest first
+  // Trim to max visible - remove oldest first
   if (session.lenses.size > MAX_VISIBLE_LENSES) {
     const sorted = [...session.lenses.entries()].sort(
       (a, b) => a[1].addedAt - b[1].addedAt,

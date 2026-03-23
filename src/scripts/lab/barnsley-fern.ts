@@ -1,4 +1,4 @@
-// Barnsley Fern — Iterated Function System
+// Barnsley Fern - Iterated Function System
 // 4 affine transformations produce a perfect fern leaf
 // Wind applied as rendering shear (NOT IFS perturbation) to preserve attractor
 
@@ -37,7 +37,7 @@ export class BarnsleyFern extends BaseVisualization {
     if (this.startTime === 0) this.startTime = t;
     const elapsed = (t - this.startTime) * 0.001;
 
-    // Wind from mouse — applied at render time, NOT in IFS
+    // Wind from mouse - applied at render time, NOT in IFS
     if (this.mouseActive) {
       this.targetWind = (this.mouseX / this.width - 0.5) * 0.15;
     } else {
@@ -60,7 +60,7 @@ export class BarnsleyFern extends BaseVisualization {
           }
         }
 
-        // Pure IFS — no wind modification
+        // Pure IFS - no wind modification
         const nx = tx.a * this.currentX + tx.b * this.currentY + tx.e;
         const ny = tx.c * this.currentX + tx.d * this.currentY + tx.f;
 
@@ -95,7 +95,7 @@ export class BarnsleyFern extends BaseVisualization {
     ctx.fillRect(0, 0, this.width, this.height);
 
     // Draw points with wind as a RENDERING shear
-    // wind shears x by y*windOffset — fern leans without breaking attractor
+    // wind shears x by y*windOffset - fern leans without breaking attractor
     const wind = this.windOffset;
     const total = this.points.length;
     const dotSize = this.isMobile ? 1 : 1.2;

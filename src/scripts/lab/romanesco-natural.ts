@@ -1,4 +1,4 @@
-// Romanesco — phyllotaxis spiral with golden angle
+// Romanesco - phyllotaxis spiral with golden angle
 // The same mathematical pattern that creates romanesco's Fibonacci spirals
 // Points grow outward from center, revealing the spiral structure
 

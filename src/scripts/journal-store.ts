@@ -263,7 +263,7 @@ export async function getStreaks(trackerId: string): Promise<{ current: number; 
     const d = new Date(row.date + 'T12:00:00');
 
     if (prevDate === null) {
-      // First entry — only count toward current streak if it's today or yesterday
+      // First entry - only count toward current streak if it's today or yesterday
       const diffFromToday = Math.floor((new Date(today + 'T12:00:00').getTime() - d.getTime()) / 86400000);
       if (diffFromToday <= 1) {
         streak = 1;
@@ -303,30 +303,30 @@ export function todayDate(): string {
 
 const toneColorMap: Record<string, string> = {
   // ── High energy + Positive ──
-  fire:          '#c27a5a',   // terracotta — creative impulse, motivation (Huberman/dopamine, Ferriss)
-  encantamento:  '#8b6aad',   // purple — surprised wonder (Shukman/ordinary awakening, mudita)
-  joy:           '#ada45a',   // gold — laughter, lightness, celebration (mudita, Sivers/hell yes)
+  fire:          '#c27a5a',   // terracotta - creative impulse, motivation (Huberman/dopamine, Ferriss)
+  encantamento:  '#8b6aad',   // purple - surprised wonder (Shukman/ordinary awakening, mudita)
+  joy:           '#ada45a',   // gold - laughter, lightness, celebration (mudita, Sivers/hell yes)
 
   // ── Low energy + Positive ──
-  serenity:      '#4a7aad',   // blue — deep calm, effortless peace (upekkha, Tift/already whole)
-  gratitude:     '#4aad6a',   // green — gentle recognition of what is (Fredrickson, Shukman)
-  acolhimento:   '#2B4A3E',   // deep green — tenderness, care, connection (metta + karuna, Tift)
+  serenity:      '#4a7aad',   // blue - deep calm, effortless peace (upekkha, Tift/already whole)
+  gratitude:     '#4aad6a',   // green - gentle recognition of what is (Fredrickson, Shukman)
+  acolhimento:   '#2B4A3E',   // deep green - tenderness, care, connection (metta + karuna, Tift)
 
   // ── Low energy + Difficult ──
-  heaviness:     '#2B4A3E',   // deep green — deep fatigue, the lived asking for rest (dukkha)
-  melancholy:    '#4a7aad',   // blue — soft sadness, longing, beauty of what passed (anicca, Harris)
-  fog:           '#8b6aad',   // purple — confusion, disconnection, GPS without signal (avidya, Tift/unlived life)
+  heaviness:     '#2B4A3E',   // deep green - deep fatigue, the lived asking for rest (dukkha)
+  melancholy:    '#4a7aad',   // blue - soft sadness, longing, beauty of what passed (anicca, Harris)
+  fog:           '#8b6aad',   // purple - confusion, disconnection, GPS without signal (avidya, Tift/unlived life)
 
   // ── High energy + Difficult ──
-  inquietacao:   '#c27a5a',   // terracotta — directionless energy, anxiety (5th hindrance, Huberman/cortisol)
-  revolt:        '#c27a5a',   // terracotta — anger, indignation, fire that wants change (dvesha)
-  aperto:        '#2B4A3E',   // deep green — fear, contraction, body in protection (bhaya, Tift)
+  inquietacao:   '#c27a5a',   // terracotta - directionless energy, anxiety (5th hindrance, Huberman/cortisol)
+  revolt:        '#c27a5a',   // terracotta - anger, indignation, fire that wants change (dvesha)
+  aperto:        '#2B4A3E',   // deep green - fear, contraction, body in protection (bhaya, Tift)
 
   // ── Transition / Meta-states ──
-  travessia:     '#ada45a',   // gold — between states, discomfort of growth (Tift/dev vs fruit, bardo)
-  presence:      '#4a7aad',   // blue — here and now, mindful attention (sati, Harris, Shukman)
-  determination: '#4aad6a',   // green — clarity of purpose, alignment (virya, Ferriss/80-20, Sivers)
-  entrega:       '#8b6aad',   // purple — letting go of control, accepting what is (upekkha, Shukman)
+  travessia:     '#ada45a',   // gold - between states, discomfort of growth (Tift/dev vs fruit, bardo)
+  presence:      '#4a7aad',   // blue - here and now, mindful attention (sati, Harris, Shukman)
+  determination: '#4aad6a',   // green - clarity of purpose, alignment (virya, Ferriss/80-20, Sivers)
+  entrega:       '#8b6aad',   // purple - letting go of control, accepting what is (upekkha, Shukman)
 };
 
 // Fallback

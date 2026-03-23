@@ -1,4 +1,4 @@
-// Cloud Fractal — bright blue sky with white cumulus clouds
+// Cloud Fractal - bright blue sky with white cumulus clouds
 // GPU-accelerated via WebGL fragment shader with simplex noise
 
 import { BaseWebGLVisualization } from './base-webgl-visualization';

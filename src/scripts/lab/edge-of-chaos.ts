@@ -1,4 +1,4 @@
-// Edge of Chaos — Gray-Scott reaction-diffusion
+// Edge of Chaos - Gray-Scott reaction-diffusion
 // Life exists at the boundary between rigid order and total chaos.
 // From "Notes on Complexity" by Neil Theise.
 

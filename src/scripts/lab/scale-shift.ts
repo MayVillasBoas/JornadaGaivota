@@ -1,4 +1,4 @@
-// Scale Shift — complementarity visualization
+// Scale Shift - complementarity visualization
 // Concept: COMPLEMENTARITY from "Notes on Complexity"
 // Following Niels Bohr: we are simultaneously distinct individuals
 // AND components of a larger organism, depending on the scale of observation.

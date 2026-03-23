@@ -1,4 +1,4 @@
-// Stigmergy — Self-Organization from the Bottom Up
+// Stigmergy - Self-Organization from the Bottom Up
 // Inspired by ant colony trail-laying behavior
 // From "Notes on Complexity": organization emerges without central control
 
@@ -257,14 +257,14 @@ export class Stigmergy extends BaseVisualization {
 
       // Decision: turn toward strongest trail
       if (senseC >= senseL && senseC >= senseR) {
-        // Keep going straight — slight random wander
+        // Keep going straight - slight random wander
         agent.angle += (Math.random() - 0.5) * 0.1;
       } else if (senseL > senseR) {
         agent.angle -= this.TURN_SPEED + (Math.random() - 0.5) * 0.05;
       } else if (senseR > senseL) {
         agent.angle += this.TURN_SPEED + (Math.random() - 0.5) * 0.05;
       } else {
-        // Equal — random turn
+        // Equal - random turn
         agent.angle += (Math.random() - 0.5) * this.TURN_SPEED;
       }
 

@@ -1,4 +1,4 @@
-// Growing Mycelium Network — organic branching that grows from seed points
+// Growing Mycelium Network - organic branching that grows from seed points
 // Draws incrementally: new segments are added each frame without redrawing everything.
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';
@@ -23,7 +23,7 @@ export class MyceliumNetwork extends BaseVisualization {
   private clickHandler: ((e: MouseEvent) => void) | null = null;
   protected resize() {
     super.resize();
-    // Canvas was cleared by resize — re-initialize if running
+    // Canvas was cleared by resize - re-initialize if running
     if (this.running) {
       this.init();
     }
@@ -138,6 +138,6 @@ export class MyceliumNetwork extends BaseVisualization {
   }
 
   protected draw() {
-    // All drawing happens in update() incrementally — background painted once in init()
+    // All drawing happens in update() incrementally - background painted once in init()
   }
 }

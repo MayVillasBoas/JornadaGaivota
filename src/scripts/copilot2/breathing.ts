@@ -1,4 +1,4 @@
-// src/scripts/copilot2/breathing.ts — Breathing circle animation
+// src/scripts/copilot2/breathing.ts - Breathing circle animation
 
 export class BreathingCircle {
   private canvas: HTMLCanvasElement;

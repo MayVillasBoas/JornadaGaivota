@@ -1,4 +1,4 @@
-// Plant Fractal — animated recursive tree that grows branch by branch
+// Plant Fractal - animated recursive tree that grows branch by branch
 // Psychedelic, colorful, mesmerizing growth animation
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';
@@ -69,7 +69,7 @@ export class PlantFractal extends BaseVisualization {
 
     if (!this.growing) return;
 
-    // Process queue — add branches gradually
+    // Process queue - add branches gradually
     const toProcess: typeof this.branchQueue = [];
     const remaining: typeof this.branchQueue = [];
 
@@ -96,7 +96,7 @@ export class PlantFractal extends BaseVisualization {
       const cpX = (item.x + endX) / 2 + this.noise(item.depth * 2, item.x * 0.01) * item.len * 0.3;
       const cpY = (item.y + endY) / 2;
 
-      // Color cycling — shifts through palette with depth
+      // Color cycling - shifts through palette with depth
       const colorIdx = (item.depth + Math.floor(this.colorCycle)) % PALETTE_ARRAY.length;
       const color = PALETTE_ARRAY[colorIdx];
 
@@ -116,7 +116,7 @@ export class PlantFractal extends BaseVisualization {
         hasGlow: item.depth >= this.maxGenerations - 3,
       });
 
-      // Branch children — more branches = more psychedelic
+      // Branch children - more branches = more psychedelic
       const shrink = 0.62 + this.noise(item.depth, endX * 0.01) * 0.1;
       const spread = 0.35 + item.depth * 0.03;
       const delay = this.time + 0.1 + item.depth * 0.03;
@@ -156,7 +156,7 @@ export class PlantFractal extends BaseVisualization {
   }
 
   protected draw() {
-    // Fade trail — creates ghostly afterglow effect
+    // Fade trail - creates ghostly afterglow effect
     this.ctx.fillStyle = 'rgba(26, 26, 26, 0.02)';
     this.ctx.fillRect(0, 0, this.width, this.height);
 
@@ -176,7 +176,7 @@ export class PlantFractal extends BaseVisualization {
       const currCpX = b.x1 + (b.cpX - b.x1) * t;
       const currCpY = b.y1 + (b.cpY - b.y1) * t;
 
-      // Breathing effect — subtle pulse based on time
+      // Breathing effect - subtle pulse based on time
       const breathe = 1 + Math.sin(this.time * 2 + b.depth * 0.5) * 0.08;
       const alpha = b.alpha * breathe;
 
@@ -203,7 +203,7 @@ export class PlantFractal extends BaseVisualization {
         this.ctx.fill();
       }
 
-      // Growing tip spark — bright dot at the growing edge
+      // Growing tip spark - bright dot at the growing edge
       if (progress < 1) {
         const sparkAlpha = (1 - progress) * 0.8;
         this.ctx.fillStyle = hexToRgba(LAB_PALETTE.cream, sparkAlpha);

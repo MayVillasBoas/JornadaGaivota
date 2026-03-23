@@ -1,4 +1,4 @@
-// src/scripts/copilot2/routing-en.ts — English descriptions for confusion types
+// src/scripts/copilot2/routing-en.ts - English descriptions for confusion types
 
 import type { ConfusionType } from '../copilot/routing';
 

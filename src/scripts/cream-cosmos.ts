@@ -1,5 +1,5 @@
 // src/scripts/cream-cosmos.ts
-// Cream Cosmos — animated canvas hero with organic blobs and mentor orbit points
+// Cream Cosmos - animated canvas hero with organic blobs and mentor orbit points
 
 export interface MentorPoint {
   slug: string;
@@ -8,7 +8,7 @@ export interface MentorPoint {
 }
 
 // ---------------------------------------------------------------------------
-// Blob — organic radial-gradient circle that drifts sinusoidally
+// Blob - organic radial-gradient circle that drifts sinusoidally
 // ---------------------------------------------------------------------------
 
 const BLOB_COLORS = [
@@ -64,7 +64,7 @@ class Blob {
 }
 
 // ---------------------------------------------------------------------------
-// OrbitPoint — a mentor point orbiting in an elliptical ring
+// OrbitPoint - a mentor point orbiting in an elliptical ring
 // ---------------------------------------------------------------------------
 
 interface OrbitPointData {
@@ -86,7 +86,7 @@ function hexToRgba(hex: string, alpha: number): string {
 }
 
 // ---------------------------------------------------------------------------
-// CreamCosmos — main class
+// CreamCosmos - main class
 // ---------------------------------------------------------------------------
 
 export class CreamCosmos {

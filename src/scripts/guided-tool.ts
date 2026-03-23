@@ -195,7 +195,7 @@ export class GuidedTool {
       const textEl = insightEl.querySelector('.ai-insight-text');
       if (textEl) textEl.textContent = this.pendingInsight;
 
-      // Gamification: variable reward — random visual treatment
+      // Gamification: variable reward - random visual treatment
       insightEl.classList.remove('insight-highlighted', 'insight-breakthrough');
       const roll = Math.random();
       if (roll < 0.1) {
@@ -401,7 +401,7 @@ export class GuidedTool {
     document.querySelector('.reflection-prompt')?.classList.remove('revealed');
     document.querySelector('.reflection-counter')?.classList.remove('revealed');
 
-    // Reset visual — clear theme words from fractal viz
+    // Reset visual - clear theme words from fractal viz
     const wordsOverlay = document.querySelector('.fractal-viz-words');
     if (wordsOverlay) {
       wordsOverlay.innerHTML = '';

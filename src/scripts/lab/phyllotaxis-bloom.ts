@@ -1,4 +1,4 @@
-// Phyllotaxis Bloom — golden angle spiral building outward
+// Phyllotaxis Bloom - golden angle spiral building outward
 // Creates sunflower/nautilus patterns. Mouse affects nearby points.
 
 import { BaseVisualization, PALETTE_ARRAY, hexToRgba, LAB_PALETTE } from './base-visualization';

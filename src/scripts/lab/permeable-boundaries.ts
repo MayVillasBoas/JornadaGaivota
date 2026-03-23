@@ -1,7 +1,7 @@
-// Permeable Boundaries — particle cluster exchange
+// Permeable Boundaries - particle cluster exchange
 // Concept: INTERCONNECTION from "Notes on Complexity"
 // Boundaries between us are not walls but zones of exchange.
-// "Every atom belonging to me as good belongs to you." — Whitman
+// "Every atom belonging to me as good belongs to you." - Whitman
 
 import { BaseVisualization, LAB_PALETTE, hexToRgba, PALETTE_ARRAY } from './base-visualization';
 import { createNoise2D } from './simplex-noise';
@@ -358,7 +358,7 @@ export class PermeableBoundaries extends BaseVisualization {
   protected draw(): void {
     const ctx = this.ctx;
 
-    // Soft fade instead of full clear — ghostly trails
+    // Soft fade instead of full clear - ghostly trails
     ctx.fillStyle = hexToRgba(LAB_PALETTE.bg, 0.25);
     ctx.fillRect(0, 0, this.width, this.height);
 

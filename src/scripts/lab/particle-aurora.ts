@@ -1,4 +1,4 @@
-// Particle Aurora — vivid aurora borealis with bright flowing curtains
+// Particle Aurora - vivid aurora borealis with bright flowing curtains
 // GPU-accelerated via WebGL fragment shader
 
 import { BaseWebGLVisualization } from './base-webgl-visualization';

@@ -46,12 +46,12 @@ export const MODULES: Record<string, ModuleDefinition> = {
     activity: 'Vamos mapear as vozes internas que puxam em direções diferentes.',
     steps: [
       {
-        question: 'Tem uma voz dentro de você que quer uma coisa, e outra puxando diferente. Descreva as duas — o que cada uma quer? O que cada uma teme?',
+        question: 'Tem uma voz dentro de você que quer uma coisa, e outra puxando diferente. Descreva as duas - o que cada uma quer? O que cada uma teme?',
         guidance: 'Dê nomes se conseguir. "O provedor" ou "O aventureiro." Do que cada parte está te protegendo?',
         placeholder: 'Uma parte de mim quer... porque teme...\nOutra parte quer... porque teme...',
       },
       {
-        question: 'Dando um passo atrás das duas partes — como um mediador sábio — o que você percebe? Existe um jeito de honrar o que as duas realmente precisam?',
+        question: 'Dando um passo atrás das duas partes - como um mediador sábio - o que você percebe? Existe um jeito de honrar o que as duas realmente precisam?',
         guidance: 'Você não é suas partes. Você é quem consegue ver as duas. O que essa perspectiva revela?',
         placeholder: 'Dando um passo atrás, percebo...',
       },
@@ -66,12 +66,12 @@ export const MODULES: Record<string, ModuleDefinition> = {
     activity: 'Vamos separar fatos verificáveis de suposições que você trata como verdade.',
     steps: [
       {
-        question: 'Escreva cada crença sobre essa situação — cada "eu tenho que", "eu não posso", "eles esperam que eu". Depois marque: é um FATO verificável ou uma suposição?',
+        question: 'Escreva cada crença sobre essa situação - cada "eu tenho que", "eu não posso", "eles esperam que eu". Depois marque: é um FATO verificável ou uma suposição?',
         guidance: 'Um fato: "Meu contrato acaba em junho." Uma suposição: "Eles nunca vão me contratar de novo." Seja implacável.',
         placeholder: 'Fatos:\n\nSuposições:',
       },
       {
-        question: 'Olhando só para os fatos — qual suposição você vem tratando como fato que, se desafiada, mudaria tudo?',
+        question: 'Olhando só para os fatos - qual suposição você vem tratando como fato que, se desafiada, mudaria tudo?',
         guidance: 'Essa costuma ser a alavanca escondida. Aquela coisa que todo mundo "sabe" mas que talvez não seja verdade.',
         placeholder: 'A suposição que mudaria tudo é...',
       },
@@ -106,7 +106,7 @@ export const MODULES: Record<string, ModuleDefinition> = {
     activity: 'Vamos compilar tudo em opções concretas, trade-offs e um próximo passo.',
     steps: [
       {
-        question: 'Com base em tudo — sinais do corpo, partes internas, fatos vs suposições, arrependimento — quais são suas OPÇÕES REAIS e seus trade-offs?',
+        question: 'Com base em tudo - sinais do corpo, partes internas, fatos vs suposições, arrependimento - quais são suas OPÇÕES REAIS e seus trade-offs?',
         guidance: 'Inclua a opção que você tem medo de escrever. Talvez seja a verdadeira.',
         placeholder: 'Opção 1: Eu ganho... mas abro mão de...\nOpção 2: Eu ganho... mas abro mão de...',
       },

@@ -15,7 +15,7 @@ export const projects: Project[] = [
     number: '01',
     title: 'may.os',
     subtitle: 'A personal operating system through WhatsApp',
-    description: 'An integrated system that captures life through natural WhatsApp messages — nutrition, journal, and ideas classified by AI and visualized in a personal dashboard.',
+    description: 'An integrated system that captures life through natural WhatsApp messages - nutrition, journal, and ideas classified by AI and visualized in a personal dashboard.',
     status: 'building',
     areas: [
       { name: 'nutrition', color: 'var(--cat-action)', active: true },
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     number: '02',
     title: 'Decision Copilot',
     subtitle: 'AI-guided clarity for hard decisions',
-    description: 'A conversational tool that guides you through difficult decisions using psychology frameworks — somatic awareness, parts mapping, first principles, and regret minimization. Not to decide for you, but to help you think.',
+    description: 'A conversational tool that guides you through difficult decisions using psychology frameworks - somatic awareness, parts mapping, first principles, and regret minimization. Not to decide for you, but to help you think.',
     status: 'active',
     areas: [
       { name: 'feel', color: 'var(--cat-relationships)', active: true },
@@ -47,7 +47,7 @@ export const projects: Project[] = [
     number: '03',
     title: 'Life Explorer',
     subtitle: 'Mapping a life through therapy transcriptions and AI',
-    description: 'An interactive visualization built from years of therapy notes — fed to Claude to extract themes, patterns, and connections. Six ways to explore: insights discovery, constellation graph, timeline, thematic dashboard, framework mapping, and reflective journal.',
+    description: 'An interactive visualization built from years of therapy notes - fed to Claude to extract themes, patterns, and connections. Six ways to explore: insights discovery, constellation graph, timeline, thematic dashboard, framework mapping, and reflective journal.',
     status: 'active',
     areas: [
       { name: 'explore', color: 'var(--cat-perspective)', active: true },

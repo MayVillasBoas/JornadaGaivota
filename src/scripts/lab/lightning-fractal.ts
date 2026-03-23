@@ -1,4 +1,4 @@
-// Lightning / Lichtenberg — recursive branching fractal
+// Lightning / Lichtenberg - recursive branching fractal
 // Main bolt forks into smaller branches with decreasing probability and thickness
 // Flash appearance with slow afterglow fade
 
