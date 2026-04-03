@@ -1,0 +1,172 @@
+---
+// Two doors: building at work (coming soon) and building in life (active)
+---
+
+<section class="two-doors">
+  <div class="doors-container">
+
+    <a href="/building-at-work" class="door door-work">
+      <span class="door-label">coming soon</span>
+      <h2>Building at work</h2>
+      <p class="door-desc">
+        Product, AI, and navigating ambiguity in tech teams.
+      </p>
+    </a>
+
+    <a href="/building-in-life" class="door door-life">
+      <h2>Building in life</h2>
+      <p class="door-desc">
+        How we navigate uncertainty in careers, relationships,
+        and the decisions that shape our lives.
+      </p>
+      <ul class="door-links">
+        <li>
+          <span class="link-text">Decision Copilot</span>
+          <span class="link-sub">AI-guided decision tool</span>
+          <span class="link-arrow">&rarr;</span>
+        </li>
+        <li>
+          <span class="link-text">Frameworks & Tools</span>
+          <span class="link-arrow">&rarr;</span>
+        </li>
+        <li>
+          <span class="link-text">Essays</span>
+          <span class="link-arrow">&rarr;</span>
+        </li>
+        <li>
+          <span class="link-text">Books & Mentors</span>
+          <span class="link-arrow">&rarr;</span>
+        </li>
+      </ul>
+    </a>
+
+  </div>
+</section>
+
+<style>
+  .two-doors {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+
+  .doors-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .door {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  /* Active door (life) */
+  .door-life:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Coming soon door (work) - no hover lift */
+  .door-work {
+    cursor: pointer;
+  }
+
+  .door-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .door h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .door-work h2 {
+    color: var(--ink-muted);
+  }
+
+  .door-desc {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--ink-light);
+    margin-bottom: 0;
+  }
+
+  .door-work .door-desc {
+    color: var(--ink-muted);
+  }
+
+  /* Links inside the life door */
+  .door-links {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+  }
+
+  .door-links li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .link-text {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .link-sub {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    flex: 1;
+  }
+
+  .link-arrow {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .door-life:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .two-doors {
+      padding: 0 1.5rem 2rem;
+    }
+
+    .doors-container {
+      grid-template-columns: 1fr;
+    }
+
+    .link-arrow {
+      display: none;
+    }
+  }
+</style>

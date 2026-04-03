@@ -1,5 +1,5 @@
 // Single source of truth for site navigation
-// Three narrative pillars: who I am, what I build, how I think
+// Two doors: building at work, building in life
 
 export interface NavLink {
   href: string;
@@ -9,29 +9,20 @@ export interface NavLink {
 }
 
 export const mainLinks: NavLink[] = [
-  { href: '/about', label: 'who I am', description: 'background, beliefs, and what I\'m up to now' },
+  { href: '/about', label: 'about', description: 'background, beliefs, and what I\'m up to now' },
+  { href: '/building-at-work', label: 'building at work', description: 'product, AI, and navigating ambiguity in tech' },
   {
-    href: '/work',
-    label: 'what I build',
-    description: 'lab visualizations, projects, and tools',
+    href: '/building-in-life',
+    label: 'building in life',
+    description: 'frameworks, tools, essays, and mentors for better decisions',
     children: [
-      { href: '/work', label: 'what I build' },
-      { href: '/lab', label: 'lab' },
-      { href: '/diario', label: 'may.os' },
-      { href: '/copilot', label: 'copilot' },
-      { href: '/copilot2', label: 'copilot 2.0' },
-      { href: '/projects/life-explorer', label: 'life explorer' },
-    ],
-  },
-  {
-    href: '/thinking',
-    label: 'how I think',
-    description: 'essays, books, frameworks, and mentors',
-    children: [
-      { href: '/thinking', label: 'how I think' },
+      { href: '/building-in-life', label: 'building in life' },
       { href: '/escrita', label: 'essays' },
+      { href: '/ferramentas', label: 'tools' },
+      { href: '/copilot', label: 'copilot' },
       { href: '/referencias', label: 'mentors' },
       { href: '/books', label: 'books' },
     ],
   },
+  { href: '/lab', label: 'lab', description: 'mathematical visualizations and experiments' },
 ];

@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import CreamCosmos from '../components/CreamCosmos.astro';
+import TwoDoorsSection from '../components/home/TwoDoorsSection.astro';
 import LabsSection from '../components/home/LabsSection.astro';
 import QuoteSection from '../components/home/QuoteSection.astro';
-import FrameworksSection from '../components/home/FrameworksSection.astro';
 ---
 
-<Base title="may.labs" description="Um espaço pra explorar ideias, ferramentas e o que me faz pensar.">
+<Base title="may.labs" description="Exploring how AI changes the way we make decisions - at work and in life.">
   <CreamCosmos
     title="may.labs"
     tagline="explorations of a curious mind."
@@ -21,29 +21,24 @@ import FrameworksSection from '../components/home/FrameworksSection.astro';
       </p>
 
       <p>
-        Welcome to my corner of the internet - part library, part lab,
-        part journal. This is where I organize what I'm figuring out -
-        through writing, code, and visualizations. Everything here comes
-        from real life.
+        I'm currently exploring how AI changes the way we make decisions -
+        at work and in life.
       </p>
     </div>
   </section>
 
-  <LabsSection />
+  <TwoDoorsSection />
 
   <QuoteSection />
 
-  <div class="divider"></div>
-
-  <FrameworksSection />
-
+  <LabsSection />
 
 </Base>
 
 <style>
   /* About section */
   .about-section {
-    padding: 5rem 2rem 3rem;
+    padding: 3rem 2rem 2rem;
   }
 
   .about-content {
@@ -67,14 +62,6 @@ import FrameworksSection from '../components/home/FrameworksSection.astro';
     line-height: 1.6;
     color: var(--ink);
     margin-bottom: 2rem;
-  }
-
-  /* Divider */
-  .divider {
-    width: 40px;
-    height: 1px;
-    background: var(--border);
-    margin: 1rem auto;
   }
 
   /* Responsive */

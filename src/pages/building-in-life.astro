@@ -1,0 +1,449 @@
+---
+import Base from '../layouts/Base.astro';
+import { books } from '../data/books';
+import { mentors, categoryLabels, categoryColors, type Category } from '../data/mentors';
+
+// Group mentors by domain
+const domains = Object.keys(categoryLabels) as Category[];
+const mentorsByDomain = domains.reduce((acc, domain) => {
+  acc[domain] = mentors.filter(m => m.primaryCategory === domain);
+  return acc;
+}, {} as Record<Category, typeof mentors>);
+
+// Curated tools per domain
+const toolsByDomain: Record<Category, { slug: string; name: string; mentor: string }[]> = {
+  work: [
+    { slug: 'medo-na-mesa', name: 'Fear Setting', mentor: 'Tim Ferriss' },
+    { slug: 'sim-inteiro', name: 'Hell Yes or No', mentor: 'Derek Sivers' },
+  ],
+  bodyMind: [
+    { slug: 'auditoria-de-energia', name: 'Energy Audit', mentor: 'May' },
+    { slug: 'bussola-interna', name: 'Inner Compass', mentor: 'Martha Beck' },
+  ],
+  relationships: [
+    { slug: 'o-que-quero-dizer', name: 'What I Really Want to Say', mentor: 'Marshall Rosenberg' },
+  ],
+  meaning: [
+    { slug: 'tres-futuros', name: '3 Plausible Futures', mentor: 'Bill Burnett & Dave Evans' },
+  ],
+};
+
+// Domain descriptions
+const domainDescriptions: Record<Category, { title: string; sub: string }> = {
+  work: {
+    title: 'Decidir e agir',
+    sub: 'Frameworks para cortar o ruido, eliminar o medo, e tomar decisoes melhores.',
+  },
+  bodyMind: {
+    title: 'Corpo e mente',
+    sub: 'Neurociencia, meditacao, e protocolos para sustentar energia e clareza.',
+  },
+  relationships: {
+    title: 'Conexao',
+    sub: 'Vulnerabilidade, partes internas, e a coragem de se mostrar de verdade.',
+  },
+  meaning: {
+    title: 'Sentido',
+    sub: 'Perspectiva, tempo, contemplacao - o que da significado a tudo isso.',
+  },
+};
+---
+
+<Base title="Building in Life - may.labs" description="Frameworks, tools, essays, and mentors for navigating uncertainty and making better decisions.">
+
+  <section class="page-header">
+    <h1>Building in life</h1>
+  </section>
+
+  <section class="content narrow">
+    <p class="lead">
+      How we navigate uncertainty in careers, relationships, our inner lives -
+      and explorations on how we can improve the decisions that shape our lives.
+    </p>
+
+    <p>
+      I learn from experience first, theory second. Everything here started as
+      something I lived through - a decision that wouldn't resolve, a question
+      that kept coming back, a book that changed how I saw the problem.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Decision Copilot - Featured -->
+    <div class="thinking-section">
+      <div class="featured-box">
+        <span class="featured-label">Featured</span>
+        <a href="/copilot" class="featured-link">
+          <h2>Decision Copilot</h2>
+          <p class="featured-desc">An AI-guided tool for working through decisions that feel stuck. Four layers: feel, see, think, act.</p>
+          <span class="featured-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Essays -->
+    <div class="thinking-section">
+      <span class="section-label">ESCRITA</span>
+      <h2>Jornada da Gaivota</h2>
+      <p class="section-sub">Essays on transition, clarity, decisions, and real life. Written while I'm in the middle of the process myself.</p>
+
+      <div class="items-list">
+        <a href="/escrita/voltei" class="item-row">
+          <span class="item-title">voltei</span>
+          <span class="item-desc">On falling back in love with creating - at a thousand times the speed.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/escrita/vergonha-da-primeira-versao" class="item-row">
+          <span class="item-title">a vergonha da primeira versao</span>
+          <span class="item-desc">If you look back and feel proud of the first version, you took too long to ship.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+        <a href="/escrita/dont-try-harder" class="item-row">
+          <span class="item-title">if whatever you're doing isn't working, don't try harder</span>
+          <span class="item-desc">On stopping the self-blame when the plan fails.</span>
+          <span class="item-arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <a href="/escrita" class="see-all">All essays &rarr;</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Domain sections -->
+    {domains.map((domain) => {
+      const domainMentors = mentorsByDomain[domain].slice(0, 3);
+      const domainTools = toolsByDomain[domain];
+      const info = domainDescriptions[domain];
+      const color = categoryColors[domain];
+
+      return (
+        <>
+          <div class="thinking-section">
+            <span class="section-label" style={`color: ${color}`}>{categoryLabels[domain]}</span>
+            <h2>{info.title}</h2>
+            <p class="section-sub">{info.sub}</p>
+
+            <div class="items-list">
+              {domainMentors.map(mentor => (
+                <a href={`/mentores/${mentor.slug}`} class="item-row">
+                  <span class="domain-dot" style={`background: ${color}`} />
+                  <span class="item-title">{mentor.name}</span>
+                  <span class="item-desc">{mentor.tagline}</span>
+                  <span class="item-arrow">&rarr;</span>
+                </a>
+              ))}
+              {domainTools.map(tool => (
+                <a href={`/ferramentas/${tool.slug}`} class="item-row tool-row">
+                  <span class="domain-dot tool-dot" style={`border-color: ${color}`} />
+                  <span class="item-title">{tool.name}</span>
+                  <span class="item-desc">{tool.mentor}</span>
+                  <span class="item-arrow">&rarr;</span>
+                </a>
+              ))}
+            </div>
+
+            <a href={`/referencias`} class="see-all">Ver tudo em {categoryLabels[domain]} &rarr;</a>
+          </div>
+
+          <div class="divider"></div>
+        </>
+      );
+    })}
+
+    <!-- Books by domain -->
+    <div class="thinking-section">
+      <span class="section-label">BOOKS</span>
+      <h2>From my Kindle</h2>
+      <p class="section-sub">Words that stayed with me. Highlights from books that shaped how I think.</p>
+
+      {domains.map((domain) => {
+        const domainBooks = books.filter(b => b.domain === domain);
+        if (domainBooks.length === 0) return null;
+        const color = categoryColors[domain];
+        return (
+          <div class="book-domain-group">
+            <span class="book-domain-label" style={`color: ${color}`}>{categoryLabels[domain]}</span>
+            <div class="items-list">
+              {domainBooks.map(book => (
+                <div class="book-row">
+                  <span class="domain-dot" style={`background: ${color}`} />
+                  <span class="item-title">{book.title}</span>
+                  <span class="item-desc">{book.author}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+
+      <a href="/books" class="see-all">All book highlights &rarr;</a>
+    </div>
+
+  </section>
+
+</Base>
+
+<style>
+  .page-header {
+    max-width: 680px;
+    margin: 5rem auto 3rem;
+    padding: 0 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    padding: 0 2rem;
+    margin-bottom: 6rem;
+  }
+
+  .lead {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+
+  .content > p {
+    margin-bottom: 1.5rem;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    margin: 3rem auto;
+  }
+
+  /* Featured box (Decision Copilot) */
+  .featured-box {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(43, 74, 62, 0.08);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+  }
+
+  .featured-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .featured-link {
+    text-decoration: none;
+    display: block;
+  }
+
+  .featured-link h2 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+  }
+
+  .featured-desc {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .featured-arrow {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .featured-link:hover h2 {
+    color: var(--accent);
+  }
+
+  .featured-link:hover .featured-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  .thinking-section {
+    margin-bottom: 1rem;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .thinking-section h2 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-sub {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--ink-light);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Item rows */
+  .items-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item-row,
+  .book-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .item-row:first-child,
+  .book-row:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .domain-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    top: 2px;
+  }
+
+  .tool-dot {
+    background: transparent;
+    border: 1.5px solid;
+  }
+
+  .item-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .item-desc {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    flex: 1;
+  }
+
+  .item-arrow {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .item-row:hover .item-title {
+    color: var(--accent);
+  }
+
+  .item-row:hover .item-arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  .see-all {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .see-all:hover {
+    color: var(--accent);
+  }
+
+  .book-domain-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .book-domain-label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      margin: 3rem auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .content {
+      padding: 0 1.5rem;
+    }
+
+    .item-row,
+    .book-row {
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .item-desc {
+      flex-basis: 100%;
+    }
+
+    .item-arrow {
+      display: none;
+    }
+
+    .featured-arrow {
+      display: none;
+    }
+  }
+</style>
