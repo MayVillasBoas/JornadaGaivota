@@ -20,6 +20,7 @@ export const mainLinks: NavLink[] = [
       { href: '/escrita', label: 'essays' },
       { href: '/ferramentas', label: 'tools' },
       { href: '/copilot', label: 'copilot' },
+      { href: '/copilot2', label: 'copilot 2.0' },
       { href: '/referencias', label: 'mentors' },
       { href: '/books', label: 'books' },
     ],

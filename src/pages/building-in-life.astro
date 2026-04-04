@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { projects } from '../data/projects';
 import { books } from '../data/books';
 import { mentors, categoryLabels, categoryColors, type Category } from '../data/mentors';
 
@@ -77,6 +78,34 @@ const domainDescriptions: Record<Category, { title: string; sub: string }> = {
           <h2>Decision Copilot</h2>
           <p class="featured-desc">An AI-guided tool for working through decisions that feel stuck. Four layers: feel, see, think, act.</p>
           <span class="featured-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Projects -->
+    <div class="thinking-section">
+      <span class="section-label">PROJECTS</span>
+      <h2>What I'm building</h2>
+      <p class="section-sub">Things I'm building. Some work, some are ideas, all are real.</p>
+
+      <div class="items-list">
+        {projects.map(project => (
+          <a href={project.slug === 'decision-copilot' ? '/copilot' : `/projects/${project.slug}`} class="item-row">
+            <span class="card-number">{project.number}</span>
+            <span class="item-title">{project.title}</span>
+            <span class="item-desc">{project.subtitle}</span>
+            <span class="project-status">{project.status}</span>
+            <span class="item-arrow">&rarr;</span>
+          </a>
+        ))}
+        <a href="/copilot2" class="item-row">
+          <span class="card-number">04</span>
+          <span class="item-title">Copilot 2.0</span>
+          <span class="item-desc">Immersive meditation-guided decision experience</span>
+          <span class="project-status">active</span>
+          <span class="item-arrow">&rarr;</span>
         </a>
       </div>
     </div>
@@ -367,6 +396,24 @@ const domainDescriptions: Record<Category, { title: string; sub: string }> = {
     font-weight: 300;
     color: var(--ink-muted);
     flex: 1;
+  }
+
+  .card-number {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+
+  .project-status {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    flex-shrink: 0;
   }
 
   .item-arrow {
